@@ -1,0 +1,148 @@
+class_name EnemyDummy
+extends Node3D
+
+signal defeated(enemy: EnemyDummy)
+signal hit_player(amount: float)
+signal action_effect(kind: String, origin: Vector3, end: Vector3)
+
+@export var enemy_id: String = "crawler"
+@export var health: float = 35.0
+@export var speed: float = 1.2
+@export var kind: String = "light" # light, heavy, ranged
+
+var current_health: float = 35.0
+var wet_time := 0.0
+var dead := false
+var player: Node3D
+var mesh_instance: MeshInstance3D
+var material: StandardMaterial3D
+var attack_timer := 0.0
+var _home_position := Vector3.ZERO
+
+func configure(new_id: String, enemy_kind: String, hp: float, move_speed: float, at: Vector3 = Vector3.ZERO) -> EnemyDummy:
+	enemy_id = new_id
+	kind = enemy_kind
+	health = hp
+	current_health = hp
+	speed = move_speed
+	position = at
+	_home_position = at
+	return self
+
+func _ready() -> void:
+	add_to_group("enemies")
+	if current_health <= 0.0:
+		current_health = health
+	_home_position = position
+	_build_visual()
+
+func _build_visual() -> void:
+	mesh_instance = MeshInstance3D.new()
+	var mesh := CapsuleMesh.new()
+	mesh.height = 1.4 if kind != "heavy" else 1.9
+	mesh.radius = 0.5 if kind != "heavy" else 0.75
+	mesh_instance.mesh = mesh
+	material = StandardMaterial3D.new()
+	material.albedo_color = Color("#d5574e") if kind != "heavy" else Color("#8c4b59")
+	material.metallic = 0.15
+	mesh_instance.material_override = material
+	add_child(mesh_instance)
+	position.y = maxf(position.y, mesh.height * 0.5)
+
+func _process(delta: float) -> void:
+	if dead:
+		return
+	if player != null and is_instance_valid(player) and bool(player.get("gameplay_enabled")):
+		var offset := player.global_position - global_position
+		offset.y = 0.0
+		if offset.length() > 1.8:
+			global_position += offset.normalized() * speed * delta
+		attack_timer -= delta
+		if offset.length() < 2.2 and attack_timer <= 0.0:
+			attack_timer = 1.4
+			hit_player.emit(4.0 if kind != "heavy" else 7.0)
+	if wet_time > 0.0:
+		wet_time = maxf(0.0, wet_time - delta)
+		if wet_time <= 0.0 and material != null:
+			material.albedo_color = Color("#d5574e") if kind != "heavy" else Color("#8c4b59")
+
+func can_be_magnetized() -> bool:
+	return not dead and kind == "light"
+
+func apply_wet(duration: float = 4.0) -> void:
+	if dead:
+		return
+	wet_time = maxf(wet_time, duration)
+	if material != null:
+		material.albedo_color = Color("#63c8e4")
+
+func is_wet() -> bool:
+	return wet_time > 0.0
+
+func try_engineering_hit(origin: Vector3, direction: Vector3, radius: float, reach: float, power: float, source: Dictionary = {}) -> Dictionary:
+	if dead:
+		return {"hit": false, "dead": true, "wet_before": false, "target_id": enemy_id}
+	var planar := global_position - origin
+	planar.y = 0.0
+	var distance := planar.length()
+	var facing := direction.normalized().dot(planar.normalized()) if distance > 0.05 else 0.0
+	if distance > reach + radius or distance < 0.05 or facing < 0.28:
+		return {"hit": false, "dead": false, "wet_before": false, "target_id": enemy_id}
+	var was_wet := is_wet()
+	if bool(source.get("water", false)):
+		apply_wet(float(source.get("wet_duration", 4.0)))
+	var damage := power
+	if kind == "heavy":
+		damage *= 0.65
+	if bool(source.get("electric", false)) and not was_wet:
+		damage *= 0.45
+	if bool(source.get("dash", false)):
+		damage *= 1.8
+	take_damage(damage)
+	action_effect.emit("hit", origin, global_position)
+	return {"hit": true, "dead": dead, "wet_before": was_wet, "chain_eligible": was_wet and not dead, "target_id": enemy_id}
+
+func take_damage(amount: float) -> void:
+	if dead:
+		return
+	current_health = maxf(0.0, current_health - maxf(0.0, amount))
+	if current_health <= 0.0:
+		dead = true
+		visible = false
+		defeated.emit(self)
+
+func pull_toward(point: Vector3, amount: float) -> bool:
+	if not can_be_magnetized():
+		return false
+	var offset := point - global_position
+	if offset.length() <= 0.1:
+		return false
+	global_position += offset.normalized() * minf(amount, offset.length())
+	return true
+
+func get_snapshot() -> Dictionary:
+	return {"schema": 1, "enemy_id": enemy_id, "kind": kind, "position": [global_position.x, global_position.y, global_position.z], "current_health": current_health, "wet_time": wet_time, "dead": dead, "attack_timer": attack_timer}
+
+func validate_snapshot(data: Dictionary) -> bool:
+	if int(data.get("schema", 0)) != 1 or str(data.get("enemy_id", "")) != enemy_id or str(data.get("kind", "")) != kind:
+		return false
+	var p = data.get("position", null)
+	var hp := float(data.get("current_health", -1.0))
+	var wet := float(data.get("wet_time", -1.0))
+	return ["light", "heavy", "ranged"].has(kind) and p is Array and p.size() == 3 and (typeof(p[0]) == TYPE_FLOAT or typeof(p[0]) == TYPE_INT) and (typeof(p[1]) == TYPE_FLOAT or typeof(p[1]) == TYPE_INT) and (typeof(p[2]) == TYPE_FLOAT or typeof(p[2]) == TYPE_INT) and is_finite(float(p[0])) and is_finite(float(p[1])) and is_finite(float(p[2])) and is_finite(hp) and hp >= 0.0 and hp <= health and is_finite(wet) and wet >= 0.0 and wet <= 60.0
+
+func restore_snapshot(data: Dictionary) -> bool:
+	if not validate_snapshot(data):
+		return false
+	var p: Array = data.get("position", [_home_position.x, _home_position.y, _home_position.z])
+	if p.size() < 3:
+		return false
+	global_position = Vector3(float(p[0]), float(p[1]), float(p[2]))
+	current_health = clampf(float(data.get("current_health", health)), 0.0, health)
+	wet_time = maxf(0.0, float(data.get("wet_time", 0.0)))
+	dead = bool(data.get("dead", false))
+	attack_timer = maxf(0.0, float(data.get("attack_timer", 0.0)))
+	visible = not dead
+	if dead:
+		current_health = 0.0
+	return true
