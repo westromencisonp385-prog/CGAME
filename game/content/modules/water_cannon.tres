@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ModuleDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/module_definition.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = "water_cannon"
+display_name = "潮汐水炮"
+family = 0
+mount_kind = "function"
+description = "以高压水流施加湿润，推退并准备电弧反应。"
+tags = PackedStringArray("repair", "wet", "reaction")
+power_bonus = 3.0
+range_bonus = 0.2
+speed_bonus = 0.0
+cargo_bonus = 0
+color = Color(0.24, 0.69, 0.88, 1)
+visual_scene_path = "res://scripts/module_visual.gd"

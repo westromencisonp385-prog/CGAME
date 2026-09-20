@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ModuleDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/module_definition.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = "electric_arc"
+display_name = "链式电弧"
+family = 2
+description = "对湿润目标释放明亮连锁，形成短暂控制窗口。"
+tags = PackedStringArray("reaction", "electric")
+power_bonus = 5.0
+range_bonus = 0.0
+speed_bonus = 0.0
+cargo_bonus = 0
+color = Color(0.95, 0.93, 0.30, 1)
+visual_scene_path = "res://scripts/module_visual.gd"
