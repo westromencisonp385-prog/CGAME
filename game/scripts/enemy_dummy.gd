@@ -16,8 +16,13 @@ var dead := false
 var player: Node3D
 var mesh_instance: MeshInstance3D
 var material: StandardMaterial3D
+var visual_root: Node3D
+var shadow: MeshInstance3D
 var attack_timer := 0.0
 var _home_position := Vector3.ZERO
+var _wobble_time := 0.0
+var packed := false
+var pack_used := false
 
 func configure(new_id: String, enemy_kind: String, hp: float, move_speed: float, at: Vector3 = Vector3.ZERO) -> EnemyDummy:
 	enemy_id = new_id
@@ -37,21 +42,86 @@ func _ready() -> void:
 	_build_visual()
 
 func _build_visual() -> void:
+	visual_root = Node3D.new()
+	visual_root.name = "EnemyVisual"
+	add_child(visual_root)
+	shadow = _add_cylinder("ContactShadow", 0.62 if kind != "heavy" else 0.9, 0.035, Vector3(0, -height_for_kind() * 0.5 + 0.03, 0), Color(0.08, 0.12, 0.12, 0.36))
+	shadow.scale = Vector3(1.25, 1.0, 0.72)
+	shadow.position.y = 0.025
 	mesh_instance = MeshInstance3D.new()
-	var mesh := CapsuleMesh.new()
-	mesh.height = 1.4 if kind != "heavy" else 1.9
-	mesh.radius = 0.5 if kind != "heavy" else 0.75
+	var mesh: Mesh
+	var height := height_for_kind()
+	if kind == "heavy":
+		var heavy_mesh := BoxMesh.new()
+		heavy_mesh.size = Vector3(1.5, height, 1.35)
+		mesh = heavy_mesh
+	else:
+		var wedge := CylinderMesh.new()
+		wedge.top_radius = 0.16
+		wedge.bottom_radius = 0.58
+		wedge.height = height
+		wedge.radial_segments = 6
+		mesh = wedge
 	mesh_instance.mesh = mesh
 	material = StandardMaterial3D.new()
-	material.albedo_color = Color("#d5574e") if kind != "heavy" else Color("#8c4b59")
-	material.metallic = 0.15
+	material.albedo_color = Color("#df604e") if kind != "heavy" else Color("#8c4b59")
+	material.metallic = 0.2
+	material.roughness = 0.68
 	mesh_instance.material_override = material
-	add_child(mesh_instance)
-	position.y = maxf(position.y, mesh.height * 0.5)
+	visual_root.add_child(mesh_instance)
+	position.y = maxf(position.y, height * 0.5)
+	# The enemy's readable behaviour shape is a leaning wedge or a heavy block;
+	# the small warning plate adds comedy without turning it into a face.
+	_add_box("WarningPlate", Vector3(0.75 if kind != "heavy" else 1.0, 0.1, 0.12), Vector3(0, height * 0.62, -0.36), Color("#f2c85c"))
+	_add_box("WarningStripe", Vector3(0.18, 0.11, 0.4), Vector3(-0.31 if kind != "heavy" else -0.42, height * 0.62, -0.36), Color("#253d48"))
+	_add_box("WarningStripe", Vector3(0.18, 0.11, 0.4), Vector3(0.31 if kind != "heavy" else 0.42, height * 0.62, -0.36), Color("#253d48"))
+	if kind == "heavy":
+		_add_box("HeavyShoulder", Vector3(1.85, 0.18, 0.45), Vector3(0, 0.65, -0.52), Color("#df604e"))
+		_add_cylinder("HeavyBeacon", 0.18, 0.22, Vector3(0, height + 0.12, 0), Color("#f2c85c"))
+	else:
+		_add_cylinder("WobbleAntenna", 0.07, 0.75, Vector3(0.12, height * 0.72, 0.06), Color("#eee3c7"))
+
+func height_for_kind() -> float:
+	return 1.4 if kind != "heavy" else 1.9
+
+func _add_box(node_name: String, size: Vector3, at: Vector3, color: Color) -> MeshInstance3D:
+	var instance := MeshInstance3D.new()
+	instance.name = node_name
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	instance.mesh = mesh
+	instance.position = at
+	var plate := StandardMaterial3D.new()
+	plate.albedo_color = color
+	plate.roughness = 0.72
+	instance.material_override = plate
+	(visual_root if visual_root != null else self).add_child(instance)
+	return instance
+
+func _add_cylinder(node_name: String, radius: float, height: float, at: Vector3, color: Color) -> MeshInstance3D:
+	var instance := MeshInstance3D.new()
+	instance.name = node_name
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = radius
+	mesh.bottom_radius = radius
+	mesh.height = height
+	mesh.radial_segments = 8
+	instance.mesh = mesh
+	instance.position = at
+	var cap := StandardMaterial3D.new()
+	cap.albedo_color = color
+	cap.roughness = 0.7
+	instance.material_override = cap
+	(visual_root if visual_root != null else self).add_child(instance)
+	return instance
 
 func _process(delta: float) -> void:
 	if dead:
 		return
+	_wobble_time += delta
+	if visual_root != null:
+		var wobble := sin(_wobble_time * (5.0 if kind != "heavy" else 2.2) + float(enemy_id.hash() % 13)) * (0.07 if kind != "heavy" else 0.025)
+		visual_root.rotation.z = wobble
 	if player != null and is_instance_valid(player) and bool(player.get("gameplay_enabled")):
 		var offset := player.global_position - global_position
 		offset.y = 0.0
@@ -67,7 +137,26 @@ func _process(delta: float) -> void:
 			material.albedo_color = Color("#d5574e") if kind != "heavy" else Color("#8c4b59")
 
 func can_be_magnetized() -> bool:
-	return not dead and kind == "light"
+	return not dead and not packed and not pack_used and kind == "light"
+
+func pack_into_whale() -> bool:
+	if not can_be_magnetized():
+		return false
+	packed = true
+	visible = false
+	process_mode = Node.PROCESS_MODE_DISABLED
+	action_effect.emit("whale_pack", global_position, global_position)
+	return true
+
+func release_from_whale() -> bool:
+	if not packed:
+		return false
+	packed = false
+	pack_used = true
+	visible = not dead
+	process_mode = Node.PROCESS_MODE_PAUSABLE
+	action_effect.emit("whale_release", global_position, global_position)
+	return true
 
 func apply_wet(duration: float = 4.0) -> void:
 	if dead:
@@ -121,7 +210,7 @@ func pull_toward(point: Vector3, amount: float) -> bool:
 	return true
 
 func get_snapshot() -> Dictionary:
-	return {"schema": 1, "enemy_id": enemy_id, "kind": kind, "position": [global_position.x, global_position.y, global_position.z], "current_health": current_health, "wet_time": wet_time, "dead": dead, "attack_timer": attack_timer}
+	return {"schema": 1, "enemy_id": enemy_id, "kind": kind, "position": [global_position.x, global_position.y, global_position.z], "current_health": current_health, "wet_time": wet_time, "dead": dead, "attack_timer": attack_timer, "packed": packed, "pack_used": pack_used}
 
 func validate_snapshot(data: Dictionary) -> bool:
 	if int(data.get("schema", 0)) != 1 or str(data.get("enemy_id", "")) != enemy_id or str(data.get("kind", "")) != kind:
@@ -142,7 +231,10 @@ func restore_snapshot(data: Dictionary) -> bool:
 	wet_time = maxf(0.0, float(data.get("wet_time", 0.0)))
 	dead = bool(data.get("dead", false))
 	attack_timer = maxf(0.0, float(data.get("attack_timer", 0.0)))
-	visible = not dead
+	packed = bool(data.get("packed", false)) and not dead
+	pack_used = bool(data.get("pack_used", false))
+	visible = not dead and not packed
+	process_mode = Node.PROCESS_MODE_DISABLED if packed else Node.PROCESS_MODE_PAUSABLE
 	if dead:
 		current_health = 0.0
 	return true
