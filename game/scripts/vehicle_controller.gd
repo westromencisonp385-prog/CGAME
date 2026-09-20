@@ -23,9 +23,11 @@ var throw_cooldown := 0.0
 var dash_cooldown := 0.0
 var charge := 0.0
 var gameplay_enabled := true
+var invulnerable := false
 var dash_pending := false
 var dash_remaining := 0.0
 var dash_hit_ids: Array[String] = []
+var packed_enemy_ids: Array[String] = []
 var tool_anim_time := 0.0
 var _last_position := Vector3.ZERO
 var visual_root: Node3D
@@ -74,10 +76,14 @@ func _physics_process(delta: float) -> void:
 	var before := global_position
 	move_and_slide()
 	var displacement := global_position.distance_to(before)
+	_update_aim_from_movement(move_dir)
 	if displacement > 0.01:
 		record_drive_displacement(displacement)
 		chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(velocity.x, velocity.z), delta * 8.0)
-		_update_aim_from_movement(move_dir)
+	if boom_visual != null:
+		boom_visual.rotation.y = atan2(-aim_direction.x, -aim_direction.z)
+	if assembler != null and assembler.visual_root != null:
+		assembler.visual_root.rotation.y = atan2(-aim_direction.x, -aim_direction.z)
 	if dash_pending:
 		dash_remaining = maxf(0.0, dash_remaining - delta)
 		_resolve_dash_contacts(before, global_position)
@@ -98,6 +104,7 @@ func _update_aim_from_movement(move_dir: Vector3) -> void:
 	var aim_input := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 	if aim_input.length() > 0.1:
 		aim_direction = Vector3(aim_input.x, 0.0, aim_input.y).normalized()
+		return
 	elif move_dir.length() > 0.1:
 		aim_direction = move_dir.normalized()
 	if camera == null:
@@ -124,6 +131,8 @@ func perform_primary() -> Dictionary:
 	var radius := float(stats.get("radius", 1.35))
 	var power := float(stats.get("power", 14.0))
 	var source := {"dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0}
+	if bool(source.water):
+		action_effect.emit("water_beam", global_position, global_position + aim_direction * reach)
 	var hit_count := 0
 	var chain_hits := 0
 	var struck_enemies: Array[Node] = []
@@ -155,7 +164,11 @@ func perform_primary() -> Dictionary:
 	return {"performed": true, "hits": hit_count, "chain_hits": chain_hits, "cargo": cargo}
 
 func throw_cargo() -> Dictionary:
-	if not gameplay_enabled or throw_cooldown > 0.0 or cargo <= 0:
+	if not gameplay_enabled or throw_cooldown > 0.0:
+		return {"performed": false, "hit": false}
+	if not packed_enemy_ids.is_empty():
+		return _release_packed_enemy()
+	if cargo <= 0:
 		return {"performed": false, "hit": false}
 	throw_cooldown = 0.45
 	cargo -= 1
@@ -172,10 +185,60 @@ func throw_cargo() -> Dictionary:
 			best_distance = planar.length()
 	if best != null:
 		best.take_damage(damage)
+		action_effect.emit("throw", global_position, best.global_position)
 		feedback.emit("废料投掷命中")
 		return {"performed": true, "hit": true}
+	action_effect.emit("throw", global_position, global_position + aim_direction * 5.0)
 	feedback.emit("废料投掷")
 	return {"performed": true, "hit": false}
+
+func pack_enemy(target: Node) -> Dictionary:
+	if not gameplay_enabled or health <= 0.0:
+		return {"packed": false, "reason": "vehicle_disabled"}
+	if assembler == null or not assembler.has_module("magnet") or not assembler.has_module("wide_bucket"):
+		return {"packed": false, "reason": "requires_whale_magnet_build"}
+	if target == null or not is_instance_valid(target) or not target is EnemyDummy:
+		return {"packed": false, "reason": "target_not_packable"}
+	var enemy := target as EnemyDummy
+	if not enemy.can_be_magnetized():
+		return {"packed": false, "reason": "target_rejected"}
+	var capacity := mini(2, int(_stats().get("cargo_capacity", max_cargo)))
+	if packed_enemy_ids.size() >= capacity:
+		return {"packed": false, "reason": "pack_capacity_full"}
+	if global_position.distance_to(enemy.global_position) > 3.4:
+		return {"packed": false, "reason": "target_out_of_range"}
+	if not enemy.pack_into_whale():
+		return {"packed": false, "reason": "target_rejected"}
+	packed_enemy_ids.append(enemy.enemy_id)
+	action_effect.emit("whale_pack", global_position, enemy.global_position)
+	feedback.emit("鲸口打包 · %s" % enemy.enemy_id)
+	return {"packed": true, "target_id": enemy.enemy_id, "packed_count": packed_enemy_ids.size()}
+
+func _release_packed_enemy() -> Dictionary:
+	if packed_enemy_ids.is_empty():
+		return {"performed": false, "hit": false, "reason": "no_packed_enemy"}
+	var target_id: String = str(packed_enemy_ids.pop_front())
+	var target: EnemyDummy = null
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is EnemyDummy and node.enemy_id == target_id:
+			target = node
+			break
+	throw_cooldown = 0.45
+	if target == null or not is_instance_valid(target):
+		return {"performed": true, "hit": false, "target_id": target_id, "packed_count": packed_enemy_ids.size(), "reason": "target_missing"}
+	var origin := global_position
+	target.release_from_whale()
+	var damage := 48.0 + (12.0 if assembler != null and assembler.has_module("wide_bucket") else 0.0)
+	target.take_damage(damage)
+	action_effect.emit("whale_release", origin, target.global_position)
+	feedback.emit("鲸口投掷 · %s" % target_id)
+	return {"performed": true, "hit": true, "target_id": target_id, "damage": damage, "packed_count": packed_enemy_ids.size()}
+
+func rebind_packed_enemies() -> void:
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is EnemyDummy and packed_enemy_ids.has(node.enemy_id) and not node.dead:
+			if not node.packed:
+				node.pack_into_whale()
 
 func try_dash() -> bool:
 	if not gameplay_enabled or dash_cooldown > 0.0:
@@ -206,8 +269,10 @@ func reset_vehicle(at: Vector3 = Vector3.ZERO) -> void:
 	dash_pending = false
 	dash_remaining = 0.0
 	dash_hit_ids.clear()
+	packed_enemy_ids.clear()
 	velocity = Vector3.ZERO
 	aim_direction = Vector3(0, 0, -1)
+	invulnerable = false
 	gameplay_enabled = true
 
 func _resolve_dash_contacts(from: Vector3, to: Vector3) -> void:
@@ -225,7 +290,7 @@ func _resolve_dash_contacts(from: Vector3, to: Vector3) -> void:
 			action_effect.emit("dash_hit", from, node.global_position)
 
 func receive_damage(amount: float) -> void:
-	if health <= 0.0:
+	if invulnerable or health <= 0.0:
 		return
 	health = maxf(0.0, health - maxf(0.0, amount))
 	feedback.emit("受到 %.0f 点伤害" % amount)
@@ -234,7 +299,6 @@ func receive_damage(amount: float) -> void:
 		velocity = Vector3.ZERO
 		disabled.emit()
 		feedback.emit("工程车失效，按 F9 恢复快照")
-		disabled.emit()
 
 func on_module_visuals_changed() -> void:
 	if bucket_visual == null or assembler == null:
@@ -276,65 +340,117 @@ func _create_visuals() -> void:
 	add_child(visual_root)
 	chassis_visual = MeshInstance3D.new()
 	var chassis_mesh := BoxMesh.new()
-	chassis_mesh.size = Vector3(2.6, 0.8, 2.2)
+	chassis_mesh.size = Vector3(2.8, 0.72, 2.35)
 	chassis_visual.mesh = chassis_mesh
-	chassis_visual.material_override = _material(Color("#394b55"))
+	chassis_visual.material_override = _material(Color("#253d48"))
 	visual_root.add_child(chassis_visual)
 	for x in [-1.0, 1.0]:
 		var track := MeshInstance3D.new()
 		var track_mesh := BoxMesh.new()
-		track_mesh.size = Vector3(0.45, 0.45, 2.4)
+		track_mesh.size = Vector3(0.52, 0.55, 2.55)
 		track.mesh = track_mesh
-		track.position = Vector3(x, -0.25, 0.0)
+		track.position = Vector3(x * 1.05, -0.25, 0.0)
 		track.material_override = _material(Color("#171d22"))
 		visual_root.add_child(track)
+		var tread_band := MeshInstance3D.new()
+		var band_mesh := BoxMesh.new()
+		band_mesh.size = Vector3(0.08, 0.25, 2.2)
+		tread_band.mesh = band_mesh
+		tread_band.position = Vector3(x * 1.05 - x * 0.24, -0.25, 0.0)
+		tread_band.material_override = _material(Color("#56666a"))
+		visual_root.add_child(tread_band)
+		for z in [-0.82, 0.0, 0.82]:
+			_add_cylinder_visual(visual_root, "TrackHub", 0.18, 0.08, Vector3(x * 1.05, -0.2, z), Color("#e9ad38"), Vector3(0, 0, 90))
+	# A single warm panel makes the player silhouette legible against the olive ground.
+	_add_box_visual(visual_root, "ChassisSafetyPanel", Vector3(2.25, 0.12, 1.58), Vector3(0, 0.39, 0.1), Color("#e9ad38"))
+	_add_box_visual(visual_root, "ChassisNose", Vector3(2.35, 0.2, 0.3), Vector3(0, 0.12, -1.18), Color("#df604e"))
+	_add_box_visual(visual_root, "ChassisRearPlate", Vector3(2.2, 0.15, 0.25), Vector3(0, 0.46, 1.08), Color("#49636b"))
 	cabin_visual = MeshInstance3D.new()
 	var cabin_mesh := BoxMesh.new()
-	cabin_mesh.size = Vector3(1.2, 0.9, 1.2)
+	cabin_mesh.size = Vector3(1.22, 0.95, 1.18)
 	cabin_visual.mesh = cabin_mesh
-	cabin_visual.position = Vector3(0, 0.85, 0.3)
-	cabin_visual.material_override = _material(Color("#427080"))
+	cabin_visual.position = Vector3(0, 0.92, 0.28)
+	cabin_visual.material_override = _material(Color("#2e5c69"))
 	visual_root.add_child(cabin_visual)
+	_add_box_visual(visual_root, "CabinWindow", Vector3(0.88, 0.42, 0.08), Vector3(0, 1.0, -0.33), Color("#a8d6d1"))
+	_add_box_visual(visual_root, "CabinRoof", Vector3(1.38, 0.14, 1.34), Vector3(0, 1.45, 0.28), Color("#eee3c7"))
+	_add_cylinder_visual(visual_root, "Beacon", 0.14, 0.18, Vector3(0, 1.67, 0.28), Color("#df604e"))
 	boom_visual = Node3D.new()
 	boom_visual.name = "TwoStageBoom"
 	visual_root.add_child(boom_visual)
 	for i in 2:
 		var arm := MeshInstance3D.new()
 		var arm_mesh := BoxMesh.new()
-		arm_mesh.size = Vector3(0.38, 0.38, 1.9)
+		arm_mesh.size = Vector3(0.44, 0.42, 1.9)
 		arm.mesh = arm_mesh
-		arm.position = Vector3(0, 0.8 - i * 0.1, -0.8 - i * 0.9)
+		arm.position = Vector3(0, 0.85 - i * 0.1, -0.8 - i * 0.9)
 		arm.rotation_degrees.x = -20.0 if i == 0 else 18.0
-		arm.material_override = _material(Color("#c68b31"))
+		arm.material_override = _material(Color("#e9ad38"))
 		boom_visual.add_child(arm)
+		_add_cylinder_visual(boom_visual, "BoomPivot%d" % i, 0.22, 0.18, Vector3(0, 0.82 - i * 0.1, -0.83 - i * 0.9), Color("#253d48"), Vector3(90, 0, 0))
 	bucket_visual = Node3D.new()
 	bucket_visual.name = "BucketVisual"
 	boom_visual.add_child(bucket_visual)
 	var bucket := MeshInstance3D.new()
 	bucket.name = "BucketMesh"
 	var bucket_mesh := BoxMesh.new()
-	bucket_mesh.size = Vector3(1.7, 0.55, 1.2)
+	bucket_mesh.size = Vector3(1.75, 0.58, 1.25)
 	bucket.mesh = bucket_mesh
 	bucket.position = Vector3(0, 0.1, -1.7)
-	bucket.material_override = _material(Color("#c68b31"))
+	bucket.material_override = _material(Color("#e9ad38"))
 	bucket_visual.add_child(bucket)
+	_add_box_visual(bucket_visual, "BucketInside", Vector3(1.38, 0.12, 0.7), Vector3(0, 0.18, -1.87), Color("#806149"))
+	for side in [-1.0, 1.0]:
+		_add_box_visual(bucket_visual, "BucketSide", Vector3(0.12, 0.65, 1.38), Vector3(side * 0.84, 0.1, -1.7), Color("#c98f30"))
+		_add_cylinder_visual(bucket_visual, "BucketTooth", 0.08, 0.42, Vector3(side * 0.5, -0.21, -2.34), Color("#eee3c7"), Vector3(90, 0, 0))
+	_add_box_visual(bucket_visual, "BucketBackRail", Vector3(1.42, 0.13, 0.16), Vector3(0, 0.54, -1.2), Color("#253d48"))
+	# Lamps are deliberately simple geometric punctuation rather than faces.
+	for side in [-1.0, 1.0]:
+		_add_cylinder_visual(visual_root, "WorkLamp", 0.12, 0.08, Vector3(side * 0.72, 0.2, -1.23), Color("#fff1b5"), Vector3(90, 0, 0))
+
+func _add_box_visual(parent: Node3D, node_name: String, size: Vector3, at: Vector3, color: Color) -> MeshInstance3D:
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.name = node_name
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mesh_instance.mesh = mesh
+	mesh_instance.position = at
+	mesh_instance.material_override = _material(color)
+	parent.add_child(mesh_instance)
+	return mesh_instance
+
+func _add_cylinder_visual(parent: Node3D, node_name: String, radius: float, height: float, at: Vector3, color: Color, rotation := Vector3.ZERO) -> MeshInstance3D:
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.name = node_name
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = radius
+	mesh.bottom_radius = radius
+	mesh.height = height
+	mesh.radial_segments = 8
+	mesh_instance.mesh = mesh
+	mesh_instance.position = at
+	mesh_instance.rotation_degrees = rotation
+	mesh_instance.material_override = _material(color)
+	parent.add_child(mesh_instance)
+	return mesh_instance
 
 func _material(color: Color) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
 	material.albedo_color = color
 	material.metallic = 0.35
-	material.roughness = 0.55
+	material.roughness = 0.62
 	return material
 
 func get_snapshot() -> Dictionary:
-	return {"schema": 1, "position": [global_position.x, global_position.y, global_position.z], "health": health, "cargo": cargo, "heat": heat, "aim": [aim_direction.x, aim_direction.y, aim_direction.z], "primary_cooldown": primary_cooldown, "throw_cooldown": throw_cooldown, "dash_cooldown": dash_cooldown, "charge": charge, "dash_pending": dash_pending, "dash_remaining": dash_remaining, "dash_hit_ids": dash_hit_ids.duplicate()}
+	return {"schema": 1, "position": [global_position.x, global_position.y, global_position.z], "health": health, "cargo": cargo, "heat": heat, "aim": [aim_direction.x, aim_direction.y, aim_direction.z], "primary_cooldown": primary_cooldown, "throw_cooldown": throw_cooldown, "dash_cooldown": dash_cooldown, "charge": charge, "dash_pending": dash_pending, "dash_remaining": dash_remaining, "dash_hit_ids": dash_hit_ids.duplicate(), "packed_enemy_ids": packed_enemy_ids.duplicate()}
 
 func validate_snapshot(data: Dictionary) -> bool:
 	if int(data.get("schema", 0)) != 1:
 		return false
 	var p = data.get("position", null)
 	var a = data.get("aim", null)
-	if not (p is Array and p.size() == 3 and a is Array and a.size() == 3):
+	var packed_ids: Variant = data.get("packed_enemy_ids", [])
+	if not (p is Array and p.size() == 3 and a is Array and a.size() == 3 and packed_ids is Array):
 		return false
 	for value in p:
 		if not (typeof(value) == TYPE_FLOAT or typeof(value) == TYPE_INT) or not is_finite(float(value)):
@@ -348,6 +464,11 @@ func validate_snapshot(data: Dictionary) -> bool:
 	var primary := float(data.get("primary_cooldown", -1.0))
 	var throwing := float(data.get("throw_cooldown", -1.0))
 	var dash := float(data.get("dash_cooldown", -1.0))
+	var seen_packed: Dictionary = {}
+	for enemy_id in packed_ids:
+		if enemy_id is not String or str(enemy_id).is_empty() or seen_packed.has(enemy_id):
+			return false
+		seen_packed[enemy_id] = true
 	return is_finite(saved_health) and saved_health >= 0.0 and saved_health <= 100.0 and saved_cargo >= 0 and saved_cargo <= 64 and is_finite(saved_charge) and saved_charge >= 0.0 and saved_charge <= 100.0 and is_finite(primary) and primary >= 0.0 and primary <= 30.0 and is_finite(throwing) and throwing >= 0.0 and throwing <= 30.0 and is_finite(dash) and dash >= 0.0 and dash <= 30.0
 
 func restore_snapshot(data: Dictionary) -> bool:
@@ -370,5 +491,9 @@ func restore_snapshot(data: Dictionary) -> bool:
 	for hit_id in data.get("dash_hit_ids", []):
 		dash_hit_ids.append(str(hit_id))
 	gameplay_enabled = health > 0.0
+	packed_enemy_ids.clear()
+	for enemy_id in data.get("packed_enemy_ids", []):
+		if enemy_id is String and not packed_enemy_ids.has(enemy_id):
+			packed_enemy_ids.append(enemy_id)
 	velocity = Vector3.ZERO
 	return true
