@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-22",
+  "status": "concept_expansion_proposal",
+  "requested_model": "image2.5",
+  "actual_model": "unknown_not_exposed_by_builtin_tool",
+  "tool": "image_gen.imagegen (built-in)",
+  "asset": "expansion-concept-board-v1.png",
+  "sha256": "2c681807a07bd507a1c283058f8fa0bb08cfe8cb20aa504e93340a86469d3e6d",
+  "purpose": "world/vehicle/monster/challenge art direction only; not production asset or gameplay screenshot",
+  "source_prompt": "expansion-concept-board-prompt.txt",
+  "layout": [
+    "river-valley gameplay vignette",
+    "three player machine families with growth silhouettes",
+    "six monster studies with telegraph icons",
+    "three biome before/during/after strips"
+  ],
+  "notes": [
+    "The generated sheet is an authored direction board; labels may be imperfect and are not shipped UI.",
+    "Player machine, monster, biome and challenge details are proposals in docs/world-bible.md.",
+    "No commercial reference assets were submitted as image inputs; AssetRipper evidence informed structural translation only."
+  ]
+}

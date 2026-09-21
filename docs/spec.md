@@ -415,6 +415,7 @@ M0同时记录输入响应、转向过冲、漏用投掷、升级打断、看不
 - [to-spec 技能](../.agents/skills/to-spec/SKILL.md)：采用其 Problem Statement、Solution、User Stories、Implementation Decisions、Testing Decisions、Out of Scope、Further Notes 七部分模板；本规格无游戏代码原型摘录。
 - [现役资产制作规范](assets/production-guide.md)、[生成回执](assets/image-generation-manifest.json)、[CLI工作流](godot-cli-workflow.md)、[Compact接续记录](COMPACT.md)。
 - [功能/表现需求索引](requirements.md)、[整体美术方向A](assets/art-direction.md)、[视觉参考证据](../evidence/reference_visual_study.json)。方向文件服务本规格中的美术关口，不另立产品合同。
+- [世界设定与内容圣经](world-bible.md)、[扩展概念板](assets/expansion-concept-board-v1.png) 将机器谱系、怪物、合同和修复呈现作为提案；它们不把未实现内容升级为当前产品承诺。
 
 ### issue 发布约定
 
