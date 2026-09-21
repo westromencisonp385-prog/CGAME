@@ -4,7 +4,7 @@
 
 ## 1. 已确认的环境与研究边界
 
-- 本地引擎：`C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\godot_console.exe`，实际 `--version` 输出 `4.6.3.stable.official.7d41c59c4`。这是原始基线记录。当前采用 **Godot 4.7.2 stable**，配套相同版本 export templates；当前机器的 `AppData/Godot/export_templates` 尚未确认安装，M1 需通过 Export Template Manager 或离线包补齐并记录校验。
+- 本地引擎：当前项目固定使用 `C:\Users\Administrator\AppData\Local\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe`，实际 `--version` 为 `4.7.2.stable.official.ed1daf0bf`。机器 PATH 上的 Godot 4.6.3 是历史兼容诊断基线，不决定项目运行。当前已确认 `AppData/Godot/export_templates/4.7.2.stable` 存在匹配 Windows debug 模板；release 模板和发行验收仍未完成。
 - 当前开发机记录为 Ryzen 7 9800X3D、RTX 4070 Ti SUPER、约 64 GB 内存；它只用于编辑器和开发基准，不能代表 Steam 最低配置或 Deck 性能。
 - `F:\SteamLibrary\steamapps\common\Wanderburg Game` 是 Unity IL2CPP Windows 发布包：包含 `UnityPlayer.dll`、`GameAssembly.dll`、`Wanderburg_Data`，不是可直接打开的完整源工程。
 - 其中 `ScriptingAssemblies.json` 可确认打包了 URP、Cinemachine、Input System、Addressables、Localization、FMOD、Steamworks.NET/Heathen、LeanPool 等程序集；`Plugins` 与 `StreamingAssets` 中存在 Steam API、FMOD DLL/音频 bank、Addressables 资源及多语言 bundle。
