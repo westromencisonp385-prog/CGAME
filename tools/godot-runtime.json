@@ -30,4 +30,3 @@
     "scenarios": ["clean", "built", "preview", "gm", "repair", "effects", "restored"]
   }
 }
-
