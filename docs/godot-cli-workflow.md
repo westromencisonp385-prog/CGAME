@@ -24,7 +24,7 @@ pwsh -NoProfile -File .\tools\test-godot-cli-contract.ps1
 - `doctor` 强制检查 4.7.2 的绝对路径、版本、项目 `config/features=4.7`、Mobile renderer、截图脚本、回退引擎和导出模板目录。它不会读取 PATH，也不会自动安装另一个版本。
 - `import` / `check` 使用 `--headless --import` 做资源扫描和脚本/场景导入验证。它们只报告 Godot 进程自己的退出码和日志，并在成功行中打印实际解析出的版本；因此可显式传入 4.6.3 做兼容性诊断。
 - `test` 对 `game/tests/*.gd` 逐个启动 Godot。每个测试必须在 `tools/godot-runtime.json` 的 `test_markers` 中登记显式输出标记，并同时满足：进程退出码为 0、对应标记出现、输出中没有 `SCRIPT ERROR` 或 `ERROR`。未登记的测试会直接失败，不能用普通的 `PASS` 文本蒙混通过。
-- `capture` **必须启用 GM 且禁止 headless**，直接运行 Mobile/Vulkan 窗口并从真实 root viewport 取得图像；没有 GPU/窗口时失败。传入 `-NoGM` 会在启动前明确失败，因为七个场景都通过公开 `main.gm.execute(command,args)` 驱动。runner 会显式传 `--audio-driver Dummy`，避免本机 WASAPI 设备状态污染图形 QA；报告中的 `audio.verified=false` 表示声音未验收。`--quit-after` 的单位是渲染迭代/帧，不是秒，例如 `-QuitAfter 240`。截图脚本会加载真实 `res://scenes/main.tscn`，不创建替代场景或 dummy screenshot。
+- `capture` **必须启用 GM 且禁止 headless**，直接运行 Mobile/Vulkan 窗口并从真实 root viewport 取得图像；没有 GPU/窗口时失败。传入 `-NoGM` 会在启动前明确失败，因为八个场景都通过公开 `main.gm.execute(command,args)` 驱动。runner 会显式传 `--audio-driver Dummy`，避免本机 WASAPI 设备状态污染图形 QA；报告中的 `audio.verified=false` 表示声音未验收。`--quit-after` 的单位是渲染迭代/帧，不是秒，例如 `-QuitAfter 240`。截图脚本会加载真实 `res://scenes/main.tscn`，不创建替代场景或 dummy screenshot。
 - `export-debug` 检查调用的引擎确实是完整的 4.7.2 版本前缀（不会把 4.7.20 当成 4.7.2）、模板和 `game/export_presets.cfg` 后执行 Windows Desktop debug 导出。输出位于 `builds/reclaimer-debug-4.7.2.exe`，模板缺失时显示官方 URL 并失败，不会误用其他版本。正式 `capture` 与 `export-debug` 都拒绝显式传入 4.6.3。
 - `capture-build` 先执行同一套 debug 导出，再启动导出的 exe 做图形截图。导出 exe 只接收 `--audio-driver Dummy -- --gm --qa-capture=<png>`，禁止使用编辑器专属 `--path` 或 `--script`。它写入 `build-capture-evidence.json` 和一张真实窗口截图；报告同样标记 `audio.verified=false`，不能当作声音通过。
 

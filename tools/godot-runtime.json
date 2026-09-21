@@ -27,6 +27,6 @@
   "capture": {
     "audio_driver": "Dummy",
     "script": "res://tests/runtime_capture.gd",
-    "scenarios": ["clean", "built", "preview", "gm", "repair", "effects", "restored"]
+    "scenarios": ["clean", "built", "whale", "preview", "gm", "repair", "effects", "restored"]
   }
 }
