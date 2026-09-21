@@ -1,0 +1,43 @@
+{
+  "asset_id": "vehicle.reclaimer.base_and_module.m0.sample",
+  "requirements": ["P-04", "P-05", "P-13"],
+  "functional_dependency": "F-05",
+  "status": "presentation_sample",
+  "source_script": "source/generate_reclaimer_whale_jaw.py",
+  "blender": {
+    "path": "F:/SteamLibrary/steamapps/common/Blender/blender.exe",
+    "version": "5.2.1 LTS",
+    "mode": "--background --python"
+  },
+  "outputs": [
+    "reclaimer_whale_jaw.glb",
+    "../../../docs/assets/model-sources/reclaimer_whale_jaw.blend",
+    "reclaimer_whale_jaw_preview.png"
+  ],
+  "files": {
+    "reclaimer_whale_jaw.glb": {
+      "bytes": 291636,
+      "sha256": "3e911d2f74f243ff788202b170cda0e44ba5e07b9df0749c0604468b50efebda"
+    },
+    "../../../docs/assets/model-sources/reclaimer_whale_jaw.blend": {
+      "bytes": 117554,
+      "sha256": "7ca9675b8bcfc5f34df3f332322f0e5ac25e154d9b711f48c078b5c62d5d3ffd"
+    },
+    "reclaimer_whale_jaw_preview.png": {
+      "bytes": 512295,
+      "sha256": "94e85fd47f0ecc81f01fd86cf2cbe699068219185cd0dbae3d26d442f3e21601"
+    },
+    "source/generate_reclaimer_whale_jaw.py": {
+      "bytes": 11648,
+      "sha256": "2bf7cf0b13eea1dead73cb344d3d21b5b5c7fb46eb8284bb1252c2f91ddb67b3"
+    }
+  },
+  "axis_contract": "X width, Y forward, Z up; meters",
+  "style": {
+    "camera": "three-quarter top-down readable silhouette",
+    "palette": ["#D17B14", "#092D38", "#D1C19E", "#C72E21", "#3F2B66"],
+    "materials": ["painted steel", "dark rubber", "bone accent", "warning paint", "energy coil"],
+    "shape_rules": ["broad primary masses", "visible bevels", "mechanical pivots", "detachable jaw with socket"]
+  },
+  "reference_policy": "Original geometry and materials. Wanderburg/AssetRipper was used only for structural study; no extracted asset is included."
+}

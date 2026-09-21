@@ -1,0 +1,33 @@
+{
+  "engine": {
+    "preferred": "C:\\Users\\Administrator\\AppData\\Local\\Godot\\4.7.2\\Godot_v4.7.2-stable_win64_console.exe",
+    "fallback": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WinGet\\Links\\godot_console.exe"
+  },
+  "project": "game",
+  "renderer": "mobile",
+  "default_gm": true,
+  "default_quit_after_iterations": 240,
+  "default_timeout_seconds": 120,
+  "test_markers": {
+    "combat_flow.gd": "PASS combat_flow:",
+    "contract_flow.gd": "CONTRACT FLOW PASS:",
+    "gm_flow.gd": "GM FLOW PASS:",
+    "m0_smoke.gd": "M0 smoke:",
+    "presentation_flow.gd": "PRESENTATION FLOW PASS:",
+    "save_flow.gd": "SAVE FLOW PASS:",
+    "whale_pack_flow.gd": "WHALE PACK FLOW PASS:"
+  },
+  "export": {
+    "preset": "Windows Desktop",
+    "template_url": "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz"
+  },
+  "build": {
+    "debug_output": "builds/reclaimer-debug-4.7.2.exe"
+  },
+  "capture": {
+    "audio_driver": "Dummy",
+    "script": "res://tests/runtime_capture.gd",
+    "scenarios": ["clean", "built", "preview", "gm", "repair", "effects", "restored"]
+  }
+}
+

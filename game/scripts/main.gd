@@ -4,6 +4,7 @@ const Catalog = preload("res://scripts/module_catalog.gd")
 const InputSetup = preload("res://scripts/m0_input.gd")
 const ArenaVisual = preload("res://scripts/arena_visual.gd")
 const HUD = preload("res://scripts/m0_hud.gd")
+const GMController = preload("res://scripts/gm_controller.gd")
 const Sound = preload("res://scripts/prototype_audio.gd")
 const TARGET_LAYOUT := [
 	["scrap_01", "soft", -5.0, 3.0, 18.0], ["scrap_02", "soft", -7.0, 1.0, 18.0],
@@ -24,9 +25,11 @@ var save_service := M0SaveService.new()
 var definitions: Dictionary
 var targets: Array[EngineeringTarget] = []
 var enemies: Array[EnemyDummy] = []
+var gm_enemies: Array[EnemyDummy] = []
 var entities: Node3D
 var world: Node3D
 var ui: CanvasLayer
+var gm: M0GMController
 var audio: Node
 var elapsed := 0.0
 var collected := 0
@@ -54,6 +57,8 @@ func _ready() -> void:
 	player.add_child(assembler)
 	assembler.setup(player, definitions)
 	player.setup(assembler, world.camera)
+	if world.has_method("set_vehicle"):
+		world.set_vehicle(player)
 	player.feedback.connect(feedback)
 	player.disabled.connect(func(): finish_contract("failed"))
 	player.harvested.connect(_harvested)
@@ -62,20 +67,26 @@ func _ready() -> void:
 	add_child(audio)
 	ui = HUD.new()
 	add_child(ui)
+	gm = GMController.new()
+	gm.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(gm)
 	ui.setup(self)
 	reset_contract()
+	gm.setup(self)
+	gm.state_changed.connect(_on_gm_state_changed)
+	ui.refresh_gm_panel()
 
 func _process(delta: float) -> void:
 	if outcome == "active" and not get_tree().paused and simulation_enabled:
 		elapsed += delta
 	if player != null:
 		var hovered := get_viewport().gui_get_hovered_control()
-		player.gameplay_enabled = outcome == "active" and not garage_open and not manual_pause and simulation_enabled and hovered == null
+		player.gameplay_enabled = outcome == "active" and not garage_open and not manual_pause and not gm.visible and simulation_enabled and (hovered == null or not _is_gameplay_blocking_control(hovered))
 		if player.health <= 0.0 and outcome == "active":
 			finish_contract("failed")
-		var desired := Vector3(player.position.x * 0.22, 23, 22 + player.position.z * 0.18)
+		var desired := Vector3(player.position.x * 0.16, 26.0, 18.0 + player.position.z * 0.14)
 		world.camera.position = world.camera.position.lerp(desired, minf(delta * 4.0, 1.0))
-		world.camera.look_at(Vector3(player.position.x * 0.2, 0, player.position.z * 0.12 - 1))
+		world.camera.look_at(Vector3(player.position.x * 0.12, 0.0, player.position.z * 0.08 - 1.4))
 	if ui != null:
 		ui.refresh(delta)
 
@@ -93,6 +104,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		try_repair()
 	elif event is InputEventKey and event.pressed and not event.echo:
 		match event.physical_keycode:
+			KEY_F1:
+				if gm != null:
+					gm.toggle_panel()
+					if ui != null:
+						ui.refresh_gm_panel()
+				get_viewport().set_input_as_handled()
 			KEY_F5: save_snapshot()
 			KEY_F9: load_snapshot()
 			KEY_F6: reset_contract()
@@ -103,9 +120,12 @@ func _clear_entities() -> void:
 		child.queue_free()
 	targets.clear()
 	enemies.clear()
+	gm_enemies.clear()
 
 func reset_contract() -> void:
 	_clear_entities()
+	if gm != null:
+		gm.reset_flags()
 	get_tree().paused = false
 	outcome = "active"
 	manual_pause = false
@@ -122,6 +142,7 @@ func reset_contract() -> void:
 	for item in ENEMY_LAYOUT:
 		_spawn_enemy(item)
 	ui.close_modals()
+	ui.refresh_gm_panel()
 	feedback("先回收废料。B / 手柄 Y 打开改装台，尝试不同组合。")
 
 func _spawn_target(item: Array) -> EngineeringTarget:
@@ -139,20 +160,44 @@ func _spawn_target(item: Array) -> EngineeringTarget:
 	)
 	return target
 
-func _spawn_enemy(item: Array) -> EnemyDummy:
+func _spawn_enemy(item: Array, formal_target: bool = true) -> EnemyDummy:
 	var kind := str(item[1])
 	var enemy := EnemyDummy.new().configure(str(item[0]), kind, 90.0 if kind == "heavy" else 35.0, 0.6 if kind == "heavy" else 1.3, Vector3(float(item[2]), 0.7, float(item[3])))
 	enemy.player = player
 	entities.add_child(enemy)
-	enemies.append(enemy)
+	if formal_target:
+		enemies.append(enemy)
+	else:
+		gm_enemies.append(enemy)
 	enemy.hit_player.connect(player.receive_damage)
 	enemy.action_effect.connect(world.present_effect)
 	enemy.defeated.connect(func(_e: EnemyDummy):
-		defeated += 1
-		feedback("威胁解除 · %d / %d" % [defeated, ENEMY_LAYOUT.size()])
-		_check_victory()
+		if formal_target:
+			defeated += 1
+			feedback("威胁解除 · %d / %d" % [defeated, ENEMY_LAYOUT.size()])
+			_check_victory()
+		else:
+			feedback("GM 敌人已解除")
 	)
 	return enemy
+
+func spawn_gm_enemy(kind: String, at: Vector3) -> EnemyDummy:
+	if gm_enemies.size() >= 80:
+		return null
+	var id := "gm_%s_%03d" % [kind, gm_enemies.size() + 1]
+	return _spawn_enemy([id, kind, at.x, at.z], false)
+
+func clear_gm_and_formal_enemies() -> void:
+	for enemy in enemies + gm_enemies:
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	enemies.clear()
+	gm_enemies.clear()
+
+func set_gm_ai_frozen(frozen: bool) -> void:
+	for enemy in enemies + gm_enemies:
+		if is_instance_valid(enemy):
+			enemy.process_mode = Node.PROCESS_MODE_DISABLED if frozen or enemy.packed else Node.PROCESS_MODE_PAUSABLE
 
 func _harvested(amount: int) -> void:
 	collected += amount
@@ -190,6 +235,8 @@ func toggle_garage() -> void:
 	if outcome != "active":
 		return
 	garage_open = not garage_open
+	if garage_open and gm != null and gm.visible:
+		gm.set_panel_visible(false)
 	if not garage_open:
 		assembler.clear_preview()
 	ui.show_garage(garage_open)
@@ -202,8 +249,15 @@ func toggle_pause() -> void:
 	_sync_pause()
 
 func _sync_pause() -> void:
-	get_tree().paused = garage_open or manual_pause or outcome != "active"
+	get_tree().paused = garage_open or manual_pause or outcome != "active" or (gm != null and gm.visible)
 	player.gameplay_enabled = not get_tree().paused and simulation_enabled
+
+func _on_gm_state_changed(_state: Dictionary) -> void:
+	if gm.visible and garage_open:
+		garage_open = false
+		assembler.clear_preview()
+		ui.show_garage(false)
+	_sync_pause()
 
 func request_preview(module_id: String) -> void:
 	if not assembler.set_preview(module_id, target_slot):
@@ -214,6 +268,11 @@ func confirm_loadout() -> bool:
 	var success := assembler.confirm_preview()
 	feedback("模块已安装 · 回到战场试试" if success else "无法安装：检查槽位、重复模块和资源")
 	return success
+
+func _is_gameplay_blocking_control(control: Control) -> bool:
+	if ui == null:
+		return false
+	return ui.is_gameplay_blocking_control(control)
 
 func get_snapshot() -> Dictionary:
 	var target_states: Array = []
@@ -228,7 +287,8 @@ func get_snapshot() -> Dictionary:
 		"mission": {"elapsed": elapsed, "collected": collected, "defeated": defeated, "outcome": outcome}}
 
 func save_snapshot() -> bool:
-	var success := save_service.save_snapshot(get_snapshot())
+	var snapshot: Dictionary = get_snapshot()
+	var success := validate_snapshot(snapshot) and save_service.save_snapshot(snapshot)
 	feedback("检查点已保存 · F9 恢复" if success else "保存失败，原检查点保留")
 	return success
 
@@ -257,6 +317,7 @@ func restore_snapshot(data: Dictionary) -> bool:
 		for item in ENEMY_LAYOUT:
 			if item[0] == state.enemy_id:
 				_spawn_enemy(item).restore_snapshot(state)
+	player.rebind_packed_enemies()
 	elapsed = float(data.mission.elapsed)
 	collected = int(data.mission.collected)
 	defeated = int(data.mission.defeated)
@@ -268,6 +329,8 @@ func restore_snapshot(data: Dictionary) -> bool:
 	if outcome != "active":
 		ui.show_result()
 	_sync_pause()
+	if gm != null:
+		set_gm_ai_frozen(gm.freeze_ai)
 	return true
 
 func validate_snapshot(data: Dictionary) -> bool:
@@ -305,6 +368,7 @@ func validate_snapshot(data: Dictionary) -> bool:
 	if not seen.has("repair_pump"):
 		return false
 	seen.clear()
+	var enemy_states_by_id: Dictionary = {}
 	for state in data.enemies:
 		if not state is Dictionary:
 			return false
@@ -318,6 +382,15 @@ func validate_snapshot(data: Dictionary) -> bool:
 		if not valid:
 			return false
 		seen[state.enemy_id] = true
+		enemy_states_by_id[state.enemy_id] = state
+	var packed_ids: Array = data.player.get("packed_enemy_ids", [])
+	for packed_id in packed_ids:
+		if not enemy_states_by_id.has(packed_id) or not bool(enemy_states_by_id[packed_id].get("packed", false)) or str(enemy_states_by_id[packed_id].get("kind", "")) != "light":
+			return false
+	for enemy_id in enemy_states_by_id:
+		var enemy_state: Dictionary = enemy_states_by_id[enemy_id]
+		if bool(enemy_state.get("packed", false)) and not packed_ids.has(enemy_id):
+			return false
 	return true
 
 func feedback(message: String) -> void:
@@ -325,3 +398,15 @@ func feedback(message: String) -> void:
 		ui.feedback(message)
 	if audio != null:
 		audio.play_feedback(message)
+
+func prepare_whale_demo() -> Dictionary:
+	reset_contract()
+	assembler.restore({"version": 1, "core_id": "wide_bucket", "drive_id": "", "active_ids": ["magnet", ""], "stage": 2})
+	player.reset_vehicle(Vector3(0, 0.5, 7))
+	player.aim_direction = Vector3(0, 0, -1)
+	var offsets := [Vector3(0, 0, -2.0), Vector3(1.0, 0, -2.4), Vector3(-1.0, 0, -2.4), Vector3(0, 0, -5.2), Vector3(0.2, 0, -3.2)]
+	for index in range(mini(enemies.size(), offsets.size())):
+		enemies[index].global_position = player.global_position + offsets[index]
+	if gm != null:
+		gm.set_panel_visible(false)
+	return {"seed": "whale_demo_m0", "player": player.global_position, "light_ids": [enemies[0].enemy_id, enemies[1].enemy_id], "heavy_id": enemies[4].enemy_id}

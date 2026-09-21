@@ -1,0 +1,7 @@
+# Local research inputs, generated editor/build caches, and test evidence.
+tmp/
+artifacts/
+builds/
+**/__pycache__/
+tools/AssetRipper-source/
+*.log

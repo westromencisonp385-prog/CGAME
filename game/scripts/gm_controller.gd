@@ -109,7 +109,7 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		return _error("GM 尚未连接到主场景")
 	var result: Dictionary
 	match name:
-		"help": result = _ok({"commands": ["help", "status", "panel", "preset", "heal", "invulnerable", "refill", "freeze_ai", "time_scale", "stage", "spawn", "garage", "preview", "confirm", "reset", "save", "load", "repair", "clear_enemies", "whale_pack", "whale_throw", "vfx"]})
+		"help": result = _ok({"commands": ["help", "status", "panel", "preset", "heal", "invulnerable", "refill", "freeze_ai", "time_scale", "stage", "spawn", "garage", "preview", "confirm", "reset", "save", "load", "repair", "clear_enemies", "whale_pack", "whale_throw", "whale_demo", "vfx"]})
 		"status": result = _ok(get_state())
 		"panel": result = _panel_command(args)
 		"preset": result = _preset(str(args.get("name", "")))
@@ -130,6 +130,7 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		"clear_enemies": result = _clear_enemies()
 		"whale_pack": result = _whale_pack(args)
 		"whale_throw": result = _whale_throw()
+		"whale_demo": result = _whale_demo()
 		"vfx": result = _set_vfx(args)
 		_: result = _error("未知 GM 命令：%s" % name)
 	if bool(result.get("ok", false)):
@@ -304,7 +305,10 @@ func _reset() -> Dictionary:
 	return _ok({"reset": true})
 
 func _save_test_snapshot() -> Dictionary:
-	var ok := test_save_service.save_snapshot(main.get_snapshot())
+	var snapshot: Dictionary = main.get_snapshot()
+	if not main.validate_snapshot(snapshot):
+		return _error("GM 测试存档状态非法")
+	var ok := test_save_service.save_snapshot(snapshot)
 	return _ok({"saved": ok, "path": TEST_SAVE_PATH}) if ok else _error("GM 测试存档保存失败")
 
 func _load_test_snapshot() -> Dictionary:
@@ -346,6 +350,9 @@ func _whale_pack(args: Dictionary) -> Dictionary:
 func _whale_throw() -> Dictionary:
 	var result: Dictionary = main.player.throw_cargo()
 	return _ok(result) if bool(result.get("performed", false)) else _error(str(result.get("reason", "没有可投掷的载荷")))
+
+func _whale_demo() -> Dictionary:
+	return _ok(main.prepare_whale_demo())
 
 func _set_vfx(args: Dictionary) -> Dictionary:
 	var parsed: Variant = _read_bool(args, true)

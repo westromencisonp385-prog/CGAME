@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)]
-    [ValidateSet('doctor', 'import', 'check', 'test', 'run', 'capture', 'export-debug', 'launch4.7.2')]
+    [ValidateSet('doctor', 'import', 'check', 'test', 'run', 'capture', 'capture-build', 'export-debug', 'launch4.7.2')]
     [string]$Command = 'doctor',
     [string]$EnginePath,
     [string]$ProjectPath,
@@ -26,6 +26,8 @@ New-Item -ItemType Directory -Force -Path $ArtifactsRoot | Out-Null
 
 $PreferredEngine = [string]$RuntimeConfig.engine.preferred
 $FallbackEngine = [string]$RuntimeConfig.engine.fallback
+$DummyAudioDriver = [string]$RuntimeConfig.capture.audio_driver
+if ([string]::IsNullOrWhiteSpace($DummyAudioDriver)) { $DummyAudioDriver = 'Dummy' }
 
 function Resolve-Engine([bool]$ForcePreferred = $false) {
     if (-not [string]::IsNullOrWhiteSpace($EnginePath)) {
@@ -129,6 +131,24 @@ function Find-ExportTemplate([string]$Version) {
     if (-not (Test-Path -LiteralPath $root)) { return $null }
     $directories = Get-ChildItem -LiteralPath $root -Directory -ErrorAction SilentlyContinue
     return $directories | Where-Object { $_.Name -like "$Version*" } | Select-Object -First 1
+}
+
+function Get-DebugBuildPath {
+    $buildConfig = $RuntimeConfig.PSObject.Properties['build']
+    if ($null -ne $buildConfig -and $null -ne $buildConfig.Value.PSObject.Properties['debug_output']) {
+        return Join-Path $RepoRoot ([string]$buildConfig.Value.debug_output)
+    }
+    return Join-Path (Join-Path $RepoRoot 'builds') 'reclaimer-debug-4.7.2.exe'
+}
+
+function Write-CaptureAudioContract([pscustomobject]$Doc, [string]$Mode) {
+    $Doc | Add-Member -NotePropertyName audio -NotePropertyValue ([ordered]@{
+        mode = $Mode
+        driver_requested = $DummyAudioDriver
+        verified = $false
+        status = 'not_accepted'
+        note = 'graphics-only QA capture; Dummy audio driver avoids local WASAPI startup noise and does not validate sound playback, mix, latency, or device output'
+    }) -Force
 }
 
 function Invoke-Doctor {
@@ -244,7 +264,7 @@ function Invoke-Capture {
         $CaptureDir = Join-Path $ArtifactsRoot ("capture-{0}" -f (Get-RunStamp))
     }
     New-Item -ItemType Directory -Force -Path $CaptureDir | Out-Null
-    $args = @('--path', $ProjectPath, '--script', [string]$RuntimeConfig.capture.script, '--', ("--capture-dir={0}" -f ((Resolve-Path -LiteralPath $CaptureDir).Path)), ("--quit-after={0}" -f $QuitAfter))
+    $args = @('--audio-driver', $DummyAudioDriver, '--path', $ProjectPath, '--script', [string]$RuntimeConfig.capture.script, '--', ("--capture-dir={0}" -f ((Resolve-Path -LiteralPath $CaptureDir).Path)), ("--quit-after={0}" -f $QuitAfter))
     $args += '--gm'
     $result = Invoke-GodotProcess -Executable $engine -Arguments $args -Timeout $TimeoutSeconds -LogPrefix 'capture'
     $combined = "$($result.Stdout)`n$($result.Stderr)"
@@ -270,8 +290,62 @@ function Invoke-Capture {
     $doc.logs = @($result.Log)
     $doc.engine = [ordered]@{ path = $engine; version = $engineVersion.Version }
     $doc.renderer = if ($doc.renderer) { [string]$doc.renderer } else { 'unknown' }
+    Write-CaptureAudioContract $doc 'editor-runtime-graphics-only'
     $doc | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $evidence -Encoding UTF8
     Write-Host "PASS capture: $evidence (Godot $(Format-EngineVersion $engineVersion.Version); log=$($result.Log))"
+    return 0
+}
+
+function Invoke-CaptureBuild {
+    if ($NoGM) {
+        Write-Error 'capture-build requires GM: the debug build QA entry point is exposed through --gm and --qa-capture. Remove -NoGM.'
+        return 1
+    }
+    $engine = Resolve-Engine
+    $engineVersion = Get-EngineVersion $engine
+    if (-not (Test-PreferredEngineVersion $engineVersion.Version)) {
+        Write-Error "capture-build requires Godot 4.7.2 stable for export; resolved $($engineVersion.Version) at $engine. Use the configured preferred engine."
+        return 1
+    }
+    $exportStatus = Invoke-ExportDebug
+    if ($exportStatus -ne 0) { return $exportStatus }
+    $buildPath = Get-DebugBuildPath
+    if (-not (Test-Path -LiteralPath $buildPath)) {
+        Write-Error "capture-build 找不到导出的 debug exe: $buildPath"
+        return 1
+    }
+    if ([string]::IsNullOrWhiteSpace($CaptureDir)) {
+        $CaptureDir = Join-Path $ArtifactsRoot ("capture-build-{0}" -f (Get-RunStamp))
+    }
+    New-Item -ItemType Directory -Force -Path $CaptureDir | Out-Null
+    $resolvedCaptureDir = (Resolve-Path -LiteralPath $CaptureDir).Path
+    $screenshot = Join-Path $resolvedCaptureDir 'debug-build.png'
+    # Exported executables must not receive editor-only --path or --script flags.
+    $args = @('--audio-driver', $DummyAudioDriver, '--', '--gm', ("--qa-capture={0}" -f $screenshot))
+    $result = Invoke-GodotProcess -Executable $buildPath -Arguments $args -Timeout $TimeoutSeconds -LogPrefix 'capture-build'
+    $combined = "$($result.Stdout)`n$($result.Stderr)"
+    Write-Host $combined
+    if ($result.TimedOut -or $result.ExitCode -ne 0 -or (Test-EngineErrors $combined) -or -not $combined.Contains('QA_CAPTURE_PASS:')) {
+        Write-Error "capture-build 失败，日志: $($result.Log)"
+        return 1
+    }
+    if (-not (Test-Path -LiteralPath $screenshot) -or (Get-Item -LiteralPath $screenshot).Length -le 0) {
+        Write-Error "capture-build 未生成非空截图: $screenshot"
+        return 1
+    }
+    $report = [pscustomobject]@{
+        passed = $true
+        mode = 'debug-build-graphics-only'
+        build = $buildPath
+        screenshot = $screenshot
+        logs = @($result.Log)
+        renderer = [string]$RuntimeConfig.renderer
+        commit = ((& git -C $RepoRoot rev-parse --short HEAD 2>$null).Trim())
+    }
+    Write-CaptureAudioContract $report 'debug-build-graphics-only'
+    $reportPath = Join-Path $resolvedCaptureDir 'build-capture-evidence.json'
+    $report | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $reportPath -Encoding UTF8
+    Write-Host "PASS capture-build: $reportPath (build=$buildPath; log=$($result.Log))"
     return 0
 }
 
@@ -296,7 +370,9 @@ function Invoke-ExportDebug {
     }
     $buildDir = Join-Path $RepoRoot 'builds'
     New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
-    $output = Join-Path $buildDir 'reclaimer-debug-4.7.2.exe'
+    $output = Get-DebugBuildPath
+    $buildDir = Split-Path -Parent $output
+    New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
     $args = @('--headless', '--path', $ProjectPath, '--export-debug', $preset, $output)
     $result = Invoke-GodotProcess -Executable $engine -Arguments $args -Timeout $TimeoutSeconds -LogPrefix 'export-debug'
     $combined = "$($result.Stdout)`n$($result.Stderr)"
@@ -317,6 +393,7 @@ $exit = switch ($Command) {
     'run' { Invoke-Run }
     'launch4.7.2' { Invoke-Run }
     'capture' { Invoke-Capture }
+    'capture-build' { Invoke-CaptureBuild }
     'export-debug' { Invoke-ExportDebug }
 }
 exit ([int]$exit)

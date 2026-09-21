@@ -45,9 +45,8 @@ func _build_visual() -> void:
 	visual_root = Node3D.new()
 	visual_root.name = "EnemyVisual"
 	add_child(visual_root)
-	shadow = _add_cylinder("ContactShadow", 0.62 if kind != "heavy" else 0.9, 0.035, Vector3(0, -height_for_kind() * 0.5 + 0.03, 0), Color(0.08, 0.12, 0.12, 0.36))
+	shadow = _add_cylinder("ContactShadow", 0.58 if kind != "heavy" else 0.82, 0.025, Vector3(0, 0.025, 0), Color("#344542"))
 	shadow.scale = Vector3(1.25, 1.0, 0.72)
-	shadow.position.y = 0.025
 	mesh_instance = MeshInstance3D.new()
 	var mesh: Mesh
 	var height := height_for_kind()
@@ -70,6 +69,10 @@ func _build_visual() -> void:
 	mesh_instance.material_override = material
 	visual_root.add_child(mesh_instance)
 	position.y = maxf(position.y, height * 0.5)
+	_add_box("LeftTrack", Vector3(0.18, 0.22, 0.9 if kind != "heavy" else 1.1), Vector3(-0.42 if kind != "heavy" else -0.7, 0.12, 0), Color("#253d48"))
+	_add_box("RightTrack", Vector3(0.18, 0.22, 0.9 if kind != "heavy" else 1.1), Vector3(0.42 if kind != "heavy" else 0.7, 0.12, 0), Color("#253d48"))
+	for side in [-1.0, 1.0]:
+		_add_cylinder("TrackHub", 0.11 if kind != "heavy" else 0.16, 0.08, Vector3(side * (0.52 if kind != "heavy" else 0.82), 0.14, 0), Color("#f2c85c"), Vector3(0, 0, 90))
 	# The enemy's readable behaviour shape is a leaning wedge or a heavy block;
 	# the small warning plate adds comedy without turning it into a face.
 	_add_box("WarningPlate", Vector3(0.75 if kind != "heavy" else 1.0, 0.1, 0.12), Vector3(0, height * 0.62, -0.36), Color("#f2c85c"))
@@ -98,7 +101,7 @@ func _add_box(node_name: String, size: Vector3, at: Vector3, color: Color) -> Me
 	(visual_root if visual_root != null else self).add_child(instance)
 	return instance
 
-func _add_cylinder(node_name: String, radius: float, height: float, at: Vector3, color: Color) -> MeshInstance3D:
+func _add_cylinder(node_name: String, radius: float, height: float, at: Vector3, color: Color, rotation := Vector3.ZERO) -> MeshInstance3D:
 	var instance := MeshInstance3D.new()
 	instance.name = node_name
 	var mesh := CylinderMesh.new()
@@ -108,6 +111,7 @@ func _add_cylinder(node_name: String, radius: float, height: float, at: Vector3,
 	mesh.radial_segments = 8
 	instance.mesh = mesh
 	instance.position = at
+	instance.rotation_degrees = rotation
 	var cap := StandardMaterial3D.new()
 	cap.albedo_color = color
 	cap.roughness = 0.7
@@ -145,7 +149,6 @@ func pack_into_whale() -> bool:
 	packed = true
 	visible = false
 	process_mode = Node.PROCESS_MODE_DISABLED
-	action_effect.emit("whale_pack", global_position, global_position)
 	return true
 
 func release_from_whale() -> bool:
@@ -155,7 +158,6 @@ func release_from_whale() -> bool:
 	pack_used = true
 	visible = not dead
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	action_effect.emit("whale_release", global_position, global_position)
 	return true
 
 func apply_wet(duration: float = 4.0) -> void:
@@ -169,7 +171,7 @@ func is_wet() -> bool:
 	return wet_time > 0.0
 
 func try_engineering_hit(origin: Vector3, direction: Vector3, radius: float, reach: float, power: float, source: Dictionary = {}) -> Dictionary:
-	if dead:
+	if dead or packed:
 		return {"hit": false, "dead": true, "wet_before": false, "target_id": enemy_id}
 	var planar := global_position - origin
 	planar.y = 0.0
@@ -192,7 +194,7 @@ func try_engineering_hit(origin: Vector3, direction: Vector3, radius: float, rea
 	return {"hit": true, "dead": dead, "wet_before": was_wet, "chain_eligible": was_wet and not dead, "target_id": enemy_id}
 
 func take_damage(amount: float) -> void:
-	if dead:
+	if dead or packed:
 		return
 	current_health = maxf(0.0, current_health - maxf(0.0, amount))
 	if current_health <= 0.0:
@@ -214,6 +216,11 @@ func get_snapshot() -> Dictionary:
 
 func validate_snapshot(data: Dictionary) -> bool:
 	if int(data.get("schema", 0)) != 1 or str(data.get("enemy_id", "")) != enemy_id or str(data.get("kind", "")) != kind:
+		return false
+	var saved_packed := bool(data.get("packed", false))
+	var saved_dead := bool(data.get("dead", false))
+	var saved_pack_used := bool(data.get("pack_used", false))
+	if saved_packed and (saved_dead or saved_pack_used or kind != "light"):
 		return false
 	var p = data.get("position", null)
 	var hp := float(data.get("current_health", -1.0))
