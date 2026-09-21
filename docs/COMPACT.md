@@ -17,4 +17,3 @@
 - 视觉制作：先读art-direction再读production-guide。Image2.5目标生成位图，Blender/程序几何做3D，Godot做原生材质/动画/特效/UI；先无特效实机读图，再叠演出。
 - 本轮实现：F-05最小鲸口打包、P-03/P-04/P-05/P-06/P-11 G1样板、F-15 CLI合同由并行agent开发；待集成验证和双轴review。
 - 不自动关闭旧wayfinder/tickets，不把规格条目视作已完成；旧PDF及月份/人日预算为历史立项估算。
-

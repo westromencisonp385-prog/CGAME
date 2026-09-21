@@ -397,5 +397,3 @@ $exit = switch ($Command) {
     'export-debug' { Invoke-ExportDebug }
 }
 exit ([int]$exit)
-
-
