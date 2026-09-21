@@ -1,8 +1,12 @@
 class_name ModuleVisual
 extends Node3D
+
+const WHALE_MODEL := preload("res://assets/models/reclaimer_whale_jaw.glb")
+
 var moving_jaws: Array[Node3D] = []
 var wheel: Node3D
 var elapsed := 0.0
+var imported_whale := false
 
 func _process(delta: float) -> void:
 	elapsed += delta
@@ -47,6 +51,8 @@ func _build(definition: ModuleDefinition, stage: int, ghost: bool) -> void:
 				_add_box("WideBucketPreview" if ghost else "WideBucketSideFins", Vector3(width, 0.38, 0.62), Vector3(0, 0.16, -1.75), material)
 				_add_box("WideLip", Vector3(width * 1.05, 0.12, 0.16), Vector3(0, -0.08, -2.26), highlight)
 			if stage >= 2:
+				if not ghost and _attach_whale_model():
+					return
 				# G1 whale mouth: keep a dark negative space between two jaws.
 				# The mouth is presentation-only; the core hit shape remains unchanged.
 				_add_box("MouthCavity", Vector3(2.35, 0.16, 1.05), Vector3(0, 0.5, -2.02), dark)
@@ -120,3 +126,31 @@ func _add_torus(node_name: String, inner_radius: float, outer_radius: float, at:
 	instance.material_override = material
 	add_child(instance)
 	return instance
+
+func _attach_whale_model() -> bool:
+	var model := WHALE_MODEL.instantiate()
+	if model == null:
+		return false
+	model.name = "WhaleJawGLB_P05"
+	# The Blender contract uses +Y as forward and +Z as up; gameplay points
+	# down -Z with +Y as up, so rotate the authored asset around X.
+	model.rotation_degrees.x = -90.0
+	add_child(model)
+	imported_whale = true
+
+	# The GLB is a complete inspection asset. Keep only the detachable jaw
+	# module here because the live vehicle chassis remains authoritative.
+	var base := model.get_node_or_null("Reclaimer_BaseVehicle_P04")
+	if base != null:
+		base.visible = false
+	var jaw_root := model.get_node_or_null("Reclaimer_WhaleJawModule_P05")
+	if jaw_root == null:
+		return true
+	var upper := jaw_root.get_node_or_null("Jaw_Upper_Stage02")
+	if upper != null:
+		moving_jaws.append(upper)
+		upper.rotation.x = -0.22
+	var lower := jaw_root.get_node_or_null("Jaw_Lower_Stage02")
+	if lower != null:
+		lower.rotation.x = 0.08
+	return true
