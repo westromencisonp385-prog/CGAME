@@ -33,7 +33,7 @@ func setup(vehicle: Node3D, module_definitions: Dictionary) -> void:
 	add_child(visual_root)
 	preview_root = Node3D.new()
 	preview_root.name = "LoadoutGhostPreview"
-	preview_root.position = Vector3(0, 0, 5)
+	preview_root.position = Vector3(-4.5, 0, -0.5)
 	add_child(preview_root)
 	apply_visuals()
 
@@ -282,9 +282,10 @@ func _apply_preview_visual() -> void:
 		ghost_body.add_child(ghost_module)
 	var label := Label3D.new()
 	label.name = "PreviewStats"
-	label.text = get_preview_summary()
-	label.font_size = 32
-	label.outline_size = 8
+	label.text = "预览 · " + str(definitions[preview_id].display_name)
+	label.font_size = 40
+	label.pixel_size = 0.016
+	label.outline_size = 4
 	label.position = Vector3(0, 2.8, 0)
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	preview_root.add_child(label)

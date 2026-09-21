@@ -12,6 +12,7 @@ pwsh -NoProfile -File .\tools\godot.ps1 check
 pwsh -NoProfile -File .\tools\godot.ps1 test
 pwsh -NoProfile -File .\tools\godot.ps1 capture -CaptureDir "$pwd\artifacts\qa\capture-local"
 pwsh -NoProfile -File .\tools\godot.ps1 export-debug
+pwsh -NoProfile -File .\tools\godot.ps1 capture-build -CaptureDir "$pwd\artifacts\qa\capture-build-local"
 pwsh -NoProfile -File .\tools\godot.ps1 launch4.7.2
 pwsh -NoProfile -File .\tools\test-godot-cli-contract.ps1
 ```
@@ -23,8 +24,9 @@ pwsh -NoProfile -File .\tools\test-godot-cli-contract.ps1
 - `doctor` 强制检查 4.7.2 的绝对路径、版本、项目 `config/features=4.7`、Mobile renderer、截图脚本、回退引擎和导出模板目录。它不会读取 PATH，也不会自动安装另一个版本。
 - `import` / `check` 使用 `--headless --import` 做资源扫描和脚本/场景导入验证。它们只报告 Godot 进程自己的退出码和日志，并在成功行中打印实际解析出的版本；因此可显式传入 4.6.3 做兼容性诊断。
 - `test` 对 `game/tests/*.gd` 逐个启动 Godot。每个测试必须在 `tools/godot-runtime.json` 的 `test_markers` 中登记显式输出标记，并同时满足：进程退出码为 0、对应标记出现、输出中没有 `SCRIPT ERROR` 或 `ERROR`。未登记的测试会直接失败，不能用普通的 `PASS` 文本蒙混通过。
-- `capture` **必须启用 GM 且禁止 headless**，直接运行 Mobile/Vulkan 窗口并从真实 root viewport 取得图像；没有 GPU/窗口时失败。传入 `-NoGM` 会在启动前明确失败，因为七个场景都通过公开 `main.gm.execute(command,args)` 驱动。`--quit-after` 的单位是渲染迭代/帧，不是秒，例如 `-QuitAfter 240`。截图脚本会加载真实 `res://scenes/main.tscn`，不创建替代场景或 dummy screenshot。
+- `capture` **必须启用 GM 且禁止 headless**，直接运行 Mobile/Vulkan 窗口并从真实 root viewport 取得图像；没有 GPU/窗口时失败。传入 `-NoGM` 会在启动前明确失败，因为七个场景都通过公开 `main.gm.execute(command,args)` 驱动。runner 会显式传 `--audio-driver Dummy`，避免本机 WASAPI 设备状态污染图形 QA；报告中的 `audio.verified=false` 表示声音未验收。`--quit-after` 的单位是渲染迭代/帧，不是秒，例如 `-QuitAfter 240`。截图脚本会加载真实 `res://scenes/main.tscn`，不创建替代场景或 dummy screenshot。
 - `export-debug` 检查调用的引擎确实是完整的 4.7.2 版本前缀（不会把 4.7.20 当成 4.7.2）、模板和 `game/export_presets.cfg` 后执行 Windows Desktop debug 导出。输出位于 `builds/reclaimer-debug-4.7.2.exe`，模板缺失时显示官方 URL 并失败，不会误用其他版本。正式 `capture` 与 `export-debug` 都拒绝显式传入 4.6.3。
+- `capture-build` 先执行同一套 debug 导出，再启动导出的 exe 做图形截图。导出 exe 只接收 `--audio-driver Dummy -- --gm --qa-capture=<png>`，禁止使用编辑器专属 `--path` 或 `--script`。它写入 `build-capture-evidence.json` 和一张真实窗口截图；报告同样标记 `audio.verified=false`，不能当作声音通过。
 
 `test-godot-cli-contract.ps1` 建立临时 Godot fixture，验证未知测试缺少 marker 时失败、`capture -NoGM` 早拒绝、`check` 可以记录显式 4.6.3 诊断，以及 4.6.3 不能用于正式截图或导出。fixture 会在结束时删除，不写入项目。
 
@@ -34,11 +36,12 @@ pwsh -NoProfile -File .\tools\test-godot-cli-contract.ps1
 
 1. `clean`：新合同的真实 HUD、车辆、河岸和目标。
 2. `built`：GM `preset=magnet` 后切到结构阶段 2，验证挂点和车辆视觉升级。
-3. `preview`：打开改装台并以公开 `preview` 命令显示水炮幽灵预览。
-4. `gm`：通过公开 `panel open=true` 打开 GM 测试工作台，再读取 `status`；面板必须真实可见。
-5. `repair`：GM `repair` 启动水泵，验证世界修复可见状态。
-6. `effects`：GM `vfx enabled=true`，验证 Godot 原生特效开关。
-7. `restored`：GM `save` → `preset=ram` → `load`，验证装配和世界恢复。
+3. `whale`：公开 `whale_demo` 后用正常主作业打包轻型目标，验证第一条整蛊动作的实机表现。
+4. `preview`：打开改装台并以公开 `preview` 命令显示水炮幽灵预览。
+5. `gm`：通过公开 `panel open=true` 打开 GM 测试工作台，再读取 `status`；面板必须真实可见。
+6. `repair`：GM `repair` 启动水泵，验证世界修复可见状态。
+7. `effects`：GM `vfx enabled=true`，验证 Godot 原生特效开关。
+8. `restored`：GM `save` → `preset=ram` → `load`，验证装配和世界恢复。
 
 每个已捕获场景都必须生成非零尺寸 PNG；缺少命令、空 viewport 或无法保存图片会把该场景标为 `skipped/failed` 并令总体验证失败。截图目录同时写 `runtime-evidence.json`，字段包括 `engine`、`commit`、`renderer`、`gpu`、`scenario`、`frames`、`screenshots`、`logs`、`passed`。runner 在进程结束后补入当前 Git 短 commit 和 runner log。
 
@@ -48,7 +51,7 @@ pwsh -NoProfile -File .\tools\test-godot-cli-contract.ps1
 artifacts/qa/capture-final1/runtime-evidence.json
 GPU: NVIDIA GeForce RTX 4070 Ti SUPER
 Vulkan 1.4.351 / Forward Mobile
-scenarios: clean, built, preview, gm, repair, effects, restored
+scenarios: clean, built, whale, preview, gm, repair, effects, restored
 passed: true
 ```
 

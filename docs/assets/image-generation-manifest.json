@@ -1,0 +1,69 @@
+{
+  "manifest_version": 1,
+  "project": "wanderberg",
+  "purpose": "Original image-generation assets for the Godot M0 excavator prototype. These assets are inspired by the extracted reference package's design language at a systems level, but are newly generated and do not copy source textures or meshes.",
+  "model_request": "image2.5",
+  "generation_provider": "built-in image_gen",
+  "generation_version": "undisclosed by built-in tool",
+  "generated_at_utc": "2026-09-20T16:08:05Z",
+  "assets": [
+    {
+      "id": "dust-puff",
+      "path": "game/assets/generated/dust-puff.png",
+      "source_generated_path": "C:/Users/Administrator/.codex/generated_images/01a0bf91-8e3f-77e1-b030-1148ac2e6bc8/exec-c52d810f-219c-4e8f-b915-0cdac444a55f.png",
+      "kind": "VFX sprite",
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "format": "PNG RGBA",
+      "sha256": "93721c8e7754e30887b2242a82a578965fa1446c1ae59c4bd869647cc7a5f8e6",
+      "alpha_validation": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "corner_alpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "alpha_bbox": [
+          299,
+          295,
+          711,
+          721
+        ],
+        "outer_quarter_alpha": 0,
+        "transparent_pixel_ratio": 0.88363,
+        "result": "pass"
+      },
+      "resize_note": "Built-in output was 1254x1254; ffmpeg Lanczos downscale plus an alpha threshold below 8 produced the required 1024x1024 project file. The resulting visible alpha bounding box is [299,295,711,721], leaving over 25% transparent margin on each side.",
+      "prompt": "Use case: stylized-concept. Asset type: 2D VFX sprite for a Godot 4 top-down excavator game. Generate one soft stylized industrial dust-puff / sand-cloud sprite viewed from above, with overlapping soft white and pale gray-beige dust lobes, a gently curled center swirl, and subtle wispy edges. No scene, ground, cast shadow, or text. Genuine transparent alpha, the visible puff contained inside the central 50% of the canvas with at least 25% transparent margin on every side, readable at small size, suitable for alpha-blended or additive particles. Avoid opaque background, checkerboard, black outline, explosion, debris, vehicle, character, typography, logo, or watermark. Godot will tint it at runtime."
+    },
+    {
+      "id": "magnet-build-card",
+      "path": "game/assets/generated/magnet-build-card.png",
+      "source_generated_path": "C:/Users/Administrator/.codex/generated_images/01a0bf91-8e3f-77e1-b030-1148ac2e6bc8/exec-57c5b853-b1e5-4fda-b527-567a8601d2ff.png",
+      "kind": "upgrade/loadout UI illustration",
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "format": "PNG RGB",
+      "sha256": "72f2e552baa645b1f7b27175666c4c7e5ef253067d7c1ea3a1169d56ccaf1c57b",
+      "alpha_validation": {
+        "has_alpha": false,
+        "result": "expected opaque card artwork"
+      },
+      "resize_note": "Built-in output was 1254x1254; ffmpeg Lanczos downscale produced the required 1024x1024 project file.",
+      "prompt": "Use case: ui-mockup. Asset type: square concept illustration for a Godot 4 upgrade/loadout workshop card. Create an original exaggerated fantasy construction machine called a magnetic storm whale jaw: a huge industrial jaw attachment with two oversized folding jaws, hinge pivots, armor plates, salvage hooks, modular brackets, and a glowing magnetic core. Three-quarter isometric view, centered with generous margin, jaw opening facing slightly toward camera. Clean deep dark-blue gradient background, electric purple magnetic arcs and field lines, engineering yellow and dark navy-gray steel, charcoal and muted brass, worn industrial bevels and bolts. Premium stylized game concept art. No text, logo, watermark, UI frame, gameplay screenshot, human, ordinary excavator copy, or copyrighted character."
+    }
+  ],
+  "usage_guidance": {
+    "dust_puff": "Import as a Sprite3D/GPUParticles3D texture. Use CanvasItem or particle shader for runtime tint, additive/alpha blend, UV flipbook, radial scale, and fade; do not bake tint into the source asset.",
+    "magnet_build_card": "Use as a workshop/loadout card illustration. Keep the image as a 2D UI asset; the playable magnet jaw should be built as an independent Godot scene with modular meshes and VFX rather than treating this illustration as a 3D mesh."
+  }
+}

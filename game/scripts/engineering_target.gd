@@ -45,11 +45,16 @@ func _build_visual() -> void:
 		cylinder.height = 1.5
 		cylinder.top_radius = 0.7
 		cylinder.bottom_radius = 0.8
+		cylinder.radial_segments = 8
 		mesh = cylinder
+	elif target_kind == "hard":
+		var slab := BoxMesh.new()
+		slab.size = Vector3(1.5, 1.45, 1.5)
+		mesh = slab
 	else:
-		var box := BoxMesh.new()
-		box.size = Vector3(1.4, 1.2, 1.4)
-		mesh = box
+		var crate := BoxMesh.new()
+		crate.size = Vector3(1.4, 1.2, 1.4)
+		mesh = crate
 	mesh_instance.mesh = mesh
 	base_material = StandardMaterial3D.new()
 	base_material.roughness = 0.8
@@ -57,6 +62,20 @@ func _build_visual() -> void:
 	mesh_instance.material_override = base_material
 	add_child(mesh_instance)
 	position.y = maxf(position.y, 0.75 if target_kind == "repair" else 0.6)
+	if target_kind == "repair":
+		_add_box("PumpCollar", Vector3(1.45, 0.16, 1.45), Vector3(0, 0.78, 0), Color("#eee3c7"))
+		_add_cylinder("PumpCap", 0.48, 0.18, Vector3(0, 1.58, 0), Color("#58b7ac"))
+		_add_cylinder("PumpWheel", 0.7, 0.12, Vector3(0, 1.08, -0.72), Color("#e9ad38"), Vector3(90, 0, 0))
+		_add_cylinder("PumpHub", 0.18, 0.15, Vector3(0, 1.08, -0.8), Color("#253d48"), Vector3(90, 0, 0))
+		_add_box("PumpPipe", Vector3(0.22, 0.24, 1.2), Vector3(0.58, 1.08, -0.12), Color("#eee3c7"))
+		_add_box("PumpPipeCap", Vector3(0.42, 0.18, 0.22), Vector3(0.58, 1.55, -0.12), Color("#df604e"))
+		_add_box("PumpLegL", Vector3(0.18, 0.5, 0.18), Vector3(-0.5, 0.35, 0.42), Color("#253d48"))
+		_add_box("PumpLegR", Vector3(0.18, 0.5, 0.18), Vector3(0.5, 0.35, 0.42), Color("#253d48"))
+	elif target_kind == "light":
+		_add_box("CrateStrap", Vector3(1.52, 0.12, 0.16), Vector3(0, 0.36, -0.72), Color("#eee3c7"))
+		_add_box("CrateStrapSide", Vector3(0.16, 0.12, 1.52), Vector3(-0.72, 0.36, 0), Color("#eee3c7"))
+	elif target_kind == "hard":
+		_add_box("BarrierStripe", Vector3(1.58, 0.18, 0.18), Vector3(0, 0.58, -0.78), Color("#df604e"))
 	if target_kind != "light":
 		collision_body = StaticBody3D.new()
 		var collider := CollisionShape3D.new()
@@ -72,6 +91,38 @@ func _base_color() -> Color:
 		"light": return Color("#d2a04e")
 		"repair": return Color("#2f8390")
 		_: return Color("#7a6552")
+
+func _add_box(node_name: String, size: Vector3, at: Vector3, color: Color) -> MeshInstance3D:
+	var instance := MeshInstance3D.new()
+	instance.name = node_name
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	instance.mesh = mesh
+	instance.position = at
+	var accent := StandardMaterial3D.new()
+	accent.albedo_color = color
+	accent.roughness = 0.75
+	instance.material_override = accent
+	add_child(instance)
+	return instance
+
+func _add_cylinder(node_name: String, radius: float, height: float, at: Vector3, color: Color, rotation := Vector3.ZERO) -> MeshInstance3D:
+	var instance := MeshInstance3D.new()
+	instance.name = node_name
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = radius
+	mesh.bottom_radius = radius
+	mesh.height = height
+	mesh.radial_segments = 8
+	instance.mesh = mesh
+	instance.position = at
+	instance.rotation_degrees = rotation
+	var accent := StandardMaterial3D.new()
+	accent.albedo_color = color
+	accent.roughness = 0.75
+	instance.material_override = accent
+	add_child(instance)
+	return instance
 
 func _process(delta: float) -> void:
 	if wet_time > 0.0:

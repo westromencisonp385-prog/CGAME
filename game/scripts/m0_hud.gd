@@ -37,9 +37,9 @@ func refresh(delta: float) -> void:
 	var p = main.player
 	var a = main.assembler
 	target_slot = main.target_slot
-	status_label.text = "耐久 %03d    载荷 %d/%d    热量 %02d" % [p.health, p.cargo, p.max_cargo, p.heat]
-	mission_label.text = "01 / 复苏河岸\n回收 %d / 3    威胁 %d / 5\n水泵：%s   |   %02d:%02d" % [main.collected, main.defeated, "已启动" if main.repair_done else "待修复", int(main.elapsed) / 60, int(main.elapsed) % 60]
-	hint_label.text = "已暂停 · Esc / Menu 继续" if main.manual_pause else "WASD / 左摇杆 驾驶 · 鼠标 / 右摇杆 瞄准\n左键 / RT 作业 · 右键 / LT 投掷 · Shift / LB 冲刺\nR / A 修复 · B / Y 改装 · F5 保存 · F9 读取 · F6 重试"
+	status_label.text = "耐久 %03d  载荷 %d/%d  热量 %02d" % [p.health, p.cargo, p.max_cargo, p.heat]
+	mission_label.text = "01 复苏河岸\n回收 %d/3  威胁 %d/5\n水泵 %s  %02d:%02d" % [main.collected, main.defeated, "已启动" if main.repair_done else "待修复", int(main.elapsed) / 60, int(main.elapsed) % 60]
+	hint_label.text = "已暂停 · Esc / Menu 继续" if main.manual_pause else "WASD/左摇杆 驾驶 · 鼠标/右摇杆 瞄准 · 左键/RT 作业 · 右键/LT 投掷 · Shift/LB 冲刺 · R/A 修复 · B/Y 改装"
 	loadout_label.text = "核心  %s\n挂点 A  %s\n挂点 B  %s\n动力  %s\n结构阶段  %d" % [_display(a.core_id), _display(a.active_ids[0]), _display(a.active_ids[1]), _display(a.drive_id), a.stage]
 	preview_label.text = a.get_preview_summary() if not a.preview_id.is_empty() else "选择一个模块查看幽灵预览。\n确认前不会改变实装、资源与冷却。"
 	confirm_button.disabled = a.preview_id.is_empty()
@@ -83,17 +83,18 @@ func _build() -> void:
 	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ui)
-	var top := _panel(ui, Vector2(24, 22), Vector2(500, 98))
-	_text(top, "RECLAIMER  /  回收者", 23, Color("#f4c96c"))
-	_text(top, "幻想工程车 · 河岸工单 01", 14, Color("#a4bcc4"))
-	status_label = _text(top, "", 17, Color("#edf1e9"))
-	var objective := _panel(ui, Vector2(960, 22), Vector2(296, 112))
-	mission_label = _text(objective, "", 17, Color("#b9ebd0"))
-	var bottom := _panel(ui, Vector2(24, 596), Vector2(760, 102))
+	var top := _panel(ui, Vector2(20, 18), Vector2(350, 96))
+	_text(top, "RECLAIMER / 回收者", 18, Color("#f4c96c"))
+	_text(top, "工单 01 · 抽水站恢复 / 施工中", 12, Color("#a4bcc4"))
+	status_label = _text(top, "", 14, Color("#edf1e9"))
+	var objective := _panel(ui, Vector2(1010, 18), Vector2(246, 118))
+	_text(objective, "现场工单", 13, Color("#f4c96c"))
+	mission_label = _text(objective, "", 15, Color("#b9ebd0"))
+	var bottom := _panel(ui, Vector2(20, 638), Vector2(940, 60))
 	hint_panel = bottom.get_parent()
-	hint_label = _text(bottom, "", 14, Color("#afc5ca"))
-	feedback_label = _text(bottom, "", 15, Color("#f4c96c"))
-	controls_box = _panel(ui, Vector2(1030, 560), Vector2(226, 138))
+	hint_label = _text(bottom, "", 12, Color("#afc5ca"))
+	feedback_label = _text(bottom, "", 13, Color("#f4c96c"))
+	controls_box = _panel(ui, Vector2(1010, 560), Vector2(246, 132))
 	_button(controls_box, "改装 / B / Y", func(): main.toggle_garage())
 	_button(controls_box, "暂停 / Esc", func(): main.toggle_pause())
 	_button(controls_box, "读取检查点 / F9", func(): main.load_snapshot())
@@ -207,9 +208,9 @@ func _panel_container(parent: Control, at: Vector2, extent: Vector2) -> PanelCon
 func _style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.035, 0.075, 0.09, 0.78)
-	style.set_corner_radius_all(8)
+	style.set_corner_radius_all(6)
 	style.set_border_width_all(2)
-	style.border_color = Color("#49636b")
+	style.border_color = Color("#657d7e")
 	style.shadow_color = Color(0, 0, 0, 0.28)
 	style.shadow_size = 5
 	style.content_margin_left = 16
@@ -223,7 +224,7 @@ func _button_style(fill: Color, border: Color) -> StyleBoxFlat:
 	style.bg_color = fill
 	style.border_color = border
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(5)
+	style.set_corner_radius_all(4)
 	style.content_margin_left = 10
 	style.content_margin_right = 10
 	style.content_margin_top = 5

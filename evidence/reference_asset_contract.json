@@ -1,0 +1,1364 @@
+{
+  "reference_export": "F:\\WanderburgAssetRipperExport\\ExportedProject",
+  "scope": "Small structural evidence for original asset production; no reference art included.",
+  "prefabs": [
+    {
+      "prefab": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\GameObject\\Module2_FrontCannon.prefab",
+      "sha256": "357746b4837b06d8375492ead4a654390dfcc93984df6d40faff4108d6289d89",
+      "game_object_count": 175,
+      "mono_behaviour_reference_count": 95,
+      "selected_nodes": [
+        {
+          "name": "Skin",
+          "line": 136,
+          "active_in_export": true
+        },
+        {
+          "name": "S0_Elements",
+          "line": 153,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint_Passive",
+          "line": 170,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint_Passive",
+          "line": 187,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint_Active",
+          "line": 204,
+          "active_in_export": true
+        },
+        {
+          "name": "Skin_Elements",
+          "line": 220,
+          "active_in_export": true
+        },
+        {
+          "name": "FrontCannonT0",
+          "line": 236,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement (2)",
+          "line": 289,
+          "active_in_export": true
+        },
+        {
+          "name": "T5",
+          "line": 417,
+          "active_in_export": false
+        },
+        {
+          "name": "T4",
+          "line": 453,
+          "active_in_export": true
+        },
+        {
+          "name": "T4",
+          "line": 470,
+          "active_in_export": false
+        },
+        {
+          "name": "T4",
+          "line": 506,
+          "active_in_export": true
+        },
+        {
+          "name": "T3 (1)",
+          "line": 523,
+          "active_in_export": false
+        },
+        {
+          "name": "T3",
+          "line": 559,
+          "active_in_export": true
+        },
+        {
+          "name": "T2 (1)",
+          "line": 576,
+          "active_in_export": false
+        },
+        {
+          "name": "T2",
+          "line": 612,
+          "active_in_export": true
+        },
+        {
+          "name": "T1 (1)",
+          "line": 629,
+          "active_in_export": false
+        },
+        {
+          "name": "T1",
+          "line": 665,
+          "active_in_export": true
+        },
+        {
+          "name": "T0 (1)",
+          "line": 682,
+          "active_in_export": true
+        },
+        {
+          "name": "T0",
+          "line": 718,
+          "active_in_export": true
+        },
+        {
+          "name": "T0",
+          "line": 786,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.135",
+          "line": 805,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.038",
+          "line": 824,
+          "active_in_export": false
+        },
+        {
+          "name": "T3",
+          "line": 843,
+          "active_in_export": false
+        },
+        {
+          "name": "T4",
+          "line": 862,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 881,
+          "active_in_export": false
+        },
+        {
+          "name": "InstantiationPoint_Passive",
+          "line": 915,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint_Passive",
+          "line": 932,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint_Active",
+          "line": 949,
+          "active_in_export": true
+        },
+        {
+          "name": "Skin_Elements",
+          "line": 965,
+          "active_in_export": true
+        },
+        {
+          "name": "T0",
+          "line": 1033,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.135",
+          "line": 1052,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.038",
+          "line": 1071,
+          "active_in_export": false
+        },
+        {
+          "name": "T3",
+          "line": 1090,
+          "active_in_export": false
+        },
+        {
+          "name": "T4",
+          "line": 1109,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 1128,
+          "active_in_export": false
+        },
+        {
+          "name": "Generic_CooldownElement (2)",
+          "line": 1181,
+          "active_in_export": true
+        },
+        {
+          "name": "T5",
+          "line": 1309,
+          "active_in_export": false
+        },
+        {
+          "name": "T4",
+          "line": 1345,
+          "active_in_export": true
+        },
+        {
+          "name": "T4",
+          "line": 1362,
+          "active_in_export": false
+        },
+        {
+          "name": "T4",
+          "line": 1398,
+          "active_in_export": true
+        },
+        {
+          "name": "T3 (1)",
+          "line": 1415,
+          "active_in_export": false
+        },
+        {
+          "name": "T3",
+          "line": 1451,
+          "active_in_export": true
+        },
+        {
+          "name": "T2 (1)",
+          "line": 1468,
+          "active_in_export": false
+        },
+        {
+          "name": "T2",
+          "line": 1504,
+          "active_in_export": true
+        },
+        {
+          "name": "T1 (1)",
+          "line": 1521,
+          "active_in_export": false
+        },
+        {
+          "name": "T1",
+          "line": 1557,
+          "active_in_export": true
+        },
+        {
+          "name": "T0 (1)",
+          "line": 1574,
+          "active_in_export": true
+        },
+        {
+          "name": "T0",
+          "line": 1610,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint_Passive",
+          "line": 1644,
+          "active_in_export": true
+        }
+      ],
+      "confidence": "observed-serialized-structure",
+      "not_proven": "runtime activation order, actual formulas, complete playable content count"
+    },
+    {
+      "prefab": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\GameObject\\Module2_BackDash.prefab",
+      "sha256": "d7607c07ce6f80376aff53196fb8b3372ae23d294d219894fbf6ff01fe8aec2c",
+      "game_object_count": 209,
+      "mono_behaviour_reference_count": 171,
+      "selected_nodes": [
+        {
+          "name": "Skin",
+          "line": 34,
+          "active_in_export": true
+        },
+        {
+          "name": "S0_Elements",
+          "line": 51,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint",
+          "line": 68,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint (1)",
+          "line": 85,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Dash_MuzzleFlash",
+          "line": 121,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Dash_Sparks",
+          "line": 140,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Dash_MuzzleFlash (1)",
+          "line": 159,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Dash_Sparks (1)",
+          "line": 178,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Dash_Blast",
+          "line": 196,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_PassiveObj",
+          "line": 213,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_ChimneyFire",
+          "line": 232,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (1)",
+          "line": 251,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (2)",
+          "line": 270,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (3)",
+          "line": 289,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ActiveObj",
+          "line": 306,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_ChimneyFire",
+          "line": 325,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (1)",
+          "line": 344,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (2)",
+          "line": 363,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (3)",
+          "line": 382,
+          "active_in_export": true
+        },
+        {
+          "name": "Cooldown_Elements",
+          "line": 398,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement",
+          "line": 415,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement (1)",
+          "line": 527,
+          "active_in_export": true
+        },
+        {
+          "name": "Upgrade 1",
+          "line": 656,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.109",
+          "line": 675,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.018",
+          "line": 694,
+          "active_in_export": false
+        },
+        {
+          "name": "T3.018",
+          "line": 713,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.019",
+          "line": 732,
+          "active_in_export": false
+        },
+        {
+          "name": "T5.007",
+          "line": 751,
+          "active_in_export": false
+        },
+        {
+          "name": "Upgrade 2",
+          "line": 767,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.107",
+          "line": 786,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.016",
+          "line": 805,
+          "active_in_export": false
+        },
+        {
+          "name": "T3.016",
+          "line": 824,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.017",
+          "line": 843,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 862,
+          "active_in_export": false
+        },
+        {
+          "name": "Generic_CooldownElement",
+          "line": 896,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement (1)",
+          "line": 1008,
+          "active_in_export": true
+        },
+        {
+          "name": "Upgrade 1",
+          "line": 1137,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.110",
+          "line": 1156,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.019",
+          "line": 1175,
+          "active_in_export": false
+        },
+        {
+          "name": "T3.019",
+          "line": 1194,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.021",
+          "line": 1213,
+          "active_in_export": false
+        },
+        {
+          "name": "T5.008",
+          "line": 1232,
+          "active_in_export": false
+        },
+        {
+          "name": "Upgrade 2",
+          "line": 1248,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.111",
+          "line": 1267,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.020",
+          "line": 1286,
+          "active_in_export": false
+        },
+        {
+          "name": "T3.020",
+          "line": 1305,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.022",
+          "line": 1324,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 1343,
+          "active_in_export": false
+        },
+        {
+          "name": "InstantiationPoint",
+          "line": 1360,
+          "active_in_export": true
+        },
+        {
+          "name": "InstantiationPoint (1)",
+          "line": 1377,
+          "active_in_export": true
+        }
+      ],
+      "confidence": "observed-serialized-structure",
+      "not_proven": "runtime activation order, actual formulas, complete playable content count"
+    },
+    {
+      "prefab": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\GameObject\\Module2_TopMortar.prefab",
+      "sha256": "41a7e7c7a8ca8c9b148b186b0543e244c70338ec0b43a9cc00dd8ddb41be360b",
+      "game_object_count": 315,
+      "mono_behaviour_reference_count": 251,
+      "selected_nodes": [
+        {
+          "name": "Skin",
+          "line": 32,
+          "active_in_export": true
+        },
+        {
+          "name": "S0_Elements",
+          "line": 49,
+          "active_in_export": true
+        },
+        {
+          "name": "CoolDown_Elements (1)",
+          "line": 65,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement",
+          "line": 82,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement (1)",
+          "line": 194,
+          "active_in_export": true
+        },
+        {
+          "name": "T0 Base Mortar (1)",
+          "line": 305,
+          "active_in_export": true
+        },
+        {
+          "name": "Upgrades",
+          "line": 339,
+          "active_in_export": true
+        },
+        {
+          "name": "T0.004",
+          "line": 358,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.097",
+          "line": 377,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.006",
+          "line": 396,
+          "active_in_export": false
+        },
+        {
+          "name": "T3.006",
+          "line": 415,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.006",
+          "line": 434,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 453,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT0",
+          "line": 503,
+          "active_in_export": true
+        },
+        {
+          "name": "TopCannonSoldierT1",
+          "line": 558,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT2",
+          "line": 613,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT3",
+          "line": 668,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT4",
+          "line": 723,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT5",
+          "line": 778,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT0",
+          "line": 973,
+          "active_in_export": true
+        },
+        {
+          "name": "TopCannonSoldierT1",
+          "line": 1028,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT2",
+          "line": 1083,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT3",
+          "line": 1138,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT4",
+          "line": 1193,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT5",
+          "line": 1248,
+          "active_in_export": false
+        },
+        {
+          "name": "T1 Base Mortar",
+          "line": 1302,
+          "active_in_export": true
+        },
+        {
+          "name": "Upgrades",
+          "line": 1336,
+          "active_in_export": true
+        },
+        {
+          "name": "T0.005",
+          "line": 1355,
+          "active_in_export": true
+        },
+        {
+          "name": "T1.099",
+          "line": 1374,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.008",
+          "line": 1393,
+          "active_in_export": false
+        },
+        {
+          "name": "T3.008",
+          "line": 1412,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.008",
+          "line": 1431,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 1450,
+          "active_in_export": false
+        },
+        {
+          "name": "CoolDown_Elements (1)",
+          "line": 1556,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement",
+          "line": 1573,
+          "active_in_export": true
+        },
+        {
+          "name": "Generic_CooldownElement (1)",
+          "line": 1685,
+          "active_in_export": true
+        },
+        {
+          "name": "T2 Base Mortar",
+          "line": 1851,
+          "active_in_export": true
+        },
+        {
+          "name": "Upgrades",
+          "line": 1885,
+          "active_in_export": true
+        },
+        {
+          "name": "T0.011",
+          "line": 1904,
+          "active_in_export": false
+        },
+        {
+          "name": "T1.103",
+          "line": 1923,
+          "active_in_export": false
+        },
+        {
+          "name": "T2.012",
+          "line": 1942,
+          "active_in_export": true
+        },
+        {
+          "name": "T3.012",
+          "line": 1961,
+          "active_in_export": false
+        },
+        {
+          "name": "T4.012",
+          "line": 1980,
+          "active_in_export": false
+        },
+        {
+          "name": "T5",
+          "line": 1999,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT0",
+          "line": 2139,
+          "active_in_export": true
+        },
+        {
+          "name": "TopCannonSoldierT1",
+          "line": 2194,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT2",
+          "line": 2249,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT3",
+          "line": 2304,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT4",
+          "line": 2359,
+          "active_in_export": false
+        },
+        {
+          "name": "TopCannonSoldierT5",
+          "line": 2414,
+          "active_in_export": false
+        }
+      ],
+      "confidence": "observed-serialized-structure",
+      "not_proven": "runtime activation order, actual formulas, complete playable content count"
+    },
+    {
+      "prefab": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\GameObject\\PV_Tank_Rank__0_.prefab",
+      "sha256": "389b60b19d01f012883505c2b397569b8717d9b963643e6dbff9fd98284c929d",
+      "game_object_count": 98,
+      "mono_behaviour_reference_count": 9,
+      "selected_nodes": [
+        {
+          "name": "VFX_COMP_Definitive_Explosion_Explosion(Player)",
+          "line": 48,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_Volumetric_Ico_grand",
+          "line": 66,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_Volumetric_Ico",
+          "line": 84,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_BlastSphere",
+          "line": 102,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_BlastCrown",
+          "line": 120,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_BlastRing_Fire",
+          "line": 172,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_AfterMathDust",
+          "line": 190,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_AfterMathFlames",
+          "line": 208,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_Explosion_Sparks",
+          "line": 226,
+          "active_in_export": true
+        },
+        {
+          "name": "Tankplayer_T0",
+          "line": 242,
+          "active_in_export": true
+        },
+        {
+          "name": "Drive",
+          "line": 313,
+          "active_in_export": true
+        },
+        {
+          "name": "Feedback",
+          "line": 329,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Driving_Dirt_Left",
+          "line": 347,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Driving_Dirt_Right",
+          "line": 365,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Sprinting_Dirt_Left",
+          "line": 383,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Sprinting_Dirt_Rigth",
+          "line": 401,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ReverseBreak",
+          "line": 419,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Burning",
+          "line": 527,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_Feuer_V3",
+          "line": 545,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Slow",
+          "line": 563,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_Stun",
+          "line": 579,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_SuctionEffect",
+          "line": 631,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (1)",
+          "line": 649,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (2)",
+          "line": 667,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (3)",
+          "line": 685,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_ENGINE_Parts",
+          "line": 1095,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_MOUTH_Parts",
+          "line": 1111,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_MAINBODY_Parts",
+          "line": 1127,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_EYES",
+          "line": 1143,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Steam",
+          "line": 1177,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Steam (2)",
+          "line": 1195,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_NormalFire",
+          "line": 1249,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_NormalFire (1)",
+          "line": 1267,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire",
+          "line": 1303,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (1)",
+          "line": 1321,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonBlast",
+          "line": 1585,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonBlast",
+          "line": 1656,
+          "active_in_export": true
+        }
+      ],
+      "confidence": "observed-serialized-structure",
+      "not_proven": "runtime activation order, actual formulas, complete playable content count"
+    },
+    {
+      "prefab": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\GameObject\\PV_Tank_Rank__3_.prefab",
+      "sha256": "a202b74b67b01a0775857a16824bb736e391b5e0207f763f759f8f8bbbd50da8",
+      "game_object_count": 119,
+      "mono_behaviour_reference_count": 9,
+      "selected_nodes": [
+        {
+          "name": "VFX_COMP_Definitive_Explosion_Explosion(Player)",
+          "line": 48,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_Volumetric_Ico_grand",
+          "line": 66,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_Volumetric_Ico",
+          "line": 84,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_BlastSphere",
+          "line": 102,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_BlastCrown",
+          "line": 120,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_BlastRing_Fire",
+          "line": 172,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_AfterMathDust",
+          "line": 190,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_AfterMathFlames",
+          "line": 208,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Definitive_Explosion_Explosion_Sparks",
+          "line": 226,
+          "active_in_export": true
+        },
+        {
+          "name": "Drive",
+          "line": 243,
+          "active_in_export": true
+        },
+        {
+          "name": "Feedback",
+          "line": 259,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Driving_Dirt_Left",
+          "line": 277,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Driving_Dirt_Right",
+          "line": 295,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Sprinting_Dirt_Left",
+          "line": 313,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Sprinting_Dirt_Rigth",
+          "line": 331,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ReverseBreak",
+          "line": 349,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Burning",
+          "line": 457,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_Slow",
+          "line": 511,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_Stun",
+          "line": 527,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_SuctionEffect",
+          "line": 579,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (1)",
+          "line": 597,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (2)",
+          "line": 615,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (3)",
+          "line": 633,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_ENGINE_Parts",
+          "line": 1129,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_MOUTH_Parts",
+          "line": 1145,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_MAINBODY_Parts",
+          "line": 1161,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_EYES",
+          "line": 1177,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_NormalFire",
+          "line": 1391,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_NormalFire (1)",
+          "line": 1409,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_NormalFire (2)",
+          "line": 1445,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_NormalFire (3)",
+          "line": 1463,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Steam",
+          "line": 1481,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Steam (1)",
+          "line": 1499,
+          "active_in_export": true
+        },
+        {
+          "name": "TankT1_2",
+          "line": 1531,
+          "active_in_export": false
+        },
+        {
+          "name": "TankT2test5",
+          "line": 1601,
+          "active_in_export": false
+        },
+        {
+          "name": "TanktT3",
+          "line": 1757,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonBlast",
+          "line": 1951,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonBlast",
+          "line": 2022,
+          "active_in_export": true
+        }
+      ],
+      "confidence": "observed-serialized-structure",
+      "not_proven": "runtime activation order, actual formulas, complete playable content count"
+    },
+    {
+      "prefab": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\GameObject\\PV_Spider_0.prefab",
+      "sha256": "0bc7c978fae08315ef76ca48635575050594b9283a055a6d4585a28f97de4e46",
+      "game_object_count": 207,
+      "mono_behaviour_reference_count": 22,
+      "selected_nodes": [
+        {
+          "name": "Drive",
+          "line": 208,
+          "active_in_export": true
+        },
+        {
+          "name": "Feedback",
+          "line": 256,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Burning",
+          "line": 364,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_Slow",
+          "line": 418,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_Stun",
+          "line": 434,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_SuctionEffect",
+          "line": 486,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (1)",
+          "line": 504,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (2)",
+          "line": 522,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_SuctionEffect (3)",
+          "line": 540,
+          "active_in_export": true
+        },
+        {
+          "name": "LegController_Small",
+          "line": 557,
+          "active_in_export": true
+        },
+        {
+          "name": "Skin",
+          "line": 575,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_ENGINE_Parts",
+          "line": 2415,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_MOUTH_Parts",
+          "line": 2585,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_MAINBODY_Parts",
+          "line": 2637,
+          "active_in_export": true
+        },
+        {
+          "name": "skin_EYES",
+          "line": 2707,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Steam",
+          "line": 2741,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire",
+          "line": 2813,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_ChimneyFire (1)",
+          "line": 2831,
+          "active_in_export": true
+        },
+        {
+          "name": "T1_STEERING_WHEEL (1)",
+          "line": 3043,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_PlayerExplosion_small",
+          "line": 3199,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonImpact_001",
+          "line": 3217,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_CannonImpact_001 (1)",
+          "line": 3235,
+          "active_in_export": false
+        },
+        {
+          "name": "VFX_FlyingGround",
+          "line": 3253,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonImpact",
+          "line": 3271,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonBlast",
+          "line": 3289,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Dying",
+          "line": 3342,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Explosion_Sparks (1)",
+          "line": 3360,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Explosion_Sparks 1",
+          "line": 3378,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_DrivingDust_2",
+          "line": 3466,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_Flames",
+          "line": 3484,
+          "active_in_export": true
+        },
+        {
+          "name": "VFX_CannonBlast",
+          "line": 3572,
+          "active_in_export": true
+        }
+      ],
+      "confidence": "observed-serialized-structure",
+      "not_proven": "runtime activation order, actual formulas, complete playable content count"
+    }
+  ],
+  "design_translation": [
+    {
+      "observation": "active/passive instantiation points",
+      "original_contract": "Separate gameplay origin and visual emitter sockets"
+    },
+    {
+      "observation": "T0-T5 and disabled hierarchy objects",
+      "original_contract": "Author explicit model stages, activation predicates, and transition feedback"
+    },
+    {
+      "observation": "cooldown, dash and driving VFX groups",
+      "original_contract": "Per-state effect layers driven by confirmed gameplay events"
+    },
+    {
+      "observation": "different player rank prefabs",
+      "original_contract": "Measure silhouette, travel clearance and readable attachment topology per stage"
+    }
+  ]
+}

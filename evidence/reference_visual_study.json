@@ -1,0 +1,3162 @@
+{
+  "date": "2026-09-21",
+  "reference_export": "F:\\WanderburgAssetRipperExport\\ExportedProject",
+  "scope": "Selected exported images and serialized parameters; no dynamic reference-game capture in this pass.",
+  "interpretation": "Visual observations and original design in docs/assets/art-direction.md; parameter existence does not prove active runtime shader behavior.",
+  "shared_structural_evidence": "evidence/reference_asset_contract.json",
+  "copied_reference_assets_to_game": false,
+  "records": [
+    {
+      "id": "RV-01",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Texture2D\\vehicle colorpalette2.png",
+      "sha256": "0b09ff57e22ac6fe0c698a2177fd17ea5737e51eb9d7543517354c953780b34f",
+      "evidence_kind": "image",
+      "confidence": "observed_export_only",
+      "dimensions": [
+        256,
+        256
+      ],
+      "visually_inspected": true
+    },
+    {
+      "id": "RV-01a",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Material\\Castle_STONE_01 UV reserve.mat",
+      "sha256": "524a96c59fa30a0b9fb89667d74d92eaabf01f320420640e420186095b9700a8",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 39,
+          "value": "m_Texture: {fileID: 2800000, guid: 90331e536506bf241a79e7335ec084c0, type: 3}"
+        }
+      ]
+    },
+    {
+      "id": "RV-01b",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Material\\Castle_STONE_02 UV Reserve.mat",
+      "sha256": "2968264b68e5ffaea1d050eeb44b3e1a8b4d41a61cc445da001907123e3d2eff",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 40,
+          "value": "m_Texture: {fileID: 2800000, guid: 90331e536506bf241a79e7335ec084c0, type: 3}"
+        }
+      ]
+    },
+    {
+      "id": "RV-02",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Material\\FRIENDLY_01_NOLIGHT.mat",
+      "sha256": "4bea972a55390a216396eec25de05496cb1dbbec8191a454da0d47e7108617df",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 11,
+          "value": "m_Shader: {fileID: 4800000, guid: a53f6b28ab16b814ba4270bd5a8ea349, type: 3}"
+        },
+        {
+          "line": 69,
+          "value": "_CelNumSteps: 3"
+        },
+        {
+          "line": 70,
+          "value": "_CelPrimaryMode: 1"
+        },
+        {
+          "line": 88,
+          "value": "_Flatness: 1"
+        },
+        {
+          "line": 92,
+          "value": "_Glossiness: 0"
+        },
+        {
+          "line": 104,
+          "value": "_LightContribution: 0"
+        },
+        {
+          "line": 108,
+          "value": "_Metallic: 0"
+        },
+        {
+          "line": 112,
+          "value": "_OutlineEnabled: 1"
+        },
+        {
+          "line": 115,
+          "value": "_OutlineWidth: 0.54"
+        }
+      ]
+    },
+    {
+      "id": "RV-02a",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Shader\\FlatKit_Stylized Surface.shader.meta",
+      "sha256": "e86b398ad38d519705aee6fd5bbc81d0a0f8b01c90f8db5851880d7972951585",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 2,
+          "value": "guid: a53f6b28ab16b814ba4270bd5a8ea349"
+        }
+      ]
+    },
+    {
+      "id": "RV-03",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Texture2D\\VEHICLE_T2_TANK.png",
+      "sha256": "ad3e79a1d599028f0e29e1716731afd1fc7eb2b1ed5c81d5f7b5214dc2baa8a2",
+      "evidence_kind": "image",
+      "confidence": "observed_export_only",
+      "dimensions": [
+        1000,
+        1000
+      ],
+      "visually_inspected": true
+    },
+    {
+      "id": "RV-04",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Texture2D\\Front Cannon.png",
+      "sha256": "eafe4ab8fe82fe479b5bab8134f58ebed4f94c4883aefd863a8620a13b21d60a",
+      "evidence_kind": "image",
+      "confidence": "observed_export_only",
+      "dimensions": [
+        360,
+        360
+      ],
+      "visually_inspected": true
+    },
+    {
+      "id": "RV-05",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Texture2D\\Wanderburg_tf_SmokeAlpha_004.png",
+      "sha256": "ddef14c2c80d781ca3a66633d2d2d89c2befc79afe9fea66aeabef9e236427bc",
+      "evidence_kind": "image",
+      "confidence": "observed_export_only",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "visually_inspected": true
+    },
+    {
+      "id": "RV-05a",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Material\\Mat_DestertDustCloud_Test.mat",
+      "sha256": "8d1d88a026be36720a86320eda9eeb6feb78aadfdc5aee1517037c0f03d0cbbb",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 35,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        },
+        {
+          "line": 39,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        },
+        {
+          "line": 43,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        }
+      ]
+    },
+    {
+      "id": "RV-05b",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Material\\Mat_DestertDustCloud_Test 2.mat",
+      "sha256": "9eb8189439ecc9281c105f507551707756e7864d9050730f9875e8fa13de0b84",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 35,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        },
+        {
+          "line": 39,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        },
+        {
+          "line": 43,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        }
+      ]
+    },
+    {
+      "id": "RV-05c",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\Material\\Mat_DestertDustCloud_Test 3.mat",
+      "sha256": "88d99c369b2b689011364df47105608ca4fc1994b1f9e5bb5954e459db23c7df",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 35,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        },
+        {
+          "line": 39,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        },
+        {
+          "line": 43,
+          "value": "m_Texture: {fileID: 2800000, guid: e68bcd4b2a1a5fa40bd3a163cab1b589, type: 3}"
+        }
+      ]
+    },
+    {
+      "id": "RV-06",
+      "path": "F:\\WanderburgAssetRipperExport\\ExportedProject\\Assets\\PROJEKT\\Scenes\\MAIN SCENE.unity",
+      "sha256": "4f5e2e363b2f47bed69ce7c3dbf37169e2f16f94af4b39bb3ca7b02b92e62dcb",
+      "evidence_kind": "serialized",
+      "confidence": "observed_export_only",
+      "matches": [
+        {
+          "line": 89687,
+          "value": "orthographic: 1"
+        },
+        {
+          "line": 89688,
+          "value": "orthographic size: 16.5"
+        },
+        {
+          "line": 89738,
+          "value": "orthographic: 1"
+        },
+        {
+          "line": 89739,
+          "value": "orthographic size: 18.043375"
+        },
+        {
+          "line": 89789,
+          "value": "orthographic: 1"
+        },
+        {
+          "line": 89790,
+          "value": "orthographic size: 42"
+        },
+        {
+          "line": 89840,
+          "value": "orthographic: 1"
+        },
+        {
+          "line": 89841,
+          "value": "orthographic size: 12.597333"
+        },
+        {
+          "line": 89891,
+          "value": "orthographic: 1"
+        },
+        {
+          "line": 89892,
+          "value": "orthographic size: 16.3"
+        },
+        {
+          "line": 89942,
+          "value": "orthographic: 1"
+        },
+        {
+          "line": 89943,
+          "value": "orthographic size: 18.043375"
+        },
+        {
+          "line": 396016,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396108,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396200,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396292,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396384,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396476,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396568,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396660,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396752,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396844,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 396936,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397028,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397120,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397212,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397304,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397396,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397488,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397580,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397672,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397764,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397856,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 397948,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398040,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398132,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398224,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398316,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398408,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398500,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398592,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398684,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398776,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398868,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 398960,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399052,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399144,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399236,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399328,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399420,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399512,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399604,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399696,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399788,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399880,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 399972,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400064,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400156,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400248,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400340,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400432,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400524,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400616,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400708,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400800,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400892,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 400984,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401076,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401168,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401260,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401352,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401444,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401536,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401628,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401720,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401812,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401904,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 401996,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402088,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402180,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402272,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402364,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402456,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402548,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402640,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402732,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402824,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 402916,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403008,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403100,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403192,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403284,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403376,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403468,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403560,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403652,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403744,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403836,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 403928,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404020,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404112,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404204,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404296,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404388,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404480,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404572,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404664,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404756,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404848,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 404940,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405032,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405124,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405216,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405308,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405400,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405492,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405584,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405676,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405768,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405860,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 405952,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406044,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406136,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406228,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406320,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406412,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406504,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406596,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406688,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406780,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406872,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 406964,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407056,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407148,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407240,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407332,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407424,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407516,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407608,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407700,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407792,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407884,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 407976,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408068,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408160,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408252,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408344,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408436,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408528,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408620,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408712,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408804,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408896,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 408988,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409080,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409172,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409294,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409386,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409478,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409570,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409662,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409754,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409846,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 409938,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410030,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410122,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410214,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410306,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410398,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410490,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410582,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410674,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410766,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410858,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 410950,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411042,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411134,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411226,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411318,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411410,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411502,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411594,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411686,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411778,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411870,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 411962,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412054,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412146,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412238,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412330,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412422,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412514,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412606,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412698,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412790,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412882,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 412974,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413066,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413158,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413250,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413342,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413434,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413526,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413618,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413710,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413802,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413894,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 413986,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414078,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414170,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414262,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414354,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414446,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414538,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414630,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414722,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414814,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414906,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 414998,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415090,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415182,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415274,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415366,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415458,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415550,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415642,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415734,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415826,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 415918,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416010,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416102,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416194,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416286,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416378,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416470,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416562,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416654,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416746,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416838,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 416930,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417022,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417114,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417206,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417298,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417390,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417482,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417574,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417666,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417758,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417850,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 417942,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418034,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418126,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418218,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418310,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418402,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418494,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418586,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418678,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418770,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418862,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 418954,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419046,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419138,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419230,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419322,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419414,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419506,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419598,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419690,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419782,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419874,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 419966,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420058,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420150,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420242,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420334,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420426,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420518,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420610,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420702,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420794,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420886,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 420978,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421070,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421162,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421254,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421346,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421438,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421530,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421622,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421714,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421806,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421898,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 421990,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422082,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422174,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422266,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422358,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422450,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422542,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422634,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422726,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422818,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 422910,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423002,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423094,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423186,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423278,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423370,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423462,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423554,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423646,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423738,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423830,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 423922,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424014,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424106,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424198,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424290,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424382,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424474,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424566,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424658,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424750,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424842,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 424934,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425026,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425118,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425210,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425302,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425394,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425486,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425578,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425670,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425762,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425854,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 425946,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426038,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426130,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426222,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426314,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426406,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426498,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426590,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426682,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426774,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426866,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 426958,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427050,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427142,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427234,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427326,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427418,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427510,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427602,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427694,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427786,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427878,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 427970,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428062,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428154,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428246,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428338,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428430,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428522,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428614,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428706,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428798,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428890,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 428982,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429074,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429166,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429258,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429350,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429442,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429534,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429626,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429718,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429810,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429902,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 429994,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430086,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430178,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430270,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430362,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430454,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430546,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430638,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430730,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430822,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 430914,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431006,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431098,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431190,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431282,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431374,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431466,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431558,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431650,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431742,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431834,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 431926,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432018,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432110,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432202,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432294,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432386,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432478,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432570,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432662,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432754,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432846,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 432938,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433030,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433122,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433214,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433306,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433398,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433490,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433582,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433674,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433766,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433858,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 433950,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434042,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434134,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434226,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434318,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434410,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434502,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434594,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434686,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434778,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434870,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 434962,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435054,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435146,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435238,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435330,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435422,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435514,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435606,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435698,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435790,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435882,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 435974,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436066,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436158,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436250,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436342,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436434,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436526,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436618,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436710,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436802,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436894,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 436986,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437078,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437170,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437262,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437354,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437446,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437538,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437630,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437722,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437814,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437906,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 437998,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438090,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438182,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438274,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438366,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438458,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438550,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438642,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438734,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438826,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 438918,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439010,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439102,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439194,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439286,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439378,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439470,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439562,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439654,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439746,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439838,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 439930,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440022,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440114,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440206,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440298,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440390,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440482,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440574,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440666,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440758,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440850,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 440942,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441034,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441126,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441218,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441310,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441402,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441494,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441586,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441678,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441770,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441862,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 441954,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442046,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442138,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442230,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442322,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442414,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442506,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442598,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442690,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442782,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442874,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 442966,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443058,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443150,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443242,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443334,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443426,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443518,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443610,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443702,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443794,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443886,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 443978,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444070,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444162,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444254,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444346,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444438,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444530,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444622,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444714,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444806,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444898,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 444990,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445082,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445174,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445266,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445358,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445450,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445542,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445634,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445726,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445818,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 445910,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446002,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446094,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446186,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446278,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446370,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446462,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446554,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446646,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446738,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446830,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 446922,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447014,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447106,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447198,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447290,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447382,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447474,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447566,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447658,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447750,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447842,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 447934,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448026,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448118,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448210,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448302,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448394,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448486,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448578,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448670,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448762,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448854,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 448946,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449038,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449130,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449222,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449314,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449406,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449498,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449590,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449682,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449774,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449866,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 449958,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450050,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450142,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450234,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450326,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450418,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450510,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450602,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450694,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450786,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450878,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 450970,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451062,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451154,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451246,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451338,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451430,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451522,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451614,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451706,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451798,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451890,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 451982,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452074,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452166,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452258,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452350,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452442,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452534,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452626,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452718,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452810,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452902,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 452994,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453086,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453178,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453270,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453362,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453454,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453546,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453638,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453730,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453822,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 453914,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454006,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454098,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454190,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454282,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454374,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454466,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454558,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454650,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454742,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454834,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 454926,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455018,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455110,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455202,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455294,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455386,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455478,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455570,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455662,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455754,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455846,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 455938,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456030,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456122,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456214,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456306,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456398,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456490,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456582,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456674,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456766,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456858,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 456950,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457042,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457134,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457226,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457318,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457410,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457502,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457594,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457686,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457778,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457870,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 457962,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458054,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458146,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458238,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458330,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458422,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458514,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458606,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458698,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458790,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458882,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 458974,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459066,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459158,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459250,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459342,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459434,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459526,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459618,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459710,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459802,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459894,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 459986,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460078,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460170,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460262,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460354,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460446,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460538,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460630,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460722,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460814,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460906,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 460998,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461090,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461182,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461274,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461366,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461458,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461550,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461642,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461734,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461826,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 461918,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462010,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462102,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462194,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462286,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462378,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462470,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462562,
+          "value": "m_isOrthographic: 1"
+        },
+        {
+          "line": 462654,
+          "value": "m_isOrthographic: 1"
+        }
+      ]
+    }
+  ]
+}

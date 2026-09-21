@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-21",
+  "status": "direction_proposal_pending_user_confirmation",
+  "requested_model": "image2.5",
+  "actual_model": "unknown_not_exposed_by_builtin_tool",
+  "tool": "image_gen.imagegen (built-in)",
+  "purpose": "art direction approval, not gameplay or production assets",
+  "commercial_reference_images_submitted": false,
+  "outputs": [
+    {
+      "id": "art.direction.a.v1",
+      "path": "art-direction-a-v1.png",
+      "sha256": "3e5cf204fe0831dfd8f3c33994276714a42d439d603dead72f9f979639df2626",
+      "prompt": "art-direction-prompt.txt",
+      "review": "Ground clutter and surface wear too dense for intended gameplay. Superseded for direction approval by v2."
+    },
+    {
+      "id": "art.direction.a.v2",
+      "path": "art-direction-a-v2.png",
+      "sha256": "532a481e40b87a83d0dddff68281a9217e2efba53f6fb54fb8b525cfddcab3ac",
+      "prompt": "art-direction-revision-prompt.txt",
+      "reference_image": "art-direction-a-v1.png",
+      "review": "Viewed: quieter terrain, broad environmental masses, cleaner vehicle panels, coherent palette. Concept-only; remaining typography and proportions are not production contracts."
+    }
+  ],
+  "notes": [
+    "Original generated assets copied from Codex generated_images into project docs only.",
+    "No game assets or game code changed by this art direction pass.",
+    "G0 approval precedes G1 runtime art sample."
+  ]
+}

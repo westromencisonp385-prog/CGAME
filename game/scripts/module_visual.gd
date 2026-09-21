@@ -35,30 +35,32 @@ func _build(definition: ModuleDefinition, stage: int, ghost: bool) -> void:
 
 	match definition.id:
 		"basic_bucket":
-			_add_box("Bucket", Vector3(1.7, 0.55, 1.2), Vector3(0, 0.12, -1.55), material)
-			_add_box("BucketInside", Vector3(1.38, 0.11, 0.7), Vector3(0, 0.18, -1.75), dark)
-			_add_box("Lip", Vector3(1.9, 0.12, 0.18), Vector3(0, -0.12, -2.08), highlight)
-			for index in range(3):
-				_add_box("BucketTooth%d" % index, Vector3(0.18, 0.18, 0.35), Vector3((index - 1) * 0.62, -0.18, -2.24), highlight)
+			if ghost:
+				_add_box("Bucket", Vector3(1.7, 0.55, 1.2), Vector3(0, 0.12, -1.55), material)
+				_add_box("BucketInside", Vector3(1.38, 0.11, 0.7), Vector3(0, 0.18, -1.75), dark)
+				_add_box("Lip", Vector3(1.9, 0.12, 0.18), Vector3(0, -0.12, -2.08), highlight)
+				for index in range(3):
+					_add_box("BucketTooth%d" % index, Vector3(0.18, 0.18, 0.35), Vector3((index - 1) * 0.62, -0.18, -2.24), highlight)
 		"wide_bucket":
 			var width := 2.4 if stage >= 2 else 2.05
-			_add_box("WideBucket", Vector3(width, 0.6, 1.45), Vector3(0, 0.14, -1.58), material)
-			_add_box("WideInside", Vector3(width * 0.84, 0.11, 0.84), Vector3(0, 0.2, -1.86), dark)
-			_add_box("WideLip", Vector3(width * 1.1, 0.14, 0.2), Vector3(0, -0.14, -2.3), highlight)
+			if ghost or stage < 2:
+				_add_box("WideBucketPreview" if ghost else "WideBucketSideFins", Vector3(width, 0.38, 0.62), Vector3(0, 0.16, -1.75), material)
+				_add_box("WideLip", Vector3(width * 1.05, 0.12, 0.16), Vector3(0, -0.08, -2.26), highlight)
 			if stage >= 2:
 				# G1 whale mouth: keep a dark negative space between two jaws.
 				# The mouth is presentation-only; the core hit shape remains unchanged.
-				_add_box("MouthCavity", Vector3(2.3, 0.12, 1.15), Vector3(0, 0.48, -2.0), dark)
-				var upper := _add_box("WhaleUpperJaw", Vector3(2.7, 0.28, 0.5), Vector3(0, 0.92, -2.0), highlight)
-				upper.rotation_degrees.x = -8.0
-				var lower := _add_box("WhaleLowerJaw", Vector3(2.45, 0.2, 0.42), Vector3(0, 0.12, -2.05), material)
-				lower.rotation_degrees.x = 7.0
+				_add_box("MouthCavity", Vector3(2.35, 0.16, 1.05), Vector3(0, 0.5, -2.02), dark)
+				var upper := _add_box("WhaleUpperJaw", Vector3(2.8, 0.28, 0.54), Vector3(0, 1.0, -2.0), highlight)
+				upper.rotation_degrees.x = -14.0
+				var lower := _add_box("WhaleLowerJaw", Vector3(2.55, 0.2, 0.44), Vector3(0, 0.15, -2.05), material)
+				lower.rotation_degrees.x = 9.0
+				_add_box("UpperDarkGum", Vector3(2.15, 0.13, 0.24), Vector3(0, 0.77, -2.18), dark)
 				for index in range(3):
-					var jaw := _add_box("JawPetal%d" % index, Vector3(0.18, 0.32, 0.82), Vector3((float(index) - 1.0) * 0.9, 0.42, -2.55), material)
+					var jaw := _add_box("JawPetal%d" % index, Vector3(0.18, 0.32, 0.9), Vector3((float(index) - 1.0) * 0.94, 0.38, -2.58), material)
 					jaw.rotation_degrees.y = (float(index) - 1.0) * 12.0
 				moving_jaws.append(upper)
 				for index in range(5):
-					_add_box("UpperTooth%d" % index, Vector3(0.18, 0.25, 0.3), Vector3((index - 2) * 0.48, 0.67, -2.32), dark)
+					_add_box("UpperTooth%d" % index, Vector3(0.16, 0.34, 0.26), Vector3((index - 2) * 0.46, 0.62, -2.36), highlight)
 				for side in [-1.0, 1.0]:
 					var strut := _add_box("JawLink", Vector3(0.22, 0.9, 0.3), Vector3(side * 1.32, 0.62, -1.55), dark)
 					strut.rotation_degrees.z = side * 22.0

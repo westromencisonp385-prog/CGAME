@@ -5,6 +5,8 @@ var tones: Dictionary = {}
 var last_play := 0
 
 func _ready() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
 	tones["work"] = _tone(150.0, 0.09, true)
 	tones["change"] = _tone(480.0, 0.19, false)
 	tones["repair"] = _tone(660.0, 0.5, false)
@@ -45,3 +47,9 @@ func _tone(frequency: float, duration: float, mechanical: bool) -> AudioStreamWA
 		data.encode_s16(index * 2, int(clampf(wave * envelope, -1.0, 1.0) * 16000))
 	result.data = data
 	return result
+
+func _exit_tree() -> void:
+	for voice in voices:
+		voice.stop()
+		voice.stream = null
+	tones.clear()

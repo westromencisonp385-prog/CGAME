@@ -135,6 +135,7 @@ func perform_primary() -> Dictionary:
 		action_effect.emit("water_beam", global_position, global_position + aim_direction * reach)
 	var hit_count := 0
 	var chain_hits := 0
+	var pack_result := _try_pack_from_primary(reach, radius)
 	var struck_enemies: Array[Node] = []
 	for node in get_tree().get_nodes_in_group("engineering_targets"):
 		if node is EngineeringTarget:
@@ -146,7 +147,7 @@ func perform_primary() -> Dictionary:
 				cargo = mini(int(stats.get("cargo_capacity", max_cargo)), cargo + amount)
 				harvested.emit(amount)
 	for node in get_tree().get_nodes_in_group("enemies"):
-		if node is EnemyDummy:
+		if node is EnemyDummy and not node.packed:
 			var enemy_result: Dictionary = node.try_engineering_hit(global_position, aim_direction, radius, reach, power, source)
 			if bool(enemy_result.get("hit", false)):
 				hit_count += 1
@@ -157,11 +158,13 @@ func perform_primary() -> Dictionary:
 				continue
 			var chain_targets: Array[Node3D] = CombatResolverScript.select_chain_targets(source_enemy, get_tree().get_nodes_in_group("enemies"), 2, 4.5)
 			for node in chain_targets:
+				if node is EnemyDummy and node.packed:
+					continue
 				node.take_damage(power * 0.55)
 				chain_hits += 1
 				action_effect.emit("arc_chain", source_enemy.global_position, node.global_position)
 	feedback.emit("挖斗命中 %d 个目标" % hit_count if hit_count > 0 else "挖斗落空")
-	return {"performed": true, "hits": hit_count, "chain_hits": chain_hits, "cargo": cargo}
+	return {"performed": true, "hits": hit_count, "chain_hits": chain_hits, "cargo": cargo, "packed": bool(pack_result.get("packed", false)), "packed_count": packed_enemy_ids.size()}
 
 func throw_cargo() -> Dictionary:
 	if not gameplay_enabled or throw_cooldown > 0.0:
@@ -176,7 +179,7 @@ func throw_cargo() -> Dictionary:
 	var best: Node = null
 	var best_distance := 8.0
 	for node in get_tree().get_nodes_in_group("enemies"):
-		if not node is EnemyDummy or node.dead:
+		if not node is EnemyDummy or node.dead or node.packed:
 			continue
 		var planar: Vector3 = node.global_position - global_position
 		planar.y = 0.0
@@ -200,6 +203,8 @@ func pack_enemy(target: Node) -> Dictionary:
 	if target == null or not is_instance_valid(target) or not target is EnemyDummy:
 		return {"packed": false, "reason": "target_not_packable"}
 	var enemy := target as EnemyDummy
+	if enemy.enemy_id.begins_with("gm_"):
+		return {"packed": false, "reason": "gm_target_not_saved"}
 	if not enemy.can_be_magnetized():
 		return {"packed": false, "reason": "target_rejected"}
 	var capacity := mini(2, int(_stats().get("cargo_capacity", max_cargo)))
@@ -214,6 +219,28 @@ func pack_enemy(target: Node) -> Dictionary:
 	feedback.emit("鲸口打包 · %s" % enemy.enemy_id)
 	return {"packed": true, "target_id": enemy.enemy_id, "packed_count": packed_enemy_ids.size()}
 
+func _try_pack_from_primary(reach: float, radius: float) -> Dictionary:
+	var best: EnemyDummy = null
+	var best_distance := minf(3.4, reach + radius)
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if not node is EnemyDummy:
+			continue
+		var enemy := node as EnemyDummy
+		if enemy.enemy_id.begins_with("gm_") or not enemy.can_be_magnetized():
+			continue
+		var planar: Vector3 = enemy.global_position - global_position
+		planar.y = 0.0
+		var distance := planar.length()
+		if distance < 0.05 or distance > best_distance:
+			continue
+		if aim_direction.normalized().dot(planar.normalized()) < 0.45:
+			continue
+		best = enemy
+		best_distance = distance
+	if best == null:
+		return {"packed": false, "reason": "no_pack_target"}
+	return pack_enemy(best)
+
 func _release_packed_enemy() -> Dictionary:
 	if packed_enemy_ids.is_empty():
 		return {"performed": false, "hit": false, "reason": "no_packed_enemy"}
@@ -227,18 +254,35 @@ func _release_packed_enemy() -> Dictionary:
 	if target == null or not is_instance_valid(target):
 		return {"performed": true, "hit": false, "target_id": target_id, "packed_count": packed_enemy_ids.size(), "reason": "target_missing"}
 	var origin := global_position
+	var landing := origin + aim_direction.normalized() * 5.2
+	landing.y = target.global_position.y
 	target.release_from_whale()
+	target.global_position = landing
 	var damage := 48.0 + (12.0 if assembler != null and assembler.has_module("wide_bucket") else 0.0)
 	target.take_damage(damage)
-	action_effect.emit("whale_release", origin, target.global_position)
+	var blast_hits := 0
+	var hit_ids: Dictionary = {}
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if not node is EnemyDummy:
+			continue
+		var enemy := node as EnemyDummy
+		if enemy == target or enemy.dead or enemy.packed or hit_ids.has(enemy.enemy_id):
+			continue
+		if enemy.global_position.distance_to(landing) <= 1.75:
+			enemy.take_damage(damage * 0.65)
+			hit_ids[enemy.enemy_id] = true
+			blast_hits += 1
+	action_effect.emit("whale_release", origin, landing)
 	feedback.emit("鲸口投掷 · %s" % target_id)
-	return {"performed": true, "hit": true, "target_id": target_id, "damage": damage, "packed_count": packed_enemy_ids.size()}
+	return {"performed": true, "hit": true, "target_id": target_id, "damage": damage, "blast_hits": blast_hits, "landing": landing, "packed_count": packed_enemy_ids.size()}
 
 func rebind_packed_enemies() -> void:
+	var valid_ids: Array[String] = []
 	for node in get_tree().get_nodes_in_group("enemies"):
-		if node is EnemyDummy and packed_enemy_ids.has(node.enemy_id) and not node.dead:
-			if not node.packed:
-				node.pack_into_whale()
+		if node is EnemyDummy and packed_enemy_ids.has(node.enemy_id) and not node.dead and node.packed:
+			node.process_mode = Node.PROCESS_MODE_DISABLED
+			valid_ids.append(node.enemy_id)
+	packed_enemy_ids = valid_ids
 
 func try_dash() -> bool:
 	if not gameplay_enabled or dash_cooldown > 0.0:
@@ -311,7 +355,17 @@ func on_module_visuals_changed() -> void:
 func _on_loadout_changed(_active_ids: Array[String]) -> void:
 	var stats := _stats()
 	max_cargo = int(stats.get("cargo_capacity", 3))
+	if (assembler == null or not assembler.has_module("magnet") or not assembler.has_module("wide_bucket")) and not packed_enemy_ids.is_empty():
+		clear_packed_enemies()
 	on_module_visuals_changed()
+
+func clear_packed_enemies() -> void:
+	var ids := packed_enemy_ids.duplicate()
+	packed_enemy_ids.clear()
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is EnemyDummy and ids.has(node.enemy_id) and node.packed:
+			node.global_position = global_position + aim_direction.normalized() * 1.8
+			node.release_from_whale()
 
 func _pull_nearby_targets(delta: float) -> void:
 	var count := 0
@@ -451,6 +505,8 @@ func validate_snapshot(data: Dictionary) -> bool:
 	var a = data.get("aim", null)
 	var packed_ids: Variant = data.get("packed_enemy_ids", [])
 	if not (p is Array and p.size() == 3 and a is Array and a.size() == 3 and packed_ids is Array):
+		return false
+	if packed_ids.size() > 2:
 		return false
 	for value in p:
 		if not (typeof(value) == TYPE_FLOAT or typeof(value) == TYPE_INT) or not is_finite(float(value)):

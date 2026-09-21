@@ -6,9 +6,9 @@ extends Node3D
 const Effects = preload("res://scripts/native_effects.gd")
 const RIVER = preload("res://effects/river_surface.gdshader")
 
-const OLIVE := Color("#687b62")
-const EARTH := Color("#b18a5d")
-const EARTH_DARK := Color("#765842")
+const OLIVE := Color("#6f7f61")
+const EARTH := Color("#b48658")
+const EARTH_DARK := Color("#6e503d")
 const WATER_DULL := Color("#356f79")
 const WATER_LIVE := Color("#4caea7")
 const NAVY := Color("#253d48")
@@ -60,7 +60,7 @@ func _build_camera() -> void:
 	camera = Camera3D.new()
 	camera.name = "WorksiteCamera"
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 25.0
+	camera.size = 23.0
 	# A 55-degree starting angle exposes the cab, tool head and bank shapes.
 	camera.position = Vector3(0, 25, 17)
 	camera.current = true
@@ -69,18 +69,22 @@ func _build_camera() -> void:
 
 func _build_ground() -> void:
 	# One quiet low-frequency plane keeps the action readable at a glance.
-	box(self, Vector3(36, 1, 32), Vector3(0, -0.55, 0), OLIVE, true)
+	box(self, Vector3(36, 1, 32), Vector3(0, -0.55, 0), EARTH, true)
 	for at in [Vector3(-18, 0.8, 0), Vector3(18, 0.8, 0), Vector3(0, 0.8, -16), Vector3(0, 0.8, 16)]:
 		var size := Vector3(1, 2, 33) if absf(at.x) > 0 else Vector3(36, 2, 1)
 		box(self, size, at, NAVY, true)
-	# Wide route blocks replace the old debug grid. They are visual only.
-	box(self, Vector3(5.8, 0.035, 30), Vector3(-1.4, 0.03, 0), Color("#74886c"))
-	box(self, Vector3(14.0, 0.035, 3.2), Vector3(-2.0, 0.035, 6.5), EARTH)
-	box(self, Vector3(13.0, 0.035, 2.2), Vector3(2.0, 0.04, -7.2), Color("#927052"))
-	box(self, Vector3(0.15, 0.04, 2.7), Vector3(-8.0, 0.05, 5.3), BONE)
-	box(self, Vector3(0.15, 0.04, 2.7), Vector3(-7.45, 0.05, 5.3), BONE)
-	for z in [-11.0, -7.0, 7.0, 11.0]:
-		box(self, Vector3(2.2, 0.05, 0.12), Vector3(-8.7, 0.08, z), Color("#9c7b55"))
+	# Large authored masses replace the old debug grid: two work lanes and soft
+	# vegetation patches, all visual-only.
+	_disk(self, "CentralDustYard", Vector3(0, 0.035, 0.5), Vector3(11.5, 0.035, 15.8), Color("#bd9565"), 14)
+	_disk(self, "OliveBackPatch", Vector3(-7.0, 0.04, -4.5), Vector3(6.4, 0.035, 6.8), OLIVE, 9)
+	_disk(self, "OliveRepairPatch", Vector3(6.8, 0.045, -7.2), Vector3(5.2, 0.035, 4.5), Color("#788b67"), 10)
+	_disk(self, "WarmScrapPatch", Vector3(-5.0, 0.05, 6.2), Vector3(5.8, 0.035, 2.2), Color("#d0a66f"), 8)
+	_disk(self, "WarmPumpPatch", Vector3(4.2, 0.052, 6.1), Vector3(6.0, 0.035, 2.0), Color("#c99a66"), 8)
+	box(self, Vector3(0.15, 0.06, 2.7), Vector3(-8.0, 0.07, 5.3), BONE)
+	box(self, Vector3(0.15, 0.06, 2.7), Vector3(-7.45, 0.07, 5.3), BONE)
+	for z in [-10.8, -7.2, 7.5, 11.0]:
+		var strip := box(self, Vector3(2.3, 0.05, 0.12), Vector3(-8.6, 0.085, z), Color("#8e6d4f"))
+		strip.rotation_degrees.y = 8.0 if z < 0.0 else -7.0
 
 func _build_river_worksite() -> void:
 	# The dry channel is visible before repair; green_zone is the stateful overlay
@@ -88,12 +92,10 @@ func _build_river_worksite() -> void:
 	var dry := Node3D.new()
 	dry.name = "DryRiverAndBanks"
 	add_child(dry)
-	box(dry, Vector3(5.0, 0.06, 18), Vector3(9, 0.06, -2), WATER_DULL)
-	box(dry, Vector3(0.7, 0.08, 18), Vector3(6.35, 0.08, -2), EARTH_DARK)
-	box(dry, Vector3(0.7, 0.08, 18), Vector3(11.65, 0.08, -2), EARTH_DARK)
-	for z in [-10.0, -6.0, -2.0, 2.0, 6.0]:
-		_create_rock(dry, Vector3(8.0 + fmod(z, 3.0) * 0.15, 0.18, z), 0.55, Color("#526f70"))
-		_create_rock(dry, Vector3(10.7 - fmod(z, 2.0) * 0.12, 0.19, z + 1.1), 0.4, Color("#617876"))
+	_disk(dry, "DryChannel", Vector3(9.0, 0.06, -2.2), Vector3(5.3, 0.045, 18.2), WATER_DULL, 14)
+	for z in [-10.0, -7.2, -4.3, -1.2, 2.0, 5.5, 8.2]:
+		_create_rock(dry, Vector3(6.4 + fmod(z * 2.1, 1.0) * 0.3, 0.18, z), 0.5, Color("#526f70"))
+		_create_rock(dry, Vector3(11.4 - fmod(z * 1.7, 1.0) * 0.35, 0.19, z + 0.9), 0.44, Color("#617876"))
 
 	green_zone = Node3D.new()
 	green_zone.name = "RepairedRiverAndGrowth"
@@ -102,7 +104,7 @@ func _build_river_worksite() -> void:
 		var x := 7.0 + fmod(float(index * 17), 5.4)
 		var z := -12.5 + fmod(float(index * 7), 16.0)
 		_create_reed_cluster(green_zone, Vector3(x, 0.08, z), index % 2 == 0)
-	var flowing_water := box(green_zone, Vector3(4.7, 0.045, 17.8), Vector3(9, 0.13, -2), WATER_LIVE)
+	var flowing_water := _disk(green_zone, "FlowingWater", Vector3(9, 0.13, -2), Vector3(4.8, 0.045, 17.8), WATER_LIVE, 16)
 	river_material = ShaderMaterial.new()
 	river_material.shader = RIVER
 	flowing_water.material_override = river_material
@@ -117,6 +119,9 @@ func _build_edge_landmarks() -> void:
 	_create_arch(landmarks, Vector3(-13.0, 0.0, -10.5))
 	_create_pennant(landmarks, Vector3(13.2, 0.0, 10.5), Color("#df604e"))
 	_create_pennant(landmarks, Vector3(-12.5, 0.0, 10.0), Color("#e9ad38"))
+	_create_tree_cluster(landmarks, Vector3(-12.6, 0.0, -3.0))
+	_create_tree_cluster(landmarks, Vector3(13.1, 0.0, 4.2))
+	_create_broken_wall(landmarks, Vector3(-10.8, 0.0, 11.0), -12.0)
 	_create_rock(landmarks, Vector3(-13.0, 0.25, 1.0), 1.1, Color("#5d706d"))
 	_create_rock(landmarks, Vector3(13.0, 0.23, -13.0), 0.9, Color("#6d7669"))
 	_create_repair_sign(landmarks, Vector3(5.6, 0.0, -7.0))
@@ -145,6 +150,32 @@ func _create_repair_sign(parent: Node3D, at: Vector3) -> void:
 	box(group, Vector3(1.15, 0.7, 0.12), Vector3(0.42, 1.52, 0), Color("#58b7ac"))
 	box(group, Vector3(0.68, 0.12, 0.12), Vector3(0.42, 1.52, -0.08), BONE)
 	box(group, Vector3(0.12, 0.48, 0.12), Vector3(0.42, 1.52, -0.08), BONE)
+
+func _create_tree_cluster(parent: Node3D, at: Vector3) -> void:
+	var group := Node3D.new()
+	group.position = at
+	parent.add_child(group)
+	for item in [[0.0, 0.0, 1.05], [0.8, 0.35, 0.82], [-0.7, 0.45, 0.74], [0.2, -0.65, 0.7]]:
+		var crown := SphereMesh.new()
+		crown.radius = float(item[2])
+		crown.height = float(item[2]) * 1.15
+		crown.radial_segments = 8
+		crown.rings = 4
+		var instance := MeshInstance3D.new()
+		instance.mesh = crown
+		instance.position = Vector3(float(item[0]), 0.72, float(item[1]))
+		instance.material_override = material(Color("#667a56"))
+		group.add_child(instance)
+	box(group, Vector3(0.34, 0.9, 0.34), Vector3(0, 0.38, 0), EARTH_DARK)
+
+func _create_broken_wall(parent: Node3D, at: Vector3, yaw: float) -> void:
+	var group := Node3D.new()
+	group.position = at
+	group.rotation_degrees.y = yaw
+	parent.add_child(group)
+	for index in range(5):
+		var height := 0.8 + float(index % 2) * 0.32
+		box(group, Vector3(0.95, height, 0.34), Vector3((index - 2) * 0.9, height * 0.5, 0), Color("#5f6f70"))
 
 func _create_reed_cluster(parent: Node3D, at: Vector3, warm: bool) -> void:
 	var group := Node3D.new()
@@ -176,6 +207,21 @@ func _create_rock(parent: Node3D, at: Vector3, radius: float, color: Color) -> v
 	rock.rotation_degrees = Vector3(0, fmod(at.z * 17.0, 30.0), 0)
 	rock.material_override = material(color)
 	parent.add_child(rock)
+
+func _disk(parent: Node3D, node_name: String, at: Vector3, scale_value: Vector3, color: Color, segments := 12) -> MeshInstance3D:
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = 1.0
+	mesh.bottom_radius = 1.0
+	mesh.height = 1.0
+	mesh.radial_segments = segments
+	var instance := MeshInstance3D.new()
+	instance.name = node_name
+	instance.mesh = mesh
+	instance.position = at
+	instance.scale = scale_value
+	instance.material_override = material(color)
+	parent.add_child(instance)
+	return instance
 
 func _process(delta: float) -> void:
 	flow_time += delta
