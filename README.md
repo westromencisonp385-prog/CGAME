@@ -50,6 +50,6 @@ pwsh -File tools/godot.ps1 capture
 - [解包视觉证据](evidence/reference_visual_study.json)
 - [Compact 接续记录](docs/COMPACT.md)
 
-首批烟尘精灵用于原生GPU粒子；磁暴鲸口卡面用于概念插画。磁场、电弧、修复环和水流由 Godot 实时绘制。车体仍为程序化灰盒，插画不代表最终3D模型。
+首批烟尘精灵用于原生GPU粒子；磁暴鲸口卡面用于概念插画。磁场、电弧、修复环和水流由 Godot 实时绘制。M0基础车仍使用程序化几何，二阶段鲸口已接入 Blender 5.2.1 GLB样件；插画不代表最终3D模型。
 
 旧立项PDF为历史快照，最新状态以本README、现役规格与QA结果为准。

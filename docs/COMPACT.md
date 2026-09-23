@@ -8,7 +8,7 @@
 - 当前入口：docs/spec.md v0.4为唯一产品规格；docs/requirements.md为17项F/16项P执行索引；docs/assets/art-direction.md为方向A提案，v2概念板待用户确认。
 - 内容扩展：docs/world-bible.md 新增三条机器谱系、9类怪物/环境对手、8种合同模板、三群系与叙事呈现；docs/assets/expansion-concept-board-v1.png 是概念方向板，均为提案，不代表已进入主玩法。
 - 关口：G0参考/调性确认→G1一车一敌一段河岸实机样板→G2一条完整喜剧动作与修复演出→G3扩三构筑/合同。图中最终巨兽不是已批准的近期内容。
-- 本轮仅更新研究/规格/方向图，没有把新美术或吞敌打包玩法装入游戏。图片为概念，实际生成版本未知；manifest保留image2.5目标与unknown实际版本。
+- 当前实现已包含 M0/M1 核心循环、鲸口打包、真实修复捷径、蓝图奖励，以及 Blender 5.2.1 的 122对象/77网格鲸口资产样件。概念图仍是方向提案；图像实际生成版本未知，manifest保留image2.5目标与unknown实际版本。
 - 代码：master的47f3a3a为初版M0，已有后续未提交修改。不要丢弃，也不要把大量未跟踪缓存、工具二进制和第三方导出一并提交。
 - 引擎：固定Godot4.7.2 stable、GDScript、Mobile、Jolt；用项目CLI，PATH可能仍是4.6.3。Windows debug模板与导出已有，release模板和发行验收未完成。
 - M0已有驾驶/主斗/投掷/冲刺、核心/动力/两功能槽、三代表组合、局部修复、胜负重试和A/B快照；GM共享命令、独立存档、面板暂停等基础已实现。正式3D、完整AI/战役/结算事务/Steam未完成。
