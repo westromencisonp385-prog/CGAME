@@ -89,6 +89,10 @@ func _build() -> void:
 	_add_button(save_row, "保存 GM", func(): _run("save"))
 	_add_button(save_row, "读取 GM", func(): _run("load"))
 	_add_button(save_row, "重置训练场", func(): _run("reset_training"))
+	var campaign_row := HBoxContainer.new()
+	box.add_child(campaign_row)
+	_add_button(campaign_row, "局外进度", func(): _run("campaign_status"))
+	_add_button(campaign_row, "清空蓝图", func(): _run("campaign_reset"))
 	var scale_row := HBoxContainer.new()
 	box.add_child(scale_row)
 	_add_button(scale_row, "2x", func(): _run("time_scale", {"value": 2.0}))
@@ -119,7 +123,7 @@ func _on_state_changed(state: Dictionary) -> void:
 	visible = bool(state.get("enabled", false)) and bool(state.get("visible", false))
 	if visible and not was_visible and first_button != null:
 		first_button.grab_focus()
-	status_label.text = "状态：%s   时间 %.2fx\n耐久 %.0f  载荷 %d  蓄势 %.0f\n阶段 %d  正式敌人 %d  GM 敌人 %d\n装配：%s / %s" % ["GM暂停 / AI可动" if not state.get("freeze_ai", false) else "GM暂停 / AI冻结", float(state.get("time_scale", 1.0)), float(state.get("health", 0.0)), int(state.get("cargo", 0)), float(state.get("charge", 0.0)), int(state.get("stage", 0)), int(state.get("formal_enemies", 0)), int(state.get("gm_enemies", 0)), _slot(state, 0), _slot(state, 1)]
+	status_label.text = "状态：%s   时间 %.2fx\n耐久 %.0f  载荷 %d  蓄势 %.0f\n阶段 %d  正式敌人 %d  GM 敌人 %d\n路线：%s  蓝图：%d\n装配：%s / %s" % ["GM暂停 / AI可动" if not state.get("freeze_ai", false) else "GM暂停 / AI冻结", float(state.get("time_scale", 1.0)), float(state.get("health", 0.0)), int(state.get("cargo", 0)), float(state.get("charge", 0.0)), int(state.get("stage", 0)), int(state.get("formal_enemies", 0)), int(state.get("gm_enemies", 0)), "捷径已开" if state.get("shortcut_open", false) else "需修复", state.get("unlocked_blueprints", []).size(), _slot(state, 0), _slot(state, 1)]
 	if toggle_button != null:
 		toggle_button.text = "取消无敌" if bool(state.get("invulnerable", false)) else "无敌"
 

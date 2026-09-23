@@ -18,10 +18,14 @@ const ENEMY_LAYOUT := [
 	["crawler_c", "light", -7.0, -8.0], ["crawler_d", "light", -9.0, -8.0],
 	["guardian", "heavy", 7.0, -10.0]
 ]
+const M1_REWARD_BLUEPRINT_ID := "blueprint_magnetic_compactor"
+const CAMPAIGN_SAVE_PATH := "user://reclaimer_campaign_progress"
 
 var player: M0VehicleController
 var assembler: LoadoutAssembler
 var save_service := M0SaveService.new()
+var campaign_service := M0SaveService.new()
+var campaign_progress: Dictionary = {"version": 1, "unlocked_blueprints": []}
 var definitions: Dictionary
 var targets: Array[EngineeringTarget] = []
 var enemies: Array[EnemyDummy] = []
@@ -65,6 +69,8 @@ func _ready() -> void:
 	player.action_effect.connect(world.present_effect)
 	audio = Sound.new()
 	add_child(audio)
+	campaign_service.configure(CAMPAIGN_SAVE_PATH)
+	_load_campaign_progress()
 	ui = HUD.new()
 	add_child(ui)
 	gm = GMController.new()
@@ -135,6 +141,8 @@ func reset_contract() -> void:
 	defeated = 0
 	repair_done = false
 	world.green_zone.hide()
+	if world.has_method("set_shortcut_open"):
+		world.set_shortcut_open(false)
 	assembler.restore({"version": 1, "active_ids": ["", ""], "core_id": "basic_bucket", "drive_id": "", "stage": 1})
 	player.reset_vehicle(Vector3(0, 0.5, 7))
 	for item in TARGET_LAYOUT:
@@ -154,6 +162,8 @@ func _spawn_target(item: Array) -> EngineeringTarget:
 	target.repaired.connect(func(_t: EngineeringTarget):
 		repair_done = true
 		world.green_zone.show()
+		if world.has_method("set_shortcut_open"):
+			world.set_shortcut_open(true)
 		player.health = minf(player.health + 30.0, 100.0)
 		feedback("水泵启动 · 耐久恢复 +30 · 河岸复苏")
 		_check_victory()
@@ -226,6 +236,8 @@ func finish_contract(result: String) -> void:
 	if outcome != "active":
 		return
 	outcome = result
+	if result == "won":
+		_commit_contract_reward()
 	garage_open = false
 	assembler.clear_preview()
 	ui.show_result()
@@ -284,7 +296,9 @@ func get_snapshot() -> Dictionary:
 		if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
 			enemy_states.append(enemy.get_snapshot())
 	return {"version": 2, "player": player.get_snapshot(), "loadout": assembler.snapshot(), "targets": target_states, "enemies": enemy_states,
-		"mission": {"elapsed": elapsed, "collected": collected, "defeated": defeated, "outcome": outcome}}
+		"mission": {"elapsed": elapsed, "collected": collected, "defeated": defeated, "outcome": outcome},
+		"world": {"repair_done": repair_done, "shortcut_open": world.is_shortcut_open() if world.has_method("is_shortcut_open") else repair_done},
+		"progress": campaign_progress.duplicate(true)}
 
 func save_snapshot() -> bool:
 	var snapshot: Dictionary = get_snapshot()
@@ -324,7 +338,16 @@ func restore_snapshot(data: Dictionary) -> bool:
 	outcome = str(data.mission.outcome)
 	garage_open = false
 	manual_pause = false
+	var world_state: Dictionary = data.get("world", {})
+	repair_done = bool(world_state.get("repair_done", repair_done))
+	var shortcut_open := bool(world_state.get("shortcut_open", repair_done))
 	world.green_zone.visible = repair_done
+	if world.has_method("set_shortcut_open"):
+		world.set_shortcut_open(shortcut_open)
+	var saved_progress: Variant = data.get("progress", null)
+	if saved_progress is Dictionary and _validate_campaign_progress(saved_progress):
+		campaign_progress = saved_progress.duplicate(true)
+		_save_campaign_progress()
 	ui.close_modals()
 	if outcome != "active":
 		ui.show_result()
@@ -333,9 +356,52 @@ func restore_snapshot(data: Dictionary) -> bool:
 		set_gm_ai_frozen(gm.freeze_ai)
 	return true
 
+func get_unlocked_blueprints() -> Array:
+	var result: Array = campaign_progress.get("unlocked_blueprints", [])
+	return result.duplicate()
+
+func _load_campaign_progress() -> void:
+	var loaded := campaign_service.load_snapshot()
+	if not loaded.is_empty() and _validate_campaign_progress(loaded):
+		campaign_progress = loaded.duplicate(true)
+
+func _save_campaign_progress() -> bool:
+	return campaign_service.save_snapshot(campaign_progress)
+
+func _validate_campaign_progress(data: Dictionary) -> bool:
+	if int(data.get("version", 0)) != 1 or not data.get("unlocked_blueprints", []) is Array:
+		return false
+	var seen: Dictionary = {}
+	for blueprint_id in data.get("unlocked_blueprints", []):
+		if not blueprint_id is String or str(blueprint_id).is_empty() or seen.has(blueprint_id):
+			return false
+		seen[blueprint_id] = true
+	return true
+
+func _commit_contract_reward() -> void:
+	var unlocked: Array = campaign_progress.get("unlocked_blueprints", [])
+	if not unlocked.has(M1_REWARD_BLUEPRINT_ID):
+		unlocked.append(M1_REWARD_BLUEPRINT_ID)
+		campaign_progress["unlocked_blueprints"] = unlocked
+		_save_campaign_progress()
+
+func reset_campaign_progress() -> void:
+	campaign_progress = {"version": 1, "unlocked_blueprints": []}
+	_save_campaign_progress()
+
 func validate_snapshot(data: Dictionary) -> bool:
 	if data.get("version") != 2 or not data.get("player") is Dictionary or not data.get("loadout") is Dictionary or not data.get("targets") is Array or not data.get("enemies") is Array or not data.get("mission") is Dictionary:
 		return false
+	if data.has("world"):
+		var world_state: Variant = data.get("world")
+		if not world_state is Dictionary:
+			return false
+		if not world_state.get("repair_done", false) is bool or not world_state.get("shortcut_open", false) is bool:
+			return false
+	if data.has("progress"):
+		var saved_progress: Variant = data.get("progress")
+		if not saved_progress is Dictionary or not _validate_campaign_progress(saved_progress):
+			return false
 	if not assembler.validate_snapshot(data.loadout) or not player.validate_snapshot(data.player):
 		return false
 	for coordinate in data.player.position:

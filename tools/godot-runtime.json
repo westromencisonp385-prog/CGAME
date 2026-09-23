@@ -11,7 +11,7 @@
   "test_markers": {
     "combat_flow.gd": "PASS combat_flow:",
     "core_loop_flow.gd": "CORE LOOP PASS:",
-    "core_loop_flow.gd": "CORE LOOP PASS:",
+    "core_loop_m1_flow.gd": "CORE LOOP M1 PASS:",
     "contract_flow.gd": "CONTRACT FLOW PASS:",
     "gm_flow.gd": "GM FLOW PASS:",
     "m0_smoke.gd": "M0 smoke:",
