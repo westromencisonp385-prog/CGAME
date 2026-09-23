@@ -1,0 +1,5 @@
+# Keep generated and authored binary assets out of text-oriented diff checks.
+*.pdf binary
+*.png binary
+*.glb binary
+*.blend binary

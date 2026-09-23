@@ -25,3 +25,17 @@
 - 当前是M0基础加一个已验证的M1小合同与开发测试工具，正式战役、Steam、真机手柄/Deck尚未完成。
 - 先复现、修复和截图验证已有流程，再扩量；避免新增平行现役规格。
 - docs/wayfinder是决策路线；任务拆分尚未全部确认，不自动关单。
+
+## Agent skills
+
+### Issue tracker
+
+工程决策和票据使用仓库内 `docs/wayfinder/` 的本地 Markdown；GitHub 仅作为代码远端。见 `docs/agents/issue-tracker.md`。
+
+### Triage labels
+
+票据的 `triage` 字段使用 `needs-triage`、`needs-info`、`ready-for-agent`、`ready-for-human`、`wontfix` 这组 canonical 值；wayfinder 的 `status` 仍只表示路线状态。见 `docs/agents/triage-labels.md`。
+
+### Domain docs
+
+这是单一上下文仓库；先读根目录 `CONTEXT.md` 和相关 ADR。见 `docs/agents/domain.md`。
