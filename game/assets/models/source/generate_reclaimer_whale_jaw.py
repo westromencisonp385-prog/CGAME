@@ -104,6 +104,55 @@ def parent_all(objects: list[bpy.types.Object], root: bpy.types.Object):
             obj.parent = root
 
 
+def contract_empty(name: str, parent: bpy.types.Object, role: str, active: bool = True):
+    """Create a named production contract node inspired by the observed prefab layers.
+
+    These nodes are original metadata and mounting structure. They do not copy the
+    reference hierarchy or claim the original runtime behavior.
+    """
+    node = empty(name, (0.0, 0.0, 0.0), parent)
+    node["contract_role"] = role
+    node["active_in_m0"] = active
+    return node
+
+
+def add_stage_contract(parent: bpy.types.Object, active_stage: int = 2):
+    stage_nodes = []
+    for stage in range(6):
+        group = contract_empty(f"T{stage}", parent, "upgrade_stage", stage == active_stage)
+        group["stage_index"] = stage
+        # A small authored plate makes each stage a real exportable visual layer.
+        plate = cube(f"T{stage}_StagePlate", (0.0, -0.18, 0.0), (0.38 + stage * 0.04, 0.07, 0.20 + stage * 0.025), "steel", 0.025)
+        plate.parent = group
+        if stage != active_stage:
+            plate.hide_render = True
+            plate.hide_set(True)
+        stage_nodes.append(group)
+    return stage_nodes
+
+
+def add_track_detail(parent: bpy.types.Object, side: float):
+    side_name = "L" if side < 0 else "R"
+    track = cube(f"Track_{side_name}_Guard", (side * 1.18, 0.0, 0.54), (0.24, 1.45, 0.42), "rubber", 0.12)
+    track.parent = parent
+    rail = cube(f"Track_{side_name}_InnerRail", (side * 1.18, 0.0, 0.58), (0.08, 1.22, 0.10), "steel", 0.025)
+    rail.parent = parent
+    for index in range(8):
+        tread = cube(f"Track_{side_name}_Tread_{index + 1:02d}", (side * 1.18, -1.05 + index * 0.30, 0.48), (0.28, 0.08, 0.06), "steel", 0.02)
+        tread.parent = parent
+
+
+def add_hydraulic_detail(parent: bpy.types.Object):
+    for index, x in enumerate((-0.30, 0.30)):
+        barrel = cylinder(f"Hydraulic_Barrel_{index + 1}", (x, 1.52, 1.32), 0.11, 1.15, "steel", rotation=(math.pi / 2, 0.0, 0.0), vertices=12)
+        barrel.parent = parent
+        rod = cylinder(f"Hydraulic_Rod_{index + 1}", (x, 2.12, 1.46), 0.055, 0.78, "bone_white", rotation=(math.pi / 2, 0.0, 0.0), vertices=10)
+        rod.parent = parent
+    for index, x in enumerate((-0.50, 0.50)):
+        hose = cylinder(f"Hydraulic_Hose_{index + 1}", (x, 1.18, 1.25), 0.035, 1.35, "coral_warning", rotation=(math.pi / 2, 0.0, 0.0), vertices=8)
+        hose.parent = parent
+
+
 def make_wheel(name: str, location: tuple[float, float, float], rotation=(math.pi / 2, 0.0, 0.0)):
     wheel = cylinder(name, location, 0.42, 0.28, "rubber", rotation=rotation, vertices=16)
     hub = cylinder(f"{name}_BoneHub", (location[0], location[1], location[2] + 0.03), 0.16, 0.31, "bone_white", rotation=rotation, vertices=12)
@@ -116,6 +165,23 @@ def make_base_vehicle() -> bpy.types.Object:
     root["asset_id"] = "vehicle.reclaimer.base"
     root["production_requirement"] = "P-04"
     root["axis_contract"] = "X width, Y forward, Z up; meters"
+
+    # The exported root follows the same kind of separable production contract
+    # seen in the reference Prefabs: skin, base elements, upgrade layers and
+    # explicit effect/cooldown sockets. Names and geometry are original.
+    skin = contract_empty("Skin", root, "visual_skin")
+    s0 = contract_empty("S0_Elements", root, "base_elements")
+    skin_elements = contract_empty("Skin_Elements", root, "skin_elements")
+    for name, role in [
+        ("InstantiationPoint_Passive_A", "passive_vfx_mount"),
+        ("InstantiationPoint_Passive_B", "passive_vfx_mount"),
+        ("InstantiationPoint_Active", "active_vfx_mount"),
+        ("Generic_CooldownElement", "cooldown_feedback"),
+        ("VFX_InstallFlash", "install_feedback"),
+        ("VFX_DamageMaterial", "damage_feedback"),
+    ]:
+        contract_empty(name, skin_elements, role)
+    add_stage_contract(skin, active_stage=0)
 
     pieces: list[bpy.types.Object] = []
     pieces.append(cube("Base_Chassis", (0.0, 0.0, 0.68), (1.25, 1.45, 0.34), "oil_blue", 0.14))
@@ -131,6 +197,7 @@ def make_base_vehicle() -> bpy.types.Object:
         pieces.extend((wheel, hub))
         wheel, hub = make_wheel(f"Wheel_{'L' if side < 0 else 'R'}_Rear", (side * 1.18, -0.86, 0.55))
         pieces.extend((wheel, hub))
+        add_track_detail(root, side)
 
     pivot = cylinder("Boom_Pivot", (0.0, 1.18, 1.08), 0.32, 1.72, "steel", rotation=(math.pi / 2, 0.0, 0.0), vertices=16)
     pieces.append(pivot)
@@ -146,6 +213,11 @@ def make_base_vehicle() -> bpy.types.Object:
     vfx = empty("VFX_MagnetOrigin", (0.0, 2.90, 1.58), root)
     vfx["event_source"] = "whale_pack.preview_or_authoritative_event"
     aim = empty("Aim_Origin", (0.0, 2.76, 1.30), root)
+    seat = empty("Operator_Seat", (0.0, -0.28, 1.45), root)
+    seat["operator_layer"] = "visual_only"
+    panel = cube("Operator_ControlPanel", (0.0, 0.20, 1.85), (0.32, 0.16, 0.08), "steel", 0.025)
+    panel.parent = root
+    add_hydraulic_detail(root)
     parent_all(pieces, root)
     return root
 
@@ -157,6 +229,22 @@ def make_jaw_module() -> bpy.types.Object:
     root["production_requirement"] = "P-05"
     root["functional_pair"] = "F-05"
     root["stage"] = "stage_02_jaw_open"
+
+    skin = contract_empty("Skin", root, "visual_skin")
+    s0 = contract_empty("S0_Elements", root, "base_elements")
+    skin_elements = contract_empty("Skin_Elements", root, "skin_elements")
+    for name, role in [
+        ("InstantiationPoint_Passive_A", "passive_vfx_mount"),
+        ("InstantiationPoint_Passive_B", "passive_vfx_mount"),
+        ("InstantiationPoint_Active", "active_vfx_mount"),
+        ("Generic_CooldownElement", "cooldown_feedback"),
+        ("VFX_InstallFlash", "install_feedback"),
+        ("VFX_DamageMaterial", "damage_feedback"),
+        ("VFX_JawCompression", "whale_pack_feedback"),
+        ("VFX_JawRelease", "whale_release_feedback"),
+    ]:
+        contract_empty(name, skin_elements, role)
+    add_stage_contract(skin, active_stage=2)
 
     pieces: list[bpy.types.Object] = []
     collar = cylinder("Jaw_Mount_Collar", (0.0, 0.12, 0.0), 0.42, 1.45, "steel", rotation=(math.pi / 2, 0.0, 0.0), vertices=16)
@@ -191,6 +279,17 @@ def make_jaw_module() -> bpy.types.Object:
             )
             tooth.rotation_euler.x = math.radians(-10 if z > 0 else 10)
             pieces.append(tooth)
+        for bolt_index in range(3):
+            bolt = cylinder(
+                f"Jaw_{'L' if side < 0 else 'R'}_Bolt_{bolt_index + 1}",
+                (side * 0.78, 0.54 + bolt_index * 0.30, -0.26 + bolt_index * 0.26),
+                0.055,
+                0.10,
+                "bone_white",
+                rotation=(0.0, math.pi / 2, 0.0),
+                vertices=10,
+            )
+            pieces.append(bolt)
 
     socket = empty("Jaw_Socket", (0.0, -0.36, 0.0), root)
     socket["socket_type"] = "wide_jaw"
@@ -199,6 +298,8 @@ def make_jaw_module() -> bpy.types.Object:
     vfx["event_source"] = "F-05.authoritative_pack_event"
     hit = empty("Jaw_ContactPoint", (0.0, 1.66, 0.0), root)
     hit["purpose"] = "visual_contact_only_until_F-05_is_authoritative"
+    operator = empty("Generic_Operator", (0.0, -0.18, 0.0), root)
+    operator["operator_layer"] = "module_stage_feedback"
     parent_all(pieces, root)
     return root
 

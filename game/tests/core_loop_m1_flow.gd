@@ -32,19 +32,35 @@ func _run() -> void:
 	main.player.global_position = Vector3(6, 0.5, -6)
 	check(main.try_repair(), "repair remains available before shortcut opens")
 	check(main.repair_done and main.world.is_shortcut_open(), "repair opens the physical shortcut")
-	check(main.world.shortcut_gate != null and main.world.shortcut_gate.disabled, "repair disables the shortcut collision gate")
+	check(main.shortcut_gate != null and main.shortcut_gate.disabled, "repair disables the shortcut collision gate")
 	main.player.global_position = Vector3(9.0, 0.5, 1.0)
 	check(not main.player.test_move(main.player.global_transform, Vector3(0, 0, -3.0)), "repaired shortcut permits direct traversal")
 
-	main.defeated = main.ENEMY_LAYOUT.size()
-	main._check_victory()
+	var before_victory: Dictionary = main.get_snapshot()
+	check(main.gm.execute("save").get("ok", false), "GM can save a pre-reward run state")
+	check(main.gm.execute("clear_enemies").get("ok", false), "public training clear resolves the contract")
 	check(main.outcome == "won", "repair plus cleared threats completes the M1 contract")
 	var reward_id := str(main.M1_REWARD_BLUEPRINT_ID)
 	check(reward_id in main.get_unlocked_blueprints(), "contract commits a stable blueprint reward")
 	var reward_count: int = main.get_unlocked_blueprints().size()
-	main.finish_contract("won")
+	main.gm.execute("clear_enemies")
 	check(main.get_unlocked_blueprints().size() == reward_count, "reopening victory does not duplicate reward")
+	check(main.gm.execute("load").get("ok", false), "older GM run checkpoint can be restored")
+	check(main.outcome == "active" and reward_id in main.get_unlocked_blueprints(), "loading older GM run does not roll back permanent blueprint")
+	var legacy_snapshot: Dictionary = before_victory.duplicate(true)
+	legacy_snapshot["progress"] = {"version": 1, "unlocked_blueprints": []}
+	check(main.restore_snapshot(legacy_snapshot), "older run checkpoint with legacy progress can be read")
+	check(reward_id in main.get_unlocked_blueprints(), "legacy run progress field cannot erase permanent blueprint")
+	var impossible_route: Dictionary = before_victory.duplicate(true)
+	impossible_route.world.repair_done = false
+	impossible_route.world.shortcut_open = true
+	check(not main.restore_snapshot(impossible_route), "shortcut without repaired pump is rejected before replacing the world")
+	check(reward_id in main.get_unlocked_blueprints(), "rejected route leaves campaign progress intact")
 
+	check(main.repair_done and main.world.is_shortcut_open(), "replayed run retains the earlier repair")
+	for enemy in main.enemies:
+		if not enemy.dead:
+			enemy.take_damage(999.0)
 	check(main.gm.execute("save").get("ok", false), "GM save accepts repaired route and reward")
 	check(main.gm.execute("reset").get("ok", false), "new expedition clears local contract state")
 	check(main.outcome == "active" and not main.repair_done and not main.world.is_shortcut_open(), "reset clears local repair state")

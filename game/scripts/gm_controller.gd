@@ -336,15 +336,15 @@ func _campaign_status() -> Dictionary:
 func _campaign_reset() -> Dictionary:
 	if not main.has_method("reset_campaign_progress"):
 		return _error("当前主场景不支持局外进度")
-	main.reset_campaign_progress()
+	if not main.reset_campaign_progress():
+		return _error("局外进度写盘失败，原蓝图保持不变")
 	return _ok({"unlocked_blueprints": main.get_unlocked_blueprints()})
 
 func _clear_enemies() -> Dictionary:
 	main.clear_gm_and_formal_enemies()
 	# Clearing formal threats is an explicit training shortcut; mark them as
 	# resolved so the normal repair -> victory path remains testable.
-	main.defeated = main.ENEMY_LAYOUT.size()
-	main._check_victory()
+	main.resolve_training_enemies()
 	return _ok({"cleared": true, "formal_enemies": main.enemies.size(), "gm_enemies": main.gm_enemies.size(), "defeated": main.defeated})
 
 func _whale_pack(args: Dictionary) -> Dictionary:

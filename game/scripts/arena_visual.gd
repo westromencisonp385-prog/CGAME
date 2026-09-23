@@ -23,7 +23,6 @@ var route_after: Node3D
 var camera: Camera3D
 var effects: Node3D
 var river_material: ShaderMaterial
-var shortcut_gate: CollisionShape3D
 var shortcut_gate_mesh: MeshInstance3D
 var flow_time := 0.0
 var route_repaired := false
@@ -35,7 +34,7 @@ func _ready() -> void:
 	_build_ground()
 	_build_river_worksite()
 	_build_edge_landmarks()
-	_build_shortcut_collision()
+	_build_shortcut_visual()
 	_set_route_state(false)
 	effects = Effects.new()
 	add_child(effects)
@@ -149,20 +148,9 @@ func _build_route_landmarks() -> void:
 	_create_route_notice(route_after, Vector3(14.0, 0.0, -1.0), REPAIR_GREEN, "PUMP PASSED")
 	route_after.scale = Vector3.ZERO
 
-func _build_shortcut_collision() -> void:
-	var gate := StaticBody3D.new()
-	gate.name = "RepairShortcutCollisionGate"
-	gate.position = Vector3(9.0, 0.85, -1.0)
-	add_child(gate)
-	var collider := CollisionShape3D.new()
-	var shape := BoxShape3D.new()
-	shape.size = Vector3(10.8, 1.7, 0.7)
-	collider.shape = shape
-	gate.add_child(collider)
-	shortcut_gate = collider
-	shortcut_gate_mesh = box(gate, Vector3(10.8, 1.7, 0.7), Vector3.ZERO, ALERT)
-	shortcut_gate_mesh.name = "CollisionGateVisual"
-	set_shortcut_open(false)
+func _build_shortcut_visual() -> void:
+	shortcut_gate_mesh = box(self, Vector3(10.8, 1.7, 0.7), Vector3(9.0, 0.85, -1.0), ALERT)
+	shortcut_gate_mesh.name = "ShortcutClosedVisual"
 
 func _set_route_state(repaired: bool) -> void:
 	if route_before == null or route_after == null:
@@ -180,8 +168,6 @@ func _set_route_state(repaired: bool) -> void:
 
 func set_shortcut_open(open: bool) -> void:
 	_set_route_state(open)
-	if shortcut_gate != null:
-		shortcut_gate.disabled = open
 	if shortcut_gate_mesh != null:
 		shortcut_gate_mesh.visible = not open
 
