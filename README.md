@@ -44,6 +44,7 @@ pwsh -File tools/godot.ps1 capture
 
 - [现役规格](docs/spec.md)
 - [具体资产制作](docs/assets/production-guide.md)
+- [Blender 资产生产精度对标](docs/assets/model-production-benchmark.md)
 - [生成图片与提示词](docs/assets/image-generation-manifest.json)
 - [解包结构证据](evidence/reference_asset_contract.json)
 - [解包视觉证据](evidence/reference_visual_study.json)

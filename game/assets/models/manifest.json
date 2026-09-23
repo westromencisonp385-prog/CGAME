@@ -1,8 +1,12 @@
 {
   "asset_id": "vehicle.reclaimer.base_and_module.m0.sample",
-  "requirements": ["P-04", "P-05", "P-13"],
+  "requirements": [
+    "P-04",
+    "P-05",
+    "P-13"
+  ],
   "functional_dependency": "F-05",
-  "status": "presentation_sample",
+  "status": "production_precision_sample",
   "source_script": "source/generate_reclaimer_whale_jaw.py",
   "blender": {
     "path": "F:/SteamLibrary/steamapps/common/Blender/blender.exe",
@@ -16,28 +20,105 @@
   ],
   "files": {
     "reclaimer_whale_jaw.glb": {
-      "bytes": 291636,
-      "sha256": "3e911d2f74f243ff788202b170cda0e44ba5e07b9df0749c0604468b50efebda"
+      "bytes": 665192,
+      "sha256": "388d42ec7cfe0dd415bd65e2db7f076f7df3e813ebe696ea7cf800ac053ec903"
     },
     "../../../docs/assets/model-sources/reclaimer_whale_jaw.blend": {
-      "bytes": 117554,
-      "sha256": "7ca9675b8bcfc5f34df3f332322f0e5ac25e154d9b711f48c078b5c62d5d3ffd"
+      "bytes": 140535,
+      "sha256": "79bdd63f0fa50cd087c2c6ba4f6daea6a34e1cbdcef5591edf57d5c2d85cc63b"
     },
     "reclaimer_whale_jaw_preview.png": {
-      "bytes": 512295,
-      "sha256": "94e85fd47f0ecc81f01fd86cf2cbe699068219185cd0dbae3d26d442f3e21601"
+      "bytes": 522750,
+      "sha256": "bb911455770f2b230567c12383f4b0da46f056c17cc75068a66da1cca77bb7b8"
     },
     "source/generate_reclaimer_whale_jaw.py": {
-      "bytes": 11648,
-      "sha256": "2bf7cf0b13eea1dead73cb344d3d21b5b5c7fb46eb8284bb1252c2f91ddb67b3"
+      "bytes": 16511,
+      "sha256": "2ffbcdbc05427945d97e2fc670725e81c0af0165e9406834019649b13e351b48"
     }
   },
   "axis_contract": "X width, Y forward, Z up; meters",
   "style": {
     "camera": "three-quarter top-down readable silhouette",
-    "palette": ["#D17B14", "#092D38", "#D1C19E", "#C72E21", "#3F2B66"],
-    "materials": ["painted steel", "dark rubber", "bone accent", "warning paint", "energy coil"],
-    "shape_rules": ["broad primary masses", "visible bevels", "mechanical pivots", "detachable jaw with socket"]
+    "palette": [
+      "#D17B14",
+      "#092D38",
+      "#D1C19E",
+      "#C72E21",
+      "#3F2B66"
+    ],
+    "materials": [
+      "painted steel",
+      "dark rubber",
+      "bone accent",
+      "warning paint",
+      "energy coil"
+    ],
+    "shape_rules": [
+      "broad primary masses",
+      "visible bevels",
+      "mechanical pivots",
+      "detachable jaw with socket"
+    ]
   },
-  "reference_policy": "Original geometry and materials. Wanderburg/AssetRipper was used only for structural study; no extracted asset is included."
+  "reference_policy": "Original geometry and materials. Wanderburg/AssetRipper was used only for structural study; no extracted asset is included.",
+  "reference_benchmark": {
+    "Module2_FrontCannon": {
+      "game_object_count": 175,
+      "mono_behaviour_reference_count": 95,
+      "observed_layers": [
+        "Skin",
+        "S0_Elements",
+        "Skin_Elements",
+        "T0-T5",
+        "InstantiationPoint_Active",
+        "InstantiationPoint_Passive",
+        "Generic_CooldownElement"
+      ]
+    },
+    "Tank_Rank0": {
+      "game_object_count": 98
+    },
+    "Tank_Rank3": {
+      "game_object_count": 119
+    },
+    "Spider0": {
+      "game_object_count": 207,
+      "observed_layers": [
+        "Drive",
+        "SteeringGimbal",
+        "Feedback",
+        "LegController_Small",
+        "VFX state groups"
+      ]
+    },
+    "interpretation": "Original asset targets the reference production topology and separable state layers; counts are a precision benchmark, not copied geometry or an exact content target."
+  },
+  "production_contract": {
+    "object_count": 122,
+    "mesh_object_count": 77,
+    "material_count": 7,
+    "contract_nodes": [
+      "Skin",
+      "S0_Elements",
+      "Skin_Elements",
+      "T0",
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "InstantiationPoint_Active",
+      "InstantiationPoint_Passive_A",
+      "InstantiationPoint_Passive_B",
+      "Generic_CooldownElement",
+      "VFX_JawCompression",
+      "VFX_JawRelease",
+      "Jaw_Socket",
+      "Jaw_ContactPoint",
+      "VFX_MagnetOrigin",
+      "Jaw_VFX_FieldOrigin"
+    ],
+    "stage2_active": "T2 / Jaw_Upper_Stage02 / Jaw_Lower_Stage02",
+    "source": "Blender 5.2.1 LTS CLI"
+  }
 }

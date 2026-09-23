@@ -39,11 +39,15 @@ var elapsed := 0.0
 var collected := 0
 var defeated := 0
 var repair_done := false
+var shortcut_open := false
 var outcome := "active"
 var garage_open := false
 var manual_pause := false
 var target_slot := 0
 var simulation_enabled := true
+var shortcut_gate: CollisionShape3D
+var campaign_reward_pending := ""
+var reward_retry_clock := 0.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -51,6 +55,7 @@ func _ready() -> void:
 	definitions = Catalog.create_definitions()
 	world = ArenaVisual.new()
 	add_child(world)
+	_build_shortcut_gate()
 	entities = Node3D.new()
 	entities.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(entities)
@@ -85,6 +90,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if outcome == "active" and not get_tree().paused and simulation_enabled:
 		elapsed += delta
+	if outcome == "active" and not campaign_reward_pending.is_empty():
+		reward_retry_clock += delta
+		if reward_retry_clock >= 2.0:
+			reward_retry_clock = 0.0
+			check_victory()
 	if player != null:
 		var hovered := get_viewport().gui_get_hovered_control()
 		player.gameplay_enabled = outcome == "active" and not garage_open and not manual_pause and not gm.visible and simulation_enabled and (hovered == null or not _is_gameplay_blocking_control(hovered))
@@ -140,9 +150,8 @@ func reset_contract() -> void:
 	collected = 0
 	defeated = 0
 	repair_done = false
-	world.green_zone.hide()
-	if world.has_method("set_shortcut_open"):
-		world.set_shortcut_open(false)
+	reward_retry_clock = 0.0
+	set_shortcut_open(false)
 	assembler.restore({"version": 1, "active_ids": ["", ""], "core_id": "basic_bucket", "drive_id": "", "stage": 1})
 	player.reset_vehicle(Vector3(0, 0.5, 7))
 	for item in TARGET_LAYOUT:
@@ -162,11 +171,10 @@ func _spawn_target(item: Array) -> EngineeringTarget:
 	target.repaired.connect(func(_t: EngineeringTarget):
 		repair_done = true
 		world.green_zone.show()
-		if world.has_method("set_shortcut_open"):
-			world.set_shortcut_open(true)
+		set_shortcut_open(true)
 		player.health = minf(player.health + 30.0, 100.0)
 		feedback("水泵启动 · 耐久恢复 +30 · 河岸复苏")
-		_check_victory()
+		check_victory()
 	)
 	return target
 
@@ -185,7 +193,7 @@ func _spawn_enemy(item: Array, formal_target: bool = true) -> EnemyDummy:
 		if formal_target:
 			defeated += 1
 			feedback("威胁解除 · %d / %d" % [defeated, ENEMY_LAYOUT.size()])
-			_check_victory()
+			check_victory()
 		else:
 			feedback("GM 敌人已解除")
 	)
@@ -228,16 +236,41 @@ func try_repair() -> bool:
 	feedback("靠近青色水泵，按 R / 手柄 A 启动")
 	return false
 
-func _check_victory() -> void:
+func check_victory() -> void:
 	if outcome == "active" and repair_done and defeated == ENEMY_LAYOUT.size():
 		finish_contract("won")
+
+func resolve_training_enemies() -> void:
+	defeated = ENEMY_LAYOUT.size()
+	check_victory()
+
+func _build_shortcut_gate() -> void:
+	var gate := StaticBody3D.new()
+	gate.name = "RepairShortcutCollisionAuthority"
+	gate.position = Vector3(9.0, 0.85, -1.0)
+	add_child(gate)
+	var collider := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(10.8, 1.7, 0.7)
+	collider.shape = shape
+	gate.add_child(collider)
+	shortcut_gate = collider
+	set_shortcut_open(false)
+
+func set_shortcut_open(open: bool) -> void:
+	shortcut_open = open and repair_done
+	if shortcut_gate != null:
+		shortcut_gate.disabled = shortcut_open
+	if world != null and world.has_method("set_shortcut_open"):
+		world.set_shortcut_open(shortcut_open)
 
 func finish_contract(result: String) -> void:
 	if outcome != "active":
 		return
+	if result == "won" and not _commit_contract_reward():
+		feedback("蓝图写盘失败 · 合同暂不结算，稍后自动重试")
+		return
 	outcome = result
-	if result == "won":
-		_commit_contract_reward()
 	garage_open = false
 	assembler.clear_preview()
 	ui.show_result()
@@ -295,10 +328,10 @@ func get_snapshot() -> Dictionary:
 	for enemy in enemies:
 		if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
 			enemy_states.append(enemy.get_snapshot())
-	return {"version": 2, "player": player.get_snapshot(), "loadout": assembler.snapshot(), "targets": target_states, "enemies": enemy_states,
+	var snapshot := {"version": 2, "player": player.get_snapshot(), "loadout": assembler.snapshot(), "targets": target_states, "enemies": enemy_states,
 		"mission": {"elapsed": elapsed, "collected": collected, "defeated": defeated, "outcome": outcome},
-		"world": {"repair_done": repair_done, "shortcut_open": world.is_shortcut_open() if world.has_method("is_shortcut_open") else repair_done},
-		"progress": campaign_progress.duplicate(true)}
+		"world": {"repair_done": repair_done, "shortcut_open": shortcut_open}}
+	return snapshot
 
 func save_snapshot() -> bool:
 	var snapshot: Dictionary = get_snapshot()
@@ -340,14 +373,9 @@ func restore_snapshot(data: Dictionary) -> bool:
 	manual_pause = false
 	var world_state: Dictionary = data.get("world", {})
 	repair_done = bool(world_state.get("repair_done", repair_done))
-	var shortcut_open := bool(world_state.get("shortcut_open", repair_done))
+	var restored_shortcut := bool(world_state.get("shortcut_open", repair_done))
 	world.green_zone.visible = repair_done
-	if world.has_method("set_shortcut_open"):
-		world.set_shortcut_open(shortcut_open)
-	var saved_progress: Variant = data.get("progress", null)
-	if saved_progress is Dictionary and _validate_campaign_progress(saved_progress):
-		campaign_progress = saved_progress.duplicate(true)
-		_save_campaign_progress()
+	set_shortcut_open(restored_shortcut)
 	ui.close_modals()
 	if outcome != "active":
 		ui.show_result()
@@ -368,6 +396,9 @@ func _load_campaign_progress() -> void:
 func _save_campaign_progress() -> bool:
 	return campaign_service.save_snapshot(campaign_progress)
 
+func _save_campaign_candidate(candidate: Dictionary) -> bool:
+	return campaign_service.save_snapshot(candidate)
+
 func _validate_campaign_progress(data: Dictionary) -> bool:
 	if int(data.get("version", 0)) != 1 or not data.get("unlocked_blueprints", []) is Array:
 		return false
@@ -378,16 +409,29 @@ func _validate_campaign_progress(data: Dictionary) -> bool:
 		seen[blueprint_id] = true
 	return true
 
-func _commit_contract_reward() -> void:
+func _commit_contract_reward() -> bool:
 	var unlocked: Array = campaign_progress.get("unlocked_blueprints", [])
-	if not unlocked.has(M1_REWARD_BLUEPRINT_ID):
-		unlocked.append(M1_REWARD_BLUEPRINT_ID)
-		campaign_progress["unlocked_blueprints"] = unlocked
-		_save_campaign_progress()
+	if unlocked.has(M1_REWARD_BLUEPRINT_ID):
+		campaign_reward_pending = ""
+		return true
+	var candidate := campaign_progress.duplicate(true)
+	var candidate_unlocked: Array = candidate.get("unlocked_blueprints", [])
+	candidate_unlocked.append(M1_REWARD_BLUEPRINT_ID)
+	candidate["unlocked_blueprints"] = candidate_unlocked
+	if _save_campaign_candidate(candidate):
+		campaign_progress = candidate
+		campaign_reward_pending = ""
+		return true
+	campaign_reward_pending = M1_REWARD_BLUEPRINT_ID
+	return false
 
-func reset_campaign_progress() -> void:
-	campaign_progress = {"version": 1, "unlocked_blueprints": []}
-	_save_campaign_progress()
+func reset_campaign_progress() -> bool:
+	var candidate := {"version": 1, "unlocked_blueprints": []}
+	if not _save_campaign_candidate(candidate):
+		return false
+	campaign_progress = candidate
+	campaign_reward_pending = ""
+	return true
 
 func validate_snapshot(data: Dictionary) -> bool:
 	if data.get("version") != 2 or not data.get("player") is Dictionary or not data.get("loadout") is Dictionary or not data.get("targets") is Array or not data.get("enemies") is Array or not data.get("mission") is Dictionary:
@@ -397,6 +441,8 @@ func validate_snapshot(data: Dictionary) -> bool:
 		if not world_state is Dictionary:
 			return false
 		if not world_state.get("repair_done", false) is bool or not world_state.get("shortcut_open", false) is bool:
+			return false
+		if bool(world_state.get("shortcut_open", false)) and not bool(world_state.get("repair_done", false)):
 			return false
 	if data.has("progress"):
 		var saved_progress: Variant = data.get("progress")
@@ -433,6 +479,15 @@ func validate_snapshot(data: Dictionary) -> bool:
 		seen[state.target_id] = true
 	if not seen.has("repair_pump"):
 		return false
+	if data.has("world"):
+		var repaired_pump := false
+		for state in data.targets:
+			if state.target_id == "repair_pump":
+				repaired_pump = bool(state.get("repaired", false))
+				break
+		var world_state: Dictionary = data.world
+		if bool(world_state.repair_done) != repaired_pump or bool(world_state.shortcut_open) != repaired_pump:
+			return false
 	seen.clear()
 	var enemy_states_by_id: Dictionary = {}
 	for state in data.enemies:
