@@ -38,7 +38,8 @@ func refresh(delta: float) -> void:
 	var a = main.assembler
 	target_slot = main.target_slot
 	status_label.text = "耐久 %03d  载荷 %d/%d  热量 %02d" % [p.health, p.cargo, p.max_cargo, p.heat]
-	mission_label.text = "01 复苏河岸\n回收 %d/3  威胁 %d/5\n水泵 %s  %02d:%02d" % [main.collected, main.defeated, "已启动" if main.repair_done else "待修复", int(main.elapsed) / 60, int(main.elapsed) % 60]
+	var route_status := "捷径已通" if main.repair_done else "封锁 · 绕行"
+	mission_label.text = "01 复苏河岸\n回收 %d/3  威胁 %d/5\n水泵 %s\n路线：%s  %02d:%02d" % [main.collected, main.defeated, "已启动" if main.repair_done else "待修复", route_status, int(main.elapsed) / 60, int(main.elapsed) % 60]
 	hint_label.text = "已暂停 · Esc / Menu 继续" if main.manual_pause else "WASD/左摇杆 驾驶 · 鼠标/右摇杆 瞄准 · 左键/RT 作业 · 右键/LT 投掷 · Shift/LB 冲刺 · R/A 修复 · B/Y 改装"
 	loadout_label.text = "核心  %s\n挂点 A  %s\n挂点 B  %s\n动力  %s\n结构阶段  %d" % [_display(a.core_id), _display(a.active_ids[0]), _display(a.active_ids[1]), _display(a.drive_id), a.stage]
 	preview_label.text = a.get_preview_summary() if not a.preview_id.is_empty() else "选择一个模块查看幽灵预览。\n确认前不会改变实装、资源与冷却。"
@@ -87,9 +88,10 @@ func _build() -> void:
 	_text(top, "RECLAIMER / 回收者", 18, Color("#f4c96c"))
 	_text(top, "工单 01 · 抽水站恢复 / 施工中", 12, Color("#a4bcc4"))
 	status_label = _text(top, "", 14, Color("#edf1e9"))
-	var objective := _panel(ui, Vector2(1010, 18), Vector2(246, 118))
+	var objective := _panel(ui, Vector2(1010, 18), Vector2(246, 140))
 	_text(objective, "现场工单", 13, Color("#f4c96c"))
 	mission_label = _text(objective, "", 15, Color("#b9ebd0"))
+	mission_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var bottom := _panel(ui, Vector2(20, 638), Vector2(940, 60))
 	hint_panel = bottom.get_parent()
 	hint_label = _text(bottom, "", 12, Color("#afc5ca"))

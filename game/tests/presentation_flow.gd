@@ -22,6 +22,13 @@ func _run() -> void:
 	# a second gameplay authority. These nodes are purely visual children.
 	check(main.player.visual_root != null and main.player.visual_root.has_node("ChassisSafetyPanel"), "Styled vehicle silhouette is present")
 	check(main.world.get_node_or_null("DryRiverAndBanks") != null and main.world.get_node_or_null("EdgeLandmarks") != null, "River and landmark presentation layer is present")
+	var route_before: Node3D = main.world.get_node_or_null("RouteBeforeRepair")
+	var route_after: Node3D = main.world.get_node_or_null("RouteAfterRepair")
+	check(route_before != null and route_after != null, "Repair route landmarks are present")
+	check(route_before != null and route_before.visible and route_after != null and not route_after.visible, "Unrepaired route reads as blocked")
+	main.world.green_zone.show()
+	main.world._process(0.0)
+	check(route_before != null and not route_before.visible and route_after != null and route_after.visible, "Repair route reads as a usable shortcut")
 	main.world.set_effects_enabled(true)
 	var with_effects: Dictionary = main.player.perform_primary()
 	var first: Dictionary = main.get_snapshot()

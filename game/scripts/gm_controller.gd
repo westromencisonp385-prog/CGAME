@@ -109,7 +109,7 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		return _error("GM 尚未连接到主场景")
 	var result: Dictionary
 	match name:
-		"help": result = _ok({"commands": ["help", "status", "panel", "preset", "heal", "invulnerable", "refill", "freeze_ai", "time_scale", "stage", "spawn", "garage", "preview", "confirm", "reset", "save", "load", "repair", "clear_enemies", "whale_pack", "whale_throw", "whale_demo", "vfx"]})
+		"help": result = _ok({"commands": ["help", "status", "panel", "preset", "heal", "invulnerable", "refill", "freeze_ai", "time_scale", "stage", "spawn", "garage", "preview", "confirm", "reset", "save", "load", "repair", "clear_enemies", "campaign_status", "campaign_reset", "whale_pack", "whale_throw", "whale_demo", "vfx"]})
 		"status": result = _ok(get_state())
 		"panel": result = _panel_command(args)
 		"preset": result = _preset(str(args.get("name", "")))
@@ -128,6 +128,8 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		"load": result = _load_test_snapshot()
 		"repair": result = _repair()
 		"clear_enemies": result = _clear_enemies()
+		"campaign_status": result = _campaign_status()
+		"campaign_reset": result = _campaign_reset()
 		"whale_pack": result = _whale_pack(args)
 		"whale_throw": result = _whale_throw()
 		"whale_demo": result = _whale_demo()
@@ -158,6 +160,9 @@ func get_state() -> Dictionary:
 		"gm_enemies": int(main.gm_enemies.size()),
 		"defeated": int(main.defeated),
 		"repair_done": bool(main.repair_done),
+		"shortcut_open": bool(main.world.is_shortcut_open()) if main.world != null and main.world.has_method("is_shortcut_open") else false,
+		"unlocked_blueprints": main.get_unlocked_blueprints() if main.has_method("get_unlocked_blueprints") else [],
+		"contract_reward_id": str(main.M1_REWARD_BLUEPRINT_ID),
 		"outcome": str(main.outcome),
 		"test_save_path": TEST_SAVE_PATH,
 		"packed_count": int(main.player.packed_enemy_ids.size()) if main.player != null else 0,
@@ -324,6 +329,15 @@ func _repair() -> Dictionary:
 			if target.interact_repair():
 				return _ok({"repair_done": true})
 	return _ok({"repair_done": main.repair_done})
+
+func _campaign_status() -> Dictionary:
+	return _ok({"unlocked_blueprints": main.get_unlocked_blueprints()})
+
+func _campaign_reset() -> Dictionary:
+	if not main.has_method("reset_campaign_progress"):
+		return _error("当前主场景不支持局外进度")
+	main.reset_campaign_progress()
+	return _ok({"unlocked_blueprints": main.get_unlocked_blueprints()})
 
 func _clear_enemies() -> Dictionary:
 	main.clear_gm_and_formal_enemies()

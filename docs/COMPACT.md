@@ -16,5 +16,5 @@
 - 参考包：F:/SteamLibrary/steamapps/common/Wanderburg Game是Unity IL2CPP发行包；AssetRipper导出在F:/WanderburgAssetRipperExport/ExportedProject。5场景、749Prefab、845纹理、707C#文件不等于全部可玩内容，方法体不能作为原算法。
 - 研究：evidence/reference_asset_contract.json为六结构样例；reference_visual_study.json为图像/色板/材质/shader/相机12条来源记录。本轮实际查看4张导出图；运行镜头/动态切换/后处理仍未知。商业参考资产不放入game。
 - 视觉制作：先读art-direction再读production-guide。Image2.5目标生成位图，Blender/程序几何做3D，Godot做原生材质/动画/特效/UI；先无特效实机读图，再叠演出。
-- 本轮实现：F-05最小鲸口打包、P-03/P-04/P-05/P-06/P-11 G1样板、F-15 CLI合同由并行agent开发；待集成验证和双轴review。
+- 本轮实现：F-05最小鲸口打包、P-03/P-04/P-05/P-06/P-09/P-11 G1样板、Blender 5.2.1鲸口GLB、F-15 CLI合同，以及 M1 小合同（修复前后真实路线门禁、蓝图奖励、GM/F5/F9恢复）。当前9组 Godot行为测试通过；完整战役和蓝图效果树仍未完成。
 - 不自动关闭旧wayfinder/tickets，不把规格条目视作已完成；旧PDF及月份/人日预算为历史立项估算。

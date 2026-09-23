@@ -13,12 +13,20 @@ const WATER_DULL := Color("#356f79")
 const WATER_LIVE := Color("#4caea7")
 const NAVY := Color("#253d48")
 const BONE := Color("#eee3c7")
+const ALERT := Color("#df604e")
+const REPAIR_GREEN := Color("#78d6a8")
+const PIPE_METAL := Color("#718a88")
 
 var green_zone: Node3D
+var route_before: Node3D
+var route_after: Node3D
 var camera: Camera3D
 var effects: Node3D
 var river_material: ShaderMaterial
+var shortcut_gate: CollisionShape3D
+var shortcut_gate_mesh: MeshInstance3D
 var flow_time := 0.0
+var route_repaired := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -27,6 +35,8 @@ func _ready() -> void:
 	_build_ground()
 	_build_river_worksite()
 	_build_edge_landmarks()
+	_build_shortcut_collision()
+	_set_route_state(false)
 	effects = Effects.new()
 	add_child(effects)
 
@@ -109,6 +119,99 @@ func _build_river_worksite() -> void:
 	river_material.shader = RIVER
 	flowing_water.material_override = river_material
 	green_zone.hide()
+	_build_route_landmarks()
+
+func _build_route_landmarks() -> void:
+	# The route is a visual contract: before repair, the broken crossing and
+	# leaking pipe explain the detour; after repair, the bridge and green guide
+	# bands explain why the world has gained a shortcut. No child has collision.
+	route_before = Node3D.new()
+	route_before.name = "RouteBeforeRepair"
+	add_child(route_before)
+	_create_route_notice(route_before, Vector3(3.1, 0.0, -1.0), ALERT, "ROUTE CLOSED")
+	box(route_before, Vector3(3.4, 0.28, 1.35), Vector3(5.4, 0.25, -1.0), EARTH_DARK)
+	box(route_before, Vector3(3.4, 0.28, 1.35), Vector3(12.6, 0.25, -1.0), EARTH_DARK)
+	for at in [Vector3(4.1, 0.58, -1.0), Vector3(13.9, 0.58, -1.0)]:
+		box(route_before, Vector3(0.18, 0.8, 0.18), at, ALERT)
+	_pipe(route_before, Vector3(9.0, 0.26, 1.2), 7.0, Color("#a87856"))
+	_pipe(route_before, Vector3(9.0, 0.28, 2.0), 5.2, PIPE_METAL)
+	_create_route_notice(route_before, Vector3(14.0, 0.0, -1.0), ALERT, "DETOUR")
+
+	route_after = Node3D.new()
+	route_after.name = "RouteAfterRepair"
+	add_child(route_after)
+	box(route_after, Vector3(10.8, 0.34, 1.7), Vector3(9.0, 0.34, -1.0), BONE)
+	box(route_after, Vector3(10.8, 0.12, 0.38), Vector3(9.0, 0.56, -1.62), REPAIR_GREEN)
+	box(route_after, Vector3(10.8, 0.12, 0.38), Vector3(9.0, 0.56, -0.38), REPAIR_GREEN)
+	for x in [4.1, 6.0, 8.0, 10.0, 12.0, 13.9]:
+		box(route_after, Vector3(0.16, 0.9, 0.16), Vector3(x, 0.76, -1.0), REPAIR_GREEN)
+	_create_route_notice(route_after, Vector3(3.1, 0.0, -1.0), REPAIR_GREEN, "SHORTCUT OPEN")
+	_create_route_notice(route_after, Vector3(14.0, 0.0, -1.0), REPAIR_GREEN, "PUMP PASSED")
+	route_after.scale = Vector3.ZERO
+
+func _build_shortcut_collision() -> void:
+	var gate := StaticBody3D.new()
+	gate.name = "RepairShortcutCollisionGate"
+	gate.position = Vector3(9.0, 0.85, -1.0)
+	add_child(gate)
+	var collider := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(10.8, 1.7, 0.7)
+	collider.shape = shape
+	gate.add_child(collider)
+	shortcut_gate = collider
+	shortcut_gate_mesh = box(gate, Vector3(10.8, 1.7, 0.7), Vector3.ZERO, ALERT)
+	shortcut_gate_mesh.name = "CollisionGateVisual"
+	set_shortcut_open(false)
+
+func _set_route_state(repaired: bool) -> void:
+	if route_before == null or route_after == null:
+		return
+	route_repaired = repaired
+	route_before.visible = not repaired
+	route_after.visible = repaired
+	if repaired:
+		route_after.scale = Vector3(1.0, 0.12, 1.0)
+		var tween := create_tween()
+		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		tween.tween_property(route_after, "scale", Vector3.ONE, 0.38).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	else:
+		route_after.scale = Vector3.ZERO
+
+func set_shortcut_open(open: bool) -> void:
+	_set_route_state(open)
+	if shortcut_gate != null:
+		shortcut_gate.disabled = open
+	if shortcut_gate_mesh != null:
+		shortcut_gate_mesh.visible = not open
+
+func is_shortcut_open() -> bool:
+	return route_repaired
+
+func _create_route_notice(parent: Node3D, at: Vector3, color: Color, _label: String) -> void:
+	var group := Node3D.new()
+	group.position = at
+	parent.add_child(group)
+	box(group, Vector3(0.12, 1.15, 0.12), Vector3(0, 0.58, 0), EARTH_DARK)
+	box(group, Vector3(1.55, 0.56, 0.12), Vector3(0, 1.3, 0), color)
+	box(group, Vector3(0.92, 0.08, 0.14), Vector3(0, 1.3, -0.08), BONE)
+	# The short, high-contrast stripe is legible from the top-down camera even
+	# without relying on tiny 3D text that would blur at gameplay scale.
+	box(group, Vector3(0.14, 0.26, 0.14), Vector3(-0.45, 1.3, -0.09), color.darkened(0.35))
+	box(group, Vector3(0.14, 0.26, 0.14), Vector3(0.45, 1.3, -0.09), color.darkened(0.35))
+
+func _pipe(parent: Node3D, at: Vector3, length: float, color: Color) -> void:
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = 0.13
+	mesh.bottom_radius = 0.16
+	mesh.height = length
+	mesh.radial_segments = 8
+	var pipe := MeshInstance3D.new()
+	pipe.mesh = mesh
+	pipe.position = at
+	pipe.rotation_degrees.z = 90.0
+	pipe.material_override = material(color)
+	parent.add_child(pipe)
 
 func _build_edge_landmarks() -> void:
 	var landmarks := Node3D.new()
@@ -227,6 +330,8 @@ func _process(delta: float) -> void:
 	flow_time += delta
 	if river_material != null:
 		river_material.set_shader_parameter("flow_time", flow_time)
+	if green_zone != null and green_zone.visible != route_repaired:
+		_set_route_state(green_zone.visible)
 
 func set_vehicle(vehicle: Node3D) -> void:
 	effects.set_vehicle(vehicle)
