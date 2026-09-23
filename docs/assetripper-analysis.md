@@ -6,6 +6,8 @@
 
 2026-09-21补充：本轮直接查看色板、载具展示图、模块图标和烟尘遮罩，并核对样例材质/shader引用与场景相机参数；见 [视觉证据](../evidence/reference_visual_study.json) 和 [整体美术研究与原创方向](assets/art-direction.md)。这是导出样例研究，尚未完成参考游戏的动态镜头/后处理/演出分析。
 
+2026-09-24补充：`研究：建立模块与载具引用矩阵` 已整理为 [AssetRipper 引用矩阵](assetripper-reference-matrix.md)。矩阵逐项标记 observed / inferred / unknown，并明确三条 M0 组合可以借鉴的结构线索与不能从导出推断的运行时边界；它不替代原型和试玩。
+
 ## 1. 这次比元数据审计多看到了什么
 
 AssetRipper 官方说明支持 Unity 3.5.0 到 6000.4.X；本包的 Unity 版本为 6000.0.63f1，因此导出成功。导出结果包含：
