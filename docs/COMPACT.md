@@ -1,6 +1,6 @@
 # Compact · 项目接续入口
 
-更新时间：2026-09-21。磁盘接续记录；不以此宣称调用了宿主原生 /compact 命令。
+更新时间：2026-09-23。磁盘接续记录；不以此宣称调用了宿主原生 /compact 命令。
 
 - 目标：个人 + AI + 必要外包，Steam单机幻想工程车游戏；战斗、挖掘升级、世界修复、模块改变操控/剪影/规则。幻想不受真实车型约束。
 - 最新指示：用to-spec拆需求；整体必须整蛊、搞笑、有趣。明确F功能/P表现；当前白模视觉不合格。先学习解包视觉、从整体做美学设计，确认调性后才制作内容。
@@ -12,7 +12,7 @@
 - 代码：master的47f3a3a为初版M0，已有后续未提交修改。不要丢弃，也不要把大量未跟踪缓存、工具二进制和第三方导出一并提交。
 - 引擎：固定Godot4.7.2 stable、GDScript、Mobile、Jolt；用项目CLI，PATH可能仍是4.6.3。Windows debug模板与导出已有，release模板和发行验收未完成。
 - M0已有驾驶/主斗/投掷/冲刺、核心/动力/两功能槽、三代表组合、局部修复、胜负重试和A/B快照；GM共享命令、独立存档、面板暂停等基础已实现。正式3D、完整AI/战役/结算事务/Steam未完成。
-- 既有QA：六组逻辑测试通过；artifacts/qa/latest有七场景真GPU截图（4070Ti SUPER，Mobile）及来源hash。它们证明流程和捕获可运行，不证明美术合格或好玩。真实手柄、声音听感、性能与真人试玩仍待验收。
+- 既有QA：9组逻辑测试通过；M1有修复前后路线真GPU截图（4070Ti SUPER，Mobile），捕获流程有8个场景并记录来源hash。它们证明流程和捕获可运行，不证明美术合格或好玩。真实手柄、声音听感、性能与真人试玩仍待验收。
 - 参考包：F:/SteamLibrary/steamapps/common/Wanderburg Game是Unity IL2CPP发行包；AssetRipper导出在F:/WanderburgAssetRipperExport/ExportedProject。5场景、749Prefab、845纹理、707C#文件不等于全部可玩内容，方法体不能作为原算法。
 - 研究：evidence/reference_asset_contract.json为六结构样例；reference_visual_study.json为图像/色板/材质/shader/相机12条来源记录。本轮实际查看4张导出图；运行镜头/动态切换/后处理仍未知。商业参考资产不放入game。
 - 视觉制作：先读art-direction再读production-guide。Image2.5目标生成位图，Blender/程序几何做3D，Godot做原生材质/动画/特效/UI；先无特效实机读图，再叠演出。
