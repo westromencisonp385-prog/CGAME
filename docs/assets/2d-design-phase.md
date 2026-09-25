@@ -50,4 +50,3 @@
 | D01–D04 | 待选 | 待选 | 待选 | 待选 | 未批准 |
 
 图像工具的实际模型版本不公开时，manifest 记录 requested_model=image2.5、actual_model=unknown；概念图不代表已经完成模型、材质、动画、碰撞或性能。
-

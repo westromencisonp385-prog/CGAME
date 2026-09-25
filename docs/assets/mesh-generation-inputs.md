@@ -70,4 +70,3 @@ animations: idle_hydraulic, drive_forward, drive_reverse, brake, turn_in_place, 
 4. C04 维修泵。
 5. C01 河流桥/路线组件。
 6. 其余机器、怪物和群系在首个垂直切片通过后再提交。
-
