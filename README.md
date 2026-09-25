@@ -9,6 +9,9 @@
 - [方向板 v2（待确认）](docs/assets/art-direction-a-v2.png)
 - [2D设计候选库（20张，待筛选）](docs/assets/2d-candidates/README.md)
 - [2D设计冻结阶段规范](docs/assets/2d-design-phase.md)
+- [完整TODO](docs/TODO.md)
+- [Meshy/Tripo输入规范](docs/assets/mesh-generation-inputs.md)
+- [Mesh生成队列](docs/assets/mesh-generation-queue.json)
 - [世界设定与内容圣经](docs/world-bible.md)
 - [机器/怪物/挑战扩展概念板](docs/assets/expansion-concept-board-v1.png)
 
