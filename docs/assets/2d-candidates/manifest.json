@@ -1,0 +1,170 @@
+{
+  "date": "2026-09-25",
+  "phase": "2d_design_freeze",
+  "requested_model": "image2.5",
+  "actual_model": "unknown_not_exposed_by_builtin_tool",
+  "count": 20,
+  "selection_required": true,
+  "records": [
+    {
+      "id": "A01-whale-jaw-reclaimer",
+      "file": "A01-whale-jaw-reclaimer.png",
+      "sha256": "a0a74f7bd51fb2726a98f70f4d54a000e1f47809c35dc404fda25bfe82cf76f6",
+      "bytes": 2167440,
+      "description": "鲸口回收铲：概念对齐核心候选，黑色口腔、上下颚、紫色线圈",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A02-umbrella-mole",
+      "file": "A02-umbrella-mole.png",
+      "sha256": "e873d48f3cc278778cac57a940c40549327820077893737f99007e4185117d00",
+      "bytes": 2384393,
+      "description": "雨伞鼹鼠：钻掘+伞盾+地下路线",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A03-rail-snail",
+      "file": "A03-rail-snail.png",
+      "sha256": "90a0ad6e8914dc8e2dea317941310f7eca79620e8a99aecc30ab605a6367bc15",
+      "bytes": 2258982,
+      "description": "铁轨蜗牛：线缆鼓+铺轨+抓钩",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A04-folding-bastion",
+      "file": "A04-folding-bastion.png",
+      "sha256": "5a28454c78ac1ecad5435d5047b7aa996cfbea87e04067eccae9b1764d2fae2e",
+      "bytes": 2479387,
+      "description": "折叠堡垒：展开成安全施工区",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A05-scrap-whale-crawler",
+      "file": "A05-scrap-whale-crawler.png",
+      "sha256": "212202f78762a6a05b77c54a5077ec9ed46de5812f7d4c0d8fa6ed9a74bc2874",
+      "bytes": 2673238,
+      "description": "垃圾鲸爬车：压缩鼓+维修砖堆叠",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A06-magnetic-spider-crane",
+      "file": "A06-magnetic-spider-crane.png",
+      "sha256": "13e9bb939a8871b49bf746a9f218224a9cbd22ab829689b0650d3d308077a01c",
+      "bytes": 2732120,
+      "description": "磁吸蜘蛛吊：支撑腿+磁能盘+抓钩",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A07-pavement-crocodile",
+      "file": "A07-pavement-crocodile.png",
+      "sha256": "0fa379dda2ddab1cb010427875c55507c19d29f3fcde16b089efe0a0b59f49c7",
+      "bytes": 2732127,
+      "description": "路面鳄：咬碎道路、整形、吐出路板",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "A08-mobile-repair-ark",
+      "file": "A08-mobile-repair-ark.png",
+      "sha256": "e66f58ab5d4b6fa651e9f92e47819920c9b04ee279701ab3695959495b2f0660",
+      "bytes": 2897727,
+      "description": "移动修复方舟：温室、水泵、桥头铲",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "B01-reverse-crab",
+      "file": "B01-reverse-crab.png",
+      "sha256": "7384594b1259549199c8fefec6e83c96a4d6c211e45513259873a35b02720f6e",
+      "bytes": 2778823,
+      "description": "倒车蟹路障：侧向冲撞+墙体",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "B02-boiler-hippo",
+      "file": "B02-boiler-hippo.png",
+      "sha256": "cc054ac96c67f706b8d12ecf6fcfdd6f3c229337569447163dcf59b498c3bf06",
+      "bytes": 2468588,
+      "description": "锅炉河马：压力环+热气锥",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "B03-deadline-eel",
+      "file": "B03-deadline-eel.png",
+      "sha256": "498ca32d7de12f10e2b433b97784268fcf114704aa0c7171b93c4bc0d5a7adc9",
+      "bytes": 2552145,
+      "description": "截止电鳗：电网跳跃+导电水洼",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "B04-demolition-pigeon",
+      "file": "B04-demolition-pigeon.png",
+      "sha256": "9fe973bac3928435d427eb576da1d110c9526bc6932844696ce96f4b452007f9",
+      "bytes": 1978200,
+      "description": "拆迁鸽无人机：偷取修复标记",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "B05-clause-colossus",
+      "file": "B05-clause-colossus.png",
+      "sha256": "2695e3e661ed945234597085e22e7fb2a1fb30d7b756c21543664469085baf62",
+      "bytes": 2789425,
+      "description": "条款巨像：可重排装甲板",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "B06-trashnado",
+      "file": "B06-trashnado.png",
+      "sha256": "18d18688ecc54f08ca52f444c3a552698154a854ae11f810326ded8715196eba",
+      "bytes": 2459258,
+      "description": "垃圾台风：可逆磁场+安全内圈",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "C01-fold-the-river",
+      "file": "C01-fold-the-river.png",
+      "sha256": "4380fd9c239118f401a420b0c5c8ad42f69460aaa7c656468db92ca16a10a2a4",
+      "bytes": 2316042,
+      "description": "倒流河谷：修复河道和桥",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "C02-weather-after-sales",
+      "file": "C02-weather-after-sales.png",
+      "sha256": "c2977075437b33d826b6745e8ab64229213c6a252f37c40cd1cb1854a92eaaae",
+      "bytes": 2239160,
+      "description": "售后盐海：固定风机和维修信标",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "C03-city-needs-breath",
+      "file": "C03-city-needs-breath.png",
+      "sha256": "dd63efec740178fcb9bd71be65f2a4a6cbf18845fb3c6f87bb7c30d895c9668f",
+      "bytes": 2353421,
+      "description": "呼吸山城：通风、叠层道路、捷径",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "C04-repair-pump-cutaway",
+      "file": "C04-repair-pump-cutaway.png",
+      "sha256": "dc01d61640d7abc6b9ce05fb4bd91b067d2cf1b64199f79ae9b5980aa6a6aa46",
+      "bytes": 2291848,
+      "description": "维修泵：机械剖面和三状态",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "C05-facility-escort",
+      "file": "C05-facility-escort.png",
+      "sha256": "e42a1b67073d4eece8f2dc5a330a762856a0460ed33996b36ec8278ad7367647",
+      "bytes": 2369822,
+      "description": "设施护送：移动泵站+多维修点",
+      "status": "candidate_for_user_selection"
+    },
+    {
+      "id": "C06-camp-service-board",
+      "file": "C06-camp-service-board.png",
+      "sha256": "4effc844d7472bae5669bea06f3912086a86ec211d030873569dc60c21170213",
+      "bytes": 2277792,
+      "description": "营地服务：蓝图板、车库、修复桥",
+      "status": "candidate_for_user_selection"
+    }
+  ]
+}
