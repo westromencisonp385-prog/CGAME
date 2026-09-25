@@ -7,6 +7,8 @@
 - [需求拆分与开工顺序](docs/requirements.md)
 - [整体美术方向 A：一本正经的胡闹工程队](docs/assets/art-direction.md)
 - [方向板 v2（待确认）](docs/assets/art-direction-a-v2.png)
+- [2D设计候选库（20张，待筛选）](docs/assets/2d-candidates/README.md)
+- [2D设计冻结阶段规范](docs/assets/2d-design-phase.md)
 - [世界设定与内容圣经](docs/world-bible.md)
 - [机器/怪物/挑战扩展概念板](docs/assets/expansion-concept-board-v1.png)
 
