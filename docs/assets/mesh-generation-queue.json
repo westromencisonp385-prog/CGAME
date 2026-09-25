@@ -1,0 +1,253 @@
+{
+  "date": "2026-09-25",
+  "phase": "2d_selection_before_mesh_generation",
+  "provider": "Meshy_or_Tripo_api_provider_neutral",
+  "requested_model_image": "image2.5",
+  "actual_image_model": "unknown_not_exposed_by_builtin_tool",
+  "global_contract": {
+    "units": "meters",
+    "axis": "X=width,Y=forward,Z=up",
+    "camera": "orthographic top-down plus three-quarter",
+    "renderer": "Godot 4.7.2 Mobile",
+    "output": [
+      "GLB",
+      "source_metadata",
+      "textures_if_supported",
+      "preview_png"
+    ],
+    "negative": [
+      "no commercial reference assets",
+      "no faces or mascot eyes unless selected design explicitly needs it",
+      "no random weapons or floating parts",
+      "no dense greebles",
+      "no baked UI text",
+      "no hidden collision claims",
+      "no photoreal noise"
+    ],
+    "required_outputs": [
+      "base_mesh",
+      "detachable_modules",
+      "socket_markers",
+      "collision_proxy",
+      "LOD0",
+      "LOD1",
+      "LOD2",
+      "material_slots",
+      "animation_rig_or_named_animation_points",
+      "manifest"
+    ]
+  },
+  "assets": [
+    {
+      "id": "player.machine.primary",
+      "group": "player",
+      "status": "selection_required",
+      "candidates": [
+        "A01-whale-jaw-reclaimer.png",
+        "A02-umbrella-mole.png",
+        "A03-rail-snail.png",
+        "A04-folding-bastion.png",
+        "A05-scrap-whale-crawler.png",
+        "A06-magnetic-spider-crane.png",
+        "A07-pavement-crocodile.png",
+        "A08-mobile-repair-ark.png"
+      ],
+      "source_dir": "docs/assets/2d-candidates",
+      "prompt": "Create a production-ready stylized construction vehicle from the selected design sheet. Preserve the selected silhouette, cabin anchor, major negative space, tool head, sockets and transformation stages. Build broad bevelled parts with separate chassis, tool, module and service parts. Keep moving joints clear and avoid random additions.",
+      "mesh_targets": {
+        "lod0_triangles": "10000-25000",
+        "lod1_triangles": "5000-12000",
+        "lod2_triangles": "1500-5000",
+        "materials": "4-8",
+        "collision": "separate simplified proxy"
+      },
+      "animations": [
+        "shared_player_library",
+        "selected_machine_transform"
+      ]
+    },
+    {
+      "id": "module.whale_jaw",
+      "group": "module",
+      "status": "selection_dependent",
+      "candidates": [
+        "A01-whale-jaw-reclaimer.png",
+        "A05-scrap-whale-crawler.png"
+      ],
+      "prompt": "Build a detachable whale-mouth engineering module with a dark cavity, upper and lower jaw, teeth, cheek plates, violet magnetic coils, pivots, hydraulic links and socket markers. Preserve a readable empty mouth from the top-down camera.",
+      "mesh_targets": {
+        "lod0_triangles": "6000-14000",
+        "materials": "5-8",
+        "collision": "jaw envelope separate from vehicle"
+      },
+      "animations": [
+        "jaw_idle",
+        "jaw_open",
+        "jaw_close_compress",
+        "magnetic_pull",
+        "payload_hold",
+        "payload_release",
+        "coil_spin"
+      ]
+    },
+    {
+      "id": "module.umbrella_mole",
+      "group": "module",
+      "status": "selection_dependent",
+      "candidates": [
+        "A02-umbrella-mole.png"
+      ],
+      "prompt": "Build a detachable telescoping drill and deployable umbrella shield with a clear drill socket, shield ribs, stabilizer legs and visible service joints.",
+      "mesh_targets": {
+        "lod0_triangles": "6000-14000",
+        "materials": "5-8"
+      },
+      "animations": [
+        "drill_spin",
+        "shield_deploy",
+        "shield_absorb",
+        "burrow_enter",
+        "burrow_loop",
+        "burrow_exit",
+        "surface_pop"
+      ]
+    },
+    {
+      "id": "module.rail_snail",
+      "group": "module",
+      "status": "selection_dependent",
+      "candidates": [
+        "A03-rail-snail.png"
+      ],
+      "prompt": "Build a detachable rail-laying module with spiral cable drum, magnetic rail layers, fold-out grappler arms and track connection points.",
+      "mesh_targets": {
+        "lod0_triangles": "6000-14000",
+        "materials": "5-8"
+      },
+      "animations": [
+        "drum_spin",
+        "rail_deploy",
+        "rail_snap_connect",
+        "grappler_extend",
+        "grappler_pull",
+        "rail_retract"
+      ]
+    },
+    {
+      "id": "enemy.primary",
+      "group": "enemy",
+      "status": "selection_required",
+      "candidates": [
+        "B01-reverse-crab.png",
+        "B02-boiler-hippo.png",
+        "B03-deadline-eel.png",
+        "B04-demolition-pigeon.png",
+        "B05-clause-colossus.png",
+        "B06-trashnado.png"
+      ],
+      "prompt": "Build an original construction-world enemy from the selected design sheet. Preserve silhouette, telegraph shape, engineering failure joke and countermeasure socket. Avoid human faces and generic combat armor.",
+      "mesh_targets": {
+        "lod0_triangles": "1500-8000",
+        "lod1_triangles": "700-3500",
+        "materials": "3-6",
+        "collision": "behavior-specific simple proxy"
+      },
+      "animations": [
+        "idle",
+        "move",
+        "telegraph",
+        "attack",
+        "stagger",
+        "engineering_countered",
+        "defeat",
+        "retreat"
+      ]
+    },
+    {
+      "id": "facility.repair_pump",
+      "group": "facility",
+      "status": "selection_required",
+      "candidates": [
+        "C04-repair-pump-cutaway.png"
+      ],
+      "prompt": "Build a repair pump facility with replaceable seal, gauge, valves, inlet/outlet pipe sockets, bridge connection and three visible states: broken, repair in progress, restored.",
+      "mesh_targets": {
+        "lod0_triangles": "3000-9000",
+        "materials": "4-7",
+        "collision": "interactable footprint"
+      },
+      "animations": [
+        "pump_cough",
+        "pump_repair",
+        "pump_flow"
+      ]
+    },
+    {
+      "id": "environment.river_bridge",
+      "group": "environment",
+      "status": "selection_dependent",
+      "candidates": [
+        "C01-fold-the-river.png",
+        "C05-facility-escort.png",
+        "C06-camp-service-board.png"
+      ],
+      "prompt": "Build a modular river bridge and blocked crossing with closed, construction and open states. Preserve identical footprint coordinates across states and provide route edge markers.",
+      "mesh_targets": {
+        "lod0_triangles": "2500-8000",
+        "materials": "3-6",
+        "collision": "state-specific proxy"
+      },
+      "animations": [
+        "bridge_closed_open"
+      ]
+    },
+    {
+      "id": "environment.wind_turbine",
+      "group": "environment",
+      "status": "future",
+      "candidates": [
+        "C02-weather-after-sales.png"
+      ],
+      "prompt": "Build a salt-wind turbine with anchor sockets, broken blades, repair beacon and restored rotation state.",
+      "mesh_targets": {
+        "lod0_triangles": "2500-8000",
+        "materials": "3-6"
+      },
+      "animations": [
+        "turbine_anchor_spin"
+      ]
+    },
+    {
+      "id": "environment.mountain_air_pump",
+      "group": "environment",
+      "status": "future",
+      "candidates": [
+        "C03-city-needs-breath.png"
+      ],
+      "prompt": "Build a vertical-city air pump and vent module with route sockets, broken fan, repair ring and restored clean-air state.",
+      "mesh_targets": {
+        "lod0_triangles": "3000-9000",
+        "materials": "4-7"
+      },
+      "animations": [
+        "air_pump_start"
+      ]
+    },
+    {
+      "id": "camp.service_board",
+      "group": "camp",
+      "status": "future",
+      "candidates": [
+        "C06-camp-service-board.png"
+      ],
+      "prompt": "Build a readable camp contract board, blueprint display and module service socket as separate props with before/after state.",
+      "mesh_targets": {
+        "lod0_triangles": "1500-5000",
+        "materials": "3-6"
+      },
+      "animations": [
+        "camp_service_unlock"
+      ]
+    }
+  ]
+}
