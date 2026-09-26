@@ -1,0 +1,15 @@
+{
+  "asset_id": "player.machine.a01_whale_jaw",
+  "style_anchor": "docs/assets/style-anchor-industrial-folk-v1.png",
+  "view_task_id": "Model2026092600605698",
+  "model_task_id": "Model2026092600605699",
+  "model_status": 3,
+  "outputs": [
+    {
+      "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_candidates\\player_a01\\Model2026092600605699_1.zip",
+      "bytes": 672438,
+      "sha256": "bdca409fe72359eab5824311e3ace80b1c486add253fdd60508330b8fc24dd5a"
+    }
+  ],
+  "review": "pending_blender_and_godot_style_check"
+}

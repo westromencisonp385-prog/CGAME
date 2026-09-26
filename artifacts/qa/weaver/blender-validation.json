@@ -1,0 +1,22 @@
+[
+  {
+    "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_candidates\\b01_motion\\skinning_extracted\\CGAME_b01_reverse_crab_skinning.fbx",
+    "bytes": 261056,
+    "objects": 16,
+    "mesh_objects": 15,
+    "vertices": 1416,
+    "triangles": 660,
+    "materials": [
+      "blue",
+      "cream",
+      "lilac",
+      "red",
+      "steel"
+    ],
+    "material_count": 5,
+    "uv_meshes": 15,
+    "armatures": 1,
+    "actions": [],
+    "screenshot": "D:\\工作\\CGAME\\artifacts\\qa\\weaver\\CGAME_b01_reverse_crab_skinning_turntable.png"
+  }
+]

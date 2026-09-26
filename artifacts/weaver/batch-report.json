@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "rtx_used": "jasonlyan",
+  "quota_before": {
+    "model_quota": 1000,
+    "animation_quota": 1000,
+    "image_processing_quota": 100
+  },
+  "visual_contract": "stylized industrial cartoon; engineering yellow / petrol blue / bone white; broad silhouette; no baked UI text; source sheets are design references, not final validation",
+  "assets": [
+    {
+      "asset_id": "player.a01_whale_jaw",
+      "face_num": 30000,
+      "format": "glb",
+      "source_uploaded": true,
+      "view_task_id": {
+        "code": 0,
+        "data": {
+          "model_id": "Model2026092600605693",
+          "model_ids": []
+        },
+        "msg": "success",
+        "req_id": "ecfabbe18d2c4891a2e6e53e5d46f7b9",
+        "tag": "weaver",
+        "ts": "1790405388"
+      },
+      "task_id": "Model2026092600606640",
+      "view_record_keys": [
+        "algorithm_model",
+        "create_ts",
+        "create_user",
+        "failed_reason",
+        "feedbacks",
+        "framing_ai_output",
+        "image_gen_360_output",
+        "input_model",
+        "input_video",
+        "input_view",
+        "is_allow_regenerate",
+        "lod_output",
+        "model_id",
+        "model_type",
+        "name",
+        "node_type",
+        "output_model",
+        "output_pkg",
+        "params",
+        "parent_model_id",
+        "preview_img",
+        "preview_model",
+        "progress",
+        "remaining_time",
+        "rewrite_prompts",
+        "rtp_output",
+        "segment_output",
+        "status",
+        "time_cost",
+        "wait_time",
+        "works_id"
+      ],
+      "view_ready": true,
+      "model_task_id": "Model2026092600606640",
+      "output_count": 1,
+      "outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\outputs\\player.a01_whale_jaw\\Model2026092600606640_1.zip",
+          "bytes": 725585,
+          "sha256": "1fd54970cdfa4b2e64bbe860b133ed86e334c3e6e77f8b383e50de013e4175f6"
+        }
+      ],
+      "view_asset_keys": [
+        "back_view",
+        "left_view",
+        "main_view",
+        "right_view"
+      ],
+      "view_status": 3,
+      "model_status": 3
+    },
+    {
+      "asset_id": "enemy.b01_reverse_crab",
+      "face_num": 12000,
+      "format": "fbx",
+      "source_uploaded": true,
+      "view_task_id": {
+        "code": 0,
+        "data": {
+          "model_id": "Model2026092600605694",
+          "model_ids": []
+        },
+        "msg": "success",
+        "req_id": "96dedcbcfd7a430ca8c2f62661e9b96e",
+        "tag": "weaver",
+        "ts": "1790405388"
+      },
+      "task_id": "Model2026092600606641",
+      "view_record_keys": [
+        "algorithm_model",
+        "create_ts",
+        "create_user",
+        "failed_reason",
+        "feedbacks",
+        "framing_ai_output",
+        "image_gen_360_output",
+        "input_model",
+        "input_video",
+        "input_view",
+        "is_allow_regenerate",
+        "lod_output",
+        "model_id",
+        "model_type",
+        "name",
+        "node_type",
+        "output_model",
+        "output_pkg",
+        "params",
+        "parent_model_id",
+        "preview_img",
+        "preview_model",
+        "progress",
+        "remaining_time",
+        "rewrite_prompts",
+        "rtp_output",
+        "segment_output",
+        "status",
+        "time_cost",
+        "wait_time",
+        "works_id"
+      ],
+      "view_ready": true,
+      "model_task_id": "Model2026092600606641",
+      "output_count": 1,
+      "outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\outputs\\enemy.b01_reverse_crab\\Model2026092600606641_1.zip",
+          "bytes": 336216,
+          "sha256": "8b8eab0d61ac32af65e841cd7f053c7787653828f0707732f7c6d3bfbc1871ac"
+        }
+      ],
+      "view_asset_keys": [
+        "back_view",
+        "left_view",
+        "main_view",
+        "right_view"
+      ],
+      "view_status": 3,
+      "model_status": 3
+    },
+    {
+      "asset_id": "facility.c04_repair_pump",
+      "face_num": 18000,
+      "format": "glb",
+      "source_uploaded": true,
+      "view_task_id": {
+        "code": 0,
+        "data": {
+          "model_id": "Model2026092600605695",
+          "model_ids": []
+        },
+        "msg": "success",
+        "req_id": "367ae79253034d0b8dcd82cad1ef62ca",
+        "tag": "weaver",
+        "ts": "1790405390"
+      },
+      "task_id": "Model2026092600606642",
+      "view_record_keys": [
+        "algorithm_model",
+        "create_ts",
+        "create_user",
+        "failed_reason",
+        "feedbacks",
+        "framing_ai_output",
+        "image_gen_360_output",
+        "input_model",
+        "input_video",
+        "input_view",
+        "is_allow_regenerate",
+        "lod_output",
+        "model_id",
+        "model_type",
+        "name",
+        "node_type",
+        "output_model",
+        "output_pkg",
+        "params",
+        "parent_model_id",
+        "preview_img",
+        "preview_model",
+        "progress",
+        "remaining_time",
+        "rewrite_prompts",
+        "rtp_output",
+        "segment_output",
+        "status",
+        "time_cost",
+        "wait_time",
+        "works_id"
+      ],
+      "view_ready": true,
+      "model_task_id": "Model2026092600606642",
+      "output_count": 1,
+      "outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\outputs\\facility.c04_repair_pump\\Model2026092600606642_1.zip",
+          "bytes": 446410,
+          "sha256": "67fce94d0120b0db69d7ad57d79e8c514f8fd67fd9eea5a4149aa80dfd0651d5"
+        }
+      ],
+      "view_asset_keys": [
+        "back_view",
+        "left_view",
+        "main_view",
+        "right_view"
+      ],
+      "view_status": 3,
+      "model_status": 3
+    }
+  ],
+  "model_submitted": 3
+}
