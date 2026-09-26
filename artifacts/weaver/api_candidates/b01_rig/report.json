@@ -1,0 +1,12 @@
+{
+  "task_id": "Model2026092600605706",
+  "status": 3,
+  "outputs": [
+    {
+      "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_candidates\\b01_rig\\Model2026092600605706_1.zip",
+      "bytes": 20666,
+      "sha256": "521146b102b77cda78fa6693d7c47f705491b2e8da02e23d5c0e44cb39b77406"
+    }
+  ],
+  "note": "FBX+model.json rigging contract"
+}

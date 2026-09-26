@@ -1,0 +1,15 @@
+{
+  "asset_id": "enemy.b01_reverse_crab",
+  "skin_task_id": "Model2026092600605707",
+  "skin_status": 3,
+  "skin_output": {
+    "path": "D:/工作/CGAME/artifacts/weaver/api_candidates/b01_motion/Model2026092600605707_1.zip",
+    "bytes": 34622,
+    "contains": "CGAME_b01_reverse_crab_skinning.fbx"
+  },
+  "motion_task_id": "Model2026092600606659",
+  "motion_status": 4,
+  "motion_error_code": 991002,
+  "motion_error": "服务失败；text-to-motion returned meshgen/rpc result error",
+  "decision": "Keep Blender-authored named actions as the accepted B01 motion; keep Weaver skin result as a candidate only. Do not retry blindly."
+}

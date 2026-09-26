@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-26",
+  "provider": "VISVISE Weaver OpenAPI",
+  "style_lock": "docs/assets/style-lock-industrial-folk-v1.md",
+  "enemy_design_plan": "docs/enemies/roster-v1.md",
+  "enemy_visual_plan": "docs/enemies/visual-production-plan-v1.md",
+  "self_selected_g1": {
+    "player": "player.machine.a01_whale_jaw",
+    "enemy": "enemy.b01_reverse_crab",
+    "facility": "facility.c04_repair_pump",
+    "biome": "biome.river_reversal",
+    "comedy_sequence": ["prepare", "contact", "afterglow"],
+    "reason": "A01 expresses the first whale-pack fantasy, B01 gives a readable sideways charge, and C04 supplies the three-state repair loop. This is the smallest complete G1/G2 slice.",
+    "status": "style_and_structure_locked_api_production_pending"
+  },
+  "global_contract": {
+    "units": "meters",
+    "axis": "X=width,Y=forward,Z=up",
+    "camera": "Godot Mobile orthographic oblique; 50-60 degree elevation starting check",
+    "palette": ["petrol_blue", "ochre_yellow", "bone_cream", "tomato_red", "dusty_lilac", "rubber_black"],
+    "style": "industrial_folk_low_poly",
+    "source_policy": "concept images guide shape; API output is a draft until Blender and Godot checks pass",
+    "required_files": ["source_image", "source_hash", "model_glb_or_fbx", "textures_if_used", "lod0", "lod1", "lod2", "collision_proxy", "manifest", "preview_png", "godot_check"],
+    "required_structure": ["root", "separate_moving_parts", "material_slots", "named_pivots", "gameplay_sockets", "state_visibility_groups"],
+    "style_negative": ["photorealism", "generic_industrial_toy", "surface_noise", "dense_greebles", "baked_text", "random_parts", "fused_moving_joints", "mascot_face"]
+  },
+  "action_contracts": {
+    "player_shared": ["idle_hydraulic", "drive_forward", "drive_reverse", "brake", "turn_in_place", "aim_left_right", "primary_prepare", "primary_contact", "primary_recover", "load_scrap", "throw_scrap", "dash_start", "dash_contact", "hit_recoil", "repair_work", "defeat", "stage_transform"],
+    "whale_jaw": ["jaw_idle", "jaw_open", "jaw_close_compress", "magnetic_pull", "payload_hold", "payload_release", "coil_spin", "repair_brick_stack"],
+    "enemy_shared": ["idle", "move", "telegraph", "attack", "stagger", "engineering_countered", "defeat", "retreat"],
+    "repair_pump": ["pump_cough", "pump_repair", "pump_flow"],
+    "river_bridge": ["bridge_closed_open"],
+    "future_facilities": ["turbine_anchor_spin", "air_pump_start", "camp_service_unlock"],
+    "event_rule": "prepare is presentation; contact is consumed from the authoritative gameplay event; afterglow is presentation and cannot change damage, cargo, route, or save state"
+  },
+  "assets": [
+    {
+      "id": "player.machine.a01_whale_jaw",
+      "kind": "player_machine",
+      "source": "docs/assets/2d-candidates/A01-whale-jaw-reclaimer.png; docs/assets/style-anchor-industrial-folk-v1.png",
+      "status": "g1_selected",
+      "prompt_focus": "giant empty whale mouth, crooked small cabin, asymmetric piston, long low track base, folk-art matte blocks",
+      "parts": ["VehicleRoot", "Chassis", "Track_L", "Track_R", "Cabin", "Jaw_Upper", "Jaw_Lower", "Hinge_Disk", "Hydraulic_Piston", "ModuleSockets"],
+      "sockets": ["socket_tool", "socket_support_l", "socket_support_r", "socket_fx_exhaust", "socket_vfx_origin", "socket_aim_origin", "Jaw_ContactPoint", "Jaw_VFX_FieldOrigin"],
+      "states": ["base", "stage_02_whale", "damaged", "repaired"],
+      "triangles": {"lod0": "10000-25000", "lod1": "5000-12000", "lod2": "1500-5000"},
+      "actions": "player_shared + whale_jaw",
+      "api_path": ["multi_view(7)", "high_model(3)", "uv(9)", "texture(8, optional)", "lod(2)"],
+      "acceptance": ["mouth negative space reads at 128px", "cabin remains the identity anchor", "collision proxy excludes decorative teeth", "stage transform does not change gameplay footprint without F-04 test"]
+    },
+    {
+      "id": "module.whale_jaw",
+      "kind": "module",
+      "source": "A01/A05 candidate sheets; current Godot whale-jaw structural sample",
+      "status": "g1_selected",
+      "parts": ["ModuleRoot", "Skin", "S0_Elements", "Skin_Elements", "T0", "T1", "T2", "T3", "T4", "T5", "Jaw_Upper", "Jaw_Lower", "Coil_L", "Coil_R", "Hydraulic_Link"],
+      "sockets": ["InstantiationPoint_Active", "InstantiationPoint_Passive_A", "InstantiationPoint_Passive_B", "Generic_CooldownElement", "Jaw_Socket", "Jaw_ContactPoint", "Jaw_VFX_FieldOrigin"],
+      "states": ["uninstalled", "preview", "installed", "jaw_idle", "jaw_open", "jaw_close_compress", "cooldown", "stage_02"],
+      "triangles": {"lod0": "6000-14000"},
+      "actions": "whale_jaw",
+      "api_path": ["mid_model(11) or component_generation(3)", "uv(9)", "lod(2)"],
+      "acceptance": ["separate upper/lower jaw", "preview and combat use same sub-tree", "no double registration of symmetric VFX sockets"]
+    },
+    {
+      "id": "module.basic_bucket",
+      "kind": "module",
+      "source": "game/content/modules/basic_bucket.tres",
+      "status": "existing_logic_visual_placeholder",
+      "parts": ["ToolRoot", "Bucket", "ArmPivot", "ContactProxy"],
+      "actions": ["primary_prepare", "primary_contact", "primary_recover", "load_scrap", "throw_scrap"],
+      "api_path": ["component_generation(3 or 11)"],
+      "acceptance": ["core tool stays usable without other modules", "contact proxy is separate from teeth/hoses"]
+    },
+    {
+      "id": "module.wide_bucket",
+      "kind": "module",
+      "source": "game/content/modules/wide_bucket.tres; A01/A07 candidates",
+      "status": "existing_logic_visual_placeholder",
+      "parts": ["WideToolRoot", "ThreeJawPetals", "JawPivot_L", "JawPivot_R", "JawPivot_C"],
+      "actions": ["primary_prepare", "primary_contact", "primary_recover", "stage_transform"],
+      "api_path": ["component_generation(3 or 11)", "uv(9)", "lod(2)"],
+      "acceptance": ["wide silhouette reads without VFX", "three petals have stable pivots"]
+    },
+    {
+      "id": "module.water_cannon",
+      "kind": "module",
+      "source": "game/content/modules/water_cannon.tres",
+      "status": "existing_logic_visual_placeholder",
+      "parts": ["WaterRoot", "PressureChamber", "Nozzle", "Hose"],
+      "actions": ["water_charge", "water_jet", "water_stop", "repair_work"],
+      "api_path": ["component_generation(3 or 11)", "uv(9)", "texture(8, optional)"],
+      "acceptance": ["nozzle aim socket agrees with effect origin", "water is a live Godot event, not a baked texture"]
+    },
+    {
+      "id": "module.magnet",
+      "kind": "module",
+      "source": "game/content/modules/magnet.tres; A01 candidate",
+      "status": "existing_logic_visual_placeholder",
+      "parts": ["MagnetRoot", "Coil", "FieldRing", "CoolingPlate"],
+      "actions": ["coil_spin", "magnetic_pull", "payload_hold", "payload_release"],
+      "api_path": ["component_generation(3 or 11)", "uv(9)"],
+      "acceptance": ["field origin is named", "field radius is gameplay-driven", "ring does not hide target telegraph"]
+    },
+    {
+      "id": "module.electric_arc",
+      "kind": "module",
+      "source": "game/content/modules/electric_arc.tres",
+      "status": "existing_logic_visual_placeholder",
+      "parts": ["ArcRoot", "Insulator", "ArcEmitter", "GroundClamp"],
+      "actions": ["arc_charge", "arc_chain", "arc_stop", "hit_recoil"],
+      "api_path": ["component_generation(3 or 11)", "uv(9)"],
+      "acceptance": ["source and target sockets are distinct", "VFX path follows F-12 event endpoints"]
+    },
+    {
+      "id": "module.inertia_flywheel",
+      "kind": "module",
+      "source": "game/content/modules/inertia_flywheel.tres; A05 candidate",
+      "status": "existing_logic_visual_placeholder",
+      "parts": ["FlywheelRoot", "Drum", "Guard", "HeatIndicator"],
+      "actions": ["flywheel_idle", "flywheel_charge", "dash_start", "dash_contact", "cooldown"],
+      "api_path": ["component_generation(3 or 11)", "uv(9)"],
+      "acceptance": ["charge state is visible before dash", "heat indicator does not change gameplay state by itself"]
+    },
+    {
+      "id": "module.umbrella_mole",
+      "kind": "module",
+      "source": "docs/assets/2d-candidates/A02-umbrella-mole.png",
+      "status": "m1_candidate",
+      "parts": ["DrillRoot", "Drill", "UmbrellaRibs", "StabilizerLegs"],
+      "actions": ["drill_spin", "shield_deploy", "shield_absorb", "burrow_enter", "burrow_loop", "burrow_exit", "surface_pop"],
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "acceptance": ["drill and umbrella are separate", "burrow is a controlled route rule, not an animation-only escape"]
+    },
+    {
+      "id": "module.rail_snail",
+      "kind": "module",
+      "source": "docs/assets/2d-candidates/A03-rail-snail.png",
+      "status": "m1_candidate",
+      "parts": ["RailRoot", "CableDrum", "RailPack", "Grappler_L", "Grappler_R"],
+      "actions": ["drum_spin", "rail_deploy", "rail_snap_connect", "grappler_extend", "grappler_pull", "rail_retract"],
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "acceptance": ["rail endpoint sockets are stable", "route change is F behavior and is tested separately"]
+    },
+    {
+      "id": "enemy.b01_reverse_crab",
+      "kind": "enemy",
+      "source": "docs/assets/2d-candidates/B01-reverse-crab.png",
+      "status": "g1_selected",
+      "parts": ["EnemyRoot", "Chassis", "Leg_FL", "Leg_FR", "Leg_BL", "Leg_BR", "Barrier_L", "Barrier_R", "Beacon", "TelegraphSocket"],
+      "sockets": ["attack_origin", "telegraph_origin", "countermeasure_socket", "hit_recoil_origin"],
+      "states": ["idle", "move", "telegraph", "attack", "stagger", "engineering_countered", "defeat", "retreat"],
+      "triangles": {"lod0": "1500-8000", "lod1": "700-3500"},
+      "api_path": ["multi_view(7)", "high_model(3)", "uv(9)", "lod(2)", "rigging(5, tetrapod)", "skinning(6)", "text_motion(4, candidates)"],
+      "acceptance": ["sideways charge reads before contact", "four legs/plates remain separate", "AI motion is draft; final telegraph timing is controlled by Godot"]
+    },
+    {
+      "id": "facility.c04_repair_pump",
+      "kind": "facility",
+      "source": "docs/assets/2d-candidates/C04-repair-pump-cutaway.png",
+      "status": "g1_selected",
+      "parts": ["FacilityRoot", "PumpBody", "SealRing", "Gauge", "Valve_L", "Valve_R", "InletSocket", "OutletSocket", "Exhaust"],
+      "states": ["broken", "repair_in_progress", "restored"],
+      "actions": ["pump_cough", "pump_repair", "pump_flow"],
+      "triangles": {"lod0": "3000-9000"},
+      "api_path": ["multi_view(7)", "high_model(3)", "uv(9)", "texture(8, optional)", "lod(2)"],
+      "acceptance": ["seal is a replaceable visual part", "same footprint across states", "flow state changes route through F-07"]
+    },
+    {
+      "id": "environment.river_reversal",
+      "kind": "biome_and_environment",
+      "source": "C01-fold-the-river.png; docs/world-bible.md",
+      "status": "g1_selected",
+      "parts": ["RiverSurface", "WideGround", "BankCluster_L", "BankCluster_R", "Bridge", "PumpRoute", "RepairLandmark"],
+      "states": ["polluted", "clearing", "restored"],
+      "actions": ["bridge_closed_open", "pump_flow", "repair_ripple"],
+      "api_path": ["mid_model(11) for modular props", "uv(9)", "lod(2)"],
+      "acceptance": ["route and landmark survive 720p", "Godot shader handles water flow", "no API-generated mesh replaces the hand-authored route collision"]
+    },
+    {
+      "id": "environment.river_bridge",
+      "kind": "environment_prop",
+      "source": "C01/C05/C06 candidate sheets",
+      "status": "g1_support",
+      "parts": ["BridgeRoot", "ClosedDeck", "RepairFrame", "OpenDeck", "RouteMarkers"],
+      "states": ["closed", "construction", "open"],
+      "actions": ["bridge_closed_open"],
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "acceptance": ["state meshes share footprint", "collision swaps with F-07 state"]
+    },
+    {
+      "id": "environment.wind_turbine",
+      "kind": "environment_prop",
+      "source": "C02-weather-after-sales.png",
+      "status": "m2_candidate",
+      "parts": ["TurbineRoot", "Anchor", "BrokenBlade", "RepairBeacon"],
+      "states": ["broken", "restored"],
+      "actions": ["turbine_anchor_spin"],
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "acceptance": ["wind direction and anchor danger are readable"]
+    },
+    {
+      "id": "environment.mountain_air_pump",
+      "kind": "environment_prop",
+      "source": "C03-city-needs-breath.png",
+      "status": "m2_candidate",
+      "parts": ["AirPumpRoot", "Vent", "Fan", "RepairRing", "RouteSocket"],
+      "states": ["blocked", "restored"],
+      "actions": ["air_pump_start"],
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "acceptance": ["vertical route and safe return path are visible"]
+    },
+    {
+      "id": "camp.service_board",
+      "kind": "camp_prop",
+      "source": "C06-camp-service-board.png",
+      "status": "m1_candidate",
+      "parts": ["BoardRoot", "ContractBoard", "BlueprintRack", "ServiceSocket"],
+      "states": ["locked", "unlocked"],
+      "actions": ["camp_service_unlock"],
+      "api_path": ["mid_model(11)", "uv(9)", "lod(2)"],
+      "acceptance": ["all text is Godot UI/localization, never baked into mesh"]
+    },
+    {
+      "id": "candidate.player.a02_to_a08",
+      "kind": "player_machine_candidates",
+      "source": "docs/assets/2d-candidates/A02-umbrella-mole.png through A08-mobile-repair-ark.png",
+      "status": "m1_or_later_pending",
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "actions": "player_shared plus candidate-specific action set in source queue",
+      "acceptance": ["do not submit until G1 cost/style gate passes"]
+    },
+    {
+      "id": "candidate.enemy.b02_to_b06",
+      "kind": "enemy_candidates",
+      "source": "docs/assets/2d-candidates/B02-boiler-hippo.png through B06-trashnado.png",
+      "status": "m1_or_later_pending",
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)", "rigging/skinning only if the body category is supported"],
+      "actions": "enemy_shared plus candidate-specific action set in source queue",
+      "acceptance": ["each candidate needs a countermeasure and telegraph before production"]
+    },
+    {
+      "id": "candidate.challenge.c02_c03_c05_c06",
+      "kind": "challenge_and_facility_candidates",
+      "source": "docs/assets/2d-candidates/C02-weather-after-sales.png, C03-city-needs-breath.png, C05-facility-escort.png, C06-camp-service-board.png",
+      "status": "m1_or_later_pending",
+      "api_path": ["multi_view(7)", "mid_model(11)", "uv(9)", "lod(2)"],
+      "actions": "future_facilities",
+      "acceptance": ["states share route footprint and the repair result remains visible"]
+    }
+  ]
+}

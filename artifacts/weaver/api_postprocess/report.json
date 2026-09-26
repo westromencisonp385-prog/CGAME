@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "purpose": "Weaver postprocess candidates; authored GLB remains style authority until comparison passes",
+  "assets": [
+    {
+      "asset_id": "player.a01_api_candidate",
+      "input": "D:\\工作\\CGAME\\artifacts\\weaver\\api_candidates\\player_a01\\Model2026092600605699_1.zip",
+      "input_sha256": "bdca409fe72359eab5824311e3ace80b1c486add253fdd60508330b8fc24dd5a",
+      "uv_task_id": "Model2026092600606647",
+      "error": "RuntimeError: {'code': 50000, 'real_reason': '', 'reason': 'Task failed'}"
+    },
+    {
+      "asset_id": "enemy.b01_authored",
+      "input": "D:\\工作\\CGAME\\artifacts\\weaver\\api_postprocess\\enemy.b01_authored_input.zip",
+      "input_sha256": "e18a37713ced6b6094305fde20683ed9351e487127f1be8efe4270a8b5df5d56",
+      "uv_task_id": "Model2026092600606648",
+      "uv_outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_postprocess\\enemy.b01_authored\\uv_1.zip",
+          "bytes": 19928,
+          "sha256": "d52223886a6b16608d8482c7146b4c59c1ae1ef918ae00726d6c4165189d54fa"
+        }
+      ],
+      "lod_task_id": "Model2026092600606649",
+      "lod_outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_postprocess\\enemy.b01_authored\\lod_1.fbx",
+          "bytes": 45380,
+          "sha256": "3bc799e1d8237d92a2dd3f96931ff115149b3ce9007130694f04cd5da640b34f"
+        }
+      ],
+      "rig_task_id": "Model2026092600606652",
+      "error": "RuntimeError: {'code': 992103, 'real_reason': '', 'reason': 'meshgen failed, message: ForwardToHttpService err: Input format error'}"
+    },
+    {
+      "asset_id": "facility.c04_authored",
+      "input": "D:\\工作\\CGAME\\artifacts\\weaver\\api_postprocess\\facility.c04_authored_input.zip",
+      "input_sha256": "d190e735ad618bf2b5a5d76180facb22522e6dd2611f5591379020b637af0150",
+      "uv_task_id": "Model2026092600606653",
+      "uv_outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_postprocess\\facility.c04_authored\\uv_1.zip",
+          "bytes": 20032,
+          "sha256": "03cb21ff9e7ae4f239ae8414574cd56cc290cc7ab2bc0b1f28b2de8f8b99f547"
+        }
+      ],
+      "lod_task_id": "Model2026092600606654",
+      "lod_outputs": [
+        {
+          "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_postprocess\\facility.c04_authored\\lod_1.fbx",
+          "bytes": 42755,
+          "sha256": "3f84567b0a1b25ef21eb7fb5e2c33139431ef333ec8d611174feaad2ab8c0289"
+        }
+      ]
+    }
+  ]
+}
