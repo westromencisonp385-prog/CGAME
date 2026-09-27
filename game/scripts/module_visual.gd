@@ -2,6 +2,7 @@ class_name ModuleVisual
 extends Node3D
 
 const WHALE_MODEL := preload("res://assets/models/reclaimer_whale_jaw.glb")
+const FORMAL_A01_MODEL := preload("res://assets/models/formal_slice/a01_whale_jaw_formal.glb")
 
 var moving_jaws: Array[Node3D] = []
 var wheel: Node3D
@@ -22,6 +23,7 @@ static func create(definition: ModuleDefinition, stage: int, ghost: bool = false
 	return visual
 
 func _build(definition: ModuleDefinition, stage: int, ghost: bool) -> void:
+	_set_vehicle_whitebox_visible(true)
 	var tint := definition.color
 	if ghost:
 		tint.a = 0.42
@@ -128,15 +130,37 @@ func _add_torus(node_name: String, inner_radius: float, outer_radius: float, at:
 	return instance
 
 func _attach_whale_model() -> bool:
-	var model := WHALE_MODEL.instantiate()
+	var model: Node3D = FORMAL_A01_MODEL.instantiate() as Node3D
+	var formal := model != null
+	if model == null:
+		model = WHALE_MODEL.instantiate() as Node3D
 	if model == null:
 		return false
 	model.name = "WhaleJawGLB_P05"
 	# The Blender contract uses +Y as forward and +Z as up; gameplay points
 	# down -Z with +Y as up, so rotate the authored asset around X.
 	model.rotation_degrees.x = -90.0
+	model.scale = Vector3.ONE * (0.92 if formal else 1.0)
 	add_child(model)
 	imported_whale = true
+	if formal:
+		var formal_jaw := model.find_child("MagneticWhaleJaw", true, false)
+		if formal_jaw != null:
+			var formal_upper := formal_jaw.find_child("Jaw_UpperShell", true, false)
+			if formal_upper != null:
+				formal_upper.name = "WhaleUpperJaw"
+				moving_jaws.append(formal_upper)
+				var upper_alias := Node3D.new()
+				upper_alias.name = "Jaw_Upper_Stage02"
+				formal_jaw.add_child(upper_alias)
+			var formal_lower := formal_jaw.find_child("Jaw_LowerShell", true, false)
+			if formal_lower != null:
+				formal_lower.name = "WhaleLowerJaw"
+				var lower_alias := Node3D.new()
+				lower_alias.name = "Jaw_Lower_Stage02"
+				formal_jaw.add_child(lower_alias)
+		_set_vehicle_whitebox_visible(false)
+		return true
 
 	# The GLB is a complete inspection asset. Keep only the detachable jaw
 	# module here because the live vehicle chassis remains authoritative.
@@ -154,3 +178,14 @@ func _attach_whale_model() -> bool:
 	if lower != null:
 		lower.rotation.x = 0.08
 	return true
+
+func _set_vehicle_whitebox_visible(value: bool) -> void:
+	var assembler := get_parent()
+	if assembler == null:
+		return
+	var vehicle: Variant = assembler.get("owner_vehicle")
+	if vehicle == null:
+		return
+	var existing_visual: Variant = vehicle.get("visual_root")
+	if existing_visual is Node3D:
+		existing_visual.visible = value

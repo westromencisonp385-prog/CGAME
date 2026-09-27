@@ -61,6 +61,12 @@ func _build_lighting() -> void:
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("#9dc7d1")
 	environment.ambient_light_energy = 0.65
+	# A restrained haze separates the warm worksite from the cool river without
+	# obscuring the route landmarks at the orthographic gameplay scale.
+	environment.fog_enabled = true
+	environment.fog_light_color = Color("#53717a")
+	environment.fog_light_energy = 0.22
+	environment.fog_density = 0.006
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	world.environment = environment
 	add_child(world)

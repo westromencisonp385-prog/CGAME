@@ -1,0 +1,133 @@
+{
+  "manifest_version": 1,
+  "status": "candidate",
+  "slice": "G1 industrial-folk formal asset skeleton",
+  "source_script": "game/assets/models/source/generate_g1_formal_slice.py",
+  "blender_actual": "5.2.2 LTS",
+  "axis_contract": "X width, Y forward, Z up; meters",
+  "concept_sources": [
+    "docs/assets/2d-candidates/A01-whale-jaw-reclaimer.png",
+    "docs/assets/2d-candidates/B01-reverse-crab.png",
+    "docs/assets/2d-candidates/C04-repair-pump-cutaway.png"
+  ],
+  "reference_policy": "Original authored geometry. Concept boards define silhouette, color blocking, and action readability; no extracted geometry or old whitebox mesh is included.",
+  "palette": [
+    "oil_blue",
+    "oil_blue_light",
+    "ochre",
+    "ochre_light",
+    "bone",
+    "bone_shadow",
+    "tomato",
+    "tomato_dark",
+    "lilac",
+    "lilac_dark",
+    "rubber",
+    "steel",
+    "steel_light",
+    "concrete",
+    "water",
+    "glass"
+  ],
+  "assets": [
+    {
+      "id": "vehicle.a01.magnetic_whale_jaw.formal",
+      "file": "a01_whale_jaw_formal.glb",
+      "mechanism": "magnetize -> compress -> throw",
+      "contract_nodes": [
+        "Jaw_Socket",
+        "Jaw_ContactPoint",
+        "Jaw_VFX_FieldOrigin",
+        "VFX_JawCompression",
+        "VFX_JawRelease"
+      ]
+    },
+    {
+      "id": "enemy.b01.reverse_crab_barricade.formal",
+      "file": "b01_reverse_crab_formal.glb",
+      "mechanism": "sideways_charge -> wall_shove OR anchor_break",
+      "contract_nodes": [
+        "TelegraphAim",
+        "Weakpoint_LeftAnchor",
+        "Weakpoint_RightAnchor",
+        "Contact_SideCharge",
+        "Drop_Scrap"
+      ]
+    },
+    {
+      "id": "facility.c04.repair_pump.formal",
+      "file": "c04_repair_pump_formal.glb",
+      "mechanism": "disassemble -> seal -> pressure -> restore",
+      "contract_nodes": [
+        "Pump_Interact",
+        "Pump_WaterOut",
+        "Pump_State_Broken",
+        "Pump_State_Repair",
+        "Pump_State_Restored"
+      ]
+    }
+  ],
+  "outputs": {
+    "game/assets/models/formal_slice/a01_whale_jaw_formal.glb": {
+      "bytes": 810692,
+      "sha256": "9d9d5794d1f6318f90a86b351013a569ef5be0ae0aa2dad63250baaf5047c1e7"
+    },
+    "game/assets/models/formal_slice/b01_reverse_crab_formal.glb": {
+      "bytes": 710736,
+      "sha256": "8fb894f5da8fda53acc2d498e2987dad513716d0f972400cfc2cda358aa76054"
+    },
+    "game/assets/models/formal_slice/c04_repair_pump_formal.glb": {
+      "bytes": 219324,
+      "sha256": "51bd895959b86e0ded5a93ed2a38e5509c30313980118100f5e3cc1074072325"
+    },
+    "game/assets/models/formal_slice/g1_formal_slice_preview.png": {
+      "bytes": 1351954,
+      "sha256": "fdb9d9b138be85b80ea841b9850d6dc571b081d95be980f66be8bf38d45b8e94"
+    },
+    "game/assets/models/formal_slice/a01_whale_jaw_formal_preview.png": {
+      "bytes": 1475465,
+      "sha256": "0fdb185116ab3a2d35dbd1ec6c3df17021a252fbeff096c519f9a1f32f377f01"
+    },
+    "game/assets/models/formal_slice/b01_reverse_crab_formal_preview.png": {
+      "bytes": 1447248,
+      "sha256": "b70d6b10b52c4667560269b0e7459265460378735999146d74cfb7299aca3daf"
+    },
+    "game/assets/models/formal_slice/c04_repair_pump_formal_preview.png": {
+      "bytes": 1386504,
+      "sha256": "b926f27ae5f905d6f4095f91cb93b468f50e739a69988ad742d4b239aaebd966"
+    },
+    "game/assets/models/formal_slice/painted_surface_atlas.png": {
+      "bytes": 17481,
+      "sha256": "c39e38e214c8369f883f7b31e8ab624001c2b30f3d51b8faf2f8142c8e06ba34"
+    },
+    "docs/assets/model-sources/g1_formal_slice.blend": {
+      "bytes": 234272,
+      "sha256": "7e6fa48e9b75b8903265a7c9a4d26ac02badcd6a4ff5c71a59425e326232c5b8"
+    },
+    "game/assets/models/source/generate_g1_formal_slice.py": {
+      "bytes": 32927,
+      "sha256": "8ac3bc742b70401bca3e597633f2abf1ab7d174753311b226dde3fd0ffb39458"
+    }
+  },
+  "acceptance": {
+    "next_gate": "G1 Godot real-camera no-VFX image and collision/LOD review",
+    "not_claimed": [
+      "final",
+      "integrated",
+      "production-approved"
+    ],
+    "visual_checks_done": [
+      "author-created geometry",
+      "explicit material blocks",
+      "mechanical sockets",
+      "three-quarter render"
+    ],
+    "remaining": [
+      "Godot import",
+      "runtime camera framing",
+      "LOD runtime cost",
+      "collision walk-through",
+      "prepare-contact-aftermath animation"
+    ]
+  }
+}

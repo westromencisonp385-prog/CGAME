@@ -16,8 +16,16 @@ const TARGET_LAYOUT := [
 const ENEMY_LAYOUT := [
 	["crawler_a", "light", -8.0, -5.0], ["crawler_b", "light", -6.0, -6.0],
 	["crawler_c", "light", -7.0, -8.0], ["crawler_d", "light", -9.0, -8.0],
-	["guardian", "heavy", 7.0, -10.0]
+	["guardian", "heavy", 10.0, -11.5]
 ]
+const CONTRACT_ID := "river_revival_01"
+const CONTRACT_BRIEF := {
+	"title": "复苏河岸",
+	"anchor": "C04 repair pump",
+	"threat": "B01 reverse-crab barricade and guardian",
+	"signature_build": "magnetic_whale",
+	"stages": ["clear_scrap", "whale_pack", "repair_pump", "clear_threats"],
+}
 const M1_REWARD_BLUEPRINT_ID := "blueprint_magnetic_compactor"
 const CAMPAIGN_SAVE_PATH := "user://reclaimer_campaign_progress"
 
@@ -222,6 +230,8 @@ func _harvested(amount: int) -> void:
 	if collected >= 4 and assembler.stage == 1:
 		assembler.set_stage(2)
 		feedback("结构进化 · 作业范围提升，重量降低移动速度")
+	elif collected == 3 and assembler.has_module("magnet") and assembler.has_module("wide_bucket"):
+		feedback("鲸口合同 · 废料已够修泵；先把一台轻型敌机压进颚口，再把它投向护卫")
 
 func try_repair() -> bool:
 	if outcome != "active" or garage_open or manual_pause or player.health <= 0.0:
@@ -239,6 +249,19 @@ func try_repair() -> bool:
 func check_victory() -> void:
 	if outcome == "active" and repair_done and defeated == ENEMY_LAYOUT.size():
 		finish_contract("won")
+
+func get_contract_phase() -> String:
+	# The phase is derived from authoritative run state so HUD guidance survives
+	# retries and checkpoints without introducing a second objective state machine.
+	if repair_done:
+		return "河岸复苏 · 终局清场"
+	if collected < 3:
+		return "清障回收 · 先凑够 3 废料"
+	if assembler != null and assembler.has_module("magnet") and assembler.has_module("wide_bucket") and CONTRACT_BRIEF.signature_build == "magnetic_whale":
+		if player != null and player.packed_enemy_ids.is_empty():
+			return "鲸口打包 · 吸入轻型敌机再投送"
+		return "鲸口投送 · 释放压缩敌机制造空档"
+	return "接近水泵 · 按 R / A 修复"
 
 func resolve_training_enemies() -> void:
 	defeated = ENEMY_LAYOUT.size()

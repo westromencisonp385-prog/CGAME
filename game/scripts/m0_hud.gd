@@ -39,7 +39,8 @@ func refresh(delta: float) -> void:
 	target_slot = main.target_slot
 	status_label.text = "耐久 %03d  载荷 %d/%d  热量 %02d" % [p.health, p.cargo, p.max_cargo, p.heat]
 	var route_status := "捷径已通" if main.repair_done else "封锁 · 绕行"
-	mission_label.text = "01 复苏河岸\n回收 %d/3  威胁 %d/5\n水泵 %s\n路线：%s  %02d:%02d" % [main.collected, main.defeated, "已启动" if main.repair_done else "待修复", route_status, int(main.elapsed) / 60, int(main.elapsed) % 60]
+	var phase: String = str(main.get_contract_phase()) if main.has_method("get_contract_phase") else "复苏河岸"
+	mission_label.text = "01 复苏河岸\n%s\n回收 %d/3  威胁 %d/5\n水泵 %s\n路线：%s  %02d:%02d" % [phase, main.collected, main.defeated, "已启动" if main.repair_done else "待修复", route_status, int(main.elapsed) / 60, int(main.elapsed) % 60]
 	hint_label.text = "已暂停 · Esc / Menu 继续" if main.manual_pause else "WASD/左摇杆 驾驶 · 鼠标/右摇杆 瞄准 · 左键/RT 作业 · 右键/LT 投掷 · Shift/LB 冲刺 · R/A 修复 · B/Y 改装"
 	loadout_label.text = "核心  %s\n挂点 A  %s\n挂点 B  %s\n动力  %s\n结构阶段  %d" % [_display(a.core_id), _display(a.active_ids[0]), _display(a.active_ids[1]), _display(a.drive_id), a.stage]
 	preview_label.text = a.get_preview_summary() if not a.preview_id.is_empty() else "选择一个模块查看幽灵预览。\n确认前不会改变实装、资源与冷却。"

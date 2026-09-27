@@ -1,0 +1,19 @@
+{
+  "asset_id": "vfx.atlas.industrial_folk.v1",
+  "status": "candidate",
+  "source": "built-in image_gen",
+  "actual_model_version": "unknown",
+  "target_model": "Image2.5",
+  "texture": "industrial-folk-vfx-atlas-v1.png",
+  "sha256": "777523c80e04d931b8237775094891e7908d01469c9f8cbda91f91cbea49e50b",
+  "atlas": {
+    "layout": "2x2",
+    "quadrants": {
+      "magnet_arcs": [0, 0, 0.5, 0.5],
+      "dust_puff": [0.5, 0, 0.5, 0.5],
+      "repair_water": [0, 0.5, 0.5, 0.5],
+      "mechanical_sparks": [0.5, 0.5, 0.5, 0.5]
+    }
+  },
+  "source_policy": "Candidate VFX texture for the high-quality slice; crop and tune in Godot before integration."
+}

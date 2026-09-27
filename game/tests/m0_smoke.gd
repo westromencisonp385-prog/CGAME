@@ -17,6 +17,10 @@ func _run() -> void:
 	for id in ["basic_bucket", "wide_bucket", "water_cannon", "electric_arc", "magnet", "inertia_flywheel"]:
 		check(definitions.has(id), "catalog has " + id)
 		check(ModuleCatalogScript.validate_definition(definitions[id]), "definition validates " + id)
+	var whale_signature := ModuleCatalogScript.get_build_signature("magnetic_whale")
+	check(whale_signature.get("core", "") == "wide_bucket", "whale signature names wide core")
+	check((whale_signature.get("functions", []) as Array).has("magnet"), "whale signature names magnet function")
+	check((whale_signature.get("verbs", []) as Array).size() == 3, "whale signature records three engineering verbs")
 
 	var owner := Node3D.new()
 	var assembler := LoadoutAssembler.new()

@@ -170,6 +170,9 @@ func _burst(at: Vector3, color: Color, amount: int, duration: float) -> void:
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	material.vertex_color_use_as_albedo = true
+	material.emission_enabled = true
+	material.emission = color
+	material.emission_energy_multiplier = 0.35
 	if dust != null:
 		material.albedo_texture = dust
 	else:

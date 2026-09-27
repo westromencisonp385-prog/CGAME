@@ -1,6 +1,8 @@
 class_name EnemyDummy
 extends Node3D
 
+const FORMAL_B01_MODEL := preload("res://assets/models/formal_slice/b01_reverse_crab_formal.glb")
+
 signal defeated(enemy: EnemyDummy)
 signal hit_player(amount: float)
 signal action_effect(kind: String, origin: Vector3, end: Vector3)
@@ -47,6 +49,10 @@ func _build_visual() -> void:
 	add_child(visual_root)
 	shadow = _add_cylinder("ContactShadow", 0.58 if kind != "heavy" else 0.82, 0.025, Vector3(0, 0.025, 0), Color("#344542"))
 	shadow.scale = Vector3(1.25, 1.0, 0.72)
+	# The first formal slice uses an authored B01 candidate for one named enemy.
+	# Gameplay state, AI, hit shape and save data remain EnemyDummy authority.
+	if enemy_id == "crawler_a" and _attach_formal_b01_visual():
+		return
 	mesh_instance = MeshInstance3D.new()
 	var mesh: Mesh
 	var height := height_for_kind()
@@ -83,6 +89,17 @@ func _build_visual() -> void:
 		_add_cylinder("HeavyBeacon", 0.18, 0.22, Vector3(0, height + 0.12, 0), Color("#f2c85c"))
 	else:
 		_add_cylinder("WobbleAntenna", 0.07, 0.75, Vector3(0.12, height * 0.72, 0.06), Color("#eee3c7"))
+
+func _attach_formal_b01_visual() -> bool:
+	var model := FORMAL_B01_MODEL.instantiate() as Node3D
+	if model == null:
+		return false
+	model.name = "B01FormalVisualCandidate"
+	model.rotation_degrees.x = -90.0
+	model.scale = Vector3.ONE * 0.82
+	model.position = Vector3(0.0, -0.68, 0.0)
+	visual_root.add_child(model)
+	return true
 
 func height_for_kind() -> float:
 	return 1.4 if kind != "heavy" else 1.9
