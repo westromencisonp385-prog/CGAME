@@ -1,8 +1,6 @@
 class_name EngineeringTarget
 extends Node3D
 
-const C04_AUTHORED_MODEL := preload("res://assets/models/g1/facility_c04_repair_pump_authored.glb")
-
 signal destroyed(target: EngineeringTarget)
 signal repaired(target: EngineeringTarget)
 signal harvested(amount: int)
@@ -22,8 +20,6 @@ var mesh_instance: MeshInstance3D
 var base_material: StandardMaterial3D
 var _home_position := Vector3.ZERO
 var collision_body: StaticBody3D
-var authored_visual: Node3D
-var authored_animation_player: AnimationPlayer
 
 func configure(new_id: String, kind: String, hp: float, at: Vector3 = Vector3.ZERO) -> EngineeringTarget:
 	target_id = new_id
@@ -42,15 +38,6 @@ func _ready() -> void:
 	_build_visual()
 
 func _build_visual() -> void:
-	# C04 is an authored G1 visual sample. The target's HP, interaction range,
-	# repair signal and collision remain unchanged; this only swaps the repair
-	# pump's presentation when the GLB is available.
-	if target_kind == "repair" and _attach_authored_visual():
-		position.y = maxf(position.y, 0.75)
-		if authored_animation_player != null and authored_animation_player.has_animation("pump_cough"):
-			authored_animation_player.play("pump_cough")
-		_build_collision()
-		return
 	mesh_instance = MeshInstance3D.new()
 	var mesh: Mesh
 	if target_kind == "repair":
@@ -90,32 +77,13 @@ func _build_visual() -> void:
 	elif target_kind == "hard":
 		_add_box("BarrierStripe", Vector3(1.58, 0.18, 0.18), Vector3(0, 0.58, -0.78), Color("#df604e"))
 	if target_kind != "light":
-		_build_collision()
-
-func _build_collision() -> void:
-	if collision_body != null:
-		return
-	collision_body = StaticBody3D.new()
-	var collider := CollisionShape3D.new()
-	var shape := BoxShape3D.new()
-	shape.size = Vector3(1.35, 1.2, 1.35)
-	collider.shape = shape
-	collision_body.add_child(collider)
-	add_child(collision_body)
-
-func _attach_authored_visual() -> bool:
-	if C04_AUTHORED_MODEL == null:
-		return false
-	authored_visual = C04_AUTHORED_MODEL.instantiate() as Node3D
-	if authored_visual == null:
-		return false
-	authored_visual.name = "C04AuthoredVisualOnly"
-	# The GLB is exported in metre units and already rests on local Y=0 after
-	# Godot's glTF axis conversion. The target node supplies the ground offset.
-	authored_visual.scale = Vector3.ONE * 0.82
-	add_child(authored_visual)
-	authored_animation_player = authored_visual.find_child("AnimationPlayer", true, false) as AnimationPlayer
-	return true
+		collision_body = StaticBody3D.new()
+		var collider := CollisionShape3D.new()
+		var shape := BoxShape3D.new()
+		shape.size = Vector3(1.35, 1.2, 1.35)
+		collider.shape = shape
+		collision_body.add_child(collider)
+		add_child(collision_body)
 
 func _base_color() -> Color:
 	match target_kind:
@@ -229,8 +197,6 @@ func repair() -> void:
 	current_hp = 0.0
 	if mesh_instance != null:
 		mesh_instance.material_override = _green_material()
-	if authored_animation_player != null and authored_animation_player.has_animation("pump_flow"):
-		authored_animation_player.play("pump_flow")
 	repaired.emit(self)
 	action_effect.emit("repair", global_position, global_position)
 
@@ -286,10 +252,6 @@ func restore_snapshot(data: Dictionary) -> bool:
 		else:
 			mesh_instance.material_override = base_material
 			base_material.albedo_color = _base_color()
-	if authored_animation_player != null:
-		var state_animation := "pump_flow" if repaired_state else "pump_cough"
-		if authored_animation_player.has_animation(state_animation):
-			authored_animation_player.play(state_animation)
 	return true
 
 func _green_material() -> StandardMaterial3D:
