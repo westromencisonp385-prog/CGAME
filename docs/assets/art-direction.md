@@ -1,6 +1,6 @@
 # 整体美术方向 A：一本正经的胡闹工程队
 
-2026-09-21 · **待用户确认的美学提案**。对应 P-01/P-02。先确认本方向，再制作 G1 实机样板；当前不批准批量正式资产。需求与验收以 [spec v0.4](../spec.md) 和 [需求索引](../requirements.md) 为准。
+2026-09-27 · **工业童话方向已确认，概念图作为视觉真源**。当前 Godot 白模、旧 GLB 和低质量渲染不达标；本方向用于重做 UIUX、模型、贴图、灯光和实机镜头。批量正式资产仍需按 [G0 重做 brief](g0-redesign-brief.md) 与 [概念图还原计划](concept-to-production-v1.md) 验收。需求与验收以 [spec v0.4](../spec.md) 和 [需求索引](../requirements.md) 为准。
 
 ![方向 A v2，原创概念板，非实机](art-direction-a-v2.png)
 

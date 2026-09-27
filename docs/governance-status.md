@@ -11,7 +11,7 @@
 | 文档 | changed-and-verified | `docs/spec.md` 是产品规格；`docs/requirements.md` 是 F/P 执行索引；`docs/wayfinder/` 是本地决策路线；本次补齐 `docs/agents/` 与本文件。历史计划和概念图仍明确标为提案/历史输入。 |
 | 规则 | changed-and-verified | `AGENTS.md` 增加工程技能、票据和领域文档入口；规则继续要求固定 Godot、真实 GPU 图形验收和不把参考导出当算法。 |
 | 记忆 | not-applicable | 仓库没有获准由本次收口维护的长期 Agent memory 文件。 `CONTEXT.md` 仅作为项目领域词汇表。 |
-| 工作区 | changed-and-verified | 治理配置、wayfinder 路线、研究快照和历史计划已提交；`artifacts/`、`builds/`、`tmp/` 仍由 `.gitignore` 排除。删除候选未自动清理，等待用户在最终汇报后决定。 |
+| 工作区 | changed-and-verified | 治理配置、wayfinder 路线、研究快照和历史计划已提交；新增缓存仍由 `.gitignore` 排除。`artifacts/` 中已有一批跟踪的 QA/资产证据，当前 UIUX 与 3D 输出明确降级为白模/技术样件，未作为正式资源验收。 |
 | 发布 | changed-and-verified | 当前治理分支已推送到 `origin/codex/governance-2026-09-24`；`origin/master` 仍停在历史基线，未宣称合并或部署。GitHub Issues 不是本项目当前的决策 tracker，避免产生第二套票据。 |
 
 ## 本次收口改动
