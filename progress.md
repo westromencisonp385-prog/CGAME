@@ -10,3 +10,5 @@
 
 2026-09-27: Built the first high-quality slice candidate from concept sources: author-created A01/B01/C04 GLBs and Blender source, a candidate painted-surface atlas, a generated transparent VFX atlas, river shader/fog/emission uplift, contract phase HUD guidance, and a `magnetic_whale` build signature. Godot 4.7.2 tests and true-GPU capture pass. The slice remains `candidate`; hand-painted material binding, runtime LOD/collision review, full action timing, and final UI/scene polish remain open.
 
+2026-09-27: Direct screenshot comparison against the saved Wanderberg export images and the approved concept sheets found the slice below the reference bar. G1 is explicitly failed for now; the gap report records missing texture binding, scene density, lighting/material depth, action readability, UI polish and runtime framing.
+
