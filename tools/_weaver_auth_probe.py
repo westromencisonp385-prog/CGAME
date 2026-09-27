@@ -1,23 +1,17 @@
 import json
-import os
 import sys
-from pathlib import Path
 
 sys.path.insert(0, r"D:\工作\AI工具\ComfyUI")
 from custom_nodes.comfyui_weaver.weaver_api import WeaverClient
+from weaver_credentials import require_credentials
 
-values = {}
-for line in Path(r"D:\工作\AI工具\ComfyUI\appid.txt").read_text(encoding="utf-8").splitlines():
-    delimiter = ":" if ":" in line else "="
-    if delimiter in line:
-        key, value = line.split(delimiter, 1)
-        values[key.strip().upper().replace(" ", "_")] = value.strip()
+app_id, secret, rtx, base_url = require_credentials()
 
 client = WeaverClient(
-    os.environ.get("WEAVER_APPID") or values.get("APPID") or values.get("APP_ID"),
-    os.environ.get("WEAVER_APPSECRET") or values.get("APP_SECRET") or values.get("APPSECRET") or values.get("KEY"),
-    os.environ.get("USERNAME") or "jasonlyan",
-    "https://ws.visvise.com.cn",
+    app_id,
+    secret,
+    rtx,
+    base_url,
 )
 result = {}
 for name, call in (

@@ -15,14 +15,7 @@ MESHES = ["Chassis", "Barrier_L", "Barrier_R", "Barrier_Stripe_L", "Barrier_Stri
           "Leg_R_B_Foot", "Leg_R_B_Upper", "Leg_R_F_Foot", "Leg_R_F_Upper", "WarningBeacon"]
 JOINTS = ["pelvis", "bone_01", "bone_02", "bone_03", "bone_04", "clavicle_l_01"]
 
-def creds():
-    vals = {}
-    for line in Path(r"D:\工作\AI工具\ComfyUI\appid.txt").read_text(encoding="utf-8").splitlines():
-        sep = ":" if ":" in line else "="
-        if sep in line:
-            k, v = line.split(sep, 1); vals[k.strip().upper().replace(" ", "_")] = v.strip()
-    return (os.environ.get("WEAVER_APPID") or vals.get("APPID") or vals.get("APP_ID"),
-            os.environ.get("WEAVER_APPSECRET") or vals.get("APP_SECRET") or vals.get("APPSECRET") or vals.get("KEY"))
+from weaver_credentials import require_credentials
 
 def model_id(resp):
     data = (resp or {}).get("data") or {}
@@ -57,8 +50,8 @@ def pack(name, extra):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    app, secret = creds(); rtx = os.environ.get("WEAVER_RTX") or os.environ.get("USERNAME") or "jasonlyan"
-    client = WeaverClient(app, secret, rtx, "https://ws.visvise.com.cn")
+    app, secret, rtx, base_url = require_credentials()
+    client = WeaverClient(app, secret, rtx, base_url)
     cred_resp = client.get_cos_cred(); cred = cred_resp.get("data") if isinstance(cred_resp, dict) and "data" in cred_resp else cred_resp
     report = {"schema_version": 1, "mesh_names": MESHES, "joint_names": JOINTS, "tasks": []}
 

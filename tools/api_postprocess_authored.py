@@ -5,13 +5,7 @@ sys.path.insert(0,r"D:\工作\AI工具\ComfyUI")
 from custom_nodes.comfyui_weaver.cos_upload import upload_file_to_weaver_cos
 from custom_nodes.comfyui_weaver.weaver_api import WeaverClient
 ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/'artifacts/weaver/api_postprocess'; REPORT=OUT/'report.json'
-def cred_file():
- v={}
- for line in Path(r"D:\工作\AI工具\ComfyUI\appid.txt").read_text(encoding='utf-8').splitlines():
-  d=':' if ':' in line else '='
-  if d in line:
-   k,x=line.split(d,1);v[k.strip().upper().replace(' ','_')]=x.strip()
- return os.environ.get('WEAVER_APPID') or v.get('APPID') or v.get('APP_ID'),os.environ.get('WEAVER_APPSECRET') or v.get('APP_SECRET') or v.get('APPSECRET') or v.get('KEY')
+from weaver_credentials import require_credentials
 def tid(r):
  d=(r or {}).get('data') or {};return str(d.get('model_id') or ((d.get('model_ids') or [''])[0]))
 def wait(c,i):
@@ -35,7 +29,7 @@ def zip_model(source,zip_path,extra=None):
   if extra:z.writestr('params.json',json.dumps(extra,ensure_ascii=False))
  return zip_path
 def main():
- OUT.mkdir(parents=True,exist_ok=True); app,secret=cred_file();rtx=os.environ.get('WEAVER_RTX') or os.environ.get('USERNAME') or 'jasonlyan';c=WeaverClient(app,secret,rtx,'https://ws.visvise.com.cn'); cr=c.get_cos_cred();cred=cr.get('data') if isinstance(cr,dict) and 'data' in cr else cr
+ OUT.mkdir(parents=True,exist_ok=True); app,secret,rtx,base_url=require_credentials();c=WeaverClient(app,secret,rtx,base_url); cr=c.get_cos_cred();cred=cr.get('data') if isinstance(cr,dict) and 'data' in cr else cr
  api_zip=next(iter((ROOT/'artifacts/weaver/api_candidates/player_a01').glob('Model*.zip')),None)
  assets=[]
  if api_zip:assets.append(('player.a01_api_candidate',api_zip,'glb'))

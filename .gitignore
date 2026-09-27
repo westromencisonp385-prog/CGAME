@@ -5,3 +5,7 @@ builds/
 **/__pycache__/
 tools/AssetRipper-source/
 *.log
+
+# Local Weaver credentials. Keep the example file tracked instead.
+/config/weaver-credentials.txt
+/config/weaver-credentials.local.txt
