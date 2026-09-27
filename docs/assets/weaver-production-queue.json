@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "provider": "VISVISE Weaver OpenAPI",
   "style_lock": "docs/assets/style-lock-industrial-folk-v1.md",
   "enemy_design_plan": "docs/enemies/roster-v1.md",
@@ -12,7 +12,7 @@
     "biome": "biome.river_reversal",
     "comedy_sequence": ["prepare", "contact", "afterglow"],
     "reason": "A01 expresses the first whale-pack fantasy, B01 gives a readable sideways charge, and C04 supplies the three-state repair loop. This is the smallest complete G1/G2 slice.",
-    "status": "style_and_structure_locked_api_production_pending"
+    "status": "user_confirmed_g1g2_slice_api_production_pending"
   },
   "global_contract": {
     "units": "meters",

@@ -9,10 +9,10 @@ Inspect all project 3D-model and motion requirements, freeze a clear original vi
 - [complete] Authenticate and discover supported models/animation algorithms
 - [in_progress] Produce style-locked authored anchors and API candidates
 - [complete] Poll, download, and record local validation evidence
-- [pending] Update project docs/status and verify repository changes
+- [complete] Update project docs/status and verify repository changes
 
 ## Constraints
-- Preserve secrets: process environment only; never print or commit credentials.
+- Preserve secrets: process environment or user-local credential file only; never print or commit credentials.
 - API output must be local and reproducible; model IDs/download URLs are evidence, not completion by themselves.
 - Production is limited to clear assets/actions with source image, dimensions, pivot, events, and acceptance checks.
 - Distinguish submitted, succeeded, downloaded, and visually validated.
