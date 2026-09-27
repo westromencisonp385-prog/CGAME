@@ -5,6 +5,7 @@
 当前重点：**把已通过的 M0 循环扩成可恢复的 M1 小合同**。M1 已有一处真实修复捷径和一个持久蓝图奖励；完整战役、多个合同和蓝图效果树仍在后续范围。概念方向图不是实机。
 
 - [需求拆分与开工顺序](docs/requirements.md)
+- [项目全局指导：风格、精度、反 AI 感与百种构筑](docs/project-guidance.md)
 - [整体美术方向 A：一本正经的胡闹工程队](docs/assets/art-direction.md)
 - [G0 UIUX 与 3D 重做 brief](docs/assets/g0-redesign-brief.md)
 - [G0 UIUX 方向 v1](docs/assets/g0-uiux-direction-v1.md)

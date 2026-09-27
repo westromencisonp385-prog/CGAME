@@ -5,6 +5,7 @@
 ## 入口
 
 - 接续先读 docs/COMPACT.md、README.md。
+- 全局产品质量门见 docs/project-guidance.md；正式内容必须风格化、高精度、去 AI 感，构筑规划至少 100 个可区分 build。
 - 改玩法前读 docs/spec.md；做美术前读 docs/assets/production-guide.md。
 - 以 tools/godot-runtime.json 和 tools/godot.ps1 选择引擎，不依赖系统 PATH。
 - 常用：pwsh -File tools/godot.ps1 doctor / test / run / capture。
