@@ -1,31 +1,22 @@
-# CGAME Weaver production plan
+# 当前执行计划
 
-## Goal
-Inspect all project 3D-model and motion requirements, freeze a clear original visual/animation contract where the project is ambiguous, build a local reusable Weaver/VISVISE API skill from the supplied API markdown, then submit and validate the first production batch using the user-provided credentials without persisting secrets.
+## 事实
 
-## Phases
-- [complete] Inventory requirements and choose explicit production spec
-- [complete] Build and validate Weaver skill and local API reference
-- [complete] Authenticate and discover supported models/animation algorithms
-- [pending] Produce style-locked authored anchors and API candidates after the new G0 direction
-- [in_progress] Redesign the overall UIUX and 3D visual direction before formal asset production
-- [pending] Build the 100+ build identity catalog and mechanism-to-visual evidence matrix
-- [in_progress] Validate the first A01/B01/C04/river high-quality slice candidate in the real Godot camera
-- [in_progress] Close the G1 quality gap against concept sheets and Wanderberg reference evidence
-- [complete] Poll, download, and record local validation evidence
-- [complete] Update project docs/status and verify repository changes
+- 当前分支：`codex/governance-2026-09-24`，与远端同步。
+- 技术基线：Godot 4.7.2 Mobile/Jolt、GDScript。
+- 功能：M0/M1 循环和 9 组行为测试通过。
+- 视觉：A01/B01/C04/倒流河谷作者化候选已接入；G1 对标失败，不能称正式资产。
+- 参考：AssetRipper 正确 Wanderburg fresh export 和 Steam 页面已经记录。
 
-## Constraints
-- Preserve secrets: process environment or user-local credential file only; never print or commit credentials.
-- API output must be local and reproducible; model IDs/download URLs are evidence, not completion by themselves.
-- Production is limited to clear assets/actions with source image, dimensions, pivot, events, and acceptance checks.
-- Distinguish submitted, succeeded, downloaded, and visually validated.
-- Treat all current UIUX, Godot geometry, GLB samples, and Weaver candidates as whitebox until the replacement G0 direction is approved.
+## 路线
 
-## Errors
-| Error | Attempt | Resolution |
-|---|---:|---|
-| model_requirements subagent capacity failure | 1 | Respawn with lower-cost model |
-| Existing first batch used old local appid.txt and produced single-mesh/no-UV outputs | 1 | Treat as rejected experiment; switch to user env credentials and style-locked inputs |
-| Blender validator initially rendered camera away from assets | 1 | Corrected camera look direction and reran validation |
-| Weaver high-model/rigging outputs did not satisfy final structure; B01 rigging returned 992103 on GLB | 1 | Documented API boundary; retain authored control assets and require format-correct staged use |
+- [complete] 纠正参考输入、凭证安全和现役文档入口
+- [complete] 建立 A01/B01/C04 作者化候选与真实镜头候选
+- [in_progress] 关闭 G1：UV/手绘贴图、材质状态、LOD、碰撞、动作三拍、场景密度、敌人预告、修复表现、正式 UIUX
+- [pending] G2 连续“聚拢→压缩→投送→修复”演出与外部试玩
+- [pending] 100+ build 身份目录和机制→视觉证据矩阵
+- [pending] M1 完整小合同、结算事务、真实手柄、性能、release/Steam/Deck
+
+## 完成定义
+
+每个阶段必须有代码/运行态/文档证据。测试通过不能替代真实镜头质量；候选资产只有通过 G1/G2 的模型、贴图、动作、碰撞、LOD、UIUX 和截图门，才能进入 `integrated`。

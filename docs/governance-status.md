@@ -1,40 +1,32 @@
-# 治理状态 · 2026-09-24
+# 治理状态 · 2026-09-27
 
-本文件是一次项目知识与工程收口的凭证，不是新的产品规格。产品规则仍以 `docs/spec.md` 为准；决策路线仍以 `docs/wayfinder/map.md` 为准。
+本文是项目知识与工程收口凭证，不是新的产品规格。产品规则以 `docs/spec.md` 为准，路线以 `docs/roadmap.md` 和 `docs/wayfinder/` 为准。
 
 ## 现役事实面
 
 | 事实面 | 状态 | 证据与边界 |
 | --- | --- | --- |
-| 代码 | verified-current | `62ddeb0` 是本次治理的代码基线；治理提交已包含文档和规则收口，M0/M1 运行代码、Godot 资源和测试入口均在仓库内。 |
-| 运行态 | verified-current | 2026-09-24 用 Godot `4.7.2.stable.official.ed1daf0bf`、Mobile、NVIDIA RTX 4070 Ti SUPER 完成一次真 GPU capture；8 个场景均生成截图和 `runtime-evidence.json`。Dummy 音频只证明图形流程，不证明听感、延迟或设备输出。 |
-| 文档 | changed-and-verified | `docs/spec.md` 是产品规格；`docs/requirements.md` 是 F/P 执行索引；`docs/wayfinder/` 是本地决策路线；本次补齐 `docs/agents/` 与本文件。历史计划和概念图仍明确标为提案/历史输入。 |
-| 规则 | changed-and-verified | `AGENTS.md` 增加工程技能、票据和领域文档入口；规则继续要求固定 Godot、真实 GPU 图形验收和不把参考导出当算法。 |
-| 记忆 | not-applicable | 仓库没有获准由本次收口维护的长期 Agent memory 文件。 `CONTEXT.md` 仅作为项目领域词汇表。 |
-| 工作区 | changed-and-verified | 治理配置、wayfinder 路线、研究快照和历史计划已提交；新增缓存仍由 `.gitignore` 排除。`artifacts/` 中已有一批跟踪的 QA/资产证据，当前 UIUX 与 3D 输出明确降级为白模/技术样件，未作为正式资源验收。 |
-| 发布 | changed-and-verified | 当前治理分支已推送到 `origin/codex/governance-2026-09-24`；`origin/master` 仍停在历史基线，未宣称合并或部署。GitHub Issues 不是本项目当前的决策 tracker，避免产生第二套票据。 |
+| 代码 | verified-current | 当前分支包含 M0/M1 功能循环、作者化候选切片接入、渲染候选改进、阶段 HUD 和构筑签名；9 组 Godot 行为测试通过。 |
+| 运行态 | changed-and-verified | Godot 4.7.2 Mobile 真 GPU capture 通过；截图证明流程和导入运行，不证明达到 Wanderburg 视觉质量。G1 明确 failed。 |
+| 文档 | changed-and-verified | README、COMPACT、spec、requirements、roadmap、project-guidance、质量基准和 G1 缺口报告已按 2026-09-27 事实重写。 |
+| 参考研究 | changed-and-verified | 正确使用 AssetRipper GUI Free 1.3.5.0 对 Wanderburg 原始包重新导出；fresh inventory 记录 749 Prefab、5 场景、845 纹理、710 脚本。Steam 页面已直读。外部资产不进 Godot。 |
+| 规则 | changed-and-verified | AGENTS/CONTEXT 已加入全局质量门、白模/正式资产边界和 100+ build 要求。 |
+| 凭证 | changed-and-verified | Weaver 凭证已移出仓库并从可达 Git 历史清除；本机用户目录和环境变量优先，仓库只保留脱敏模板。 |
+| 工作区 | pending | 当前代码工作树干净；`tmp/assetripper-wanderburg-20260927`、旧导出、旧计划和跟踪中的 artifacts 仍保留为研究/复核现场，未执行清场。 |
+| 发布 | changed-and-verified | `origin/codex/governance-2026-09-24` 已推送至当前 HEAD；`origin/master` 未合并；未部署、未做 Steam/release/live 验证。 |
+| 记忆 | not-applicable | 没有获准由本次收口维护的长期 Agent memory 文件。 |
 
-## 本次收口改动
+## 当前 G1 结论
 
-- 加入 `docs/agents/issue-tracker.md`、`docs/agents/triage-labels.md`、`docs/agents/domain.md`，把现有 `docs/wayfinder/` 本地 Markdown 约定写成工程技能可读取的规则。
-- 更新 `AGENTS.md`，让后续会话从同一套 tracker、领域词汇和验证边界开始。
-- 修正 `docs/COMPACT.md` 中过时的“47f3a3a + 未提交修改”描述，改为以当前 Git 历史和本次治理分支为准。
-- 保留 `docs/wanderburg-to-excavator-plan.md/.pdf` 作为历史研究快照，不把其中的月数、预算和内容上限升级为当前承诺。
-- 保留 `docs/wayfinder/` 的未决票据：双功能挂点原型、组合预算、首个幻想载具样件和 M0 切片边界仍不能伪造为已决策；引用矩阵票据已按证据完成并记录答案。
-
-## 验证记录
-
-- `pwsh -File tools/godot.ps1 doctor`：通过，固定引擎和导出模板可用。
-- `pwsh -File tools/godot.ps1 test`：通过，9 组测试全部退出码为 0、发出明确完成标记且没有 `SCRIPT ERROR`/`ERROR`。
-- `pwsh -File tools/godot.ps1 capture`：通过，真实 GPU 生成 `clean`、`built`、`whale`、`preview`、`gm`、`repair`、`effects`、`restored` 八个场景；截图只证明当前图形流程，不证明最终美术质量。
-- `pwsh -File tools/test-godot-cli-contract.ps1`：通过，CLI 标记、引擎版本拒绝和 GM 前置条件契约均通过。
-- `pwsh -File tools/godot.ps1 export-debug` 与 `capture-build`：通过，Windows debug 导出可启动并生成构建截图；这不是 release/Steam 验收。
-- Markdown 本地链接检查：通过，当前可扫描文档没有缺失的相对链接。
-- Git 交付：`origin` 已加入用户给出的仓库，治理提交已推送到 `master` 和 `codex/governance-2026-09-24`；当前状态仍是 pushed，未宣称 merged/deployed/live verified。
-- 尚未完成：真实手柄玩家流程、声音听感、性能 benchmark、release/Steam 验收、完整战役和方向 A v2 的用户确认。
+A01/B01/C04/倒流河谷已形成作者化候选切片和真实镜头证据，但以下仍未通过：UV/手绘贴图绑定、损坏/修复材质、LOD/碰撞实体、准备→接触→余韵动作、场景密度、UIUX、敌人预告和修复状态。因此不得宣称 `integrated` 或 `final`。
 
 ## 下一步唯一入口
 
-1. 重做整体 UIUX 与 3D 视觉方向，形成新的 G0 调性关口。
-2. 处理 `docs/wayfinder/tickets/原型：冻结 M0 双功能挂点与输入语义.md`，再进入组合预算和首件样件决策。
-3. 只有新方向与决策路线清空后，才将结果压缩回规格、拆成实现票据并扩展正式资产。
+1. 按 [docs/roadmap.md](roadmap.md) 关闭 G1 缺口。
+2. G1 通过后，制作 G2 连续喜剧动作与修复反转。
+3. 建立 100+ build 目录和机制→视觉证据矩阵，再扩充内容。
+4. 完整战役、发布、Steam、Deck、真实手柄和性能验收排到 M1/M2 之后。
+
+## 清场边界
+
+旧导出、旧计划、`.blend1` 备份、跟踪 artifacts 和未决 wayfinder 票据均未删除或关闭。复核现场仍保留，等待用户在后续收尾汇报后明确确认，再决定是否清理。

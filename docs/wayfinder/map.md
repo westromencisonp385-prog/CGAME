@@ -6,9 +6,11 @@ tracker: local-markdown
 destination: "形成一条在进入 Godot M0 实现前没有关键决策空洞的路线，并把结果交接给后续原型与制作工作。"
 ---
 
-## Governance note · 2026-09-24
+## Governance note · 2026-09-27
 
 This map is retained as the project's decision record. The implementation has since reached a verified M0/M1 slice, so this map is not evidence that every ticket or product requirement is complete. Open tickets remain open until their decisions are actually resolved; the current product contract and release gate are in `docs/spec.md`, `docs/requirements.md`, and `docs/governance-status.md`.
+
+The active implementation route is `docs/roadmap.md`. The A01/B01/C04/river slice remains a candidate with a failed G1 quality gate; this map is a decision record, not formal-asset approval.
 
 ## Destination
 

@@ -10,7 +10,7 @@
 | 当前 A01 候选 | `game/assets/models/formal_slice/a01_whale_jaw_formal_preview.png` | 轮廓、液压、履带、驾驶室、颚口和磁环成立；材质仍是受控色块，手绘贴图未绑定，LOD/碰撞/动作未通过实机门。 |
 | 当前 B01 候选 | `game/assets/models/formal_slice/b01_reverse_crab_formal_preview.png` | 橙白挡板和腿部结构成立；实机镜头中主行为、墙体/锚点、侧冲姿态和预告没有形成完整戏剧链。 |
 | 当前 C04 候选 | `game/assets/models/formal_slice/c04_repair_pump_formal_preview.png` | 泵体、压力表、阀轮和管口成立；实机状态仍像占位物，修复前/施工/恢复的材质、流体、桥和环境叙事不足。 |
-| Wanderberg 导出参考 | `F:/WanderburgAssetRipperExport/ExportedProject/Assets/Texture2D/VEHICLE_T2_TANK.png`、`Front Cannon.png`、`vehicle colorpalette2.png`、`Wanderburg_tf_SmokeAlpha_004.png` | 参考资产至少有完整车体层级、共享色板、材质/描边语法、结构分件和高辨识度表现资源。当前切片只达到其中的结构草案层。 |
+| Wanderberg 导出参考 | 正确 fresh export：`tmp/assetripper-wanderburg-20260927/ExportedProject`；样例包括 `VEHICLE_T2_TANK.png`、`Front Cannon.png`、`vehicle colorpalette2.png`、`Wanderburg_tf_SmokeAlpha_004.png` | 参考资产至少有完整车体层级、共享色板、材质/描边语法、结构分件和高辨识度表现资源。当前切片只达到其中的结构草案层。 |
 | 用户确认概念图 | `docs/assets/2d-candidates/A01-whale-jaw-reclaimer.png`、`B01-reverse-crab.png`、`C04-repair-pump-cutaway.png` | 概念图的材质、磨损、道具密度、动作姿态、环境道具和状态对照远高于当前 Godot 实机截图。 |
 
 ## 质量差距

@@ -1,68 +1,48 @@
-# 回收者 / Reclaimer
+# Reclaimer / 挖掘机拯救世界
 
-“挖掘机拯救世界”的本地 M0：驾驶、铲击、投掷、模块装配、磁吸/水电/惯性组合、河岸修复与检查点恢复。
+单人 Steam 幻想工程车 Roguelite。玩家驾驶、挖掘、搬运、压缩、投掷、修复并改造一台不断成长的工程车；模块必须改变操作、剪影、路线、节奏、空间或修复关系。
 
-当前重点：**把已通过的 M0 循环扩成可恢复的 M1 小合同**。M1 已有一处真实修复捷径和一个持久蓝图奖励；完整战役、多个合同和蓝图效果树仍在后续范围。概念方向图不是实机。
+## 当前一句话状态
 
-- [需求拆分与开工顺序](docs/requirements.md)
-- [项目全局指导：风格、精度、反 AI 感与百种构筑](docs/project-guidance.md)
-- [整体美术方向 A：一本正经的胡闹工程队](docs/assets/art-direction.md)
-- [G0 UIUX 与 3D 重做 brief](docs/assets/g0-redesign-brief.md)
-- [G0 UIUX 方向 v1](docs/assets/g0-uiux-direction-v1.md)
-- [G0 UIUX/渲染方向板（提案）](docs/assets/g0-uiux-industrial-folk-v1.png)
-- [概念图到正式资产的还原计划](docs/assets/concept-to-production-v1.md)
-- [Wanderburg 质量基准 v2：AssetRipper 新鲜解包与 Steam 直读](docs/assets/wanderburg-quality-benchmark-v2.md)
-- [模型、动作、敌人和 Boss 资产生产方案](docs/assets/asset-production-plan-v1.md)
-- [方向板 v2（待确认）](docs/assets/art-direction-a-v2.png)
-- [2D设计候选库（20张，待筛选）](docs/assets/2d-candidates/README.md)
-- [2D设计冻结阶段规范](docs/assets/2d-design-phase.md)
-- [完整TODO](docs/TODO.md)
-- [Meshy/Tripo输入规范](docs/assets/mesh-generation-inputs.md)
-- [Mesh生成队列](docs/assets/mesh-generation-queue.json)
-- [世界设定与内容圣经](docs/world-bible.md)
-- [机器/怪物/挑战扩展概念板](docs/assets/expansion-concept-board-v1.png)
+M0/M1 功能循环可运行；首个 A01/B01/C04/倒流河谷体验切片已接入作者化候选模型和渲染候选，但 **G1 质量对标失败**。当前模型、贴图、UIUX、关卡和特效仍处于 `candidate`，不能当正式资源。
 
-## 开始
+当前唯一后续路线见 [docs/roadmap.md](docs/roadmap.md)。项目质量门见 [docs/project-guidance.md](docs/project-guidance.md)，产品权威规格见 [docs/spec.md](docs/spec.md)。
 
-在项目根目录运行 PowerShell：
+## 运行与验证
 
-~~~powershell
+```powershell
 pwsh -File tools/godot.ps1 doctor
-pwsh -File tools/godot.ps1 run
-~~~
-
-工具固定使用 Godot **4.7.2 stable**，无需改系统 PATH。运行/截图与导出状态见 [CLI 工作流](docs/godot-cli-workflow.md)。
-
-## 测试
-
-~~~powershell
 pwsh -File tools/godot.ps1 test
 pwsh -File tools/godot.ps1 capture
-~~~
+```
 
-日志、状态报告和真实GPU截图写到 artifacts/qa/。逻辑与图形检查分开，不把 headless 成功称作画面正确。真实手柄、Steam Deck和发行性能仍需专门验收。
+固定环境：Godot 4.7.2 stable、GDScript、Mobile、Jolt。`test` 证明行为流程；`capture` 才能检查真实 GPU 画面。当前 9 组行为测试通过，但截图只证明流程运行，不证明美术质量。
 
-## 操作
+## 当前切片
 
-- WASD / 左摇杆移动，鼠标 / 右摇杆瞄准。
-- 左键 / RT作业，右键 / LT投掷，Shift / LB冲刺。
-- R / A修复；B / Y改装，选择挂点A/B，预览后确认。
-- F1或界面GM入口打开测试台；无敌、冻结、调速、补充与预设状态明确显示。
-- F5/F9为正常检查点；GM保存/读取使用独立检查点。F6重新出击。
+- 玩家：A01 磁暴鲸口，机制签名为聚拢 → 压缩 → 投送。
+- 敌人：B01 施工蟹，机制签名为横移冲撞 → 推墙或拆锚。
+- 设施：C04 修复泵，机制签名为拆解 → 换密封 → 加压 → 恢复。
+- 场景：倒流河谷，修复应改变水流、桥和路线。
+- 当前状态：作者化 GLB、Blender 源、候选手绘表面图集、VFX 图集和 Godot 接入均为 `candidate`。
 
-## 参考与美术
+## 现役文档
 
-解包指导挂点、等级显隐、主动/被动发射点和多层反馈；原创模型与图片不直接复制参考作品。
+- [项目现役路线](docs/roadmap.md)
+- [项目全局指导：风格化、高精度、反 AI 感与百种构筑](docs/project-guidance.md)
+- [现役产品规格](docs/spec.md)
+- [功能/表现需求索引](docs/requirements.md)
+- [G1 质量对标缺口报告](docs/assets/g1-quality-gap-report.md)
+- [Wanderburg 质量基准：AssetRipper 与 Steam 直读](docs/assets/wanderburg-quality-benchmark-v2.md)
+- [概念图到正式资产还原计划](docs/assets/concept-to-production-v1.md)
+- [UIUX 方向与验收](docs/assets/g0-uiux-direction-v1.md)
+- [本地决策路线](docs/wayfinder/map.md)
+- [接续入口](docs/COMPACT.md)
 
-- [现役规格](docs/spec.md)
-- [具体资产制作](docs/assets/production-guide.md)
-- [Blender 资产生产精度对标](docs/assets/model-production-benchmark.md)
-- [生成图片与提示词](docs/assets/image-generation-manifest.json)
-- [解包结构证据](evidence/reference_asset_contract.json)
-- [解包视觉证据](evidence/reference_visual_study.json)
-- [Compact 接续记录](docs/COMPACT.md)
-- [治理状态与验证凭证](docs/governance-status.md)
+## 参考与安全边界
 
-首批烟尘精灵用于原生GPU粒子；磁暴鲸口卡面用于概念插画。磁场、电弧、修复环和水流由 Godot 实时绘制。M0基础车仍使用程序化几何，二阶段鲸口已接入 Blender 5.2.1 GLB样件；插画不代表最终3D模型。
+Wanderburg 原始包只通过本机 AssetRipper 做研究；正确的 Wanderburg fresh export 记录在 [质量基准](docs/assets/wanderburg-quality-benchmark-v2.md)，不进入 `game/`。Steam 页面是产品和视觉参考，不是源码或算法证据。
 
-旧立项PDF为历史快照，最新状态以本README、现役规格与QA结果为准。
+Weaver 凭证只在用户本机 `C:\Users\Administrator\.config\wanderberg\weaver-credentials.txt` 或进程环境中使用。仓库只保留脱敏模板和标准客户端工具。
+
+正式资产要从概念图重新创作，必须经过真实镜头、材质、动作、碰撞、LOD、UI 避让、720p/1080p 和缺陷复测。历史立项估算、旧导出和旧计划均不代表当前承诺。

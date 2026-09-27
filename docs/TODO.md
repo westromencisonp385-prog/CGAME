@@ -1,122 +1,46 @@
-# Reclaimer TODO · 从2D筛选到Steam垂直切片
+# 当前 TODO：从正确参考到正式 G1/G2
 
-更新时间：2026-09-27。当前阶段：UIUX 与 3D 画面整体重做；现有内容只保留为白模/技术样件。
+更新时间：2026-09-27。唯一现役路线见 [docs/roadmap.md](roadmap.md)。
 
-## 已完成
+## 已验证
 
-- Godot 4.7.2 Mobile/Jolt固定CLI。
-- M0核心循环与M1修复路线/蓝图小合同。
-- 20张2D候选设计稿：A01-A08机器、B01-B06怪物、C01-C06挑战/修复。
-- Blender 5.2.1结构样件，含拆件、阶段、挂点、冷却和VFX合同节点。
-- 9组行为测试、Godot导入检查、真GPU捕获。
+- Godot 4.7.2 Mobile/Jolt CLI、M0/M1 功能循环和 9 组行为测试。
+- 本地 Weaver 凭证加载、配额/算法/COS 只读链路和标准客户端。
+- AssetRipper GUI Free 对 Wanderburg 原始发行包的正确重新导出；统计见 [质量基准](assets/wanderburg-quality-benchmark-v2.md)。
+- A01/B01/C04 作者化候选模型、Blender 源、结构合同和 Godot 导入。
+- 真 GPU capture 流程和当前 G1 缺口报告。
 
-## P0：重做整体 UIUX 与 3D 方向
+## 当前 P0：纠正参考与生产口径
 
-- 保留 A01/B01/C04/倒流河谷作为玩法样板目标，不把现有图像或模型当正式资源。
-- 重新确定 UI 信息层级、装配/预览/确认流程、战场 HUD、反馈动效和输入可读性。
-- 重新设计玩家车、敌人、设施、材质、色板、镜头和成长剪影。
-- 记录白模中保留的行为约束、需要重做的表现问题和新的 G0 验收图。
-- 新方向通过 G0 后，重新制作正交三视图、俯视游戏镜头、成长剪影、颜色、材质、负形和接口。
+- [x] 用 AssetRipper 重新选择正确的 Wanderburg 目录并导出。
+- [x] 直接读取 Steam 商店页与用户提供的截图。
+- [x] 从现役 Markdown 中撤回错误的 AssetRipper 版本/路径/统计。
+- [ ] 把新鲜导出的 UI、纹理、材质、Prefab 和 VFX 组织成可回查研究矩阵。
+- [ ] 继续保留外部资产只读研究边界，不复制进 `game/`。
 
-## P1：Meshy/Tripo生成输入
+## 当前 P1：关闭 G1 质量缺口
 
-- 使用 docs/assets/mesh-generation-queue.json 的稳定资产ID。
-- 输入：选中的2D设计图、正交视图、俯视图、局部结构图。
-- 参数：米制、X宽度/Y前进/Z向上；输出GLB；保留材质槽、挂点、可拆件和原始API回执。
-- 负面约束：不要角色脸、不要随机武器、不要密集小零件、不要浮空部件、不要复制商业资产、不要把概念文字烘进贴图。
-- 生成后在Blender 5.2.1重拓扑、修比例、补枢轴、碰撞、LOD和材质槽。
-- 每个资产保存源文件、GLB、预览图、hash、版本、提示词和许可证。
+- [ ] A01/B01/C04 完成 UV、手绘表面图集绑定和损坏/修复材质。
+- [ ] A01 颚口、B01 墙/锚、C04 阀轮/压力表完成准备→接触→余韵动作。
+- [ ] 完成真实镜头的前景/中景/背景、地表材质、泵站、桥、管线、树簇、烟和修复后远景。
+- [ ] 完成敌人预告、墙体/锚点反制、修复状态和路线变化的同镜头读法。
+- [ ] 重做战场 HUD、装配卡、预览对比、修复结算和手柄焦点。
+- [ ] 重新输出无 VFX/有 VFX、修复前/中/后、720p/1080p 对照截图。
+- [ ] 只有通过 G1 后，才把资产状态从 `candidate` 推进到 `integrated`。
 
-## P2：首个正式3D垂直切片
+## 当前 P2：G2 连续体验
 
-- 一车：选中的主机器基础态、成长态、损坏态。
-- 一模块：鲸口/主工程头，开合、压缩、释放动画。
-- 一敌人：待机、攻击准备、执行、失败/撤退。
-- 一设施：泵站或桥的损坏、施工、修复三态。
-- 一合同：倒流河谷，约10分钟，包含资源、构筑、组合、修复、路线和奖励。
-- Godot接入：预览、实装、战斗、修复、存档、无VFX对照。
+- [ ] 聚拢 → 鲸口压缩 → 投送 → 修泵 30 秒连续演出。
+- [ ] 验证 F 规则与 P 表现分别成立，且暂停/读档/低画质结果一致。
+- [ ] 做 5–8 人无指导试玩，记录读法、失败原因、遮挡和重玩意愿。
 
-## 动画清单
+## 当前 P3：100+ build
 
-### 所有玩家机器
+- [ ] 建立 10 个机制家族，每族至少 10 个行为不同的 build。
+- [ ] 每个 build 记录机制、成本、反制、结构、动作、VFX/SFX、UI、测试场景和存档字段。
+- [ ] 先做 10 个代表 build 的可玩证据，再决定批量生产节奏。
 
-- idle_hydraulic
-- drive_forward
-- drive_reverse
-- brake
-- turn_in_place
-- aim_left_right
-- primary_prepare
-- primary_contact
-- primary_recover
-- load_scrap
-- throw_scrap
-- dash_start
-- dash_contact
-- hit_recoil
-- repair_work
-- defeat
-- stage_transform
+## 暂不做
 
-### 鲸口回收铲
-
-- jaw_idle
-- jaw_open
-- jaw_close_compress
-- magnetic_pull
-- payload_hold
-- payload_release
-- coil_spin
-- repair_brick_stack
-
-### 雨伞鼹鼠
-
-- drill_spin
-- shield_deploy
-- shield_absorb
-- burrow_enter
-- burrow_loop
-- burrow_exit
-- surface_pop
-
-### 铁轨蜗牛
-
-- drum_spin
-- rail_deploy
-- rail_snap_connect
-- grappler_extend
-- grappler_pull
-- rail_retract
-
-### 普通敌人
-
-- idle
-- move
-- telegraph
-- attack
-- stagger
-- engineering_countered
-- defeat
-- retreat
-
-### 设施和世界
-
-- pump_cough
-- pump_repair
-- pump_flow
-- bridge_closed_open
-- turbine_anchor_spin
-- air_pump_start
-- camp_service_unlock
-
-## 验收顺序
-
-1. 2D设计稿在320px仍读得清。
-2. Meshy/Tripo输出在Blender中可旋转、可拆、可挂点。
-3. GLB在Godot Mobile中导入无错误。
-4. 无VFX截图仍能看懂结构和危险。
-5. 动画关键帧和权威事件一致。
-6. 碰撞、通路、存档、低画质和720p/1080p检查通过。
-7. 真GPU截图和机器可读manifest保存。
-
-完整战役、Steam、Deck、手柄、蓝图效果树和量产资产继续保留为后续阶段。
+- [ ] 完整战役、多群系批量资产、Steam/release/Deck 验收。
+- [ ] 删除历史导出、旧计划、旧候选和未决 wayfinder 票据；等收尾汇报后由用户确认。

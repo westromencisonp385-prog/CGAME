@@ -4,15 +4,15 @@
 
 ## 1. 已按要求重新解包
 
-本轮使用本机 **AssetRipper 2.0.0 Free** GUI，对原始发行包重新导出：
+本轮使用本机 **AssetRipper GUI Free 1.3.5.0**，通过 GUI 重新选择并导出原始发行包：
 
 - 输入：`F:\SteamLibrary\steamapps\common\Wanderburg Game`
 - 工具：`F:\AssetRipper_win_x64\AssetRipper.GUI.Free.exe`
-- 新鲜输出：`F:\AssetRipper_win_x64\BP\AssetRipper_export_20251020_170518\ExportedProject`
-- AssetRipper 日志：`F:\AssetRipper_win_x64\AssetRipper_20251021_005749.log`
-- 新鲜清单：`artifacts/qa/assetripper-fresh-inventory.json`
+- 新鲜输出：`F:\C-Drive-Relocation\UserData\Documents\ChatGPT\wanderberg\tmp\assetripper-wanderburg-20260927\ExportedProject`
+- AssetRipper 日志：`F:\AssetRipper_win_x64\wanderburg-rerun.log`
+- 新鲜清单：`artifacts/qa/assetripper-wanderburg-20260927-inventory.json`
 
-新鲜导出统计：14,792 个文件、约 484.8 MB、636 个 Prefab、5 个场景、580 张纹理、1,029 个脚本、731 个脚本 GUID。新鲜清单明确记录了 AssetRipper Free 导出的方法体/算法边界；外部资产仍是研究证据，不进入 `game/`。
+本次 Wanderburg 导出统计：14,012 个文件、约 2.19 GB、749 个 Prefab、5 个场景、845 张纹理、710 个脚本。新鲜清单明确记录了 AssetRipper Free 导出的方法体/算法边界；外部资产仍是研究证据，不进入 `game/`。此前一次错误会话加载了 BALLxPIT，已从现役基准中撤销。
 
 ## 2. Steam 页面直读
 

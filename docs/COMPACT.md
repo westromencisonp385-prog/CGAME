@@ -1,25 +1,47 @@
 # Compact · 项目接续入口
 
-更新时间：2026-09-27。磁盘接续记录；不以此宣称调用了宿主原生 /compact 命令。
+更新时间：2026-09-27。本文是磁盘接续记录，不代表调用了宿主原生 /compact 命令。
 
-- 目标：个人 + AI + 必要外包，Steam单机幻想工程车游戏；战斗、挖掘升级、世界修复、模块改变操控/剪影/规则。幻想不受真实车型约束。
-- 最新指示：用to-spec拆需求；整体必须整蛊、搞笑、有趣。明确F功能/P表现；当前白模视觉不合格。先学习解包视觉、从整体做美学设计，确认调性后才制作内容。
-- 已确认：本地交付；主验收流程为装配→预览→确认→实战组合→升级/变形→存档恢复。不重复询问tracker或验收边界。
-- 当前入口：docs/spec.md v0.4为唯一产品规格；docs/requirements.md为17项F/16项P执行索引；docs/assets/art-direction.md为方向A提案，v2概念板待用户确认。
-- 内容扩展：docs/world-bible.md 新增三条机器谱系、9类怪物/环境对手、8种合同模板、三群系与叙事呈现；docs/assets/expansion-concept-board-v1.png 是概念方向板，均为提案，不代表已进入主玩法。
-- 当前内容状态：A01 磁暴鲸口、B01 施工蟹、C04 修复泵与倒流河谷已形成首个高质量体验切片候选；作者化 GLB、候选贴图图集、渲染和机制签名已接入真实镜头。它们仍是 `candidate`，贴图绑定、LOD、碰撞实体、准备→接触→余韵动作和正式美术门尚未关闭。
-- G1 质量结论：当前实机仍未达到 Wanderberg 参考质量；关卡密度、贴图材质、动作表现、UIUX 和镜头可读性均有明确缺口，详见 [G1 质量对标缺口报告](assets/g1-quality-gap-report.md)。
-- 对标基准：已用 AssetRipper 2.0.0 对原始 Wanderburg 包重新导出，并直读 Steam 商店页；新鲜统计和视觉差距见 [Wanderburg 质量基准 v2](assets/wanderburg-quality-benchmark-v2.md)。
-- 关口：G0参考/调性确认→G1一车一敌一段河岸实机样板→G2一条完整喜剧动作与修复演出→G3扩三构筑/合同。图中最终巨兽不是已批准的近期内容。
-- 当前实现已包含 M0/M1 核心循环、鲸口打包、真实修复捷径、蓝图奖励，以及 Blender 5.2.1 的 122对象/77网格鲸口资产样件。概念图仍是方向提案；图像实际生成版本未知，manifest保留image2.5目标与unknown实际版本。
-- 代码：本次治理从已提交基线62ddeb0开始，治理配置、决策路线和研究快照已在治理分支提交并推送。不要把大量未跟踪缓存、工具二进制和第三方导出一并提交。
-- 引擎：固定Godot4.7.2 stable、GDScript、Mobile、Jolt；用项目CLI，PATH可能仍是4.6.3。Windows debug模板与导出已有，release模板和发行验收未完成。
-- M0已有驾驶/主斗/投掷/冲刺、核心/动力/两功能槽、三代表组合、局部修复、胜负重试和A/B快照；GM共享命令、独立存档、面板暂停等基础已实现。正式3D、完整AI/战役/结算事务/Steam未完成。
-- 既有QA：9组逻辑测试通过；M1有修复前后路线真GPU截图（4070Ti SUPER，Mobile），捕获流程有8个场景并记录来源hash。它们证明流程和捕获可运行，不证明美术合格或好玩。真实手柄、声音听感、性能与真人试玩仍待验收。
-- 参考包：F:/SteamLibrary/steamapps/common/Wanderburg Game是Unity IL2CPP发行包；AssetRipper导出在F:/WanderburgAssetRipperExport/ExportedProject。5场景、749Prefab、845纹理、707C#文件不等于全部可玩内容，方法体不能作为原算法。
-- 研究：evidence/reference_asset_contract.json为六结构样例；reference_visual_study.json为图像/色板/材质/shader/相机12条来源记录。本轮实际查看4张导出图；运行镜头/动态切换/后处理仍未知。商业参考资产不放入game。
-- 视觉制作：先读art-direction再读production-guide。Image2.5目标生成位图，Blender/程序几何做3D，Godot做原生材质/动画/特效/UI；先无特效实机读图，再叠演出。
-- 全局质量门：正式内容必须风格化、高精度、去 AI 感；首发构筑规划至少 100 个可区分 build，每个 build 要改变机制/决策并拥有结构、动作、VFX、UI、声音和存档证据。细则见 [docs/project-guidance.md](project-guidance.md)。
-- 本轮实现：F-05最小鲸口打包、P-09技术样件、Blender 5.2.1鲸口GLB、F-15 CLI合同，以及 M1 小合同（修复前后真实路线门禁、蓝图奖励、GM/F5/F9恢复）。P-03/P-04/P-05/P-06/P-11 的正式 G1 样板仍待制作，当前9组 Godot行为测试通过；完整战役和蓝图效果树仍未完成。
-- 不自动关闭旧wayfinder/tickets，不把规格条目视作已完成；旧PDF及月份/人日预算为历史立项估算。
-- 治理凭证：[docs/governance-status.md](governance-status.md)；删除候选和未验证发布面保留为 pending，不在本次自动清场。
+## 当前一句话状态
+
+Reclaimer 是 Godot 4.7.2 的单人幻想工程车 Roguelite。M0/M1 功能循环可运行；首个 A01/B01/C04/倒流河谷切片已形成作者化候选，但 G1 视觉质量对标失败，正式 UIUX、贴图、场景和动作仍未完成。
+
+## 唯一现役入口
+
+- 产品规则：[docs/spec.md](spec.md)
+- 全局质量门：[docs/project-guidance.md](project-guidance.md)
+- 后续路线：[docs/roadmap.md](roadmap.md)
+- F/P 执行索引：[docs/requirements.md](requirements.md)
+- 本地决策路线：[docs/wayfinder/map.md](wayfinder/map.md)
+- 美术生产：[docs/assets/concept-to-production-v1.md](assets/concept-to-production-v1.md)
+- UIUX：[docs/assets/g0-uiux-direction-v1.md](assets/g0-uiux-direction-v1.md)
+- 质量基准：[docs/assets/wanderburg-quality-benchmark-v2.md](assets/wanderburg-quality-benchmark-v2.md)
+- 缺口报告：[docs/assets/g1-quality-gap-report.md](assets/g1-quality-gap-report.md)
+
+## 已确认事实
+
+- 主验收流程：装配 → 预览 → 确认 → 实战触发组合 → 升级/变形 → 存档恢复。
+- 工业童话方向已确认；用户提供的 A01/B01/C04 概念图是视觉真源。
+- 正式内容质量门：风格化、高精度、去 AI 感、多种多样；首发规划至少 100 个可区分 build。
+- A01/B01/C04/倒流河谷是玩法样板目标，不代表正式资产已通过。
+- 当前 `candidate` 切片包含作者化 GLB、Blender 源、候选表面图集、VFX 图集、渲染改进、阶段 HUD 和 `magnetic_whale` 机制签名。
+- 9 组 Godot 行为测试和真 GPU capture 通过，只证明流程/导入/事件可运行。
+
+## 真实参考状态
+
+- Wanderburg 原始发行包：`F:\SteamLibrary\steamapps\common\Wanderburg Game`。
+- 正确 AssetRipper fresh export：`tmp/assetripper-wanderburg-20260927/ExportedProject`。
+- fresh 统计：749 Prefab、5 场景、845 纹理、710 脚本；详情见质量基准。
+- Steam 页面已直读：[Wanderburg](https://store.steampowered.com/app/3624140/_Wanderburg/)。
+- 外部资产只作研究证据，不复制进 `game/`；IL2CPP 方法体不作为原算法。
+
+## 当前阻塞
+
+- G1：UV/贴图绑定、损坏/修复材质、LOD/碰撞、动作三拍、场景密度、UIUX、敌人预告和修复状态。
+- G2：连续喜剧动作、声音、低特效对照和外部试玩。
+- 百种构筑：只有机制签名样例，100 个 build 目录和证据矩阵尚未完成。
+- 发布：真实手柄、性能、release、Steam、Deck、完整战役和结算事务尚未验收。
+
+## 状态边界
+
+`whitebox → proposal → candidate → integrated → final`。当前白模、旧 GLB、Weaver 候选和新作者化候选都不能称 `final`。旧计划、旧导出和 wayfinder 未决票据保留为历史/决策材料，不自动删除或关闭。

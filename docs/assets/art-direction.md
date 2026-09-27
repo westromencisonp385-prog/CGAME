@@ -1,6 +1,6 @@
 # 整体美术方向 A：一本正经的胡闹工程队
 
-2026-09-27 · **工业童话方向已确认，概念图作为视觉真源**。当前 Godot 白模、旧 GLB 和低质量渲染不达标；本方向用于重做 UIUX、模型、贴图、灯光和实机镜头。批量正式资产仍需按 [G0 重做 brief](g0-redesign-brief.md) 与 [概念图还原计划](concept-to-production-v1.md) 验收。需求与验收以 [spec v0.4](../spec.md) 和 [需求索引](../requirements.md) 为准。
+2026-09-27 · **工业童话方向已确认，概念图作为视觉真源**。当前 Godot 白模、旧 GLB 和低质量渲染不达标；本方向用于重做 UIUX、模型、贴图、灯光和实机镜头。批量正式资产仍需按 [G0 重做 brief](g0-redesign-brief.md) 与 [概念图还原计划](concept-to-production-v1.md) 验收。需求与验收以 [spec v0.5](../spec.md) 和 [需求索引](../requirements.md) 为准。
 
 ![方向 A v2，原创概念板，非实机](art-direction-a-v2.png)
 
@@ -14,7 +14,7 @@
 
 ## 2. 对参考的学习必须有证据
 
-本轮直接查看了导出图像、材质字段及场景相机数据。根目录为 F:/WanderburgAssetRipperExport/ExportedProject。下面是局部样例，不能代表所有资源和最终运行画面；逐项路径/hash见 [视觉证据](../../evidence/reference_visual_study.json)，模块层级见 [结构证据](../../evidence/reference_asset_contract.json)。
+本轮直接查看了 Wanderburg 新鲜 AssetRipper 导出中的图像、材质字段及场景相机数据。导出根目录为 `tmp/assetripper-wanderburg-20260927/ExportedProject`；旧 `F:/WanderburgAssetRipperExport` 只作为历史研究缓存。下面是局部样例，不能代表所有资源和最终运行画面；逐项路径/hash见 [视觉证据](../../evidence/reference_visual_study.json)，模块层级见 [结构证据](../../evidence/reference_asset_contract.json)。
 
 | 证据ID / 已观察内容 | 能支持的认识 | 原创转译 |
 |---|---|---|

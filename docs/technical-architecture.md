@@ -1,6 +1,6 @@
 # 《挖掘机拯救世界》技术架构
 
-状态：2026-09-21更新。已有M0；本文包含后续目标，未验证条目不能当成完成。环境、GM与图形验收以README和CLI工作流为准。产品范围见 [游戏设计](game-design.md)，阶段安排见 [开发路线](roadmap.md)。
+状态：2026-09-27更新。已有 M0/M1；本文包含后续目标，未验证条目不能当成完成。环境、GM 与图形验收以 README、CLI 工作流和 G1 缺口报告为准。产品范围见 [现役规格](spec.md)，阶段安排见 [项目路线](roadmap.md)。
 
 ## 1. 已确认的环境与研究边界
 
@@ -9,14 +9,14 @@
 - `F:\SteamLibrary\steamapps\common\Wanderburg Game` 是 Unity IL2CPP Windows 发布包：包含 `UnityPlayer.dll`、`GameAssembly.dll`、`Wanderburg_Data`，不是可直接打开的完整源工程。
 - 其中 `ScriptingAssemblies.json` 可确认打包了 URP、Cinemachine、Input System、Addressables、Localization、FMOD、Steamworks.NET/Heathen、LeanPool 等程序集；`Plugins` 与 `StreamingAssets` 中存在 Steam API、FMOD DLL/音频 bank、Addressables 资源及多语言 bundle。
 - **程序集存在只能证明被打包，不能证明某个玩法使用了它，也不能据此还原其类结构、算法或数据关系。** 本文不把这些线索当作已验证的 Wanderburg 源码架构，更不依赖其商业模型、音频或贴图开展新项目。
-- 已进一步用 AssetRipper 2.0.0 对发布包做隔离导出：5 个场景、749 个 Prefab、845 个纹理和 707 个 C# 导出文件。导出方法体对 IL2CPP 仍是空/stub，但 Prefab 层级、字段、脚本签名和模块/载具资源命名可作为结构证据，详见 [AssetRipper 深度分析](assetripper-analysis.md) 与 `evidence/assetripper_export_inventory.json`。
+- 已用 AssetRipper GUI Free 1.3.5.0 对 Wanderburg 原始发行包重新导出：5 个场景、749 个 Prefab、845 个纹理和 710 个脚本文件。导出方法体对 IL2CPP 仍是空/stub，但 Prefab 层级、字段、脚本签名和模块/载具资源命名可作为结构证据，详见 [AssetRipper 深度分析](assetripper-analysis.md) 与 `artifacts/qa/assetripper-wanderburg-20260927-inventory.json`。
 
 ## 2. 技术栈决策
 
 | 项目 | 决策 | 原因与边界 |
 |---|---|---|
 | 引擎/语言 | Godot 4.7.2，静态类型 GDScript | 场景、Inspector、热迭代链路短，减少个人维护两种语言的成本。未证实的性能问题不提前用 C++ 重写。 |
-| 画面 | 3D 斜俯视，固定旋转角度的正交/弱透视相机；低多边形模型 | 旋转机械臂、可换工具、体量成长在 3D 中更易统一；玩法主要在 XZ 平面进行。相机投影由原型实际可读性决定，切片前冻结。 |
+| 画面 | 3D 斜俯视，固定旋转角度的正交/弱透视相机；工业童话作者化模型 | 旋转机械臂、可换工具、体量成长在 3D 中更易统一；玩法主要在 XZ 平面进行。高精度指结构、材质、灯光、动作和镜头一致性，不等于写实；当前白模不属于目标画面。 |
 | 渲染 | **Mobile 渲染器作为制作基线**，Vulkan 优先 | 适合简单风格化 3D；一盏主要方向光、有限阴影、基础雾与粒子。首版不依赖体积雾、SDFGI、屏幕空间反射。其他渲染器只在 M0 基准暴露阻碍时评估。 |
 | 物理 | 内置 Jolt，固定 60 Hz；主要玩法由脚本状态控制 | 底盘使用 CharacterBody3D；动态刚体主要用于短寿命碎片、投掷反馈。机械臂不做完整液压与多关节刚体模拟。 |
 | 数据 | 自定义 Resource `.tres` + PackedScene `.tscn`；稳定内容 ID | Inspector 可编辑、Git 可审查；每个资源定义的运行状态独立保存。 |

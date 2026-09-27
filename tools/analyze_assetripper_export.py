@@ -109,7 +109,7 @@ def main() -> None:
         if matches:
             target_scripts.append(script_summary(matches[0], root))
     report = {
-        "scope": "AssetRipper 2.0.0 free export inventory; names and serialized structures only; no asset copied into the Godot project.",
+        "scope": "AssetRipper GUI Free export inventory; names and serialized structures only; no asset copied into the Godot project.",
         "export_root": str(root),
         "file_count": len(files),
         "total_bytes": sum(p.stat().st_size for p in files),

@@ -42,7 +42,7 @@
 
 原项目中的 `WaveSpawner`、`ModuleUpgrade`、`QuestSystem`、`SaveLoad` 等命名提示我们要尽早定义系统边界；原创项目对应为 `EncounterDirector`、`UpgradeService`、`MissionService` 和事务化 `SaveService`。这是架构类比，不是代码移植。原创项目的技术基线、挖掘分块和稳定 ID 规则见 [technical-architecture.md](technical-architecture.md)。
 
-已进一步使用 AssetRipper 2.0.0 做隔离导出。导出资源的结构证据、模块 Prefab 层级、车辆阶段、操控字段、升级预览和 IL2CPP 方法体边界见 [assetripper-analysis.md](assetripper-analysis.md)，统计结果见 `evidence/assetripper_export_inventory.json`。导出缓存不属于原创项目资产，不进入 Godot 发布工程。
+已使用 AssetRipper GUI Free 1.3.5.0 对 Wanderburg 原始发行包重新做隔离导出。导出资源的结构证据、模块 Prefab 层级、车辆阶段、操控字段、升级预览和 IL2CPP 方法体边界见 [assetripper-analysis.md](assetripper-analysis.md)，本次统计见 `artifacts/qa/assetripper-wanderburg-20260927-inventory.json`。导出缓存不属于原创项目资产，不进入 Godot 发布工程。
 
 ## 可复用的系统边界证据
 

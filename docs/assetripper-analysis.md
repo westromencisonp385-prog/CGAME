@@ -1,8 +1,8 @@
 # AssetRipper 深度分析记录
 
-审计日期：2026-09-20。工具：[AssetRipper 官方仓库](https://github.com/AssetRipper/AssetRipper)，Windows x64 发行版 2.0.0。工具安装包曾下载到本地并运行；分析过程只读取 `F:\SteamLibrary\steamapps\common\Wanderburg Game`，导出写入工作区 `tmp/assetripper-export2`，没有改动 Steam 安装目录，也没有把参考资产复制到 Godot 工程。
+审计日期：2026-09-27。工具：AssetRipper GUI Free 1.3.5.0；官方项目见 [AssetRipper](https://github.com/AssetRipper/AssetRipper)。本轮通过 GUI 重新选择 `F:\SteamLibrary\steamapps\common\Wanderburg Game`，没有改动 Steam 安装目录，也没有把参考资产复制到 Godot 工程。
 
-导出当前位于 F:/WanderburgAssetRipperExport，文中临时目录为初次导出位置。六个样例已补可回查行号与hash，见 [结构证据](../evidence/reference_asset_contract.json)。
+正确导出当前位于 `tmp/assetripper-wanderburg-20260927/ExportedProject`；旧 `F:/WanderburgAssetRipperExport` 只作为历史导出缓存。六个样例已补可回查行号与 hash，见 [结构证据](../evidence/reference_asset_contract.json)。
 
 2026-09-21补充：本轮直接查看色板、载具展示图、模块图标和烟尘遮罩，并核对样例材质/shader引用与场景相机参数；见 [视觉证据](../evidence/reference_visual_study.json) 和 [整体美术研究与原创方向](assets/art-direction.md)。这是导出样例研究，尚未完成参考游戏的动态镜头/后处理/演出分析。
 
@@ -10,17 +10,17 @@
 
 ## 1. 这次比元数据审计多看到了什么
 
-AssetRipper 官方说明支持 Unity 3.5.0 到 6000.4.X；本包的 Unity 版本为 6000.0.63f1，因此导出成功。导出结果包含：
+AssetRipper GUI 日志确认本包 Unity 版本为 6000.0.63f1，因此导出成功。正确 Wanderburg 导出结果包含：
 
 | 项目 | 数量/观察 | 意义 |
 |---|---:|---|
 | Unity 场景 | 5 | `Start Menu`、`Overworld`、`Preload`、`SplashScreens`、`MAIN SCENE`，流程有明确的菜单/世界地图/局内场景边界 |
 | Prefab | 749 | 载具、模块、敌人、首领、村庄、特效和 UI 大量拆分为可复用预制体 |
 | 纹理导出 | 845 | UI、材质、VFX 和输入提示都有独立视觉资源 |
-| C# 导出文件 | 707 | 主要是类型/字段/方法签名；IL2CPP 免费导出的方法体为空或 stub，不能当作原始实现 |
-| 导出大小 | 约 2.20 GB、14,008 个文件 | 完整工程恢复成本很高；对本项目应做“证据抽取”，不应把整个导出当新项目基础 |
+| C# 导出文件 | 710 | 主要是类型/字段/方法签名；IL2CPP 免费导出的方法体为空或 stub，不能当作原始实现 |
+| 导出大小 | 约 2.19 GB、14,012 个文件 | 完整工程恢复成本很高；对本项目应做“证据抽取”，不应把整个导出当新项目基础 |
 
-导出证据 JSON：`evidence/assetripper_export_inventory.json`。复现脚本：`tools/analyze_assetripper_export.py`。
+导出证据 JSON：`artifacts/qa/assetripper-wanderburg-20260927-inventory.json`。复现脚本：`tools/analyze_assetripper_export.py`。上一轮 AssetRipper 会话错误加载 BALLxPIT，相关统计不再作为 Wanderburg 事实。
 
 ## 2. 模块组合的真实结构证据
 
