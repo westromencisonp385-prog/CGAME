@@ -1,6 +1,8 @@
 class_name EnemyDummy
 extends Node3D
 
+const B01_AUTHORED_MODEL := preload("res://assets/models/g1/enemy_b01_reverse_crab_authored.glb")
+
 signal defeated(enemy: EnemyDummy)
 signal hit_player(amount: float)
 signal action_effect(kind: String, origin: Vector3, end: Vector3)
@@ -23,6 +25,8 @@ var _home_position := Vector3.ZERO
 var _wobble_time := 0.0
 var packed := false
 var pack_used := false
+var authored_visual: Node3D
+var authored_animation_player: AnimationPlayer
 
 func configure(new_id: String, enemy_kind: String, hp: float, move_speed: float, at: Vector3 = Vector3.ZERO) -> EnemyDummy:
 	enemy_id = new_id
@@ -47,6 +51,11 @@ func _build_visual() -> void:
 	add_child(visual_root)
 	shadow = _add_cylinder("ContactShadow", 0.58 if kind != "heavy" else 0.82, 0.025, Vector3(0, 0.025, 0), Color("#344542"))
 	shadow.scale = Vector3(1.25, 1.0, 0.72)
+	# B01 is an authored G1 visual sample. It is deliberately selected for one
+	# formal light enemy by id; the EnemyDummy state, hit shape and AI remain the
+	# authority. Other enemies and all tests keep the procedural fallback.
+	if enemy_id == "crawler_a" and _attach_authored_visual():
+		return
 	mesh_instance = MeshInstance3D.new()
 	var mesh: Mesh
 	var height := height_for_kind()
@@ -83,6 +92,24 @@ func _build_visual() -> void:
 		_add_cylinder("HeavyBeacon", 0.18, 0.22, Vector3(0, height + 0.12, 0), Color("#f2c85c"))
 	else:
 		_add_cylinder("WobbleAntenna", 0.07, 0.75, Vector3(0.12, height * 0.72, 0.06), Color("#eee3c7"))
+
+func _attach_authored_visual() -> bool:
+	if B01_AUTHORED_MODEL == null or visual_root == null:
+		return false
+	authored_visual = B01_AUTHORED_MODEL.instantiate() as Node3D
+	if authored_visual == null:
+		return false
+	authored_visual.name = "B01AuthoredVisualOnly"
+	# The authored Blender asset is metre-scale and is grounded at local Z=0.
+	# EnemyDummy already owns the gameplay-height offset, so keep this child
+	# visual-only and align its base to the same ground plane.
+	authored_visual.scale = Vector3.ONE * 0.55
+	authored_visual.position = Vector3(0.0, -0.7, 0.0)
+	visual_root.add_child(authored_visual)
+	authored_animation_player = authored_visual.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if authored_animation_player != null and authored_animation_player.has_animation("enemy_idle"):
+		authored_animation_player.play("enemy_idle")
+	return true
 
 func height_for_kind() -> float:
 	return 1.4 if kind != "heavy" else 1.9

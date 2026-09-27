@@ -18,3 +18,14 @@ oil blue, bone white, coral warning marks, broad readable volumes, restrained
 materials, and visible mechanical pivots. It is inspired by the extracted
 reference's layered module structure and stylized color blocking, with newly
 modeled geometry and materials.
+
+## G1 visual candidates
+
+`g1/enemy_b01_reverse_crab_authored.glb` and
+`g1/facility_c04_repair_pump_authored.glb` are the authored B01/C04 samples
+copied from `artifacts/weaver/authored/`. `EnemyDummy` loads the B01 sample for
+the first formal light enemy (`crawler_a`), while `EngineeringTarget` loads the
+C04 sample for the repair target. Both paths are presentation-only: procedural
+state, collision, hit points, interaction and save data remain authoritative.
+They are G1 candidates and still require a real-GPU visual review; loading and
+headless tests do not certify final art quality.

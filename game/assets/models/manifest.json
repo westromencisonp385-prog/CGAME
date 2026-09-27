@@ -120,5 +120,41 @@
     ],
     "stage2_active": "T2 / Jaw_Upper_Stage02 / Jaw_Lower_Stage02",
     "source": "Blender 5.2.1 LTS CLI"
-  }
+  },
+  "g1_visual_candidates": [
+    {
+      "asset_id": "enemy.b01_reverse_crab",
+      "status": "authored_visual_sample",
+      "path": "g1/enemy_b01_reverse_crab_authored.glb",
+      "source": "../../../artifacts/weaver/authored/enemy_b01_reverse_crab_authored.glb",
+      "sha256": "e38366900664b2972cc2f8fc737ee1556f083e1edc1e93e648737a3b22fc3cf8",
+      "triangles": 660,
+      "materials": 5,
+      "animations": [
+        "enemy_idle",
+        "enemy_telegraph",
+        "enemy_attack",
+        "enemy_stagger",
+        "enemy_engineering_countered",
+        "enemy_defeat",
+        "enemy_retreat"
+      ],
+      "gameplay_authority": "EnemyDummy procedural state, hit shape and AI"
+    },
+    {
+      "asset_id": "facility.c04_repair_pump",
+      "status": "authored_visual_sample",
+      "path": "g1/facility_c04_repair_pump_authored.glb",
+      "source": "../../../artifacts/weaver/authored/facility_c04_repair_pump_authored.glb",
+      "sha256": "a1e4f5e4e22fa5d2c9cdbb86eba63b56560df6e5392d91436a03e0bdb9eb9b30",
+      "triangles": 740,
+      "materials": 6,
+      "animations": [
+        "pump_cough",
+        "pump_repair",
+        "pump_flow"
+      ],
+      "gameplay_authority": "EngineeringTarget HP, interaction, repair signal and collision"
+    }
+  ]
 }
