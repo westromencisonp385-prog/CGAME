@@ -235,4 +235,3 @@ G0 只验收方向和信息合同；通过后才进入 G1“一车、一敌、�
 - [`m0_hud.gd`](../../game/scripts/m0_hud.gd)：当前白模实现与输入提示清单。
 - [`main.gd`](../../game/scripts/main.gd)：当前页面状态、合同胜负、暂停、F5/F9 与恢复行为。
 - [`loadout_assembler.gd`](../../game/scripts/loadout_assembler.gd)：槽位、预览、确认、阶段与快照权威。
-
