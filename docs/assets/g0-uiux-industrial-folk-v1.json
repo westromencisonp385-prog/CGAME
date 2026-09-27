@@ -1,0 +1,22 @@
+{
+  "asset_id": "g0.uiux.industrial_folk.v1",
+  "status": "proposal",
+  "date": "2026-09-27",
+  "tool": "built-in image_gen",
+  "actual_model_version": "unknown",
+  "target_model": "Image2.5",
+  "output": "g0-uiux-industrial-folk-v1.png",
+  "sha256": "b780e143858965a4e6b06968ab25760798773bc0dbf6b6c221f2653d7a444cb4",
+  "references": [
+    "2d-candidates/A01-whale-jaw-reclaimer.png",
+    "2d-candidates/B01-reverse-crab.png",
+    "2d-candidates/C04-repair-pump-cutaway.png"
+  ],
+  "panels": [
+    "battle_hud",
+    "garage_loadout",
+    "module_preview_comparison",
+    "repair_contract_result"
+  ],
+  "source_policy": "Concept references guide the direction board; the board is not a final UI or game texture."
+}
