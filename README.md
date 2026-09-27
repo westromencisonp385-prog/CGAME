@@ -11,6 +11,7 @@
 - [G0 UIUX 方向 v1](docs/assets/g0-uiux-direction-v1.md)
 - [G0 UIUX/渲染方向板（提案）](docs/assets/g0-uiux-industrial-folk-v1.png)
 - [概念图到正式资产的还原计划](docs/assets/concept-to-production-v1.md)
+- [Wanderburg 质量基准 v2：AssetRipper 新鲜解包与 Steam 直读](docs/assets/wanderburg-quality-benchmark-v2.md)
 - [模型、动作、敌人和 Boss 资产生产方案](docs/assets/asset-production-plan-v1.md)
 - [方向板 v2（待确认）](docs/assets/art-direction-a-v2.png)
 - [2D设计候选库（20张，待筛选）](docs/assets/2d-candidates/README.md)
