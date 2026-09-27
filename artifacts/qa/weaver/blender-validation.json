@@ -1,22 +1,91 @@
 [
   {
-    "path": "D:\\工作\\CGAME\\artifacts\\weaver\\api_candidates\\b01_motion\\skinning_extracted\\CGAME_b01_reverse_crab_skinning.fbx",
-    "bytes": 261056,
-    "objects": 16,
-    "mesh_objects": 15,
-    "vertices": 1416,
-    "triangles": 660,
+    "path": "game\\assets\\models\\formal_slice\\a01_whale_jaw_formal.glb",
+    "bytes": 830232,
+    "objects": 128,
+    "mesh_objects": 97,
+    "vertices": 22701,
+    "triangles": 13913,
     "materials": [
-      "blue",
-      "cream",
-      "lilac",
-      "red",
-      "steel"
+      "MAT_bone",
+      "MAT_bone.001",
+      "MAT_bone_shadow",
+      "MAT_glass",
+      "MAT_lilac",
+      "MAT_lilac_dark",
+      "MAT_ochre",
+      "MAT_ochre_light",
+      "MAT_oil_blue",
+      "MAT_oil_blue.001",
+      "MAT_oil_blue_light",
+      "MAT_oil_blue_light.001",
+      "MAT_rubber",
+      "MAT_steel",
+      "MAT_steel_light",
+      "MAT_tomato"
     ],
-    "material_count": 5,
-    "uv_meshes": 15,
-    "armatures": 1,
-    "actions": [],
-    "screenshot": "D:\\工作\\CGAME\\artifacts\\qa\\weaver\\CGAME_b01_reverse_crab_skinning_turntable.png"
+    "material_count": 16,
+    "uv_meshes": 92,
+    "armatures": 0,
+    "actions": [
+      "A01_Lower_PrepareContactAftermath",
+      "A01_Upper_PrepareContactAftermath"
+    ],
+    "screenshot": "F:\\C-Drive-Relocation\\UserData\\Documents\\ChatGPT\\wanderberg\\artifacts\\qa\\weaver\\a01_whale_jaw_formal_turntable.png"
+  },
+  {
+    "path": "game\\assets\\models\\formal_slice\\b01_reverse_crab_formal.glb",
+    "bytes": 729108,
+    "objects": 109,
+    "mesh_objects": 83,
+    "vertices": 19720,
+    "triangles": 11956,
+    "materials": [
+      "MAT_bone",
+      "MAT_ochre",
+      "MAT_ochre_light",
+      "MAT_rubber",
+      "MAT_steel",
+      "MAT_steel_light",
+      "MAT_tomato",
+      "MAT_tomato_dark"
+    ],
+    "material_count": 8,
+    "uv_meshes": 83,
+    "armatures": 0,
+    "actions": [
+      "A01_Lower_PrepareContactAftermath",
+      "A01_Upper_PrepareContactAftermath"
+    ],
+    "screenshot": "F:\\C-Drive-Relocation\\UserData\\Documents\\ChatGPT\\wanderberg\\artifacts\\qa\\weaver\\b01_reverse_crab_formal_turntable.png"
+  },
+  {
+    "path": "game\\assets\\models\\formal_slice\\c04_repair_pump_formal.glb",
+    "bytes": 238132,
+    "objects": 51,
+    "mesh_objects": 25,
+    "vertices": 5933,
+    "triangles": 4406,
+    "materials": [
+      "MAT_bone",
+      "MAT_concrete",
+      "MAT_ochre",
+      "MAT_ochre_light",
+      "MAT_oil_blue_light",
+      "MAT_steel",
+      "MAT_steel_light",
+      "MAT_tomato",
+      "MAT_tomato.001",
+      "MAT_tomato_dark",
+      "MAT_water"
+    ],
+    "material_count": 11,
+    "uv_meshes": 24,
+    "armatures": 0,
+    "actions": [
+      "A01_Lower_PrepareContactAftermath",
+      "A01_Upper_PrepareContactAftermath"
+    ],
+    "screenshot": "F:\\C-Drive-Relocation\\UserData\\Documents\\ChatGPT\\wanderberg\\artifacts\\qa\\weaver\\c04_repair_pump_formal_turntable.png"
   }
 ]

@@ -28,10 +28,10 @@
 `MAT_lilac_dark`、`MAT_rubber`、`MAT_steel`、`MAT_steel_light`、`MAT_concrete`、
 `MAT_water`、`MAT_glass`。这些是有意控制的半哑光 PBR 色块，不是白模默认材质。
 
-`game/assets/models/formal_slice/painted_surface_atlas.png` 现在提供了一个
-确定性的手绘色块/边缘标记/警示条纹图集；下一轮贴图工作应在同一资产 ID 下
-绑定它的独立 UV，并补充损坏/维修遮罩和低画质材质变体。图集目前是候选输入，
-尚未伪装成已经绑定的最终贴图；不要用连续程序噪声或随机划痕替代作者决定。
+`game/assets/models/formal_slice/painted_surface_atlas.png` 现在通过 Generated 坐标
+和受控的 Multiply 混合绑定到四类表面材质，作为候选的手绘色块/边缘标记/警示条纹
+层。它不是最终 UV 展开或损坏/维修遮罩；下一轮仍要补独立 UV、状态遮罩和低画质
+材质变体，不用连续程序噪声或随机划痕替代作者决定。
 
 ## 生产与验收证据
 
@@ -42,13 +42,13 @@
 - 目标引擎：Godot 4.7.2 stable，Mobile，Jolt
 
 当前已验证：Blender **5.2.2 LTS** headless 生成成功，三件 GLB 有稳定命名拆件、
-材质槽、状态/挂点/LOD/碰撞合同，A01 带独立上下颚的准备→接触→余韵动作，
+材质槽、候选手绘表面层、状态/挂点/LOD/碰撞合同，A01 带独立上下颚的准备→接触→余韵动作，
 预览图无白模默认灰材质。Godot **4.7.2 stable** Mobile 导入通过。结构复核：
 A01 128对象/97网格/13,913三角；B01 109对象/83网格/11,956三角；C04
 51对象/25网格/4,406三角。QA结果保存在 `artifacts/qa/formal_slice/blender-validation.json`。
 
 待验证：实际镜头避让、碰撞通路、LOD 成本、与权威事件同步的三拍动作，以及
-手绘贴图和损坏/维修状态效果。A01 动作仅为资产端候选，不控制玩法结算。
+损坏/维修状态遮罩和正式 UI/场景密度。A01 动作仅为资产端候选，不控制玩法结算。
 
 ## 不可宣称
 

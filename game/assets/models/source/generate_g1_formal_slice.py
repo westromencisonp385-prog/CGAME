@@ -49,8 +49,18 @@ COLORS = {
 }
 
 
-def make_materials() -> dict[str, bpy.types.Material]:
+def make_materials(atlas_path: Path | None = None) -> dict[str, bpy.types.Material]:
     result = {}
+    swatches = {
+        "oil_blue": (0.02, 0.02),
+        "oil_blue_light": (0.02, 0.02),
+        "ochre": (0.52, 0.02),
+        "ochre_light": (0.52, 0.02),
+        "bone": (0.02, 0.52),
+        "bone_shadow": (0.02, 0.52),
+        "tomato": (0.52, 0.52),
+        "tomato_dark": (0.52, 0.52),
+    }
     for name, color in COLORS.items():
         mat = bpy.data.materials.new(f"MAT_{name}")
         mat.diffuse_color = color
@@ -62,6 +72,27 @@ def make_materials() -> dict[str, bpy.types.Material]:
         if name in {"lilac", "water"}:
             principled.inputs["Emission Color"].default_value = color
             principled.inputs["Emission Strength"].default_value = 1.1
+        if atlas_path is not None and name in swatches:
+            # Use the authored atlas as a restrained surface layer. Generated
+            # coordinates keep the exported GLB self-contained; the atlas is
+            # cropped by mapping into one of its four deterministic swatches.
+            nodes = mat.node_tree.nodes
+            links = mat.node_tree.links
+            texcoord = nodes.new("ShaderNodeTexCoord")
+            mapping = nodes.new("ShaderNodeMapping")
+            mapping.inputs["Scale"].default_value = (0.44, 0.44, 1.0)
+            mapping.inputs["Location"].default_value = (swatches[name][0], swatches[name][1], 0.0)
+            image = bpy.data.images.load(str(atlas_path), check_existing=True)
+            image_node = nodes.new("ShaderNodeTexImage")
+            image_node.image = image
+            mix = nodes.new("ShaderNodeMixRGB")
+            mix.blend_type = "MULTIPLY"
+            mix.inputs["Fac"].default_value = 0.28
+            mix.inputs["Color1"].default_value = color
+            links.new(texcoord.outputs["Generated"], mapping.inputs["Vector"])
+            links.new(mapping.outputs["Vector"], image_node.inputs["Vector"])
+            links.new(image_node.outputs["Color"], mix.inputs["Color2"])
+            links.new(mix.outputs["Color"], principled.inputs["Base Color"])
         result[name] = mat
     return result
 
@@ -573,10 +604,10 @@ def write_manifest(blend: Path) -> None:
         ],
         "outputs": outputs,
         "acceptance": {
-            "next_gate": "G1 Godot real-camera no-VFX image and collision/LOD review",
+            "next_gate": "G1 Godot real-camera no-VFX image and collision/LOD/action review",
             "not_claimed": ["final", "integrated", "production-approved"],
-            "visual_checks_done": ["author-created geometry", "explicit material blocks", "mechanical sockets", "three-quarter render"],
-            "remaining": ["Godot import", "runtime camera framing", "LOD runtime cost", "collision walk-through", "prepare-contact-aftermath animation"],
+            "visual_checks_done": ["author-created geometry", "explicit material blocks", "deterministic handpainted atlas bound", "mechanical sockets", "three-quarter render"],
+            "remaining": ["runtime camera framing", "LOD runtime cost", "collision walk-through", "prepare-contact-aftermath animation synchronization"],
         },
     }
     (OUTPUT_ROOT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -585,8 +616,8 @@ def write_manifest(blend: Path) -> None:
 def main() -> None:
     global MATS
     clean_scene()
-    MATS = make_materials()
-    make_handpainted_surface_atlas()
+    atlas_path = make_handpainted_surface_atlas()
+    MATS = make_materials(atlas_path)
     a01 = make_a01()
     b01 = make_b01()
     c04 = make_c04()

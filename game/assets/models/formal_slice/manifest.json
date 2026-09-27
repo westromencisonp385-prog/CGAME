@@ -69,48 +69,48 @@
   ],
   "outputs": {
     "game/assets/models/formal_slice/a01_whale_jaw_formal.glb": {
-      "bytes": 810692,
-      "sha256": "9d9d5794d1f6318f90a86b351013a569ef5be0ae0aa2dad63250baaf5047c1e7"
+      "bytes": 830232,
+      "sha256": "01b908e7b248e55bb04987c66a9852306c55fec8ab501fe864eddbb3abd136c4"
     },
     "game/assets/models/formal_slice/b01_reverse_crab_formal.glb": {
-      "bytes": 710736,
-      "sha256": "8fb894f5da8fda53acc2d498e2987dad513716d0f972400cfc2cda358aa76054"
+      "bytes": 729108,
+      "sha256": "70aac21dfd7aea4da2c13bdf6d704d1ea745fa17c88d71090dc01680b8e770b8"
     },
     "game/assets/models/formal_slice/c04_repair_pump_formal.glb": {
-      "bytes": 219324,
-      "sha256": "51bd895959b86e0ded5a93ed2a38e5509c30313980118100f5e3cc1074072325"
+      "bytes": 238132,
+      "sha256": "6012b2244261872adae075107d852b202e394a537cda5965465f1ba70d650d67"
     },
     "game/assets/models/formal_slice/g1_formal_slice_preview.png": {
-      "bytes": 1351954,
-      "sha256": "fdb9d9b138be85b80ea841b9850d6dc571b081d95be980f66be8bf38d45b8e94"
+      "bytes": 1356629,
+      "sha256": "56cab6afd7cc7009bfdb240296d430ab3aa9ae6817992d0c05b989c85bfc3c09"
     },
     "game/assets/models/formal_slice/a01_whale_jaw_formal_preview.png": {
-      "bytes": 1475465,
-      "sha256": "0fdb185116ab3a2d35dbd1ec6c3df17021a252fbeff096c519f9a1f32f377f01"
+      "bytes": 1479740,
+      "sha256": "4168ee8a4ffe1d5251085e2c8411f7b6c9a4907fc699118b758fbc604cddfe9a"
     },
     "game/assets/models/formal_slice/b01_reverse_crab_formal_preview.png": {
-      "bytes": 1447248,
-      "sha256": "b70d6b10b52c4667560269b0e7459265460378735999146d74cfb7299aca3daf"
+      "bytes": 1471409,
+      "sha256": "1e00103cf7c4046aa7e35e04c935d5f7e900d12f42ebf4ee336664643eeea861"
     },
     "game/assets/models/formal_slice/c04_repair_pump_formal_preview.png": {
-      "bytes": 1386504,
-      "sha256": "b926f27ae5f905d6f4095f91cb93b468f50e739a69988ad742d4b239aaebd966"
+      "bytes": 1398559,
+      "sha256": "76f657840df9000bc36d10ca3d1991f3f07b2d4ce496acb11772bc4a61895db0"
     },
     "game/assets/models/formal_slice/painted_surface_atlas.png": {
       "bytes": 17481,
       "sha256": "c39e38e214c8369f883f7b31e8ab624001c2b30f3d51b8faf2f8142c8e06ba34"
     },
     "docs/assets/model-sources/g1_formal_slice.blend": {
-      "bytes": 234272,
-      "sha256": "7e6fa48e9b75b8903265a7c9a4d26ac02badcd6a4ff5c71a59425e326232c5b8"
+      "bytes": 240654,
+      "sha256": "fe8c0faab3698cf67475bce203c17da29ce25f43e6913c22afcbd719c4a339db"
     },
     "game/assets/models/source/generate_g1_formal_slice.py": {
-      "bytes": 32927,
-      "sha256": "8ac3bc742b70401bca3e597633f2abf1ab7d174753311b226dde3fd0ffb39458"
+      "bytes": 34649,
+      "sha256": "f74ae7c249c8e099f8740b397758d2e0a8144f5f925f1be9c9172c644266db31"
     }
   },
   "acceptance": {
-    "next_gate": "G1 Godot real-camera no-VFX image and collision/LOD review",
+    "next_gate": "G1 Godot real-camera no-VFX image and collision/LOD/action review",
     "not_claimed": [
       "final",
       "integrated",
@@ -119,15 +119,15 @@
     "visual_checks_done": [
       "author-created geometry",
       "explicit material blocks",
+      "deterministic handpainted atlas bound",
       "mechanical sockets",
       "three-quarter render"
     ],
     "remaining": [
-      "Godot import",
       "runtime camera framing",
       "LOD runtime cost",
       "collision walk-through",
-      "prepare-contact-aftermath animation"
+      "prepare-contact-aftermath animation synchronization"
     ]
   }
 }
