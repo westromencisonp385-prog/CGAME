@@ -7,7 +7,8 @@ Inspect all project 3D-model and motion requirements, freeze a clear original vi
 - [complete] Inventory requirements and choose explicit production spec
 - [complete] Build and validate Weaver skill and local API reference
 - [complete] Authenticate and discover supported models/animation algorithms
-- [in_progress] Produce style-locked authored anchors and API candidates
+- [pending] Produce style-locked authored anchors and API candidates after the new G0 direction
+- [in_progress] Redesign the overall UIUX and 3D visual direction before formal asset production
 - [complete] Poll, download, and record local validation evidence
 - [complete] Update project docs/status and verify repository changes
 
@@ -16,6 +17,7 @@ Inspect all project 3D-model and motion requirements, freeze a clear original vi
 - API output must be local and reproducible; model IDs/download URLs are evidence, not completion by themselves.
 - Production is limited to clear assets/actions with source image, dimensions, pivot, events, and acceptance checks.
 - Distinguish submitted, succeeded, downloaded, and visually validated.
+- Treat all current UIUX, Godot geometry, GLB samples, and Weaver candidates as whitebox until the replacement G0 direction is approved.
 
 ## Errors
 | Error | Attempt | Resolution |

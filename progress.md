@@ -6,3 +6,5 @@
 
 2026-09-27: User confirmed the first G1/G2 production slice: A01 whale jaw, B01 reverse crab, C04 repair pump, and the river-reversal biome. Weaver credentials were moved to a user-local file, repository history was rewritten to remove the tracked credential file, and the remote branch was force-updated. Formal asset acceptance remains gated by G0/G1/G2 evidence.
 
+2026-09-27: User clarified that the current UIUX and all 3D visuals are whitebox/technical samples and must be redone; none is a formal production resource. The Godot B01/C04 visual candidate integration was reverted. The confirmed A01/B01/C04/river slice remains a gameplay target only while the overall UIUX and 3D direction returns to a new G0 design pass.
+

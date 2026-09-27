@@ -12,7 +12,7 @@
 | 规则 | changed-and-verified | `AGENTS.md` 增加工程技能、票据和领域文档入口；规则继续要求固定 Godot、真实 GPU 图形验收和不把参考导出当算法。 |
 | 记忆 | not-applicable | 仓库没有获准由本次收口维护的长期 Agent memory 文件。 `CONTEXT.md` 仅作为项目领域词汇表。 |
 | 工作区 | changed-and-verified | 治理配置、wayfinder 路线、研究快照和历史计划已提交；`artifacts/`、`builds/`、`tmp/` 仍由 `.gitignore` 排除。删除候选未自动清理，等待用户在最终汇报后决定。 |
-| 发布 | changed-and-verified | 治理提交已推送到 `origin/master` 和 `origin/codex/governance-2026-09-24`；没有创建或合并 PR，也没有部署。GitHub Issues 不是本项目当前的决策 tracker，避免产生第二套票据。 |
+| 发布 | changed-and-verified | 当前治理分支已推送到 `origin/codex/governance-2026-09-24`；`origin/master` 仍停在历史基线，未宣称合并或部署。GitHub Issues 不是本项目当前的决策 tracker，避免产生第二套票据。 |
 
 ## 本次收口改动
 
@@ -35,6 +35,6 @@
 
 ## 下一步唯一入口
 
-1. 由用户确认方向 A v2 的 G0 调性关口。
+1. 重做整体 UIUX 与 3D 视觉方向，形成新的 G0 调性关口。
 2. 处理 `docs/wayfinder/tickets/原型：冻结 M0 双功能挂点与输入语义.md`，再进入组合预算和首件样件决策。
-3. 只有决策路线清空后，才将结果压缩回规格、拆成实现票据并扩展玩法或正式资产。
+3. 只有新方向与决策路线清空后，才将结果压缩回规格、拆成实现票据并扩展正式资产。

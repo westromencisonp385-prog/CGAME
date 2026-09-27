@@ -12,7 +12,7 @@
     "biome": "biome.river_reversal",
     "comedy_sequence": ["prepare", "contact", "afterglow"],
     "reason": "A01 expresses the first whale-pack fantasy, B01 gives a readable sideways charge, and C04 supplies the three-state repair loop. This is the smallest complete G1/G2 slice.",
-    "status": "user_confirmed_g1g2_slice_api_production_pending"
+    "status": "whitebox_reference_only_formal_production_paused"
   },
   "global_contract": {
     "units": "meters",

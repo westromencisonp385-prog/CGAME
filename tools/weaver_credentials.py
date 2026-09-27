@@ -29,7 +29,6 @@ def _credential_paths() -> list[Path]:
     return [
         Path.home() / ".config" / "wanderberg" / "weaver-credentials.txt",
         ROOT / "config" / "weaver-credentials.local.txt",
-        Path(r"D:\工作\AI工具\ComfyUI\appid.txt"),
     ]
 
 

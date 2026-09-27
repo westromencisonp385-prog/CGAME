@@ -1,31 +1,109 @@
+"""Submit and download the A01 style-anchor Weaver candidates.
+
+This script intentionally performs live generation only when run explicitly.
+Importing it and running the offline checks never contacts Weaver.
+"""
+
 from __future__ import annotations
-import hashlib,json,os,ssl,sys,time,urllib.parse,urllib.request
+
+import json
+import sys
 from pathlib import Path
-sys.path.insert(0,r"D:\工作\AI工具\ComfyUI")
-from custom_nodes.comfyui_weaver.cos_upload import upload_file_to_weaver_cos
-from custom_nodes.comfyui_weaver.weaver_api import WeaverClient
-ROOT=Path(__file__).resolve().parents[1]; INPUT=ROOT/'artifacts/weaver/inputs/player_a01-style-v4.png'; OUT=ROOT/'artifacts/weaver/api_candidates/player_a01'; REPORT=ROOT/'artifacts/weaver/api_candidates/player_a01-report.json'
-from weaver_credentials import require_credentials
-def tid(r):
- d=(r or {}).get('data') or {}; return str(d.get('model_id') or ((d.get('model_ids') or [''])[0]))
-def wait(c,i):
- end=time.monotonic()+1200
- while time.monotonic()<end:
-  rec=c.get_model_detail(i)
-  if rec and rec.get('status')==3:return rec
-  if rec and rec.get('status')==4:raise RuntimeError(str(rec.get('failed_reason'))[:200])
-  time.sleep(15)
- raise TimeoutError(i)
-def download(url,dest):
- ctx=ssl.create_default_context();ctx.check_hostname=False;ctx.verify_mode=ssl.CERT_NONE;dest.parent.mkdir(parents=True,exist_ok=True)
- with urllib.request.urlopen(url,timeout=180,context=ctx) as r,dest.open('wb') as f:
-  while b:=r.read(1024*1024):f.write(b)
- h=hashlib.sha256(dest.read_bytes()).hexdigest();return {'path':str(dest),'bytes':dest.stat().st_size,'sha256':h}
-def main():
- app,secret,rtx,base_url=require_credentials();c=WeaverClient(app,secret,rtx,base_url); credresp=c.get_cos_cred();cred=credresp.get('data') if isinstance(credresp,dict) and 'data' in credresp else credresp
- src=upload_file_to_weaver_cos(c,str(INPUT),object_name='cgame/style-v4/player_a01.png',cred_data=cred)
- mv=tid(c.gen_multi_views(name='CGAME_style_v4_player_a01_360',input_view={'main_view':src},params={'image_gen_360_params':{'algorithm_model':'VV-MultiView-V1.0.0','enable_a_pose':False}}));mvrec=wait(c,mv);views=(mvrec.get('image_gen_360_output') or {}).get('output_view') or {}
- hm=tid(c.gen_3d_model(name='CGAME_style_v4_player_a01_high',node_type=3,input_view={k:views.get(k,'') for k in ('main_view','back_view','left_view','right_view')},params={'image_gen_model_params':{'algorithm_model':'Hy3D-3.5-0515','output_model_format':'glb','face_type':1,'face_num':30000,'strict_mode':True,'skip_360_preprocess':True}}));rec=wait(c,hm);urls=c.extract_output_urls(rec);files=[]
- for n,u in enumerate(urls,1):files.append(download(u,OUT/f'{hm}_{n}.zip'))
- REPORT.parent.mkdir(parents=True,exist_ok=True);REPORT.write_text(json.dumps({'asset_id':'player.machine.a01_whale_jaw','style_anchor':'docs/assets/style-anchor-industrial-folk-v1.png','view_task_id':mv,'model_task_id':hm,'model_status':rec.get('status'),'outputs':files,'review':'pending_blender_and_godot_style_check'},ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps({'report':str(REPORT),'outputs':[x['path'] for x in files]},ensure_ascii=False))
-if __name__=='__main__':main()
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / ".agents" / "skills" / "weaver-asset-production" / "scripts"))
+
+from weaver_api_client import WeaverClient  # noqa: E402
+from weaver_credentials import require_credentials  # noqa: E402
+from weaver_asset_helpers import (  # noqa: E402
+    cos_object_name,
+    download_metadata,
+    first_model_id,
+    output_urls_or_download,
+    wait_for_model,
+)
+
+INPUT = ROOT / "artifacts/weaver/inputs/player_a01-style-v4.png"
+OUT = ROOT / "artifacts/weaver/api_candidates/player_a01"
+REPORT = ROOT / "artifacts/weaver/api_candidates/player_a01-report.json"
+
+
+def main() -> None:
+    app_id, secret, rtx, base_url = require_credentials()
+    client = WeaverClient(app_id, secret, base_url)
+    credential = client.get_cos_cred(rtx=rtx)
+
+    source_url = client.upload_file(
+        INPUT,
+        credential,
+        object_name=cos_object_name(credential, "cgame/style-v4/player_a01.png"),
+    )
+    view_task_id = client.gen_multi_views(
+        name="CGAME_style_v4_player_a01_360",
+        input_view={"main_view": source_url},
+        params={
+            "image_gen_360_params": {
+                "algorithm_model": "VV-MultiView-V1.0.0",
+                "enable_a_pose": False,
+            }
+        },
+        rtx=rtx,
+    )
+    view_record = wait_for_model(client, view_task_id, rtx=rtx)
+    views = (view_record.get("image_gen_360_output") or {}).get("output_view") or {}
+    input_view = {
+        key: value
+        for name in ("main_view", "back_view", "left_view", "right_view")
+        for key, value in [(name, views.get(name))]
+        if isinstance(value, str) and value
+    }
+    if "main_view" not in input_view:
+        raise RuntimeError("360 task completed without a main_view")
+
+    model_task_id = first_model_id(
+        client.gen_3d_model(
+            name="CGAME_style_v4_player_a01_high",
+            node_type=3,
+            input_view=input_view,
+            params={
+                "image_gen_model_params": {
+                    "algorithm_model": "Hy3D-3.5-0515",
+                    "output_model_format": "glb",
+                    "face_type": 1,
+                    "face_num": 30000,
+                    "strict_mode": True,
+                    "skip_360_preprocess": True,
+                }
+            },
+            rtx=rtx,
+        )
+    )
+    model_record = wait_for_model(client, model_task_id, rtx=rtx)
+    output_urls = output_urls_or_download(client, model_record, model_task_id, rtx=rtx)
+    files = [
+        download_metadata(client, url, OUT / f"{model_task_id}_{index}.zip")
+        for index, url in enumerate(output_urls, 1)
+    ]
+
+    REPORT.parent.mkdir(parents=True, exist_ok=True)
+    REPORT.write_text(
+        json.dumps(
+            {
+                "asset_id": "player.machine.a01_whale_jaw",
+                "style_anchor": "docs/assets/style-anchor-industrial-folk-v1.png",
+                "view_task_id": view_task_id,
+                "model_task_id": model_task_id,
+                "model_status": model_record.get("status"),
+                "outputs": files,
+                "review": "pending_blender_and_godot_style_check",
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    print(json.dumps({"report": str(REPORT), "outputs": [item["path"] for item in files]}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

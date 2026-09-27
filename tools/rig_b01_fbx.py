@@ -1,27 +1,73 @@
+"""Generate a B01 reverse-crab rigging candidate through Weaver."""
+
 from __future__ import annotations
-import hashlib,json,os,ssl,sys,time,urllib.request
+
+import json
+import sys
 from pathlib import Path
-sys.path.insert(0,r"D:\工作\AI工具\ComfyUI")
-from custom_nodes.comfyui_weaver.cos_upload import upload_file_to_weaver_cos
-from custom_nodes.comfyui_weaver.weaver_api import WeaverClient
-ROOT=Path(__file__).resolve().parents[1]; ZIP=ROOT/'artifacts/weaver/authored/enemy_b01_rig_input.zip'; OUT=ROOT/'artifacts/weaver/api_candidates/b01_rig'; REPORT=OUT/'report.json'
-from weaver_credentials import require_credentials
-def tid(r):d=(r or {}).get('data') or {};return str(d.get('model_id') or ((d.get('model_ids') or [''])[0]))
-def wait(c,i):
- end=time.monotonic()+1200
- while time.monotonic()<end:
-  r=c.get_model_detail(i)
-  if r and r.get('status')==3:return r
-  if r and r.get('status')==4:raise RuntimeError(str(r.get('failed_reason'))[:300])
-  time.sleep(15)
- raise TimeoutError(i)
-def main():
- app,sec,rtx,base_url=require_credentials();c=WeaverClient(app,sec,rtx,base_url);cr=c.get_cos_cred();cred=cr.get('data') if isinstance(cr,dict) and 'data' in cr else cr;src=upload_file_to_weaver_cos(c,str(ZIP),object_name='cgame/actions/b01_rig_input.zip',cred_data=cred);job=tid(c.gen_3d_model(name='CGAME_b01_reverse_crab_rig_fbx',node_type=5,input_model=src,params={'go_rigging_params':{'algorithm_model':'MotusAI-Rigging-V2.0','enable_auto_skinning':False}}));rec=wait(c,job);urls=c.extract_output_urls(rec);OUT.mkdir(parents=True,exist_ok=True);files=[]
- for n,u in enumerate(urls,1):
-  ctx=ssl.create_default_context();ctx.check_hostname=False;ctx.verify_mode=ssl.CERT_NONE;p=OUT/f'{job}_{n}.zip';
-  with urllib.request.urlopen(u,timeout=180,context=ctx) as r:
-   with p.open('wb') as pf:
-    while b:=r.read(1024*1024):pf.write(b)
-  files.append({'path':str(p),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
- REPORT.write_text(json.dumps({'task_id':job,'status':rec.get('status'),'outputs':files,'note':'FBX+model.json rigging contract'},ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps({'report':str(REPORT),'outputs':files},ensure_ascii=False))
-if __name__=='__main__':main()
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / ".agents" / "skills" / "weaver-asset-production" / "scripts"))
+
+from weaver_api_client import WeaverClient  # noqa: E402
+from weaver_credentials import require_credentials  # noqa: E402
+from weaver_asset_helpers import (  # noqa: E402
+    cos_object_name,
+    download_metadata,
+    first_model_id,
+    output_urls_or_download,
+    wait_for_model,
+)
+
+ZIP = ROOT / "artifacts/weaver/authored/enemy_b01_rig_input.zip"
+OUT = ROOT / "artifacts/weaver/api_candidates/b01_rig"
+REPORT = OUT / "report.json"
+
+
+def main() -> None:
+    app_id, secret, rtx, base_url = require_credentials()
+    client = WeaverClient(app_id, secret, base_url)
+    credential = client.get_cos_cred(rtx=rtx)
+    source_url = client.upload_file(
+        ZIP,
+        credential,
+        object_name=cos_object_name(credential, "cgame/actions/b01_rig_input.zip"),
+    )
+    task_id = first_model_id(
+        client.gen_3d_model(
+            name="CGAME_b01_reverse_crab_rig_fbx",
+            node_type=5,
+            input_model=source_url,
+            params={
+                "go_rigging_params": {
+                    "algorithm_model": "MotusAI-Rigging-V2.0",
+                    "enable_auto_skinning": False,
+                }
+            },
+            rtx=rtx,
+        )
+    )
+    record = wait_for_model(client, task_id, rtx=rtx)
+    output_files = [
+        download_metadata(client, url, OUT / f"{task_id}_{index}.zip")
+        for index, url in enumerate(output_urls_or_download(client, record, task_id, rtx=rtx), 1)
+    ]
+    OUT.mkdir(parents=True, exist_ok=True)
+    REPORT.write_text(
+        json.dumps(
+            {
+                "task_id": task_id,
+                "status": record.get("status"),
+                "outputs": output_files,
+                "note": "FBX+model.json rigging contract",
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    print(json.dumps({"report": str(REPORT), "outputs": output_files}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()
