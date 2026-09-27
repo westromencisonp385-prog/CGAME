@@ -8,3 +8,5 @@
 
 2026-09-27: User clarified that the current UIUX and all 3D visuals are whitebox/technical samples and must be redone; none is a formal production resource. The Godot B01/C04 visual candidate integration was reverted. The confirmed A01/B01/C04/river slice remains a gameplay target only while the overall UIUX and 3D direction returns to a new G0 design pass.
 
+2026-09-27: Built the first high-quality slice candidate from concept sources: author-created A01/B01/C04 GLBs and Blender source, a candidate painted-surface atlas, a generated transparent VFX atlas, river shader/fog/emission uplift, contract phase HUD guidance, and a `magnetic_whale` build signature. Godot 4.7.2 tests and true-GPU capture pass. The slice remains `candidate`; hand-painted material binding, runtime LOD/collision review, full action timing, and final UI/scene polish remain open.
+

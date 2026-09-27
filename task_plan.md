@@ -10,6 +10,7 @@ Inspect all project 3D-model and motion requirements, freeze a clear original vi
 - [pending] Produce style-locked authored anchors and API candidates after the new G0 direction
 - [in_progress] Redesign the overall UIUX and 3D visual direction before formal asset production
 - [pending] Build the 100+ build identity catalog and mechanism-to-visual evidence matrix
+- [in_progress] Validate the first A01/B01/C04/river high-quality slice candidate in the real Godot camera
 - [complete] Poll, download, and record local validation evidence
 - [complete] Update project docs/status and verify repository changes
 
