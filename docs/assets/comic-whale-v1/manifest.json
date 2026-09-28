@@ -1,0 +1,12 @@
+{
+  "asset_id": "player.machine.magnetic_whale_progression",
+  "kind": "concept_progression_board",
+  "source": "docs/assets/2d-candidates/A01-whale-jaw-reclaimer.png",
+  "output": "whale-progression-board-v1.png",
+  "requested_visual": "graphic_comic",
+  "actual_image_model": "unknown",
+  "sha256": "A8CBE0A1AC88275FA7028C8E292B6038C25C14814A308BF6EA4C5D09CB82A6D6",
+  "stages": ["small_seed", "magnetic_whale", "colossal_recycling_behemoth"],
+  "status": "concept_candidate",
+  "next": "author Blender stage meshes, sockets, collision proxies, and Godot combat preview"
+}

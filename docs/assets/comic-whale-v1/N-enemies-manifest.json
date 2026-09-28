@@ -1,0 +1,121 @@
+[
+  {
+    "id": "N01",
+    "name": "液压路障蟹",
+    "design_intent": "普通近战；用横向冲锋和可折叠路障盾形成宽体低重心剪影。两块挡板既是防护也是临时墙体，腹下磁性配重解释侧移稳定性。",
+    "tell": "宽横身、左右独立挡板、低位多腿、顶部红色警示灯；冲锋前挡板折叠并出现珊瑚红侧向危险扇区。",
+    "counter": "磁暴鲸口聚拢后吞噬；正面可用挖斗推开挡板，或攻击腹下磁性配重/液压关节使其失衡；不要求修复解谜。",
+    "action_names": [
+      "idle_beacon",
+      "side_charge_windup",
+      "side_charge",
+      "shield_wall_snap",
+      "stagger_hydraulic",
+      "magnetic_ingest",
+      "defeat_scrap_pop"
+    ],
+    "source_refs": [
+      "docs/assets/2d-candidates/B01-reverse-crab.png",
+      "docs/assets/art-direction.md",
+      "docs/assets/production-guide.md"
+    ],
+    "exact_source_output": "C:\\Users\\jasonlyan\\.codex\\generated_images\\01a0e820-acf4-7e82-87b5-41b2ee8454ca\\exec-ed5e6a89-9f28-4c1f-8436-18f757ec0217.png",
+    "file": "N01-hydraulic-barricade-crab.png",
+    "file_sha256": "A05A61B689B35397C399ED0DC7C88FFCA2B4770691314F71EE74F10A87EE9A93",
+    "requested_model": "Image2.5 target per project guide",
+    "actual_model": "unknown (built-in imagegen version not exposed)",
+    "version": "comic-whale-v1 / 2026-09-28",
+    "qa_conclusion": "通过概念输入首检：单一主体；主体完整；横冲路障剪影清楚；挡板、液压件、磁性腹部配重可作为拆件候选；危险色仅作警示；无文字、无多主体。仍为 concept_input/candidate，不能称正式3D资产。",
+    "prompt": "Use case: stylized-concept; single-subject 3D concept input. N01 Hydraulic Barricade Crab: compact sideways-charging construction crab with squat dark-ocean-blue hydraulic body, two asymmetrical folding barrier shields, visible articulated legs, hydraulic cylinders, red beacon, pressure gauge and magnetic ballast core; bone-white/ochre construction plates, restrained coral-red hazard accents, tiny electric-violet status glow; painted steel, chipped concrete, rubber pads, greasy rods, oxidized bolts; three-quarter slightly-above front-side view; clean warm light-gray studio background; strong black ink contour, 2-3 hard-edged cel-shaded value bands, selective hand-painted scuffs, precise functional seams, controlled asymmetry, rich mechanical structure; no text, labels, logos, arrows, diagram, turnaround sheet, props, humans, extra creature, photorealism, smooth toy plastic, random greeble, floating parts, fused joints, excessive bloom, concept-board layout."
+  },
+  {
+    "id": "N02",
+    "name": "刀轮废料犬",
+    "design_intent": "普通近战；用冲锋直线、刀轮切入和弹簧下颚制造贴身压力，废料舱解释可被磁暴吞噬并转成载荷。",
+    "tell": "低矮前倾狗形、侧面巨大尖齿刀轮、前脸双弹簧下颚、四个短液压腿、软管尾巴；加速时刀轮与下颚形成咬合线。",
+    "counter": "横向走位或磁吸打断冲锋；优先打刀轮轴承/下颚弹簧可失衡，磁暴鲸口可直接吞噬；不要求修复解谜。",
+    "action_names": [
+      "idle_scrap_sniff",
+      "charge_windup",
+      "wheel_bite_charge",
+      "jaw_snap",
+      "wheel_stagger",
+      "magnetic_ingest",
+      "defeat_scrap_burst"
+    ],
+    "source_refs": [
+      "docs/assets/2d-candidates/B01-reverse-crab.png",
+      "docs/assets/art-direction.md",
+      "docs/project-guidance.md"
+    ],
+    "exact_source_output": "C:\\Users\\jasonlyan\\.codex\\generated_images\\01a0e820-fa28-7de1-8ed6-73a408130b67\\exec-ef467069-ea82-49f0-8d93-23ea76990574.png",
+    "file": "N02-scrapwheel-hound.png",
+    "file_sha256": "9C6F70B1F06A83546FAC84898AC0DFF37E56F3591429E1CF502E6C0941DDAB61",
+    "requested_model": "Image2.5 target per project guide",
+    "actual_model": "unknown (built-in imagegen version not exposed)",
+    "version": "comic-whale-v1 / 2026-09-28",
+    "qa_conclusion": "通过概念输入首检：单一主体；刀轮、双弹簧下颚、废料舱和四足支撑均清楚；冲锋重心明确；无文字、无多主体。比例偏大，3D生产时须保持小型敌人的屏幕占比；仍为 concept_input/candidate。",
+    "prompt": "Use case: stylized-concept; single-subject 3D concept input. N02 Scrapwheel Hound: compact low-slung dark-ocean-blue scrap compactor with one oversized toothed cutter wheel and a smaller rear saw wheel, two spring-loaded metal jaws, four short piston legs, coiled hydraulic tail; bone-white jaw guards, ochre brackets, rusted steel, coral-red danger marks, tiny electric-violet charge indicator; forward-leaning dog silhouette; three-quarter slightly-above front-left view; warm light-gray studio background; strong black ink contour, 2-3 hard-edged cel-shaded value bands, hand-painted grime, precise seams, controlled asymmetry; no text, labels, logos, arrows, diagram, turnaround sheet, props, humans, extra creature, toy plastic, photorealism, floating parts, fused joints, random tubes, excessive bloom, noisy micro-detail, concept-board layout."
+  },
+  {
+    "id": "N03",
+    "name": "弹药罐背包炮虫",
+    "design_intent": "普通远程；三连弹炮台制造节奏压力，背包旋转顺序和后侧手轮阀共同提供可读弱点。",
+    "tell": "六足机械虫、背上三筒三角炮阵、后侧红色手轮阀、骨白口甲和珊瑚红炮口环；蓄势时炮筒依次亮起，阀门可见蒸汽。",
+    "counter": "绕侧接近后攻击开阀弱点；打断炮筒蓄势或磁吸吞噬；三连弹的每一发有独立读图窗口；不要求修复解谜。",
+    "action_names": [
+      "idle_pack_rotate",
+      "salvo_windup_1",
+      "salvo_windup_2",
+      "salvo_windup_3",
+      "triple_shot",
+      "valve_vent_weakpoint",
+      "stagger",
+      "magnetic_ingest",
+      "defeat_shell_pop"
+    ],
+    "source_refs": [
+      "docs/assets/2d-candidates/B02-boiler-hippo.png",
+      "docs/assets/art-direction.md",
+      "docs/assets/production-guide.md"
+    ],
+    "exact_source_output": "C:\\Users\\jasonlyan\\.codex\\generated_images\\01a0e820-acf4-7e82-87b5-41b2ee8454ca\\exec-3f313607-ea81-44a9-8513-bda45b178b83.png",
+    "file": "N03-drum-pack-artillery-beetle.png",
+    "file_sha256": "0631909DD1DAFA49BF5361DD8D9B3AE594AB91D2AEABA326ACF477230EA6D2DC",
+    "requested_model": "Image2.5 target per project guide",
+    "actual_model": "unknown (built-in imagegen version not exposed)",
+    "version": "comic-whale-v1 / 2026-09-28",
+    "qa_conclusion": "通过概念输入首检：单一主体；三筒背包、炮口方向、六足支撑和后侧手轮阀清楚；远程角色与开阀弱点均可读；无文字、无多主体。3D时须保持炮筒独立枢轴和阀门可见；仍为 concept_input/candidate。",
+    "prompt": "Use case: stylized-concept; single-subject 3D concept input. N03 Drum-Pack Artillery Beetle: compact six-legged beetle machine with a large three-cylinder ammunition tank pack, triangular salvo rig, chunky breech locks and a visible rear manual pressure valve as weak point; dark-ocean-blue shell, bone-white guard, ochre brackets, rust/soot exhaust, coral-red muzzle rings, tiny electric-violet indicator; three-quarter slightly-above rear-right view; warm light-gray studio background; strong black ink contour, 2-3 hard-edged cel-shaded value bands, selective hand-painted grime, precise seams, controlled asymmetry; no text, labels, logos, arrows, diagram, turnaround sheet, props, humans, extra creature, fused barrels, hidden valve, random pipes, excessive bloom, soft airbrush, concept-board layout."
+  },
+  {
+    "id": "N04",
+    "name": "磁轨维修蜂",
+    "design_intent": "普通空中支援；以磁轨滑行、短暂导线牵引和小体积高机动支援敌人为战场节奏目标。",
+    "tell": "圆润骨白机体、两条长弧形磁轨翼、铜色线圈接触鞋、腹下线缆卷盘和磁夹、单个红色检查镜；紫色只在轨道充能窗和接头处出现。",
+    "counter": "磁暴鲸口吸入或用挖斗/磁场截获；导线牵引前会露出腹部卷盘，击中接头可打断支援；不要求修复解谜。",
+    "action_names": [
+      "hover_rail_idle",
+      "rail_zip",
+      "repair_tether_windup",
+      "repair_tether",
+      "connector_retract",
+      "intercept_stagger",
+      "magnetic_ingest",
+      "defeat_spark_pop"
+    ],
+    "source_refs": [
+      "docs/assets/2d-candidates/B04-demolition-pigeon.png",
+      "docs/assets/art-direction.md",
+      "docs/project-guidance.md"
+    ],
+    "exact_source_output": "C:\\Users\\jasonlyan\\.codex\\generated_images\\01a0e820-acf4-7e82-87b5-41b2ee8454ca\\exec-476df010-deaa-4d86-975e-84c614d2df3c.png",
+    "file": "N04-mag-rail-repair-bee.png",
+    "file_sha256": "6F1D21F49AFC19BFD797BA412A2D3C8826B4926D97C572F11FAECC37C1DD593B",
+    "requested_model": "Image2.5 target per project guide",
+    "actual_model": "unknown (built-in imagegen version not exposed)",
+    "version": "comic-whale-v1 / 2026-09-28",
+    "qa_conclusion": "通过概念输入首检：单一飞行主体；双磁轨翼、铜线圈、腹下卷盘和磁夹都清楚；支援导线动作可落到独立挂点；无文字、无多主体。3D时须为线缆做收放两态和可截获碰撞代理；仍为 concept_input/candidate。",
+    "prompt": "Use case: stylized-concept; single-subject 3D concept input. N04 Mag-Rail Repair Bee: small flying maintenance machine with paired dark-blue crescent magnetic rail wings, copper contact coils, bone-white ceramic body, ochre service brackets, coral-red inspection lens, tiny violet charge window, retractable underside repair cable spool and magnetic clamp; three-quarter slightly-above front-left view; warm light-gray studio background; strong black ink contour, 2-3 hard-edged cel-shaded value bands, selective hand-painted scuffs, precise seams, controlled asymmetry; no text, labels, logos, arrows, diagram, turnaround sheet, props, humans, second creature, loose cable floating away, photorealism, toy plastic, generic greeble, bee stripes, excessive bloom, concept-board layout."
+  }
+]

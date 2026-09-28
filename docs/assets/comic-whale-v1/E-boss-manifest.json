@@ -1,0 +1,78 @@
+{
+  "manifest_version": "E-boss-v1",
+  "generated_at": "2026-09-28",
+  "style": "C_graphic_comic",
+  "input_role": "single_subject_three_quarter_long_lens_3d_input",
+  "model": "unknown",
+  "model_note": "Built-in image generation tool was used; the runtime did not expose a model identifier.",
+  "reference_concepts": [
+    "docs/assets/2d-candidates/B02-boiler-hippo.png",
+    "docs/assets/2d-candidates/B05-clause-colossus.png",
+    "docs/assets/2d-candidates/B06-trashnado.png"
+  ],
+  "assets": [
+    {
+      "id": "E01",
+      "name": "高压雷炉河马",
+      "english_name": "High-Pressure Thunder Boiler Hippo",
+      "file": "E01-high-pressure-thunder-boiler-hippo.png",
+      "concept_source": "B02-boiler-hippo visual language, re-authored as an elite combat machine",
+      "prompt": "A single squat armored river-hippo war machine: broad pear-shaped boiler body, four piston legs, integrated hippo head, stacked pressure chimney with lightning rods, shoulder rams, exhaust pipes, side relief valve, exposed glowing pressure seam. Graphic comic concept art with heavy black contours, hard cel-shaded planes, hand-painted chipped ochre/deep-navy/coral materials, precise authored mechanics, no text or extra characters.",
+      "actions": [
+        "steam-assisted shoulder charge",
+        "radial pressure blast",
+        "vent-and-recover",
+        "staggered relief-valve opening"
+      ],
+      "weakness": "During charge recovery, strike the exposed red-orange pressure seam or the hinged brass relief valve on the flank to vent pressure and stagger the elite.",
+      "sha256": "0AD139CE084F288024CD69F582C5E2621FB91540905D854613737B4A778B0640",
+      "qa": {
+        "result": "pass_candidate",
+        "real_conclusion": "Viewed at full resolution. Single complete body is visible; low three-quarter view clearly separates boiler, head, legs, chimney, exhausts and side relief valve. Silhouette reads as a pressure-charging elite and is suitable as a 3D blockout/material reference. Surface rendering is more polished PBR-like than the target comic finish, so final in-game material still requires authored Blender/Godot pass."
+      }
+    },
+    {
+      "id": "E02",
+      "name": "反极浮环猎手",
+      "english_name": "Polarity Ring Hunter",
+      "file": "E02-polarity-ring-hunter.png",
+      "concept_source": "B06-trashnado motion language, re-authored as a magnetic floating elite",
+      "prompt": "A single floating elite built from two offset chunky opposing magnetic ring halves, a suspended reactor core, and two articulated three-knuckle grappling claws. The core has an exposed violet-white interruption point. Graphic comic concept art with bold black contour, hard cel-shading, hand-painted ink-navy/bone/copper materials, deliberate asymmetry, no text or extra characters.",
+      "actions": [
+        "polarity pull",
+        "polarity repulse",
+        "sideways grapple drag",
+        "ring snap-back",
+        "core flare when interrupted"
+      ],
+      "weakness": "Concentrated fire on the exposed violet-white core aperture interrupts the magnetic field; while interrupted, the ring halves lose pull/repel control and the claws hang open.",
+      "sha256": "734D945BE3B290A153B5DD5E291A2CDF4CC68969912166618FE2A1A5A603623C",
+      "qa": {
+        "result": "pass_candidate",
+        "real_conclusion": "Viewed at full resolution. The complete floating body, both ring halves, central aperture and two claws are visible with ample margin. Silhouette is unique and mechanically legible as a magnet hunter rather than a generic drone. It is suitable as a 3D input reference; ring segmentation, hinge axes and polarity glow need authored modeling and gameplay telegraph treatment."
+      }
+    },
+    {
+      "id": "BOSS01",
+      "name": "断城巨神",
+      "english_name": "Breakwall Titan",
+      "file": "BOSS01-breakwall-titan.png",
+      "concept_source": "B05-clause-colossus scale language, re-authored as a 30-meter battle-construction boss",
+      "prompt": "A single 30-meter bipedal battle-construction robot far beyond an excavator: oversized whale-jaw chest cavity with hydraulic jaw plates, segmented magnetic rail crown on the back, enormous construction hammer on the right arm, folded city-wall shield on the left, broad anchor-pylon feet with retractable teeth, exposed cables and service hatches. Graphic comic concept art, heavy black contour, hard cel-shaded planes, hand-painted concrete/steel/copper wear, asymmetrical authored mechanics, coral-red reactor weak point, no text or extra characters.",
+      "actions": [
+        "hammer quake",
+        "wall-shield sweep",
+        "anchor stomp",
+        "magnetic rail crown volley",
+        "chest-jaw bite",
+        "reactor overdrive"
+      ],
+      "weakness": "Phase 1: break exposed red-orange chest-jaw armor seam to interrupt the hammer quake. Phase 2: destroy the magnetic rail crown and then the city-wall shield hinge. Phase 3: damage the exposed chest reactor during overdrive to trigger core overload and defeat the boss.",
+      "sha256": "4E1E5EFA39EE8F760127C1942591AEF885098C5635CB332A8ACAE92C52DAAE69",
+      "qa": {
+        "result": "pass_candidate",
+        "real_conclusion": "Viewed at full resolution. Full feet-to-crown silhouette is present; hammer, shield, whale-jaw chest cavity, magnetic back crown and anchor feet read immediately and exceed ordinary construction-vehicle scale. It is suitable as the boss 3D input reference. The current render trends toward detailed PBR concept art; final project look still requires the authored graphic-comic contour/cel pass and an in-engine readability capture."
+      }
+    }
+  ]
+}
