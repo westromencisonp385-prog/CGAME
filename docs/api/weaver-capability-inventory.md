@@ -31,7 +31,9 @@
 
 `docs/assets/comic-whale-v1/weaver-candidate-report.json` 对应 7 个成功的图生360→高模任务：N01–N04、E01、E02、BOSS01。Blender 结构检查显示它们都是单网格、单材质、无 UV、无动作，因此只保留为形体 candidate。
 
-已验证的角色链：B01 使用 FBX + `model.json(config.mesh_category, config.algo_name, selection)` 成功骨骼架设和蒙皮；文生动作返回 991002，暂保留 Blender 机械动作。
+已验证的角色链：维修驾驶员使用 FBX + `model.json(config.mesh_category, config.algo_name, selection)` 成功骨骼架设；本轮没有继续提交蒙皮，文生动作历史任务返回 991002，暂保留 Blender 机械动作。
+
+场景后处理也做过真实样本：node 10 布线重建和 node 1 重拓扑完成；node 9 UV 返回 ASCII FBX，Blender 5.2.2 无法导入；node 2 LOD 在高模/中模分别返回 960207；node 15 2UV 对单 mesh 运行超过 1 小时后返回 120032。详见 [场景实测](weaver-scene-findings.md)。
 
 ## 接口行为边界
 

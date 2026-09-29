@@ -188,13 +188,22 @@ def run_postprocess(client: WeaverClient, rtx: str, credential: Any, ledger: dic
         return
     source, scene = selected
     source_hash = sha256(source)
-    base_remote = client.upload_file(source, credential, object_name=cos_object_name(credential, f"cgame/capability-study/scenes/{scene}/source_{source_hash[:12]}.fbx"))
+    # These nodes document a ZIP input contract even though the SDK examples
+    # accept a local FBX. Keep the archive minimal and deterministic.
+    source_zip = OUT / scene / f"source_{source_hash[:12]}.zip"
+    source_zip.parent.mkdir(parents=True, exist_ok=True)
+    if not source_zip.is_file():
+        with zipfile.ZipFile(source_zip, "w", zipfile.ZIP_DEFLATED) as archive:
+            archive.write(source, source.name)
+    base_remote = client.upload_file(source_zip, credential, object_name=cos_object_name(credential, f"cgame/capability-study/scenes/{scene}/{source_zip.name}"))
     jobs: list[tuple[str, int, dict[str, Any]]] = [
         ("mesh_refine", 10, {"mesh_refine_params": {"algorithm_model": "VV-MeshRefine-V1.0.0", "mode": 1}}),
         ("retopology", 1, {"re_topology_params": {"algorithm_model": "Hy3D-RTP-v2.0", "face_type": 2, "face_num": 10000, "output_model_format": "fbx"}}),
         ("uv", 9, {"uv_params": {"algorithm_model": "VV-UV-v2.6.0", "enable_auto_smoothing": True, "lightmap_resolution": 1024, "uv_island_padding": 2, "pack_into_same_uv_space": True}}),
         ("lod", 2, {"lod_params": {"algorithm_model": "VV-LOD-V1.0.0", "output_model_format": "fbx", "reduce_faces": [{"reduce_level": 1, "reduce_percent": 55, "face_type": 2}, {"reduce_level": 2, "reduce_percent": 45, "face_type": 2}, {"reduce_level": 3, "reduce_percent": 35, "face_type": 2}], "gen_times": 1}}),
-        ("2uv", 15, {"auto_luv_params": {"algorithm_model": "VV-AutoLUV-V2.6.0", "mesh_name": "Body_Mesh", "light_map_resolution": 1024, "edge_pixel_count": 2.0, "coord_axis": 2, "out_channel": 1, "split_strategy": 2}}),
+        # Blender 5.2.2 inspection of this scene FBX reports the mesh name
+        # ``material``; AutoLUV requires an exact match.
+        ("2uv", 15, {"auto_luv_params": {"algorithm_model": "VV-AutoLUV-V2.6.0", "mesh_name": "material", "light_map_resolution": 1024, "edge_pixel_count": 2.0, "coord_axis": 2, "out_channel": 1, "split_strategy": 2}}),
     ]
     for key, node_type, params in jobs:
         row = ledger["tasks"].get(f"post:{key}", {})
@@ -204,6 +213,7 @@ def run_postprocess(client: WeaverClient, rtx: str, credential: Any, ledger: dic
             ids = client.gen_3d_model(name=f"CGAME_scene_{scene}_{key}", node_type=node_type, input_model=base_remote, params=params, rtx=rtx)
             task_id = first_model_id(ids)
             row.update({"node_type": node_type, "algorithm_model": next(iter(params.values())).get("algorithm_model"), "input_scene": scene, "input_model_sha256": source_hash, "task_id": task_id, "status": "submitted"})
+            row.pop("error", None)
             ledger["tasks"][f"post:{key}"] = row
             save(ledger)
             record = wait_for_model(client, task_id, rtx=rtx, timeout=1800, interval=15)
