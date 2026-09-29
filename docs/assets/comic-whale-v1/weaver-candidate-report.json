@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "status": "candidate",
+  "pipeline": ["concept_png", "multi_view_7", "high_model_3", "blender_structure_check"],
+  "api_boundary": "These are mesh candidates. They are not final game assets until authored拆件, UV/materials, pivots, collision, LOD, actions and Godot real-camera checks pass.",
+  "assets": [
+    {"id": "N01", "view_status": 3, "model_status": 3, "triangles": 12626, "vertices": 14639, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "N01-hydraulic-barricade-crab.png"},
+    {"id": "N02", "view_status": 3, "model_status": 3, "triangles": 12080, "vertices": 14499, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "N02-scrapwheel-hound.png"},
+    {"id": "N03", "view_status": 3, "model_status": 3, "triangles": 11990, "vertices": 13729, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "N03-drum-pack-artillery-beetle.png"},
+    {"id": "N04", "view_status": 3, "model_status": 3, "triangles": 9014, "vertices": 9334, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "N04-mag-rail-repair-bee.png"},
+    {"id": "E01", "view_status": 3, "model_status": 3, "triangles": 17988, "vertices": 19602, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "E01-high-pressure-thunder-boiler-hippo.png"},
+    {"id": "E02", "view_status": 3, "model_status": 3, "triangles": 17990, "vertices": 18138, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "E02-polarity-ring-hunter.png"},
+    {"id": "BOSS01", "view_status": 3, "model_status": 3, "triangles": 49912, "vertices": 47563, "objects": 1, "uv_meshes": 0, "actions": 0, "source": "BOSS01-breakwall-titan.png"}
+  ],
+  "decision": "All seven API outputs are retained as shape candidates. Their single-mesh/no-UV/no-action result means Blender must rebuild authored parts and mechanics before Godot integration."
+}

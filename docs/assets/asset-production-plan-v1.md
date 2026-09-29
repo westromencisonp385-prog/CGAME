@@ -48,6 +48,8 @@
 
 Weaver 是异步 3D 服务层，不是最终美术作者。完整边界见 [weaver-api-purpose.md](../api/weaver-api-purpose.md)，完整原文见 [weaver-api-docs.md](../api/weaver-api-docs.md)，可执行 Skill 见 [Weaver Skill](../../.agents/skills/weaver-asset-production/SKILL.md)。
 
+本轮生产范围不只包含玩家车和敌人，还包含角色/生物、环境设施、桥、管道、道具、Boss 部件和材质纹理。Weaver 负责这些组件的候选生成和处理；Blender 负责结构修整，Godot 负责把组件组装成可玩的场景、碰撞、路线、状态和任务。
+
 ### 允许的调用顺序
 
 1. **图像输入**：清理成单主体、无文字、无道具的参考图；图生360（7）补齐四视图。

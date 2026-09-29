@@ -20,6 +20,8 @@
 
 每张输入图和 QA 结论见 [N-enemies-manifest.json](N-enemies-manifest.json) 与 [E-boss-manifest.json](E-boss-manifest.json)。它们都是 `concept_input/candidate`，需要经过 Blender/Godot 结构、动作、碰撞、LOD 和实机镜头验收。
 
+7 件概念图已经通过 Weaver `图生360 → 图生高模` 生成 3D candidate；结构统计见 [weaver-candidate-report.json](weaver-candidate-report.json)。当前结果全部是单网格、无 UV、无动作，保留作形体参考，下一步由 Blender 作者化拆件。
+
 生产约束：
 
 - 三个阶段共享玩家身份锚点：驾驶室、履带、主磁环和前向工作区。

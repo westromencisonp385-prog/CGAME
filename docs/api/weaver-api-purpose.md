@@ -15,6 +15,14 @@
 | 动作候选 | 视频/文本生动画（4）、图生Pose（12） | FBX/BVH 或候选动作包 | 人物/四足动作候选；工程车机械动作仍由枢轴和关键帧控制 |
 | 2D编辑 | 2D拆分（14）及组件操作 | 分部件2D资产 | 从多视图中取部件，再回到模型生成；不是自动理解游戏挂点 |
 
+## 可生产的资产范围
+
+同一套接口可以用于三类输入：
+
+- **角色/生物**：四足、人物或其他受支持类别；走高模/中模 → UV/贴图/LOD → 骨骼/蒙皮 → 动作候选。最终动作仍需检查骨骼和权重。
+- **场景组件**：泵站、桥、风机、管道、建筑块、道具和 Boss 部件；走多视图 → 高模/中模 → UV/贴图/LOD。场景要由 Godot/Blender 组装，服务不会替你生成完整关卡、路线碰撞或任务状态。
+- **材质/贴图**：UV、纹理和 2UV 可为已有网格提供候选表面；不能让贴图决定玩法状态，损坏、修复、发光和文字仍由运行时材质/UI 管理。
+
 ## 它不保证什么
 
 服务端成功只表示算法任务完成。接口不会自动保证：
@@ -40,3 +48,21 @@
 - A01 API 候选：形状能保留大嘴，但仍是单网格、无 UV、无动画，拒绝作为最终资产。
 - B01/C04 作者化资产：UV 和 LOD 服务可以成功生成候选；B01 的骨骼任务以 `992103 / Input format error` 失败，说明 GLB 直接喂给当前骨骼服务不满足输入合同。后续若继续，应按文档转换为带正确 JSON 的 FBX zip，再验证。
 - 机械玩家车和设施的正式动作不应依赖 text-to-motion；应使用 Blender/Godot 的命名枢轴和关键帧，Weaver 只承担能证明有收益的几何处理。
+
+## 本机复现
+
+真实凭证只放在本机：`%USERPROFILE%\.config\wanderberg\weaver-credentials.txt`，格式参照 `config/weaver-credentials.example.txt`；也可以用 `WEAVER_APPID`、`WEAVER_APPSECRET`、`WEAVER_RTX`、`WEAVER_BASE_URL` 环境变量。仓库不保存真实值。
+
+当前概念批次的候选生成：
+
+```powershell
+python tools/produce_comic_candidates.py
+```
+
+脚本会按 N01–N04、E01–E02、BOSS01 依次上传输入、提交图生360和高模任务、轮询到终态、下载到 `artifacts/weaver/comic_candidates/`，并写入不含签名 URL 的 `report.json`。结构复核使用：
+
+```powershell
+& "F:\SteamLibrary\steamapps\common\Blender\blender.exe" --background --python tools/blender_validate_assets.py -- <GLB路径>
+```
+
+下一步只把通过 Blender 结构复核的候选进入 Godot 真镜头；不要把 API 候选直接当最终资产。
