@@ -14,6 +14,8 @@ Reclaimer 是 Godot 4.7.2 的单人幻想工程车 Roguelite。M0/M1 功能循�
 - F/P 执行索引：[docs/requirements.md](requirements.md)
 - 本地决策路线：[docs/wayfinder/map.md](wayfinder/map.md)
 - 美术生产：[docs/assets/concept-to-production-v1.md](assets/concept-to-production-v1.md)
+- 百种构筑目录：[docs/builds/build-catalog-v1.md](builds/build-catalog-v1.md)
+- 部件化幻想样件：[docs/assets/modular-fantasy-v1/README.md](assets/modular-fantasy-v1/README.md)
 - UIUX：[docs/assets/g0-uiux-direction-v1.md](assets/g0-uiux-direction-v1.md)
 - 质量基准：[docs/assets/wanderburg-quality-benchmark-v2.md](assets/wanderburg-quality-benchmark-v2.md)
 - 缺口报告：[docs/assets/g1-quality-gap-report.md](assets/g1-quality-gap-report.md)
