@@ -42,6 +42,8 @@ Weaver 在角色链路中是多个异步节点的组合：
 
 Blender 5.2.2 读取蒙皮和每类动作的首个 FBX 样本：均为 1 个网格、1 个材质、UV 存在、1 个 armature、119,776 三角。蒙皮文件没有动作；待机、跑步、重击、三段动作和 Pose 文件都含动作轨道，分别观察到 1、2、3、4、5 个 action。服务端返回的 4 个 T2M 候选已经落到本地，当前仍需人工看接触姿态和机械工具臂是否穿插，不能直接并入正式角色。
 
+视觉抽查：角色动作候选的轮廓可读，但 Blender 默认转台材质偏白，尚未达到图形漫画 C 的硬色块标准；动作通过结构闸门，材质通过视觉闸门仍为 `pending`。
+
 脚本会把任务 ID 先写入 [state.json](../../artifacts/weaver/capability-study/characters/state.json)，支持中断续跑，并且失败任务不会自动重复提交。继续扩展第二个角色时，顺序必须保持为：
 
 `rigging → skinning → T2M/V2M/Pose → Blender 骨骼/权重/动画检查 → Godot 实机镜头`
