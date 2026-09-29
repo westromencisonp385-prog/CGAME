@@ -1,0 +1,240 @@
+{
+  "asset_id": "screw_worm",
+  "status": "candidate",
+  "authoring": "original procedural authored geometry; no external meshes",
+  "blender": "5.2.2 LTS",
+  "coordinate_system": "Blender Z up, forward -X, meters; glTF exporter converts to Y up",
+  "requirements": [
+    "P006",
+    "P015",
+    "P022"
+  ],
+  "mesh_count": 80,
+  "base_triangles": 5644,
+  "evaluated_triangles": 12728,
+  "materials": [
+    "petrol",
+    "ochre",
+    "bone",
+    "tomato",
+    "ink",
+    "steel",
+    "mint",
+    "violet",
+    "glass"
+  ],
+  "uv_mesh_count": 80,
+  "bounds_m": {
+    "min": [
+      -6.03494930267334,
+      -1.9574109315872192,
+      0.018251927569508553
+    ],
+    "max": [
+      6.086554527282715,
+      1.7350735664367676,
+      2.6771998405456543
+    ]
+  },
+  "assemblies": [
+    {
+      "name": "Spine_Segment_00",
+      "minimum_stage": 1,
+      "pivot_m": [
+        -3.0,
+        0,
+        1.05
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -32,
+        32
+      ],
+      "purpose": "Articulated spine transfers torque and bends around obstacles",
+      "removal_consequence": "Tail beyond this socket detaches; drill still runs at lower sustained torque",
+      "power_input": "front motor",
+      "exploded_offset_m": [
+        0.0,
+        1.4,
+        0.25
+      ],
+      "collision_proxy": "COL_Spine_Segment_00"
+    },
+    {
+      "name": "Spine_Segment_01",
+      "minimum_stage": 1,
+      "pivot_m": [
+        -1.5,
+        0.42,
+        1.15
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -32,
+        32
+      ],
+      "purpose": "Articulated spine transfers torque and bends around obstacles",
+      "removal_consequence": "Tail beyond this socket detaches; drill still runs at lower sustained torque",
+      "power_input": "Spine_Segment_00 → spline coupling",
+      "exploded_offset_m": [
+        0.4,
+        -1.4,
+        0.25
+      ],
+      "collision_proxy": "COL_Spine_Segment_01"
+    },
+    {
+      "name": "Spine_Segment_02",
+      "minimum_stage": 2,
+      "pivot_m": [
+        0,
+        0.1,
+        1.32
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -32,
+        32
+      ],
+      "purpose": "Articulated spine transfers torque and bends around obstacles",
+      "removal_consequence": "Tail beyond this socket detaches; drill still runs at lower sustained torque",
+      "power_input": "Spine_Segment_01 → spline coupling",
+      "exploded_offset_m": [
+        0.8,
+        1.4,
+        0.25
+      ],
+      "collision_proxy": "COL_Spine_Segment_02"
+    },
+    {
+      "name": "Spine_Segment_03",
+      "minimum_stage": 2,
+      "pivot_m": [
+        1.4,
+        -0.58,
+        1.35
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -32,
+        32
+      ],
+      "purpose": "Articulated spine transfers torque and bends around obstacles",
+      "removal_consequence": "Tail beyond this socket detaches; drill still runs at lower sustained torque",
+      "power_input": "Spine_Segment_02 → spline coupling",
+      "exploded_offset_m": [
+        1.2000000000000002,
+        -1.4,
+        0.25
+      ],
+      "collision_proxy": "COL_Spine_Segment_03"
+    },
+    {
+      "name": "Spine_Segment_04",
+      "minimum_stage": 3,
+      "pivot_m": [
+        2.85,
+        -0.55,
+        1.2
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -32,
+        32
+      ],
+      "purpose": "Articulated spine transfers torque and bends around obstacles",
+      "removal_consequence": "Tail beyond this socket detaches; drill still runs at lower sustained torque",
+      "power_input": "Spine_Segment_03 → spline coupling",
+      "exploded_offset_m": [
+        1.6,
+        1.4,
+        0.25
+      ],
+      "collision_proxy": "COL_Spine_Segment_04"
+    },
+    {
+      "name": "Spine_Segment_05",
+      "minimum_stage": 3,
+      "pivot_m": [
+        4.15,
+        0.08,
+        0.98
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -32,
+        32
+      ],
+      "purpose": "Articulated spine transfers torque and bends around obstacles",
+      "removal_consequence": "Tail beyond this socket detaches; drill still runs at lower sustained torque",
+      "power_input": "Spine_Segment_04 → spline coupling",
+      "exploded_offset_m": [
+        2.0,
+        -1.4,
+        0.25
+      ],
+      "collision_proxy": "COL_Spine_Segment_05"
+    },
+    {
+      "name": "Front_FlutedDrill",
+      "minimum_stage": 1,
+      "pivot_m": [
+        -3.9,
+        0,
+        1.1
+      ],
+      "motion_axis_local": "X",
+      "limits": [
+        0,
+        360
+      ],
+      "purpose": "Three continuous helical cutting flights pull debris into flutes",
+      "removal_consequence": "Cannot penetrate; segmented body remains a carrier",
+      "power_input": "front motor → axial chuck",
+      "exploded_offset_m": [
+        -2,
+        0,
+        0
+      ],
+      "collision_proxy": "COL_Front_FlutedDrill"
+    },
+    {
+      "name": "Tail_AnchorCrown",
+      "minimum_stage": 3,
+      "pivot_m": [
+        4.75,
+        0.25,
+        1.0
+      ],
+      "motion_axis_local": "X",
+      "limits": [
+        -30,
+        30
+      ],
+      "purpose": "Split tail anchor resists drill torque while turning",
+      "removal_consequence": "No planted drilling mode; recoil slides the body",
+      "power_input": "last spine spline → differential tail brace",
+      "exploded_offset_m": [
+        1.7,
+        0.2,
+        0.4
+      ],
+      "collision_proxy": "COL_Tail_AnchorCrown"
+    }
+  ],
+  "growth": "stage 1 foundation, stage 2 distinct middle assemblies, stage 3 full structure; no root scale change",
+  "clips": [
+    "idle",
+    "attack",
+    "deploy",
+    "exploded"
+  ],
+  "clip_notes": "NLA clips use independent assembly transforms. Sources save all tracks muted for inspection. Colliders are in blend only; engine must build physics bodies from proxies.",
+  "quality_state": "Structural candidate, actual render inspected separately. Not approved final art; no Godot collision/LOD/performance acceptance.",
+  "limits": [
+    "Flat authored material zones with UVs, no hand-painted texture maps yet",
+    "No deforming skin or IK; rigid mechanical clips",
+    "No damage variants or LODs",
+    "Physics and inter-component power behavior remain gameplay contracts, not simulated by this mesh"
+  ]
+}

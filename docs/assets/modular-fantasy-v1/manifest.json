@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "status": "candidate",
+  "samples": [
+    {"id":"hoop_leviathan","glb":"hoop_leviathan.glb","manifest":"hoop_leviathan_manifest.json","source":"hoop_leviathan.blend"},
+    {"id":"origami_gate_titan","glb":"origami_gate_titan.glb","manifest":"origami_gate_titan_manifest.json","source":"origami_gate_titan.blend"},
+    {"id":"screw_worm","glb":"screw_worm.glb","manifest":"screw_worm_manifest.json","source":"screw_worm.blend"}
+  ],
+  "next_gate": "Godot real-camera, collision, LOD, performance, and event-driven combat validation"
+}

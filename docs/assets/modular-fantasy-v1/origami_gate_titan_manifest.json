@@ -1,0 +1,217 @@
+{
+  "asset_id": "origami_gate_titan",
+  "status": "candidate",
+  "authoring": "original procedural authored geometry; no external meshes",
+  "blender": "5.2.2 LTS",
+  "coordinate_system": "Blender Z up, forward -X, meters; glTF exporter converts to Y up",
+  "requirements": [
+    "P006",
+    "P015",
+    "P022"
+  ],
+  "mesh_count": 45,
+  "base_triangles": 1672,
+  "evaluated_triangles": 4188,
+  "materials": [
+    "petrol",
+    "ochre",
+    "bone",
+    "tomato",
+    "ink",
+    "steel",
+    "mint",
+    "violet",
+    "glass"
+  ],
+  "uv_mesh_count": 45,
+  "bounds_m": {
+    "min": [
+      -3.777355432510376,
+      -1.2400000095367432,
+      0.33500009775161743
+    ],
+    "max": [
+      4.591025352478027,
+      1.3250000476837158,
+      6.038499355316162
+    ]
+  },
+  "assemblies": [
+    {
+      "name": "Gate_LoadFrame",
+      "minimum_stage": 1,
+      "pivot_m": [
+        0,
+        0,
+        3.65
+      ],
+      "motion_axis_local": "fixed",
+      "limits": [
+        0,
+        0
+      ],
+      "purpose": "Two side columns carry the lintel; aperture stays clear",
+      "removal_consequence": "No closed load path",
+      "power_input": "foot generator → lintel bus",
+      "exploded_offset_m": [
+        0,
+        0,
+        0
+      ],
+      "collision_proxy": "COL_Gate_LoadFrame"
+    },
+    {
+      "name": "Telescopic_Leg_-1",
+      "minimum_stage": 1,
+      "pivot_m": [
+        -0.98,
+        0,
+        2.5
+      ],
+      "motion_axis_local": "Z translation",
+      "limits": [
+        -0.25,
+        0.55
+      ],
+      "purpose": "Independent piston leg steps across debris",
+      "removal_consequence": "One support lost; brace needed to swing hammer",
+      "power_input": "lintel bus → leg pump",
+      "exploded_offset_m": [
+        -1.1,
+        0,
+        -0.8
+      ],
+      "collision_proxy": "COL_Telescopic_Leg_-1"
+    },
+    {
+      "name": "Telescopic_Leg_1",
+      "minimum_stage": 1,
+      "pivot_m": [
+        0.98,
+        0,
+        2.5
+      ],
+      "motion_axis_local": "Z translation",
+      "limits": [
+        -0.25,
+        0.55
+      ],
+      "purpose": "Independent piston leg steps across debris",
+      "removal_consequence": "One support lost; brace needed to swing hammer",
+      "power_input": "lintel bus → leg pump",
+      "exploded_offset_m": [
+        1.1,
+        0,
+        -0.8
+      ],
+      "collision_proxy": "COL_Telescopic_Leg_1"
+    },
+    {
+      "name": "Shield_FoldingWing",
+      "minimum_stage": 2,
+      "pivot_m": [
+        -1.48,
+        0,
+        4.62
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -15,
+        105
+      ],
+      "purpose": "Accordion shield locks into side wall",
+      "removal_consequence": "Left flank exposed; no deployable cover",
+      "power_input": "lintel bus → wing hinge",
+      "exploded_offset_m": [
+        -2.1,
+        0,
+        0.2
+      ],
+      "collision_proxy": "COL_Shield_FoldingWing"
+    },
+    {
+      "name": "Counterweight_Pennant",
+      "minimum_stage": 2,
+      "pivot_m": [
+        1.35,
+        0,
+        4.8
+      ],
+      "motion_axis_local": "X",
+      "limits": [
+        -60,
+        15
+      ],
+      "purpose": "Short opposite wing balances large folding shield",
+      "removal_consequence": "Pitch recovery worsens after blocks",
+      "power_input": "lintel bus → counterweight hinge",
+      "exploded_offset_m": [
+        1.5,
+        0,
+        1
+      ],
+      "collision_proxy": "COL_Counterweight_Pennant"
+    },
+    {
+      "name": "Hammer_Pendulum",
+      "minimum_stage": 3,
+      "pivot_m": [
+        1.5,
+        -0.55,
+        4.7
+      ],
+      "motion_axis_local": "Y",
+      "limits": [
+        -95,
+        30
+      ],
+      "purpose": "Huge hinged hammer folds behind the gate and swings outside aperture",
+      "removal_consequence": "No siege impact; shield build remains mobile",
+      "power_input": "lintel reservoir → hammer torque axle",
+      "exploded_offset_m": [
+        2.1,
+        -0.6,
+        0.5
+      ],
+      "collision_proxy": "COL_Hammer_Pendulum"
+    },
+    {
+      "name": "Reservoir_Backpack",
+      "minimum_stage": 3,
+      "pivot_m": [
+        0,
+        0.65,
+        4.1
+      ],
+      "motion_axis_local": "fixed",
+      "limits": [
+        0,
+        0
+      ],
+      "purpose": "Two accumulator cylinders recharge a single hammer strike",
+      "removal_consequence": "Long hammer recharge, no chained smash",
+      "power_input": "leg pumps → accumulators → torque axle",
+      "exploded_offset_m": [
+        0,
+        1.65,
+        0.4
+      ],
+      "collision_proxy": "COL_Reservoir_Backpack"
+    }
+  ],
+  "growth": "stage 1 foundation, stage 2 distinct middle assemblies, stage 3 full structure; no root scale change",
+  "clips": [
+    "idle",
+    "attack",
+    "deploy",
+    "exploded"
+  ],
+  "clip_notes": "NLA clips use independent assembly transforms. Sources save all tracks muted for inspection. Colliders are in blend only; engine must build physics bodies from proxies.",
+  "quality_state": "Structural candidate, actual render inspected separately. Not approved final art; no Godot collision/LOD/performance acceptance.",
+  "limits": [
+    "Flat authored material zones with UVs, no hand-painted texture maps yet",
+    "No deforming skin or IK; rigid mechanical clips",
+    "No damage variants or LODs",
+    "Physics and inter-component power behavior remain gameplay contracts, not simulated by this mesh"
+  ]
+}

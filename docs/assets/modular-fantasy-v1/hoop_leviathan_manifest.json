@@ -1,0 +1,263 @@
+{
+  "asset_id": "hoop_leviathan",
+  "status": "candidate",
+  "authoring": "original procedural authored geometry; no external meshes",
+  "blender": "5.2.2 LTS",
+  "coordinate_system": "Blender Z up, forward -X, meters; glTF exporter converts to Y up",
+  "requirements": [
+    "P006",
+    "P015",
+    "P022"
+  ],
+  "mesh_count": 77,
+  "base_triangles": 3864,
+  "evaluated_triangles": 9124,
+  "materials": [
+    "petrol",
+    "ochre",
+    "bone",
+    "tomato",
+    "ink",
+    "steel",
+    "mint",
+    "violet",
+    "glass"
+  ],
+  "uv_mesh_count": 77,
+  "bounds_m": {
+    "min": [
+      -3.334254741668701,
+      -2.5,
+      0.3199999928474426
+    ],
+    "max": [
+      3.8399999141693115,
+      2.5,
+      5.703910827636719
+    ]
+  },
+  "assemblies": [
+    {
+      "name": "Reactor_Cradle",
+      "minimum_stage": 1,
+      "pivot_m": [
+        0,
+        0,
+        2.45
+      ],
+      "motion_axis_local": "fixed",
+      "limits": [
+        0,
+        0
+      ],
+      "purpose": "Compression chamber and physical hoop axle",
+      "removal_consequence": "No energy distribution",
+      "power_input": "fuel cell → mechanical bus",
+      "exploded_offset_m": [
+        0,
+        0,
+        0
+      ],
+      "collision_proxy": "COL_Reactor_Cradle"
+    },
+    {
+      "name": "DrivePod_-1",
+      "minimum_stage": 1,
+      "pivot_m": [
+        1,
+        -1.65,
+        0.75
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -25,
+        25
+      ],
+      "purpose": "Paired radial ground rollers; differential steering",
+      "removal_consequence": "Lose turning authority on this side",
+      "power_input": "mechanical bus → half shaft",
+      "exploded_offset_m": [
+        0,
+        -1.4,
+        -0.2
+      ],
+      "collision_proxy": "COL_DrivePod_-1"
+    },
+    {
+      "name": "DrivePod_1",
+      "minimum_stage": 1,
+      "pivot_m": [
+        1,
+        1.65,
+        0.75
+      ],
+      "motion_axis_local": "Z",
+      "limits": [
+        -25,
+        25
+      ],
+      "purpose": "Paired radial ground rollers; differential steering",
+      "removal_consequence": "Lose turning authority on this side",
+      "power_input": "mechanical bus → half shaft",
+      "exploded_offset_m": [
+        0,
+        1.4,
+        -0.2
+      ],
+      "collision_proxy": "COL_DrivePod_1"
+    },
+    {
+      "name": "Lower_Jaw",
+      "minimum_stage": 1,
+      "pivot_m": [
+        0.25,
+        0,
+        2.55
+      ],
+      "motion_axis_local": "Y",
+      "limits": [
+        -28,
+        28
+      ],
+      "purpose": "Curved shell guides scrap through open mouth",
+      "removal_consequence": "Cannot seal/compress mixed load",
+      "power_input": "reactor → jaw ram",
+      "exploded_offset_m": [
+        -1.2,
+        0,
+        -1.5
+      ],
+      "collision_proxy": "COL_Lower_Jaw"
+    },
+    {
+      "name": "Upper_Jaw",
+      "minimum_stage": 1,
+      "pivot_m": [
+        0.25,
+        0,
+        2.55
+      ],
+      "motion_axis_local": "Y",
+      "limits": [
+        -28,
+        28
+      ],
+      "purpose": "Curved shell guides scrap through open mouth",
+      "removal_consequence": "Cannot seal/compress mixed load",
+      "power_input": "reactor → jaw ram",
+      "exploded_offset_m": [
+        -1.2,
+        0,
+        1.5
+      ],
+      "collision_proxy": "COL_Upper_Jaw"
+    },
+    {
+      "name": "Gimbal_MagneticHoop",
+      "minimum_stage": 2,
+      "pivot_m": [
+        0.55,
+        0,
+        3.25
+      ],
+      "motion_axis_local": "X",
+      "limits": [
+        -35,
+        35
+      ],
+      "purpose": "Open hoop suspends payload away from wheels",
+      "removal_consequence": "Lose orbiting hold; direct jaw still works",
+      "power_input": "reactor → paired trunnion coils",
+      "exploded_offset_m": [
+        0,
+        0,
+        2.3
+      ],
+      "collision_proxy": "COL_Gimbal_MagneticHoop"
+    },
+    {
+      "name": "Rear_PressurePress",
+      "minimum_stage": 3,
+      "pivot_m": [
+        2.5,
+        0,
+        2.4
+      ],
+      "motion_axis_local": "X translation",
+      "limits": [
+        -0.35,
+        0.6
+      ],
+      "purpose": "Rear press turns held mass into launchable bale",
+      "removal_consequence": "Lose high-mass compression and recoil brake",
+      "power_input": "pressure vessel → paired press cylinders",
+      "exploded_offset_m": [
+        2,
+        0,
+        0
+      ],
+      "collision_proxy": "COL_Rear_PressurePress"
+    },
+    {
+      "name": "Stabilizer_-1",
+      "minimum_stage": 3,
+      "pivot_m": [
+        0.4,
+        -1.4,
+        2.1
+      ],
+      "motion_axis_local": "X",
+      "limits": [
+        -45,
+        45
+      ],
+      "purpose": "Deployable lateral brace catches press recoil",
+      "removal_consequence": "Cannot fire heavy bale while turning",
+      "power_input": "hydraulic bus → lateral wing hinge",
+      "exploded_offset_m": [
+        0,
+        -1.8,
+        0.4
+      ],
+      "collision_proxy": "COL_Stabilizer_-1"
+    },
+    {
+      "name": "Stabilizer_1",
+      "minimum_stage": 3,
+      "pivot_m": [
+        0.4,
+        1.4,
+        2.1
+      ],
+      "motion_axis_local": "X",
+      "limits": [
+        -45,
+        45
+      ],
+      "purpose": "Deployable lateral brace catches press recoil",
+      "removal_consequence": "Cannot fire heavy bale while turning",
+      "power_input": "hydraulic bus → lateral wing hinge",
+      "exploded_offset_m": [
+        0,
+        1.8,
+        0.4
+      ],
+      "collision_proxy": "COL_Stabilizer_1"
+    }
+  ],
+  "growth": "stage 1 foundation, stage 2 distinct middle assemblies, stage 3 full structure; no root scale change",
+  "clips": [
+    "idle",
+    "attack",
+    "deploy",
+    "exploded"
+  ],
+  "clip_notes": "NLA clips use independent assembly transforms. Sources save all tracks muted for inspection. Colliders are in blend only; engine must build physics bodies from proxies.",
+  "quality_state": "Structural candidate, actual render inspected separately. Not approved final art; no Godot collision/LOD/performance acceptance.",
+  "limits": [
+    "Flat authored material zones with UVs, no hand-painted texture maps yet",
+    "No deforming skin or IK; rigid mechanical clips",
+    "No damage variants or LODs",
+    "Physics and inter-component power behavior remain gameplay contracts, not simulated by this mesh"
+  ]
+}
