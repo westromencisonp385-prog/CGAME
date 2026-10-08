@@ -9,3 +9,7 @@ tools/AssetRipper-source/
 # Local Weaver credentials. Keep the example file tracked instead.
 /config/weaver-credentials.txt
 /config/weaver-credentials.local.txt
+
+# Asset pipeline run logs and extracted third-party docs
+tools/asset_pipeline/logs/
+tools/asset_pipeline/doc_extract/
