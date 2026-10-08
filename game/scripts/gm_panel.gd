@@ -20,16 +20,29 @@ func setup(controller: M0GMController) -> void:
 	_on_state_changed(gm.get_state())
 
 func _build() -> void:
-	position = Vector2(24, 150)
-	size = Vector2(350, 500)
-	add_theme_stylebox_override("panel", _style())
+	position = Vector2(20, 150)
+	size = Vector2(380, 540)
+	theme = P5Theme.build()
+	add_theme_stylebox_override("panel", P5Theme.pad(30, 26, 30, 24))
+	var plate := P5Plate.new()
+	plate.face_color = P5Theme.INK
+	plate.accent_color = P5Theme.RED
+	plate.skew = 0.03
+	plate.cut = 20.0
+	plate.show_behind_parent = true
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(plate)
+	sort_children.connect(func():
+		plate.position = Vector2.ZERO
+		plate.size = size)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 5)
+	box.add_theme_constant_override("separation", 4)
 	add_child(box)
+	box.add_child(P5Theme.ransom_label("GM LAB", 22))
 	var title := Label.new()
-	title.text = "GM 测试工作台  /  F1"
-	title.add_theme_font_size_override("font_size", 21)
-	title.add_theme_color_override("font_color", Color("#f4c96c"))
+	title.text = "测试工作台 / F1"
+	title.add_theme_font_size_override("font_size", 13)
+	title.add_theme_color_override("font_color", P5Theme.OCHRE)
 	box.add_child(title)
 	status_label = Label.new()
 	status_label.custom_minimum_size = Vector2(315, 80)
@@ -74,6 +87,10 @@ func _build() -> void:
 	spawn_kind.set_item_metadata(1, "heavy")
 	spawn_kind.add_item("远程")
 	spawn_kind.set_item_metadata(2, "ranged")
+	for aid in EnemyArchetypes.ARCHETYPES:
+		var def: Dictionary = EnemyArchetypes.ARCHETYPES[aid]
+		spawn_kind.add_item(("★" if def["tier"] == "elite" else "") + str(def["name"]))
+		spawn_kind.set_item_metadata(spawn_kind.item_count - 1, aid)
 	spawn_kind.custom_minimum_size = Vector2(90, 28)
 	spawn_row.add_child(spawn_kind)
 	spawn_count = SpinBox.new()
@@ -83,6 +100,7 @@ func _build() -> void:
 	spawn_count.custom_minimum_size = Vector2(62, 28)
 	spawn_row.add_child(spawn_count)
 	_add_button(spawn_row, "生成敌人", func(): _run("spawn", {"kind": spawn_kind.get_selected_metadata(), "count": int(spawn_count.value)}))
+	_add_button(spawn_row, "一波 F4", func(): _run("wave", {"elite": true}))
 	var save_row := HBoxContainer.new()
 	box.add_child(save_row)
 	_add_button(save_row, "清敌", func(): _run("clear_enemies"))
@@ -98,6 +116,26 @@ func _build() -> void:
 	_add_button(scale_row, "2x", func(): _run("time_scale", {"value": 2.0}))
 	_add_button(scale_row, "0.25x", func(): _run("time_scale", {"value": 0.25}))
 	_add_button(scale_row, "切换 VFX", func(): _run("vfx", {"enabled": not gm.main.world.effects.enabled}))
+	var biome_row := HBoxContainer.new()
+	box.add_child(biome_row)
+	_add_button(biome_row, "去沙漠", func(): _run("goto", {"biome": "desert"}))
+	_add_button(biome_row, "去沼泽", func(): _run("goto", {"biome": "swamp"}))
+	_add_button(biome_row, "回河谷", func(): _run("goto", {"biome": "river"}))
+	var key_row := HBoxContainer.new()
+	box.add_child(key_row)
+	_add_button(key_row, "发沙漠钥匙", func(): _run("grant_key", {"key": "key_desert"}))
+	_add_button(key_row, "发沼泽钥匙", func(): _run("grant_key", {"key": "key_swamp"}))
+	var summon_row := HBoxContainer.new()
+	box.add_child(summon_row)
+	_add_button(summon_row, "炮塔", func(): _run("summon", {"slot": 0}))
+	_add_button(summon_row, "EMP", func(): _run("summon", {"slot": 1}))
+	_add_button(summon_row, "营地", func(): _run("summon", {"slot": 2}))
+	var c9_row := HBoxContainer.new()
+	box.add_child(c9_row)
+	_add_button(c9_row, "召下一Boss", func(): _run("boss_next", {}))
+	_add_button(c9_row, "进化", func(): _run("evolve", {}))
+	_add_button(c9_row, "发神器", func(): _run("grant_artifact", {"id": "art_midas_gear"}))
+	_add_button(c9_row, "雇船长", func(): _run("hire_captain", {"id": "cap_marrow"}))
 	_add_button(box, "关闭 GM / 返回测试", func(): _run("panel", {"open": false}))
 	feedback_label = Label.new()
 	feedback_label.add_theme_color_override("font_color", Color("#f4c96c"))
@@ -123,7 +161,7 @@ func _on_state_changed(state: Dictionary) -> void:
 	visible = bool(state.get("enabled", false)) and bool(state.get("visible", false))
 	if visible and not was_visible and first_button != null:
 		first_button.grab_focus()
-	status_label.text = "状态：%s   时间 %.2fx\n耐久 %.0f  载荷 %d  蓄势 %.0f\n阶段 %d  正式敌人 %d  GM 敌人 %d\n路线：%s  蓝图：%d\n装配：%s / %s" % ["GM暂停 / AI可动" if not state.get("freeze_ai", false) else "GM暂停 / AI冻结", float(state.get("time_scale", 1.0)), float(state.get("health", 0.0)), int(state.get("cargo", 0)), float(state.get("charge", 0.0)), int(state.get("stage", 0)), int(state.get("formal_enemies", 0)), int(state.get("gm_enemies", 0)), "捷径已开" if state.get("shortcut_open", false) else "需修复", state.get("unlocked_blueprints", []).size(), _slot(state, 0), _slot(state, 1)]
+	status_label.text = "状态：%s   时间 %.2fx\n耐久 %.0f  载荷 %d  蓄势 %.0f\n阶段 %d  正式敌人 %d  GM 敌人 %d\n路线：%s  蓝图：%d\n群系：%s  钥匙：%s\n装配：%s / %s" % ["GM暂停 / AI可动" if not state.get("freeze_ai", false) else "GM暂停 / AI冻结", float(state.get("time_scale", 1.0)), float(state.get("health", 0.0)), int(state.get("cargo", 0)), float(state.get("charge", 0.0)), int(state.get("stage", 0)), int(state.get("formal_enemies", 0)), int(state.get("gm_enemies", 0)), "捷径已开" if state.get("shortcut_open", false) else "需修复", state.get("unlocked_blueprints", []).size(), str(state.get("biome", "-")), ",".join(state.get("biome_keys", [])) if not (state.get("biome_keys", []) as Array).is_empty() else "无", _slot(state, 0), _slot(state, 1)]
 	if toggle_button != null:
 		toggle_button.text = "取消无敌" if bool(state.get("invulnerable", false)) else "无敌"
 
@@ -137,6 +175,7 @@ func _add_button(parent: Control, title: String, callback: Callable) -> Button:
 	button.text = title
 	button.pressed.connect(callback)
 	button.custom_minimum_size = Vector2(0, 28)
+	button.add_theme_font_size_override("font_size", 13)
 	parent.add_child(button)
 	return button
 

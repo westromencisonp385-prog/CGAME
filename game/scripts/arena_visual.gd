@@ -26,6 +26,15 @@ var river_material: ShaderMaterial
 var shortcut_gate_mesh: MeshInstance3D
 var flow_time := 0.0
 var route_repaired := false
+var environment: Environment
+var light_warm: DirectionalLight3D
+var current_biome := "river"
+
+const BIOME_PALETTES := {
+	"river": {"bg": Color("#152c37"), "fog": Color("#53717a"), "fog_energy": 0.22, "ambient": Color("#9dc7d1"), "light": Color("#ffe4be")},
+	"desert": {"bg": Color("#8a6a35"), "fog": Color("#c9974e"), "fog_energy": 0.5, "ambient": Color("#e8c98a"), "light": Color("#ffd9a0")},
+	"swamp": {"bg": Color("#1c2a1d"), "fog": Color("#4f7050"), "fog_energy": 0.42, "ambient": Color("#a5c2a0"), "light": Color("#d9e8c8")},
+}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -61,6 +70,8 @@ func _build_lighting() -> void:
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("#9dc7d1")
 	environment.ambient_light_energy = 0.65
+	self.environment = environment
+	light_warm = light
 	# A restrained haze separates the warm worksite from the cool river without
 	# obscuring the route landmarks at the orthographic gameplay scale.
 	environment.fog_enabled = true
@@ -220,6 +231,19 @@ func _build_edge_landmarks() -> void:
 	_create_rock(landmarks, Vector3(-13.0, 0.25, 1.0), 1.1, Color("#5d706d"))
 	_create_rock(landmarks, Vector3(13.0, 0.23, -13.0), 0.9, Color("#6d7669"))
 	_create_repair_sign(landmarks, Vector3(5.6, 0.0, -7.0))
+	# C13：Weaver 正式景物（拆件版带转子动画；缺失则跳过，不影响原地标）
+	_place_formal_prop(landmarks, "wind_turbine", Vector3(-13.4, 0.0, -6.8), 20.0)
+	_place_formal_prop(landmarks, "mountain_air_pump", Vector3(13.4, 0.0, -8.6), -30.0)
+	_place_formal_prop(landmarks, "camp_board", Vector3(-9.6, 0.0, 12.6), 15.0)
+
+func _place_formal_prop(parent: Node3D, slot: String, at: Vector3, yaw_deg: float) -> void:
+	var holder := Node3D.new()
+	holder.name = "FormalProp_" + slot
+	holder.position = at
+	holder.rotation_degrees.y = yaw_deg
+	parent.add_child(holder)
+	if ProceduralRig.attach(holder, slot) == null and FormalModelLibrary.attach(holder, slot, "FormalProp") == null:
+		holder.queue_free()
 
 func _create_arch(parent: Node3D, at: Vector3) -> void:
 	var group := Node3D.new()
@@ -327,6 +351,22 @@ func _process(delta: float) -> void:
 
 func set_vehicle(vehicle: Node3D) -> void:
 	effects.set_vehicle(vehicle)
+
+func apply_biome(biome_id: String) -> void:
+	if not BIOME_PALETTES.has(biome_id):
+		return
+	current_biome = biome_id
+	var palette: Dictionary = BIOME_PALETTES[biome_id]
+	if environment != null:
+		var tween := create_tween()
+		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		tween.set_parallel(true)
+		tween.tween_property(environment, "background_color", palette["bg"], 0.6)
+		tween.tween_property(environment, "fog_light_color", palette["fog"], 0.6)
+		tween.tween_property(environment, "fog_light_energy", float(palette["fog_energy"]), 0.6)
+		tween.tween_property(environment, "ambient_light_color", palette["ambient"], 0.6)
+	if light_warm != null:
+		light_warm.light_color = palette["light"]
 
 func set_effects_enabled(enabled: bool) -> void:
 	effects.set_enabled(enabled)

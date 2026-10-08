@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2q85h"]
+albedo_color = Color(0.26313725, 0.33862746, 0.18117648, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_61j73"]
+size = Vector3(4.4, 2.4, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x7a05"]
+size = Vector3(0.4, 2.8, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3vo40"]
+size = Vector3(0.4, 2.8, 0.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vkeij"]
+albedo_color = Color(0.47843137, 0.6156863, 0.32941177, 1)
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_urvgy"]
+size = Vector3(1.5, 0.7, 0.12)
+
+[node name="biome_gate_swamp" type="Node3D" unique_id=1018186436]
+
+[node name="GateFrame" type="MeshInstance3D" parent="." unique_id=883450856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+material_override = SubResource("StandardMaterial3D_2q85h")
+mesh = SubResource("BoxMesh_61j73")
+
+[node name="GatePost" type="MeshInstance3D" parent="." unique_id=1462993430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85, 1.4, 0)
+material_override = SubResource("StandardMaterial3D_2q85h")
+mesh = SubResource("BoxMesh_x7a05")
+
+[node name="@MeshInstance3D@3" type="MeshInstance3D" parent="." unique_id=298363210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.85, 1.4, 0)
+material_override = SubResource("StandardMaterial3D_2q85h")
+mesh = SubResource("BoxMesh_3vo40")
+
+[node name="GatePlate" type="MeshInstance3D" parent="." unique_id=765349637]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -0.32)
+material_override = SubResource("StandardMaterial3D_vkeij")
+mesh = SubResource("BoxMesh_urvgy")
+
+[node name="GateLabel" type="Label3D" parent="." unique_id=176193659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.15, 0)
+pixel_size = 0.011
+billboard = 1
+text = "沼泽之门"
+font_size = 52
+outline_size = 5

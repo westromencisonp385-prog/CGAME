@@ -100,6 +100,15 @@ func _build_collision() -> void:
 	add_child(collision_body)
 
 func _attach_formal_c04_visual() -> bool:
+	if ProceduralRig.has_rig("repair_pump_c04"):
+		var r := ProceduralRig.attach(self, "repair_pump_c04")
+		if r != null:
+			r.name = "C04FormalVisualCandidate"
+			authored_visual = r
+			set_meta("pump_rig", r)
+			r.spin_enabled = false
+			r._spin_amt = 0.0
+			return true
 	var model := FORMAL_C04_MODEL.instantiate() as Node3D
 	if model == null:
 		return false
@@ -113,6 +122,9 @@ func _attach_formal_c04_visual() -> bool:
 
 func _set_authored_pump_state(state_name: String) -> void:
 	if authored_visual == null:
+		return
+	if authored_visual is ProceduralRig:
+		(authored_visual as ProceduralRig).set("spin_enabled", state_name == "Restored")
 		return
 	for label in ["Broken", "Repair", "Restored"]:
 		var state_node := authored_visual.find_child("Pump_State_" + label, true, false)

@@ -90,6 +90,20 @@ func _build(definition: ModuleDefinition, stage: int, ghost: bool) -> void:
 			wheel = _add_cylinder("Flywheel", 0.72, 0.3, Vector3(0, 0.65, 0.2), material, Vector3(90, 0, 0))
 			_add_cylinder("FlywheelHub", 0.22, 0.34, Vector3(0, 0.65, 0.2), highlight, Vector3(90, 0, 0))
 			_add_box("FlywheelGuard", Vector3(1.7, 0.14, 0.18), Vector3(0, 1.12, 0.2), dark)
+		_:
+			var formal_slot := FormalModelLibrary.module_slot(definition.id)
+			var rig := ProceduralRig.attach(self, formal_slot) if not formal_slot.is_empty() else null
+			var formal: Node3D = rig if rig != null else (FormalModelLibrary.attach(self, formal_slot, "ModuleFormalModel") if not formal_slot.is_empty() else null)
+			if formal != null:
+				formal.position = Vector3(0, 0.05, 0)
+				if ghost:
+					for mesh in formal.find_children("*", "MeshInstance3D", true, false):
+						(mesh as MeshInstance3D).material_override = material
+				return
+			_add_box("ModuleBase", Vector3(0.72, 0.18, 0.72), Vector3(0, 0.09, 0), dark)
+			var v2_gem := _add_box("ModuleCore", Vector3(0.4, 0.42, 0.4), Vector3(0, 0.4, 0), material)
+			v2_gem.rotation_degrees.y = 45.0
+			_add_box("ModuleTrim", Vector3(0.82, 0.07, 0.82), Vector3(0, 0.24, 0), highlight)
 
 func _add_box(node_name: String, size: Vector3, at: Vector3, material: Material) -> MeshInstance3D:
 	var instance := MeshInstance3D.new()
@@ -130,6 +144,25 @@ func _add_torus(node_name: String, inner_radius: float, outer_radius: float, at:
 	return instance
 
 func _attach_whale_model() -> bool:
+	if ProceduralRig.has_rig("player_stage01_whale"):
+		var holder := Node3D.new()
+		holder.name = "WhaleJawGLB_P05"
+		add_child(holder)
+		var rig := ProceduralRig.attach(holder, "player_stage01_whale")
+		if rig != null:
+			imported_whale = true
+			var jaw := rig.model.find_child("Jaw", true, false) as Node3D
+			if jaw != null:
+				moving_jaws.append(jaw)
+				var up_alias := Node3D.new()
+				up_alias.name = "Jaw_Upper_Stage02"
+				jaw.add_child(up_alias)
+			var low_alias := Node3D.new()
+			low_alias.name = "Jaw_Lower_Stage02"
+			holder.add_child(low_alias)
+			_set_vehicle_whitebox_visible(false)
+			return true
+		holder.queue_free()
 	var model: Node3D = FORMAL_A01_MODEL.instantiate() as Node3D
 	var formal := model != null
 	if model == null:

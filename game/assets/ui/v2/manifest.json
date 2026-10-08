@@ -1,0 +1,122 @@
+{
+  "icon_health": {
+    "id": "icon_health",
+    "file": "res://assets/ui/v2/icon_health.png",
+    "opaque": 0.516,
+    "semi_edge": 0.0155
+  },
+  "skill_magnet": {
+    "id": "skill_magnet",
+    "file": "res://assets/ui/v2/skill_magnet.png",
+    "opaque": 0.373,
+    "semi_edge": 0.0179
+  },
+  "icon_heat": {
+    "id": "icon_heat",
+    "file": "res://assets/ui/v2/icon_heat.png",
+    "opaque": 0.266,
+    "semi_edge": 0.0135
+  },
+  "icon_cargo": {
+    "id": "icon_cargo",
+    "file": "res://assets/ui/v2/icon_cargo.png",
+    "opaque": 0.498,
+    "semi_edge": 0.0132
+  },
+  "icon_gold": {
+    "id": "icon_gold",
+    "file": "res://assets/ui/v2/icon_gold.png",
+    "opaque": 0.616,
+    "semi_edge": 0.0116
+  },
+  "icon_silver": {
+    "id": "icon_silver",
+    "file": "res://assets/ui/v2/icon_silver.png",
+    "opaque": 0.664,
+    "semi_edge": 0.0125
+  },
+  "icon_quest": {
+    "id": "icon_quest",
+    "file": "res://assets/ui/v2/icon_quest.png",
+    "opaque": 0.557,
+    "semi_edge": 0.0119
+  },
+  "icon_boss": {
+    "id": "icon_boss",
+    "file": "res://assets/ui/v2/icon_boss.png",
+    "opaque": 0.387,
+    "semi_edge": 0.0184
+  },
+  "icon_artifact": {
+    "id": "icon_artifact",
+    "file": "res://assets/ui/v2/icon_artifact.png",
+    "opaque": 0.289,
+    "semi_edge": 0.0106
+  },
+  "icon_captain": {
+    "id": "icon_captain",
+    "file": "res://assets/ui/v2/icon_captain.png",
+    "opaque": 0.465,
+    "semi_edge": 0.0107
+  },
+  "icon_key": {
+    "id": "icon_key",
+    "file": "res://assets/ui/v2/icon_key.png",
+    "opaque": 0.25,
+    "semi_edge": 0.0145
+  },
+  "icon_reroll": {
+    "id": "icon_reroll",
+    "file": "res://assets/ui/v2/icon_reroll.png",
+    "opaque": 0.329,
+    "semi_edge": 0.0189
+  },
+  "icon_module": {
+    "id": "icon_module",
+    "file": "res://assets/ui/v2/icon_module.png",
+    "opaque": 0.586,
+    "semi_edge": 0.0129
+  },
+  "skill_dig": {
+    "id": "skill_dig",
+    "file": "res://assets/ui/v2/skill_dig.png",
+    "opaque": 0.343,
+    "semi_edge": 0.0172
+  },
+  "skill_water": {
+    "id": "skill_water",
+    "file": "res://assets/ui/v2/skill_water.png",
+    "opaque": 0.239,
+    "semi_edge": 0.0158
+  },
+  "skill_arc": {
+    "id": "skill_arc",
+    "file": "res://assets/ui/v2/skill_arc.png",
+    "opaque": 0.27,
+    "semi_edge": 0.0195
+  },
+  "skill_dash": {
+    "id": "skill_dash",
+    "file": "res://assets/ui/v2/skill_dash.png",
+    "opaque": 0.351,
+    "semi_edge": 0.02
+  },
+  "skill_turret": {
+    "id": "skill_turret",
+    "file": "res://assets/ui/v2/skill_turret.png",
+    "opaque": 0.409,
+    "semi_edge": 0.0208
+  },
+  "skill_emp": {
+    "id": "skill_emp",
+    "file": "res://assets/ui/v2/skill_emp.png",
+    "opaque": 0.394,
+    "semi_edge": 0.0283
+  },
+  "skill_camp": {
+    "id": "skill_camp",
+    "file": "res://assets/ui/v2/skill_camp.png",
+    "opaque": 0.399,
+    "semi_edge": 0.0152
+  }
+}

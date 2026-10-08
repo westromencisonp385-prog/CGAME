@@ -109,7 +109,7 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		return _error("GM 尚未连接到主场景")
 	var result: Dictionary
 	match name:
-		"help": result = _ok({"commands": ["help", "status", "panel", "preset", "heal", "invulnerable", "refill", "freeze_ai", "time_scale", "stage", "spawn", "garage", "preview", "confirm", "reset", "save", "load", "repair", "clear_enemies", "campaign_status", "campaign_reset", "whale_pack", "whale_throw", "whale_demo", "vfx"]})
+		"help": result = _ok({"commands": ["help", "status", "panel", "preset", "heal", "invulnerable", "refill", "freeze_ai", "time_scale", "stage", "spawn", "garage", "preview", "confirm", "reset", "save", "load", "repair", "clear_enemies", "campaign_status", "campaign_reset", "whale_pack", "whale_throw", "whale_demo", "vfx", "biome", "goto", "grant_key", "summon", "boss_next", "evolve", "grant_artifact", "hire_captain"]})
 		"status": result = _ok(get_state())
 		"panel": result = _panel_command(args)
 		"preset": result = _preset(str(args.get("name", "")))
@@ -120,6 +120,7 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		"time_scale": result = _set_time_scale(args)
 		"stage": result = _set_stage(args)
 		"spawn": result = _spawn(args)
+		"wave": result = _ok({"spawned": main.spawn_roster_wave(bool(args.get("elite", true))).size(), "gm_enemies": main.gm_enemies.size()})
 		"garage": result = _garage(args)
 		"preview": result = _preview(args)
 		"confirm": result = _confirm()
@@ -134,6 +135,14 @@ func execute(command: String, args: Dictionary = {}) -> Dictionary:
 		"whale_throw": result = _whale_throw()
 		"whale_demo": result = _whale_demo()
 		"vfx": result = _set_vfx(args)
+		"biome": result = _biome()
+		"goto": result = _goto_biome(args)
+		"grant_key": result = _grant_key(args)
+		"summon": result = _summon(args)
+		"boss_next": result = _boss_next()
+		"evolve": result = _evolve()
+		"grant_artifact": result = _grant_artifact(str(args.get("id", "")))
+		"hire_captain": result = _hire_captain(str(args.get("id", "")))
 		_: result = _error("未知 GM 命令：%s" % name)
 	if bool(result.get("ok", false)):
 		state_changed.emit(get_state())
@@ -167,6 +176,9 @@ func get_state() -> Dictionary:
 		"test_save_path": TEST_SAVE_PATH,
 		"packed_count": int(main.player.packed_enemy_ids.size()) if main.player != null else 0,
 		"packed_enemy_ids": main.player.packed_enemy_ids.duplicate() if main.player != null else [],
+		"biome": str(main.biome_system.current_id) if main.biome_system != null else "",
+		"biome_keys": (main.biome_system.keys.keys() as Array).duplicate() if main.biome_system != null else [],
+		"unlocked_biomes": main.biome_system.unlocked_biome_ids.duplicate() if main.biome_system != null else [],
 		"last_command": command_history.back() if not command_history.is_empty() else ""
 	}
 	return state
@@ -257,8 +269,8 @@ func _set_stage(args: Dictionary) -> Dictionary:
 
 func _spawn(args: Dictionary) -> Dictionary:
 	var kind := str(args.get("kind", "light"))
-	if kind not in ["light", "heavy", "ranged"]:
-		return _error("spawn kind 必须是 light、heavy 或 ranged")
+	if kind not in ["light", "heavy", "ranged"] and not EnemyArchetypes.ARCHETYPES.has(kind):
+		return _error("spawn kind 必须是 light、heavy、ranged 或花名册原型（%s）" % ", ".join(EnemyArchetypes.ARCHETYPES.keys()))
 	var raw_count: Variant = args.get("count", 1)
 	if not _is_integer(raw_count):
 		return _error("spawn count 必须是整数")
@@ -377,6 +389,71 @@ func _set_vfx(args: Dictionary) -> Dictionary:
 		main.world.set_effects_enabled(value)
 		return _ok({"vfx": value})
 	return _error("当前世界没有 VFX 开关")
+
+func _biome() -> Dictionary:
+	if main.biome_system == null:
+		return _error("群系系统未初始化")
+	return _ok({"current": main.biome_system.current_id, "keys": main.biome_system.keys.keys(), "unlocked": main.biome_system.unlocked_biome_ids})
+
+func _goto_biome(args: Dictionary) -> Dictionary:
+	var target := str(args.get("biome", args.get("to", "")))
+	if target.is_empty():
+		return _error("goto 要求 biome 字段（river/desert/swamp）")
+	if main.biome_system == null:
+		return _error("群系系统未初始化")
+	var system: Variant = main.biome_system
+	var result: Dictionary = system.switch_to(target)
+	return _ok(result) if bool(result.get("switched", false)) else _error(str(result.get("reason", "切换失败")))
+
+func _grant_key(args: Dictionary) -> Dictionary:
+	var key := str(args.get("key", ""))
+	if main.biome_system == null:
+		return _error("群系系统未初始化")
+	var system: Variant = main.biome_system
+	var result: Dictionary = system.grant_key(key)
+	return _ok(result) if bool(result.get("granted", false)) else _error(str(result.get("reason", "发钥匙失败")))
+
+func _summon(args: Dictionary) -> Dictionary:
+	var slot_raw: Variant = args.get("slot", 0)
+	if not _is_integer(slot_raw) or int(slot_raw) < 0 or int(slot_raw) > 2:
+		return _error("summon 要求 slot 0..2（0 炮塔 / 1 EMP / 2 营地）")
+	main._try_summon(int(slot_raw))
+	return _ok({"summoned": int(slot_raw)})
+
+func _evolve() -> Dictionary:
+	var vp = main.get("vehicle_progression")
+	if vp == null:
+		return _error("载具成长系统未就绪")
+	var guard := 0
+	while int(vp.stats.vehicle_size_rank) < 2 and guard < 40:
+		vp.stats.can_absorb_vehicles_of_size_rank = maxi(vp.stats.can_absorb_vehicles_of_size_rank, 1)
+		vp.absorb(1)
+		guard += 1
+	return {"ok": true, "rank": int(vp.stats.vehicle_size_rank), "evolved": main.player.evolved_rig != null}
+
+func _boss_next() -> Dictionary:
+	if main.outcome != "active":
+		return _error("合同未激活")
+	main.summon_boss()
+	return _ok({"boss": ContentRoster.next_boss_id(main.run_systems.bosses_defeated), "defeated": main.run_systems.bosses_defeated})
+
+func _grant_artifact(artifact_id: String) -> Dictionary:
+	if artifact_id.is_empty():
+		return _error("grant_artifact 要求 id（如 art_magnet_core）")
+	for artifact in ContentRoster.create_artifacts():
+		if artifact.id == artifact_id:
+			main.run_systems.equip_artifact(artifact)
+			return _ok({"granted": artifact_id, "name": artifact.display_name})
+	return _error("未找到神器：" + artifact_id)
+
+func _hire_captain(captain_id: String) -> Dictionary:
+	if captain_id.is_empty():
+		return _error("hire_captain 要求 id（如 cap_barnacle）")
+	for captain in ContentRoster.create_captains():
+		if captain.id == captain_id:
+			main.run_systems.hire_captain(captain)
+			return _ok({"hired": captain_id, "name": captain.display_name})
+	return _error("未找到船长：" + captain_id)
 
 func _read_bool(args: Dictionary, fallback: bool) -> Variant:
 	if not args.has("enabled") and not args.has("value") and not args.has("visible") and not args.has("open"):

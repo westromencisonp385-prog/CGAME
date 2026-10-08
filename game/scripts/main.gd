@@ -5,7 +5,12 @@ const InputSetup = preload("res://scripts/m0_input.gd")
 const ArenaVisual = preload("res://scripts/arena_visual.gd")
 const HUD = preload("res://scripts/m0_hud.gd")
 const GMController = preload("res://scripts/gm_controller.gd")
-const Sound = preload("res://scripts/prototype_audio.gd")
+const Sound = preload("res://scripts/wanderburg_audio.gd")
+const BiomeSys = preload("res://scripts/systems/biome_system.gd")
+const BiomeGateScript = preload("res://scripts/systems/biome_gate.gd")
+const BiomeKeyPickupScript = preload("res://scripts/systems/biome_key_pickup.gd")
+const BiomeWeatherScript = preload("res://scripts/systems/biome_weather.gd")
+const SummonScript = preload("res://scripts/systems/summon_entity.gd")
 const TARGET_LAYOUT := [
 	["scrap_01", "soft", -5.0, 3.0, 18.0], ["scrap_02", "soft", -7.0, 1.0, 18.0],
 	["scrap_03", "light", -3.0, -2.0, 22.0], ["scrap_04", "light", 0.0, -2.0, 22.0],
@@ -42,7 +47,7 @@ var entities: Node3D
 var world: Node3D
 var ui: CanvasLayer
 var gm: M0GMController
-var audio: Node
+var audio: WanderburgAudio
 var elapsed := 0.0
 var collected := 0
 var defeated := 0
@@ -56,6 +61,35 @@ var simulation_enabled := true
 var shortcut_gate: CollisionShape3D
 var campaign_reward_pending := ""
 var reward_retry_clock := 0.0
+## Wanderburg 对齐系统束（C2/C3/C4）：选择流 / 单局经济任务 / 载具成长
+var selection_engine: SelectionEngine
+var selection_ui: SelectionUI
+var last_selection_options: Array = []
+var run_systems: RunSystems
+var vehicle_progression: VehicleProgression
+## S3/C5/C6 切片：v2 模块定义桥接、Boss 实体、技能施放冷却
+var v2_definitions: Dictionary = {}
+var boss: BossEntity = null
+var ability_cooldowns: Dictionary = {}
+## C7 群系锁钥 + 技能召唤分支
+var biome_system: BiomeSystem
+var biome_weather: BiomeWeather
+var biome_gates: Array = []
+var biome_keys: Array = []
+var summons: Array = []
+var active_summon_slots: Array = [null, null, null]
+## C17：手感层 / 长期档案 / 模块升级 / 选择队列 / 战斗统计
+var feel: GameFeel
+var profile := ProfileStore.new()
+var profile_enabled := false
+var module_levels: Dictionary = {}       # module_id -> {damage, cooldown, range, crit, echo, level}
+var pending_selections: Array = []
+var overclock_time := 0.0
+var run_stats: Dictionary = {"kills": 0, "elites": 0, "bosses": 0, "casts": 0, "dodges": 0, "loot": 0, "silver_at_start": 0}
+var _kill_times: Array = []
+var _last_crits := 0
+var _last_status_count := 0
+var vehicle_choice_ranks := [2, 4]
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -74,16 +108,26 @@ func _ready() -> void:
 	player.add_child(assembler)
 	assembler.setup(player, definitions)
 	player.setup(assembler, world.camera)
+	player.stat_modifier_provider = func(stat_name: String): return run_systems.total_bonus(stat_name) if run_systems != null else 0.0
 	if world.has_method("set_vehicle"):
 		world.set_vehicle(player)
 	player.feedback.connect(feedback)
 	player.disabled.connect(func(): finish_contract("failed"))
 	player.harvested.connect(_harvested)
 	player.action_effect.connect(world.present_effect)
+	world.add_to_group("effects_sink")
+	feel = GameFeel.new()
+	add_child(feel)
+	feel.setup(world.camera, entities)
+	player.dodged.connect(_on_player_dodged)
+	profile_enabled = DisplayServer.get_name() != "headless"
+	if profile_enabled:
+		profile.load_profile()
 	audio = Sound.new()
 	add_child(audio)
 	campaign_service.configure(CAMPAIGN_SAVE_PATH)
 	_load_campaign_progress()
+	_init_wanderburg_systems()
 	ui = HUD.new()
 	add_child(ui)
 	gm = GMController.new()
@@ -108,9 +152,41 @@ func _process(delta: float) -> void:
 		player.gameplay_enabled = outcome == "active" and not garage_open and not manual_pause and not gm.visible and simulation_enabled and (hovered == null or not _is_gameplay_blocking_control(hovered))
 		if player.health <= 0.0 and outcome == "active":
 			finish_contract("failed")
-		var desired := Vector3(player.position.x * 0.16, 26.0, 18.0 + player.position.z * 0.14)
-		world.camera.position = world.camera.position.lerp(desired, minf(delta * 4.0, 1.0))
-		world.camera.look_at(Vector3(player.position.x * 0.12, 0.0, player.position.z * 0.08 - 1.4))
+		# C7：技能冷却递减（修复 tick 缺失缺陷）+ 群系环境速度修正
+		if vehicle_progression != null:
+			vehicle_progression.tick(delta)
+		for i in range(summon_cooldowns.size()):
+			summon_cooldowns[i] = maxf(0.0, float(summon_cooldowns[i]) - delta)
+		summons = summons.filter(func(s): return is_instance_valid(s))
+		var speed_factor := float(biome_system.environment_effect()["speed_factor"]) if biome_system != null else 1.0
+		player.max_speed = player.base_speed * speed_factor * (1.0 + clampf(run_systems.total_bonus("speed"), -0.5, 1.0))
+		if run_systems.total_bonus("regen") > 0.0 and player.health > 0.0:
+			player.health = minf(player.health + run_systems.total_bonus("regen") * delta, player.max_health)
+		var new_max := 100.0 + run_systems.total_bonus("max_hp") + _vehicle_hp_bonus()
+		if new_max != player.max_health:
+			var ratio := player.health / maxf(player.max_health, 1.0)
+			player.max_health = new_max
+			player.health = minf(player.health, new_max) if ratio >= 1.0 else ratio * new_max
+		# C17：超频期间主作业冷却减半；战斗统计 → 任务
+		if overclock_time > 0.0:
+			overclock_time -= delta
+			player.primary_cooldown = minf(player.primary_cooldown, 0.16)
+		if feel != null:
+			var crits := int(feel.stats.get("crits", 0))
+			if crits > _last_crits:
+				run_systems.report("crit", crits - _last_crits)
+				_last_crits = crits
+		if EnemyDummy.status_applied_count > _last_status_count:
+			run_systems.report("status_applied", EnemyDummy.status_applied_count - _last_status_count)
+			_last_status_count = EnemyDummy.status_applied_count
+		# C17 相机：紧跟载具（0.8）+ 朝瞄准方向前瞻 1.6m；Boss 在场拉高 4m 看全招式
+		var look_ahead: Vector3 = player.aim_direction * 1.6
+		var boss_on: bool = boss != null and is_instance_valid(boss) and not boss.dead
+		var height := 26.0 if boss_on else 22.0
+		var focus := Vector3(player.position.x * 0.8, 0.0, player.position.z * 0.8) + Vector3(look_ahead.x, 0, look_ahead.z)
+		var desired := focus + Vector3(0, height, height * 0.66)
+		world.camera.position = world.camera.position.lerp(desired, minf(delta * 5.0, 1.0))
+		world.camera.look_at(world.camera.position + Vector3(0, -height, -height * 0.66) + Vector3(0, 0, -1.4))
 	if ui != null:
 		ui.refresh(delta)
 
@@ -137,6 +213,483 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F5: save_snapshot()
 			KEY_F9: load_snapshot()
 			KEY_F6: reset_contract()
+			KEY_F7: open_selection_flow("new_module")
+			KEY_F4: spawn_roster_wave(true)
+			KEY_F8: summon_boss()
+			KEY_1: _try_cast(0)
+			KEY_2: _try_cast(1)
+			KEY_3: _try_cast(2)
+			KEY_4: _try_cast(3)
+			KEY_5: _try_summon(0)
+			KEY_6: _try_summon(1)
+			KEY_7: _try_summon(2)
+			KEY_G: _cycle_biome()
+
+## 子智能体 C2/C3/C4：Wanderburg 对齐系统束初始化
+func _init_wanderburg_systems() -> void:
+	# C2 选择流：四档池 + 引擎 + UI
+	selection_engine = SelectionEngine.new()
+	selection_engine.new_module_pools = ContentV2Catalog.build_module_pools(ContentV2Catalog.create_v2_definitions())
+	selection_engine.upgrade_pools = ContentV2Catalog.build_upgrade_pools()
+	selection_engine.vehicle_tiers = VehicleProgression.default_tier_chain()
+	selection_ui = SelectionUI.new()
+	add_child(selection_ui)
+	selection_ui.option_chosen.connect(_on_selection_chosen)
+	selection_ui.reroll_requested.connect(func(_kind: String):
+		selection_engine.reroll_count += 1
+		open_selection_flow(last_selection_kind(), true))
+	# C9 神器双池 + fallback（对齐 PopulateMissingArtifactChoicesFromFallbacks）
+	var roster := ContentRoster.create_artifacts()
+	var pools := ContentRoster.build_artifact_pools(roster)
+	selection_engine.artifact_pool = pools["normal"]
+	selection_engine.rare_artifact_pool = pools["rare"]
+	selection_engine.artifact_fallbacks = roster.filter(func(a): return not a.rare).slice(0, 3)
+	selection_engine.rare_artifact_fallbacks = roster.filter(func(a): return a.rare).slice(0, 3)
+	# C4 单局系统束
+	run_systems = RunSystems.new()
+	run_systems.quest_achieved.connect(func(qid: String):
+		var q := RunSystems.quest_def(qid)
+		feedback("任务达成 · %s · 银币 +%d" % [RunSystems.quest_name(qid), int(q.get("reward_silver", 0))])
+		audio.play_event("quest_complete")
+		if ui != null:
+			ui.stamp_banner("title_quest"))
+	# C3 载具成长
+	vehicle_progression = VehicleProgression.new()
+	vehicle_progression.size_rank_advanced.connect(func(rank: int):
+		feedback("吞噬进化 · 底盘规模 rank %d" % rank)
+		run_systems.report("absorbs", 1)
+		if player != null and player.apply_evolution(rank):
+			feedback("进化完成 · 叠河鲸形态")
+		if feel != null:
+			feel.slowmo(0.4, 0.4)
+			feel.screen_flash(Color("#E3A52B"), 0.4, 0.3)
+		if ui != null:
+			ui.stamp_banner("title_levelup")
+		if vehicle_choice_ranks.has(rank):
+			open_selection_flow("vehicle"))
+	# C7 群系系统初始化：纯逻辑层 + 天气粒子层
+	biome_system = BiomeSys.new()
+	biome_system.biome_changed.connect(_on_biome_changed)
+	biome_system.key_acquired.connect(func(key_id: String): feedback("钥匙神器到手 · %s 群系已永久解锁" % key_id))
+	biome_weather = BiomeWeatherScript.new()
+	world.add_child(biome_weather)
+	# S3 桥接：v2 模块转旧定义，合并进装配器（可预览可安装）
+	for pool in selection_engine.new_module_pools:
+		for entry in pool.entries:
+			var legacy := ContentBridge.to_legacy(entry["item"])
+			v2_definitions[legacy.id] = legacy
+			assembler.definitions[legacy.id] = legacy
+	_sync_equipped_abilities()
+
+## 把 selection_engine 已装模块自动装备进 4 个主动技能槽（F7 选择后即可 1-4 施放）
+func _sync_equipped_abilities() -> void:
+	if vehicle_progression == null or selection_engine == null:
+		return
+	for i in range(mini(selection_engine.installed_modules.size(), 4)):
+		vehicle_progression.equip_ability(i, selection_engine.installed_modules[i])
+
+func last_selection_kind() -> String:
+	return "new_module"
+
+## F7 选择流：new_module 3 选 1；artifact 3 选 1（C9 双池+保底）；captain 雇佣 3 选 1（C9）
+var captain_options_pool: Array = []
+
+func open_selection_flow(kind: String, is_reroll: bool = false) -> void:
+	if outcome != "active":
+		return
+	if selection_ui.visible and not is_reroll:
+		pending_selections.append(kind)
+		return
+	_current_selection_kind = kind
+	var subtitle := ""
+	match kind:
+		"new_module":
+			last_selection_options = selection_engine.generate_new_modules(selection_engine.installed_modules.map(func(m): return m.module_id))
+		"artifact":
+			# rare 概率：每击败 2 个 Boss 提升（简化触发器，GAP：原生精确公式）
+			var rare := run_systems.bosses_defeated >= 2 and run_systems.bosses_defeated % 2 == 0
+			last_selection_options = selection_engine.generate_artifacts(rare)
+		"captain":
+			last_selection_options = _generate_captain_options()
+		"upgrade":
+			if selection_engine.installed_modules.is_empty():
+				# 还没有技能可升级 → 改给新模块
+				_current_selection_kind = "new_module"
+				kind = "new_module"
+				last_selection_options = selection_engine.generate_new_modules()
+			else:
+				last_selection_options = selection_engine.generate_upgrades()
+		"vehicle":
+			last_selection_options = _vehicle_choices()
+			subtitle = "当前 · %s" % vehicle_progression.stats.stats_name
+	if last_selection_options.is_empty():
+		feedback("暂无可选项")
+		_open_next_pending()
+		return
+	if feel != null:
+		feel.slowmo(0.2, 0.25)
+	selection_ui.open_selection(kind, last_selection_options, subtitle)
+
+var _current_selection_kind := "new_module"
+
+func _open_next_pending() -> void:
+	if pending_selections.is_empty() or outcome != "active":
+		return
+	var next: String = pending_selections.pop_front()
+	call_deferred("open_selection_flow", next)
+
+## 载具升级 2 选 1：同一档的「重装」与「迅捷」两种变体（对齐 Tier2-5 A/B 变体）
+const VEHICLE_VARIANTS := [
+	[{"name": "重装作业车", "hp": 180.0, "speed": 6.3, "nitro": 120.0, "mass": 1800, "radius": 3.2},
+	 {"name": "迅捷侦察车", "hp": 130.0, "speed": 8.6, "nitro": 160.0, "mass": 1100, "radius": 3.6}],
+	[{"name": "巨鲸底盘", "hp": 320.0, "speed": 5.8, "nitro": 150.0, "mass": 3200, "radius": 4.4},
+	 {"name": "鲨齿突击车", "hp": 210.0, "speed": 9.4, "nitro": 220.0, "mass": 1600, "radius": 4.0}],
+]
+var vehicle_tier_index := 0
+
+func _vehicle_choices() -> Array:
+	if vehicle_tier_index >= VEHICLE_VARIANTS.size():
+		return []
+	var cur: VehicleStats = vehicle_progression.stats
+	var options := []
+	for v in VEHICLE_VARIANTS[vehicle_tier_index]:
+		var s := VehicleStats.new()
+		s.stats_name = v["name"]
+		s.max_hp = v["hp"]
+		s.max_velocity = v["speed"]
+		s.max_nitro = v["nitro"]
+		s.rigid_body_mass = v["mass"]
+		s.collector_radius = v["radius"]
+		s.vehicle_size_rank = cur.vehicle_size_rank
+		s.can_absorb_vehicles_of_size_rank = cur.can_absorb_vehicles_of_size_rank + 1
+		options.append({"stats": s, "title": "%s → %s" % [cur.stats_name, s.stats_name], "bonus_lines": selection_engine._stat_diff_lines(cur, s)})
+	return options
+
+func _vehicle_hp_bonus() -> float:
+	if vehicle_progression == null or vehicle_tier_index == 0:
+		return 0.0
+	return vehicle_progression.stats.max_hp - 100.0
+
+func _apply_vehicle_stats(s: VehicleStats) -> void:
+	var rank := vehicle_progression.stats.vehicle_size_rank
+	s.vehicle_size_rank = rank
+	vehicle_progression.stats = s
+	vehicle_tier_index += 1
+	player.base_speed = s.max_velocity
+	player.set("collector_bonus", s.collector_radius - 2.5)
+	player.health = minf(player.health + 40.0, 100.0 + _vehicle_hp_bonus() + run_systems.total_bonus("max_hp"))
+	if feel != null:
+		feel.screen_flash(Color("#EFE3C8"), 0.5, 0.3)
+		feel.impact_ring(player.global_position, 5.0, Color("#E3A52B"), 0.5)
+		feel.shake(0.4)
+
+func _generate_captain_options() -> Array:
+	if captain_options_pool.is_empty():
+		captain_options_pool = ContentRoster.create_captains()
+	var picks: Array = []
+	var pool := captain_options_pool.duplicate()
+	pool.shuffle()
+	for i in mini(3, pool.size()):
+		picks.append(pool[i])
+	return picks
+
+func _on_selection_chosen(kind: String, index: int) -> void:
+	if index < 0 or index >= last_selection_options.size():
+		return
+	match kind:
+		"new_module":
+			var module: ModuleDefinitionV2 = last_selection_options[index]
+			selection_engine.commit(kind, module)
+			_sync_equipped_abilities()
+			feedback("新模块入列 · %s（已进改装台，1-4 施放，B 键预览安装）" % module.module_name)
+		"artifact":
+			var artifact: ArtifactDefinition = last_selection_options[index]
+			run_systems.equip_artifact(artifact)
+			feedback("神器上手 · %s：%s" % [artifact.display_name, artifact.description])
+		"captain":
+			var captain: CaptainDefinition = last_selection_options[index]
+			if run_systems.spend_silver(60, "hire_captain"):
+				run_systems.hire_captain(captain)
+				feedback("船长上船 · %s：%s" % [captain.display_name, captain.description])
+			else:
+				feedback("银币不足，雇佣失败（需 60）")
+		"upgrade":
+			var pick: Dictionary = last_selection_options[index]
+			var mod: ModuleDefinitionV2 = pick["module"]
+			var up: UpgradeDefinition = pick["upgrade"]
+			var lv: Dictionary = module_levels.get(mod.module_id, {"level": 0})
+			lv["level"] = int(lv.get("level", 0)) + 1
+			for k in up.stat_gains:
+				lv[k] = float(lv.get(k, 0.0)) + float(up.stat_gains[k])
+			module_levels[mod.module_id] = lv
+			feedback("技能升级 · %s Lv.%d · %s" % [mod.module_name, int(lv["level"]), up.description])
+		"vehicle":
+			var opt: Dictionary = last_selection_options[index]
+			_apply_vehicle_stats(opt["stats"])
+			feedback("底盘升级 · %s" % opt["stats"].stats_name)
+	match kind:
+		"new_module":
+			run_systems.report("module_taken", 1)
+		"artifact", "artifact_rare":
+			run_systems.report("artifact_taken", 1)
+	if feel != null:
+		feel.shake(0.15)
+	last_selection_options = []
+	_open_next_pending()
+
+## 1-4 施放：找到第一个已安装的 v2 模块（按装配器实际安装状态），走成长系统冷却闸门
+func _try_cast(slot: int) -> void:
+	if outcome != "active" or garage_open or manual_pause or gm.visible:
+		return
+	if vehicle_progression == null:
+		return
+	var cast := vehicle_progression.cast_slot(slot)
+	if not bool(cast["cast"]):
+		match str(cast.get("reason", "")):
+			"empty_slot":
+				return
+			"cooling_down":
+				feedback("技能冷却中 · %.1f 秒" % float(cast.get("remaining", 0.0)))
+			"no_charges":
+				feedback("充能耗尽")
+		return
+	var entry: Dictionary = vehicle_progression.active_slots[slot]
+	var module_id := str(entry["def"].module_id)
+	var mods: Dictionary = module_levels.get(module_id, {})
+	var dmg := _scaled_ability_damage(float(cast.get("damage", 0.0))) * (1.0 + float(mods.get("damage", 0.0)))
+	var result := AbilityLibrary.cast(self, module_id, dmg, float(cast.get("range", 10.0)), mods)
+	entry["cooldown"] = _scaled_cooldown(float(cast.get("cooldown_set", 0.0))) * clampf(1.0 - float(mods.get("cooldown", 0.0)), 0.25, 1.5)
+	run_systems.report("ability_cast", 1)
+	run_stats["casts"] = int(run_stats["casts"]) + 1
+	audio.play_event("ability_cast")
+	if ui != null and ui.has_method("pulse_skill"):
+		ui.pulse_skill(slot)
+	var shape: String = result.get("shape", "")
+	if int(result.get("hits", 0)) == 0 and shape in ["chain", "snipe", "void_lance", "frost_cone", "flame_cone", "quake", "emp", "roar"]:
+		feedback("%s · 落空" % entry["def"].module_name)
+
+## C9：神器+船长伤害修饰（damage/ability_damage 两类 additive 求和后乘算）
+func _scaled_ability_damage(base: float) -> float:
+	return base * (1.0 + run_systems.total_bonus("ability_damage") + run_systems.total_bonus("damage"))
+
+## C9：神器+船长冷却缩减（cooldown 类，值域 0~0.85 钳制）
+func _scaled_cooldown(base: float) -> float:
+	return base * (1.0 - clampf(run_systems.total_bonus("cooldown"), 0.0, 0.85))
+
+func _apply_ability_hit(damage: float, reach: float, module_id: String) -> void:
+	var source := AbilityEffects.source_for(module_id)
+	var forward: Vector3 = player.aim_direction if player.aim_direction.length() > 0.01 else Vector3(0, 0, -1)
+	var hit_count := 0
+	for enemy in enemies:
+		if is_instance_valid(enemy) and not enemy.dead:
+			var result := enemy.try_engineering_hit(player.global_position, forward, 1.2, reach, damage, source)
+			if bool(result["hit"]):
+				hit_count += 1
+	# Boss 同协议受击
+	if boss != null and is_instance_valid(boss) and not boss.dead:
+		var boss_result := boss.try_engineering_hit(player.global_position, forward, 1.6, reach, damage, source)
+		if bool(boss_result["hit"]):
+			hit_count += 1
+	feedback("技能命中 ×%d" % hit_count if hit_count > 0 else "技能落空")
+
+# ---------- C7 群系锁钥 ----------
+
+## G 键轮换群系：river → desert → swamp → river；锁定则提示所需钥匙
+func _cycle_biome() -> void:
+	if outcome != "active":
+		return
+	var order := ["river", "desert", "swamp"]
+	var index := order.find(biome_system.current_id)
+	var next: String = order[(index + 1) % order.size()]
+	var result: Dictionary = biome_system.switch_to(next)
+	if bool(result["switched"]):
+		feedback("进入群系 · %s" % biome_system.current_biome()["name"])
+	else:
+		match str(result["reason"]):
+			"locked":
+				var required := str(biome_system.biome(next)["required_key"])
+				var key_name := "沙漠钥匙" if required == BiomeSystem.KEY_DESERT else "沼泽钥匙"
+				feedback("%s 已封锁 · 需要%s（找废料堆里的金色钥匙）" % [biome_system.biome(next)["name"], key_name])
+			"already_there":
+				pass
+			_:
+				pass
+
+## 群系切换应用：场景调色 + 天气粒子 + 锁门/钥匙世界物重建
+func _on_biome_changed(biome_id: String) -> void:
+	world.apply_biome(biome_id)
+	biome_weather.apply_biome(biome_id)
+	_rebuild_biome_world()
+	run_systems.report("biome_switch", 1)
+
+## 群系世界物：每群系一组（门 + 钥匙），清除后按当前群系重建
+func _rebuild_biome_world() -> void:
+	for node in biome_gates + biome_keys:
+		if is_instance_valid(node):
+			node.queue_free()
+	biome_gates.clear()
+	biome_keys.clear()
+	match biome_system.current_id:
+		"river":
+			_spawn_biome_key(BiomeSystem.KEY_DESERT, Vector3(-10.5, 0, 12.0))
+		"desert":
+			_spawn_biome_gate("gate_swamp", BiomeSystem.KEY_SWAMP, Vector3(0, 0, -14.5))
+			_spawn_biome_key(BiomeSystem.KEY_SWAMP, Vector3(12.0, 0, 8.0))
+		"swamp":
+			_spawn_biome_gate("gate_river", BiomeSystem.KEY_DESERT, Vector3(0, 0, 14.0))
+
+func _spawn_biome_gate(gate_id: String, key: String, at: Vector3) -> void:
+	var gate := BiomeGateScript.new().configure(gate_id, key, at)
+	gate.player = player
+	gate.biome_system_ref = biome_system
+	entities.add_child(gate)
+	biome_gates.append(gate)
+	gate.locked_feedback.connect(func(_g: BiomeGate):
+		var required := str(_g.required_key)
+		var key_name := "沙漠钥匙" if required == BiomeSystem.KEY_DESERT else "沼泽钥匙"
+		feedback("大门紧锁 · 需要%s" % key_name))
+	gate.unlocked.connect(func(_g: BiomeGate):
+		feedback("大门开启 · 通路已打开")
+		audio.play_event("change"))
+
+func _spawn_biome_key(key_id: String, at: Vector3) -> void:
+	var key := BiomeKeyPickupScript.new().configure(key_id, at)
+	entities.add_child(key)
+	biome_keys.append(key)
+	key.picked_up.connect(func(kid: String):
+		var grant := biome_system.grant_key(kid)
+		if bool(grant["granted"]):
+			run_systems.equip_artifact(_make_key_artifact(kid))
+			feedback("拾取%s · 群系永久解锁" % ("沙漠钥匙" if kid == BiomeSystem.KEY_DESERT else "沼泽钥匙"))
+			audio.play_event("quest_complete")
+			run_systems.report("biome_keys", 1)
+		else:
+			feedback("钥匙已在手"))
+	if player != null and is_instance_valid(player):
+		_track_key_proximity(key)
+
+## 钥匙靠近即拾取（0.9 米接触半径）
+func _track_key_proximity(key: BiomeKeyPickup) -> void:
+	var timer := Timer.new()
+	timer.wait_time = 0.15
+	timer.autostart = true
+	key.add_child(timer)
+	timer.timeout.connect(func():
+		if not is_instance_valid(key) or key.is_collected or outcome != "active":
+			return
+		if player != null and is_instance_valid(player) and player.global_position.distance_to(key.global_position) <= 1.4:
+			key.try_collect())
+
+## 钥匙神器（对齐 DesertKey/SwampKey 的 RequireComponent(Artifact) 语义）
+func _make_key_artifact(key_id: String) -> ArtifactDefinition:
+	var artifact := ArtifactDefinition.new()
+	artifact.id = key_id
+	artifact.display_name = "沙漠钥匙" if key_id == BiomeSystem.KEY_DESERT else "沼泽钥匙"
+	artifact.description = "开启对应群系的锁钥之门，持有即永久解锁"
+	artifact.factor = 1.0
+	artifact.tags = PackedStringArray([key_id])
+	return artifact
+
+# ---------- C7 技能召唤分支（5/6/7）----------
+
+const SUMMON_KIND_BY_SLOT := [SummonEntity.SummonKind.TURRET, SummonEntity.SummonKind.EMP, SummonEntity.SummonKind.CAMP]
+const SUMMON_COOLDOWNS := [9.0, 14.0, 16.0]
+var summon_cooldowns := [0.0, 0.0, 0.0]
+
+func _try_summon(slot: int, from_ability := false) -> void:
+	if outcome != "active" or garage_open or manual_pause or gm.visible:
+		return
+	if slot < 0 or slot >= SUMMON_KIND_BY_SLOT.size():
+		return
+	if not from_ability and float(summon_cooldowns[slot]) > 0.0:
+		feedback("召唤冷却中 · %.1f 秒" % float(summon_cooldowns[slot]))
+		return
+	if active_summon_slots[slot] != null and is_instance_valid(active_summon_slots[slot]):
+		if not from_ability:
+			feedback("召唤物已驻场")
+			return
+		active_summon_slots[slot].queue_free()
+	run_systems.report("summon_used", 1)
+	var kind: SummonEntity.SummonKind = SUMMON_KIND_BY_SLOT[slot]
+	var forward: Vector3 = player.aim_direction.normalized() if player.aim_direction.length() > 0.01 else Vector3(0, 0, -1)
+	var at := player.global_position + forward * 3.2
+	at.y = 0.0
+	var summon: SummonEntity = SummonScript.new().configure(kind, at, 4.0)
+	summon.player = player
+	entities.add_child(summon)
+	summons.append(summon)
+	active_summon_slots[slot] = summon
+	summon_cooldowns[slot] = float(SUMMON_COOLDOWNS[slot])
+	summon.action_effect.connect(_on_summon_effect)
+	summon.expired.connect(func(_s: SummonEntity):
+		if active_summon_slots[slot] == _s:
+			active_summon_slots[slot] = null)
+	audio.play_event("ability_cast")
+	feedback("已召唤 · %s" % SummonEntity.LABELS[kind])
+
+func _on_summon_effect(kind: String, origin: Vector3, end: Vector3) -> void:
+	match kind:
+		"turret_fire":
+			var target := AbilityLibrary._nearest(self, origin, 16.0)
+			if target != null:
+				var dir := target.global_position - origin
+				var shot := Projectile.fire(entities, origin, dir, 22.0, 6.0, "player", Color("#EFE3C8"))
+				shot.size = 0.2
+				shot.lifetime = 1.0
+			return
+		"camp_heal":
+			player.health = minf(player.max_health, player.health + 5.0)
+			if feel != null:
+				feel.number(player.global_position, 5.0, "heal")
+	world.present_effect(kind, origin, end)
+
+func _summon_damage_pulse(origin: Vector3, damage: float, reach: float) -> void:
+	for enemy in enemies + gm_enemies:
+		if is_instance_valid(enemy) and not enemy.dead and enemy.global_position.distance_to(origin) <= reach:
+			enemy.take_damage(damage)
+	if boss != null and is_instance_valid(boss) and not boss.dead and boss.global_position.distance_to(origin) <= reach:
+		boss.take_damage(damage)
+
+## F8 召 Boss：三阶段鲸王，击败后任务结算
+func summon_boss() -> void:
+	if outcome != "active":
+		return
+	if boss != null and is_instance_valid(boss) and not boss.dead:
+		feedback("Boss 已在场")
+		return
+	var boss_id: String = ContentRoster.next_boss_id(run_systems.bosses_defeated)
+	var roster_entry: Dictionary = ContentRoster.BOSS_ROSTER[boss_id]
+	var boss_title: String = str(roster_entry["title"])
+	boss = BossEntity.new().configure_boss(boss_id, Vector3(0, 1.2, -16.0), roster_entry)
+	boss.summoner = func(arch: String, at: Vector3): spawn_archetype(arch, at)
+	entities.add_child(boss)
+	boss.player = player
+	boss.hit_player.connect(player.receive_damage)
+	boss.action_effect.connect(world.present_effect)
+	boss.pattern_started.connect(func(attack: String):
+		if ui != null and ui.has_method("boss_callout"):
+			ui.boss_callout(BossPatterns.NAMES.get(attack, attack)))
+	boss.phase_changed.connect(func(phase: int):
+		feedback("%s 进入阶段 %d · 解锁招式「%s」" % [boss_title, phase, BossPatterns.NAMES.get(BossPatterns.available(boss_id, phase).back(), "")])
+		audio.play_event("boss_phase"))
+	boss.defeated.connect(func(_e: EnemyDummy):
+		feedback("%s 已败 · 赏金 +80 · 神器选择就绪" % boss_title)
+		audio.play_event("boss_defeat")
+		run_systems.earn_silver(int(round(80.0 * (1.0 + run_systems.total_bonus("silver_gain")))), "boss_defeat")
+		run_systems.bosses_defeated += 1
+		run_systems.report("boss_defeated", 1)
+		run_stats["bosses"] = int(run_stats["bosses"]) + 1
+		_drop_loot(_e.global_position, "boss")
+		boss = null
+		open_selection_flow("artifact")
+		check_victory())
+	audio.play_event("boss_spawn")
+	if ui != null:
+		ui.stamp_banner("title_boss")
+	feedback("%s 现身 · 河谷深处" % boss_title)
+
+func unlocked_module_ids() -> Array:
+	return selection_engine.installed_modules.map(func(m): return m.module_id)
 
 func _clear_entities() -> void:
 	for child in entities.get_children():
@@ -145,6 +698,13 @@ func _clear_entities() -> void:
 	targets.clear()
 	enemies.clear()
 	gm_enemies.clear()
+	boss = null
+	ability_cooldowns.clear()
+	biome_gates.clear()
+	biome_keys.clear()
+	summons.clear()
+	active_summon_slots = [null, null, null]
+	summon_cooldowns = [0.0, 0.0, 0.0]
 
 func reset_contract() -> void:
 	_clear_entities()
@@ -162,6 +722,9 @@ func reset_contract() -> void:
 	set_shortcut_open(false)
 	assembler.restore({"version": 1, "active_ids": ["", ""], "core_id": "basic_bucket", "drive_id": "", "stage": 1})
 	player.reset_vehicle(Vector3(0, 0.5, 7))
+	if biome_system != null:
+		biome_system.current_id = "river"
+		_on_biome_changed("river")
 	for item in TARGET_LAYOUT:
 		_spawn_target(item)
 	for item in ENEMY_LAYOUT:
@@ -180,7 +743,11 @@ func _spawn_target(item: Array) -> EngineeringTarget:
 		repair_done = true
 		world.green_zone.show()
 		set_shortcut_open(true)
-		player.health = minf(player.health + 30.0, 100.0)
+		player.health = minf(player.health + 30.0, player.max_health)
+		run_systems.report("repair", 1)
+		if feel != null:
+			feel.number(player.global_position, 30.0, "heal")
+			feel.impact_ring(_t.global_position, 8.0, Color("#8FD694"), 0.8)
 		feedback("水泵启动 · 耐久恢复 +30 · 河岸复苏")
 		check_victory()
 	)
@@ -198,6 +765,7 @@ func _spawn_enemy(item: Array, formal_target: bool = true) -> EnemyDummy:
 	enemy.hit_player.connect(player.receive_damage)
 	enemy.action_effect.connect(world.present_effect)
 	enemy.defeated.connect(func(_e: EnemyDummy):
+		_register_kill(_e)
 		if formal_target:
 			defeated += 1
 			feedback("威胁解除 · %d / %d" % [defeated, ENEMY_LAYOUT.size()])
@@ -211,7 +779,120 @@ func spawn_gm_enemy(kind: String, at: Vector3) -> EnemyDummy:
 	if gm_enemies.size() >= 80:
 		return null
 	var id := "gm_%s_%03d" % [kind, gm_enemies.size() + 1]
+	if EnemyArchetypes.ARCHETYPES.has(kind):
+		return spawn_archetype(kind, at, id)
 	return _spawn_enemy([id, kind, at.x, at.z], false)
+
+## C16：按原型生成（小怪 / 精英）
+func spawn_archetype(archetype: String, at: Vector3, id := "") -> EnemyDummy:
+	if gm_enemies.size() >= 80:
+		return null
+	if id.is_empty():
+		id = "ar_%s_%03d" % [archetype, gm_enemies.size() + 1]
+	var enemy := EnemyDummy.new().configure_archetype(id, archetype, Vector3(at.x, 0.7, at.z))
+	enemy.player = player
+	entities.add_child(enemy)
+	gm_enemies.append(enemy)
+	enemy.hit_player.connect(player.receive_damage)
+	enemy.action_effect.connect(world.present_effect)
+	enemy.elite_ability.connect(_on_elite_ability)
+	var def: Dictionary = EnemyArchetypes.get_def(archetype)
+	enemy.defeated.connect(func(_e: EnemyDummy):
+		var scale := EnemyArchetypes.reward_scale(enemy.tier)
+		run_systems.earn_silver(int(round(5.0 * scale)), "enemy_" + enemy.tier)
+		_register_kill(_e)
+		if enemy.tier == "elite":
+			feedback("精英「%s」已败 · 银币 +%d · 升级选择就绪" % [def.get("name", archetype), int(5.0 * scale)])
+			audio.play_event("boss_phase")
+			open_selection_flow("upgrade")
+		else:
+			feedback("%s 已解除" % def.get("name", archetype)))
+	if enemy.tier == "elite":
+		feedback("精英「%s」出现！" % def.get("name", archetype))
+		if ui != null:
+			ui.stamp_banner("title_elite")
+	return enemy
+
+## 精英 caster：电弧圈范围伤害（玩家在预警圈内才受伤 + 短眩晕）
+func _on_elite_ability(enemy: EnemyDummy, center: Vector3, radius: float, damage: float) -> void:
+	world.present_effect("arc_chain", enemy.global_position if is_instance_valid(enemy) else center, center)
+	if feel != null:
+		feel.impact_ring(center, radius, Color("#8C7BA8"), 0.3)
+	if player != null:
+		var d := Vector2(player.global_position.x - center.x, player.global_position.z - center.z).length()
+		if d <= radius + 0.9:
+			player.receive_damage(damage)
+			player.status.apply("stun", 0.4)
+
+## 击杀登记：任务、连杀（2.5 秒内 5 杀 = 1 次「一网打尽」）、掉落
+func _register_kill(e: EnemyDummy) -> void:
+	run_systems.report("enemy_defeated", 1)
+	run_stats["kills"] = int(run_stats["kills"]) + 1
+	if e.tier == "elite":
+		run_systems.report("elite_defeated", 1)
+		run_stats["elites"] = int(run_stats["elites"]) + 1
+	var now := elapsed
+	_kill_times.append(now)
+	_kill_times = _kill_times.filter(func(t): return now - float(t) <= 2.5)
+	if _kill_times.size() >= 5:
+		_kill_times.clear()
+		run_systems.report("multikill", 1)
+		feedback("一网打尽！")
+		if feel != null:
+			feel.slowmo(0.35, 0.35)
+		if ui != null:
+			ui.stamp_banner("title_multikill")
+	_drop_loot(e.global_position, e.tier)
+
+func _drop_loot(at: Vector3, tier: String) -> void:
+	if not is_inside_tree():
+		return
+	var coins := 2 if tier == "minion" else (8 if tier == "elite" else 20)
+	var value := 1 if tier == "minion" else (3 if tier == "elite" else 4)
+	for p in LootPickup.burst(entities, at, coins, value, "silver"):
+		p.collected.connect(_on_loot)
+	var repair_count := 0
+	if tier == "boss":
+		repair_count = 3
+	elif tier == "elite" or randf() < 0.12:
+		repair_count = 1
+	for p in LootPickup.burst(entities, at, repair_count, 10, "repair"):
+		p.collected.connect(_on_loot)
+
+func _on_loot(kind: String, amount: int) -> void:
+	if kind == "silver":
+		run_systems.earn_silver(amount, "loot")
+		run_systems.report("loot", amount)
+		run_stats["loot"] = int(run_stats["loot"]) + amount
+
+## 完美闪避：冲刺无敌帧吃掉一次伤害 → 小慢动作 + 提示
+func _on_player_dodged() -> void:
+	run_systems.report("perfect_dodge", 1)
+	run_stats["dodges"] = int(run_stats["dodges"]) + 1
+	if feel != null:
+		feel.slowmo(0.3, 0.3)
+		feel.impact_ring(player.global_position, 2.6, Color("#EFE3C8"), 0.3)
+	if ui != null and ui.has_method("boss_callout"):
+		ui.boss_callout("闪避！", Color("#EFE3C8"))
+
+## C16：一波花名册（5 种小怪各 2 只 + 1 只随机精英），F4 / GM
+func spawn_roster_wave(with_elite := true) -> Array:
+	var spawned := []
+	var base: Vector3 = player.global_position if player != null else Vector3.ZERO
+	var minions := EnemyArchetypes.ids_of_tier("minion")
+	for i in minions.size() * 2:
+		var a := TAU * float(i) / float(minions.size() * 2)
+		var at := base + Vector3(cos(a), 0, sin(a)) * 9.0
+		var e := spawn_archetype(minions[i % minions.size()], at)
+		if e != null:
+			spawned.append(e)
+	if with_elite:
+		var elites := EnemyArchetypes.ids_of_tier("elite")
+		var pick: String = elites[randi() % elites.size()]
+		var e2 := spawn_archetype(pick, base + Vector3(0, 0, -11.0))
+		if e2 != null:
+			spawned.append(e2)
+	return spawned
 
 func clear_gm_and_formal_enemies() -> void:
 	for enemy in enemies + gm_enemies:
@@ -227,6 +908,10 @@ func set_gm_ai_frozen(frozen: bool) -> void:
 
 func _harvested(amount: int) -> void:
 	collected += amount
+	if run_systems != null:
+		run_systems.report("harvested", amount)
+	if vehicle_progression != null and amount > 0:
+		vehicle_progression.absorb(0)
 	if collected >= 4 and assembler.stage == 1:
 		assembler.set_stage(2)
 		feedback("结构进化 · 作业范围提升，重量降低移动速度")
@@ -298,6 +983,13 @@ func finish_contract(result: String) -> void:
 	assembler.clear_preview()
 	ui.show_result()
 	_sync_pause()
+	_persist_profile()
+
+func _persist_profile() -> bool:
+	if not profile_enabled:
+		return false
+	profile.absorb_run(run_systems, selection_engine.installed_modules.map(func(m): return m.module_id), biome_system.unlocked_biome_ids if biome_system != null else [], run_stats)
+	return profile.save_profile()
 
 func toggle_garage() -> void:
 	if outcome != "active":
@@ -353,7 +1045,8 @@ func get_snapshot() -> Dictionary:
 			enemy_states.append(enemy.get_snapshot())
 	var snapshot := {"version": 2, "player": player.get_snapshot(), "loadout": assembler.snapshot(), "targets": target_states, "enemies": enemy_states,
 		"mission": {"elapsed": elapsed, "collected": collected, "defeated": defeated, "outcome": outcome},
-		"world": {"repair_done": repair_done, "shortcut_open": shortcut_open}}
+		"world": {"repair_done": repair_done, "shortcut_open": shortcut_open},
+		"biome": biome_system.get_snapshot() if biome_system != null else {}}
 	return snapshot
 
 func save_snapshot() -> bool:
@@ -399,6 +1092,9 @@ func restore_snapshot(data: Dictionary) -> bool:
 	var restored_shortcut := bool(world_state.get("shortcut_open", repair_done))
 	world.green_zone.visible = repair_done
 	set_shortcut_open(restored_shortcut)
+	if biome_system != null and data.get("biome", {}) is Dictionary and not (data["biome"] as Dictionary).is_empty():
+		biome_system.restore_snapshot(data["biome"])
+		_on_biome_changed(biome_system.current_id)
 	ui.close_modals()
 	if outcome != "active":
 		ui.show_result()

@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nseal"]
+albedo_color = Color(0.3529412, 0.62941176, 0.49411768, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_00fnp"]
+top_radius = 0.42
+bottom_radius = 0.58
+height = 0.3
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b60ma"]
+albedo_color = Color(0.47058824, 0.8392157, 0.65882355, 1)
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_ixrkp"]
+size = Vector3(0.16, 0.16, 0.9)
+
+[node name="summon_camp" type="Node3D" unique_id=344069030]
+
+[node name="SummonBase" type="MeshInstance3D" parent="." unique_id=2006373179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_nseal")
+mesh = SubResource("CylinderMesh_00fnp")
+
+[node name="SummonBarrel" type="MeshInstance3D" parent="." unique_id=219881344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.3)
+material_override = SubResource("StandardMaterial3D_b60ma")
+mesh = SubResource("BoxMesh_ixrkp")
+
+[node name="SummonLabel" type="Label3D" parent="." unique_id=1883076856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+pixel_size = 0.01
+billboard = 1
+text = "临时营地"
+font_size = 40
+outline_size = 4

@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0pust"]
+albedo_color = Color(0.46176472, 0.5852941, 0.6147059, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n7kjt"]
+top_radius = 0.42
+bottom_radius = 0.58
+height = 0.3
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slt7m"]
+albedo_color = Color(0.46176472, 0.5852941, 0.6147059, 1)
+roughness = 0.6
+
+[sub_resource type="TorusMesh" id="TorusMesh_xfoln"]
+inner_radius = 0.7
+outer_radius = 0.95
+
+[node name="summon_emp" type="Node3D" unique_id=2099619271]
+
+[node name="SummonBase" type="MeshInstance3D" parent="." unique_id=789256262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_0pust")
+mesh = SubResource("CylinderMesh_n7kjt")
+
+[node name="SummonRing" type="MeshInstance3D" parent="." unique_id=855167212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+material_override = SubResource("StandardMaterial3D_slt7m")
+mesh = SubResource("TorusMesh_xfoln")
+
+[node name="SummonLabel" type="Label3D" parent="." unique_id=884338428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+pixel_size = 0.01
+billboard = 1
+text = "EMP 脉冲"
+font_size = 40
+outline_size = 4

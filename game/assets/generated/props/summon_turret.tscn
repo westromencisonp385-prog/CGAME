@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cr8h7"]
+albedo_color = Color(0.7117647, 0.5882353, 0.27058825, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0xcqo"]
+top_radius = 0.42
+bottom_radius = 0.58
+height = 0.3
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_my1gy"]
+albedo_color = Color(0.9490196, 0.78431374, 0.36078432, 1)
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_j3sm3"]
+size = Vector3(0.16, 0.16, 0.9)
+
+[node name="summon_turret" type="Node3D" unique_id=1681203593]
+
+[node name="SummonBase" type="MeshInstance3D" parent="." unique_id=1328547498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_cr8h7")
+mesh = SubResource("CylinderMesh_0xcqo")
+
+[node name="SummonBarrel" type="MeshInstance3D" parent="." unique_id=278569402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.3)
+material_override = SubResource("StandardMaterial3D_my1gy")
+mesh = SubResource("BoxMesh_j3sm3")
+
+[node name="SummonLabel" type="Label3D" parent="." unique_id=567513127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+pixel_size = 0.01
+billboard = 1
+text = "自动炮塔"
+font_size = 40
+outline_size = 4

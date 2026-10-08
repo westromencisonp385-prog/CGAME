@@ -16,6 +16,8 @@ var cargo := 0
 var max_cargo := 3
 var heat := 0.0
 var health := 100.0
+## C9：耐久上限（神器/船长的 max_hp additive 加值在 _refresh_max_health 应用）
+var max_health := 100.0
 var max_speed := 7.0
 var base_speed := 7.0
 var primary_cooldown := 0.0
@@ -35,12 +37,57 @@ var bucket_visual: Node3D
 var chassis_visual: Node3D
 var boom_visual: Node3D
 var cabin_visual: MeshInstance3D
+## C13：进化形态（rank>=2 换二阶鲸正式模型）
+var evolved_rig: ProceduralRig
+var evolution_rank := 0
+## C17 状态机 + 手感
+signal damaged(amount: float)
+signal dodged
+signal status_changed(kind: String, active: bool)
+var status := StatusEffects.new()
+var knock_velocity := Vector3.ZERO
+var crit_chance := 0.12
+var crit_rng := RandomNumberGenerator.new()
+const CRIT_MULT := 1.8
+const IFRAME_TIME := 0.4
+var _lean := Vector2.ZERO
+var _fear_dir := Vector3.ZERO
+var _burn_accum := 0.0
+
+func apply_knock(v: Vector3) -> void:
+	if status.has("nitro") or status.has("invincible"):
+		return
+	knock_velocity += Vector3(v.x, 0, v.z)
+
+func apply_evolution(rank: int) -> bool:
+	evolution_rank = rank
+	if rank < 2 or evolved_rig != null or visual_root == null:
+		return evolved_rig != null
+	var holder := Node3D.new()
+	holder.name = "EvolvedForm"
+	visual_root.add_child(holder)
+	evolved_rig = ProceduralRig.attach(holder, "player_stage02_whale")
+	if evolved_rig == null:
+		holder.queue_free()
+		return false
+	holder.position.y = -0.55
+	for child in visual_root.get_children():
+		if child != holder and child is MeshInstance3D:
+			(child as MeshInstance3D).visible = false
+	if chassis_visual != null:
+		chassis_visual.visible = false
+	if boom_visual != null:
+		boom_visual.visible = false
+	evolved_rig.play_attack(0.6)
+	return true
 
 func _ready() -> void:
 	add_to_group("player_vehicle")
 	_create_collision()
 	_create_visuals()
 	_last_position = global_position
+	status.applied.connect(func(k: String, _d: float): status_changed.emit(k, true))
+	status.expired.connect(func(k: String): status_changed.emit(k, false))
 
 func setup(module_assembler: LoadoutAssembler, gameplay_camera: Camera3D) -> void:
 	assembler = module_assembler
@@ -60,19 +107,56 @@ func _physics_process(delta: float) -> void:
 	primary_cooldown = maxf(0.0, primary_cooldown - delta)
 	throw_cooldown = maxf(0.0, throw_cooldown - delta)
 	dash_cooldown = maxf(0.0, dash_cooldown - delta)
-	heat = maxf(0.0, heat - delta * 12.0)
+	heat = maxf(0.0, heat - delta * (30.0 if status.has("overheat") else 12.0))
 	tool_anim_time = maxf(0.0, tool_anim_time - delta)
+	# C17：状态推进 —— 灼烧扣血、热量满进入过热
+	var burn := status.tick(delta)
+	if burn > 0.0:
+		_burn_accum += burn
+		if _burn_accum >= 2.0:
+			_apply_raw_damage(_burn_accum, "burn")
+			_burn_accum = 0.0
+	if heat >= 99.5 and not status.has("overheat"):
+		status.apply("overheat", 2.2)
+		feedback.emit("过热！挖斗停转 2 秒")
+		if GameFeel.instance != null:
+			GameFeel.instance.shake(0.2)
 	if boom_visual != null:
 		boom_visual.rotation.x = sin(tool_anim_time * 28.0) * 0.22 if tool_anim_time > 0.0 else move_toward(boom_visual.rotation.x, 0.0, delta * 4.0)
 	var movement := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var move_dir := Vector3(movement.x, 0.0, movement.y)
+	if status.has("fear"):
+		if _fear_dir.length() < 0.1 or randf() < delta * 2.0:
+			_fear_dir = Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)).normalized()
+		move_dir = _fear_dir
+	if not status.can_move():
+		move_dir = Vector3.ZERO
 	var stats := _stats()
-	max_speed = float(stats.get("speed", base_speed))
-	velocity.x = move_toward(velocity.x, move_dir.x * max_speed, delta * 18.0)
-	velocity.z = move_toward(velocity.z, move_dir.z * max_speed, delta * 18.0)
+	max_speed = float(stats.get("speed", base_speed)) * status.speed_multiplier()
+	var accel := 18.0 if not status.has("nitro") else 40.0
+	velocity.x = move_toward(velocity.x, move_dir.x * max_speed, delta * accel)
+	velocity.z = move_toward(velocity.z, move_dir.z * max_speed, delta * accel)
 	if move_dir.length() < 0.1:
 		velocity.x = move_toward(velocity.x, 0.0, delta * 20.0)
 		velocity.z = move_toward(velocity.z, 0.0, delta * 20.0)
+	# 击退叠加在驾驶速度上，快速衰减
+	if knock_velocity.length() > 0.01:
+		velocity.x += knock_velocity.x
+		velocity.z += knock_velocity.z
+		knock_velocity = knock_velocity.move_toward(Vector3.ZERO, delta * 60.0)
+	# 车身惯性倾斜：加速后仰、转向侧倾（只改视觉，不改碰撞）
+	if visual_root != null:
+		var planar_v := Vector2(velocity.x, velocity.z)
+		var target_lean := Vector2.ZERO
+		if planar_v.length() > 0.2:
+			target_lean = Vector2(-movement.y, movement.x) * 0.05
+		_lean = _lean.lerp(target_lean, minf(delta * 8.0, 1.0))
+		visual_root.rotation.x = _lean.x
+		visual_root.rotation.z = -_lean.y
+		if status.has("invincible") and not status.has("nitro"):
+			visual_root.visible = int(Time.get_ticks_msec() / 60) % 2 == 0
+		else:
+			visual_root.visible = true
 	var before := global_position
 	move_and_slide()
 	var displacement := global_position.distance_to(before)
@@ -80,6 +164,13 @@ func _physics_process(delta: float) -> void:
 	if displacement > 0.01:
 		record_drive_displacement(displacement)
 		chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(velocity.x, velocity.z), delta * 8.0)
+		if evolved_rig != null:
+			var h := evolved_rig.get_parent() as Node3D
+			h.rotation.y = lerp_angle(h.rotation.y, atan2(-velocity.x, -velocity.z), delta * 8.0)
+	if evolved_rig != null:
+		evolved_rig.set_speed(Vector2(velocity.x, velocity.z).length())
+		if tool_anim_time > 0.0 and evolved_rig._tool_t < 0.0:
+			evolved_rig.play_attack(0.4)
 	if boom_visual != null:
 		boom_visual.rotation.y = atan2(-aim_direction.x, -aim_direction.z)
 	if assembler != null and assembler.visual_root != null:
@@ -123,6 +214,8 @@ func _update_aim_from_movement(move_dir: Vector3) -> void:
 func perform_primary() -> Dictionary:
 	if not gameplay_enabled or health <= 0.0 or primary_cooldown > 0.0:
 		return {"performed": false, "hits": 0, "chain_hits": 0}
+	if not status.can_act():
+		return {"performed": false, "hits": 0, "chain_hits": 0, "reason": "status_blocked"}
 	primary_cooldown = 0.32
 	tool_anim_time = 0.24
 	heat = minf(100.0, heat + 8.0)
@@ -130,7 +223,10 @@ func perform_primary() -> Dictionary:
 	var reach := float(stats.get("reach", 3.0))
 	var radius := float(stats.get("radius", 1.35))
 	var power := float(stats.get("power", 14.0))
-	var source := {"dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0}
+	var crit := crit_rng.randf() < crit_chance + _modifier("luck") * 0.01
+	if crit:
+		power *= CRIT_MULT
+	var source := {"dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0, "crit": crit, "knock": 4.0}
 	if bool(source.water):
 		action_effect.emit("water_beam", global_position, global_position + aim_direction * reach)
 	var hit_count := 0
@@ -142,6 +238,10 @@ func perform_primary() -> Dictionary:
 			var result: Dictionary = node.try_engineering_hit(global_position, aim_direction, radius, reach, power, source)
 			if bool(result.get("hit", false)):
 				hit_count += 1
+				if GameFeel.instance != null:
+					GameFeel.instance.flash(node)
+					GameFeel.instance.shake(0.06)
+					GameFeel.instance.hitstop(0.025, 0.05)
 			var amount := int(result.get("harvested", 0))
 			if amount > 0:
 				cargo = mini(int(stats.get("cargo_capacity", max_cargo)), cargo + amount)
@@ -285,7 +385,7 @@ func rebind_packed_enemies() -> void:
 	packed_enemy_ids = valid_ids
 
 func try_dash() -> bool:
-	if not gameplay_enabled or dash_cooldown > 0.0:
+	if not gameplay_enabled or dash_cooldown > 0.0 or not status.can_move():
 		return false
 	dash_cooldown = 1.8
 	var dash_power := 18.0 if assembler != null and assembler.has_module("inertia_flywheel") else 12.0
@@ -293,6 +393,11 @@ func try_dash() -> bool:
 	dash_pending = true
 	dash_remaining = 0.35
 	dash_hit_ids.clear()
+	status.apply("nitro", 0.45)
+	status.apply("invincible", 0.28)
+	if GameFeel.instance != null:
+		GameFeel.instance.fov_punch(7.0)
+		GameFeel.instance.shake(0.1)
 	feedback.emit("液压冲刺")
 	return true
 
@@ -318,6 +423,9 @@ func reset_vehicle(at: Vector3 = Vector3.ZERO) -> void:
 	aim_direction = Vector3(0, 0, -1)
 	invulnerable = false
 	gameplay_enabled = true
+	status.clear()
+	knock_velocity = Vector3.ZERO
+	_burn_accum = 0.0
 
 func _resolve_dash_contacts(from: Vector3, to: Vector3) -> void:
 	if from.distance_to(to) < 0.04:
@@ -327,20 +435,53 @@ func _resolve_dash_contacts(from: Vector3, to: Vector3) -> void:
 		if not node is EnemyDummy or node.dead:
 			continue
 		if node.global_position.distance_to(to) < 2.4 and not dash_hit_ids.has(node.enemy_id):
-			node.take_damage(20.0 * multiplier)
+			node.take_damage(20.0 * multiplier, "crit" if multiplier > 1.0 else "normal")
+			node.apply_knockback(node.global_position - to, 9.0 * multiplier)
 			dash_hit_ids.append(node.enemy_id)
 			if multiplier > 1.0:
 				charge = 0.0
 			action_effect.emit("dash_hit", from, node.global_position)
 
+## C9：外部属性修饰提供者（main 注入：返回 stat_name -> bonus 值，神器+船长聚合）
+var stat_modifier_provider: Callable = Callable()
+
+func _modifier(stat_name: String) -> float:
+	return 0.0 if stat_modifier_provider == null or not stat_modifier_provider.is_valid() else float(stat_modifier_provider.call(stat_name))
+
 func receive_damage(amount: float) -> void:
 	if invulnerable or health <= 0.0:
 		return
-	health = maxf(0.0, health - maxf(0.0, amount))
-	feedback.emit("受到 %.0f 点伤害" % amount)
+	if status.has("invincible") and (dash_pending or status.has("nitro")):
+		dodged.emit()
+		return
+	var mitigated := amount * (1.0 - clampf(_modifier("armor"), 0.0, 0.85))
+	var shielded := status.has("shield")
+	mitigated = status.absorb(mitigated)
+	if mitigated <= 0.0:
+		if shielded and GameFeel.instance != null:
+			GameFeel.instance.number(global_position, amount, "shield")
+			GameFeel.instance.impact_ring(global_position, 2.2, Color("#7FD3E0"), 0.22)
+		return
+	_apply_raw_damage(mitigated, "hit")
+	# 无敌帧：连续受击不会被瞬间秒掉，也给玩家脱身窗口
+	if health > 0.0:
+		status.apply("invincible", IFRAME_TIME)
+
+func _apply_raw_damage(mitigated: float, source_tag: String) -> void:
+	if invulnerable or health <= 0.0:
+		return
+	health = maxf(0.0, health - maxf(0.0, mitigated))
+	damaged.emit(mitigated)
+	if GameFeel.instance != null and is_inside_tree():
+		if source_tag == "burn":
+			GameFeel.instance.number(global_position, mitigated, "burn")
+		else:
+			GameFeel.instance.on_player_hurt(self, mitigated)
+	feedback.emit("受到 %.0f 点伤害" % mitigated)
 	if health <= 0.0:
 		gameplay_enabled = false
 		velocity = Vector3.ZERO
+		status.clear()
 		disabled.emit()
 		feedback.emit("工程车失效，按 F9 恢复快照")
 
@@ -496,7 +637,7 @@ func _material(color: Color) -> StandardMaterial3D:
 	return material
 
 func get_snapshot() -> Dictionary:
-	return {"schema": 1, "position": [global_position.x, global_position.y, global_position.z], "health": health, "cargo": cargo, "heat": heat, "aim": [aim_direction.x, aim_direction.y, aim_direction.z], "primary_cooldown": primary_cooldown, "throw_cooldown": throw_cooldown, "dash_cooldown": dash_cooldown, "charge": charge, "dash_pending": dash_pending, "dash_remaining": dash_remaining, "dash_hit_ids": dash_hit_ids.duplicate(), "packed_enemy_ids": packed_enemy_ids.duplicate()}
+	return {"schema": 1, "position": [global_position.x, global_position.y, global_position.z], "health": health, "cargo": cargo, "heat": heat, "aim": [aim_direction.x, aim_direction.y, aim_direction.z], "primary_cooldown": primary_cooldown, "throw_cooldown": throw_cooldown, "dash_cooldown": dash_cooldown, "charge": charge, "dash_pending": dash_pending, "dash_remaining": dash_remaining, "dash_hit_ids": dash_hit_ids.duplicate(), "packed_enemy_ids": packed_enemy_ids.duplicate(), "crit_state": str(crit_rng.state)}
 
 func validate_snapshot(data: Dictionary) -> bool:
 	if int(data.get("schema", 0)) != 1:
@@ -525,7 +666,7 @@ func validate_snapshot(data: Dictionary) -> bool:
 		if enemy_id is not String or str(enemy_id).is_empty() or seen_packed.has(enemy_id):
 			return false
 		seen_packed[enemy_id] = true
-	return is_finite(saved_health) and saved_health >= 0.0 and saved_health <= 100.0 and saved_cargo >= 0 and saved_cargo <= 64 and is_finite(saved_charge) and saved_charge >= 0.0 and saved_charge <= 100.0 and is_finite(primary) and primary >= 0.0 and primary <= 30.0 and is_finite(throwing) and throwing >= 0.0 and throwing <= 30.0 and is_finite(dash) and dash >= 0.0 and dash <= 30.0
+	return is_finite(saved_health) and saved_health >= 0.0 and saved_health <= 1000.0 and saved_cargo >= 0 and saved_cargo <= 64 and is_finite(saved_charge) and saved_charge >= 0.0 and saved_charge <= 100.0 and is_finite(primary) and primary >= 0.0 and primary <= 30.0 and is_finite(throwing) and throwing >= 0.0 and throwing <= 30.0 and is_finite(dash) and dash >= 0.0 and dash <= 30.0
 
 func restore_snapshot(data: Dictionary) -> bool:
 	if not validate_snapshot(data):
@@ -547,6 +688,10 @@ func restore_snapshot(data: Dictionary) -> bool:
 	for hit_id in data.get("dash_hit_ids", []):
 		dash_hit_ids.append(str(hit_id))
 	gameplay_enabled = health > 0.0
+	status.clear()
+	knock_velocity = Vector3.ZERO
+	if data.has("crit_state") and str(data["crit_state"]).is_valid_int():
+		crit_rng.state = str(data["crit_state"]).to_int()
 	packed_enemy_ids.clear()
 	for enemy_id in data.get("packed_enemy_ids", []):
 		if enemy_id is String and not packed_enemy_ids.has(enemy_id):
