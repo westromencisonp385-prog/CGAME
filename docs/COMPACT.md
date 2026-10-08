@@ -1,35 +1,44 @@
 # Compact · 项目接续入口
 
-更新时间：2026-09-28。本文是磁盘接续记录，不代表调用了宿主原生 /compact 命令。
+更新时间：2026-10-08。本文是磁盘接续记录，不代表调用了宿主原生 /compact 命令。
 
 ## 当前一句话状态
 
-Reclaimer 是 Godot 4.7.2 的单人幻想工程车 Roguelite。M0/M1 功能循环可运行；首轮已确认 15 分钟磁暴流派，从小型鲸口成长为移动回收工厂再到超大型吞噬机械，配套 4 种普通敌人、2 种精英和 BOSS01 断城巨神。A01/B01/C04/倒流河谷切片仍是候选，G1 视觉质量对标失败，正式 UIUX、贴图、场景、动作和首轮内容集成仍未完成。
+Reclaimer 是 Godot 4.7.2 的单人幻想工程车 Roguelite。2026-10-07~08 按 Wanderburg 逆向结构完成 C1-C17：四套选择流 + Luck、40 模块 × 38 种施放行为、模块升级与载具 2 选 1、八态状态机、11 个 Boss 各 3 招、小怪 5 / 精英 2、24 任务、群系锁钥、加密长期档案，以及顿帧/震屏/伤害数字/读招预警等手感层；3D 资产 31 件全部走「部件分开生成 + 程序化动画」并统一 v3 风格；UI 为程序绘制的 P5 v2。可完整打一局，节奏参数尚未经人工试玩调校。
 
 ## 唯一现役入口
 
+- 逆向 → Godot 映射与批次 TODO：[docs/wanderburg-to-godot-mapping.md](wanderburg-to-godot-mapping.md)（C1-C17 状态与剩余项以此为准）
+- 逆向报告：[docs/wanderburg-re-deep-dive.md](wanderburg-re-deep-dive.md)
+- 3D 资产生产：`.agents/skills/weaver-asset-production/SKILL.md`（部件分开生成，平面切割已废弃）
 - 产品规则：[docs/spec.md](spec.md)
 - 全局质量门：[docs/project-guidance.md](project-guidance.md)
 - 后续路线：[docs/roadmap.md](roadmap.md)
 - F/P 执行索引：[docs/requirements.md](requirements.md)
 - 本地决策路线：[docs/wayfinder/map.md](wayfinder/map.md)
-- 美术生产：[docs/assets/concept-to-production-v1.md](assets/concept-to-production-v1.md)
 - 百种构筑目录：[docs/builds/build-catalog-v1.md](builds/build-catalog-v1.md)
-- 部件化幻想样件：[docs/assets/modular-fantasy-v1/README.md](assets/modular-fantasy-v1/README.md)
-- UIUX：[docs/assets/g0-uiux-direction-v1.md](assets/g0-uiux-direction-v1.md)
 - 质量基准：[docs/assets/wanderburg-quality-benchmark-v2.md](assets/wanderburg-quality-benchmark-v2.md)
-- 缺口报告：[docs/assets/g1-quality-gap-report.md](assets/g1-quality-gap-report.md)
+
+## 现役资产与目录（2026-10-08 整理后）
+
+- 3D：`game/assets/models/rigged/`（31 件部件化 GLB + `rig_manifest.json`，运行时 `ProceduralRig.attach` 优先加载）。`formal_slice/` 只保留已入库的 A01/B01/C04 作者化候选（被 preload 作兜底）。
+- 已归档（移出 `game/`，在已忽略的 `artifacts/archive/2026-10-08/`）：P2 整块正式模型 23 件（约 1.9GB，已被 rigged 版完全取代）、v1 AI 位图 UI 49 张（毛边，已被程序绘制 v2 取代）。
+- UI：`game/scripts/ui/p5_*.gd` 程序绘制，图标在 `game/assets/ui/v2/`。字体 `game/assets/fonts/`（Anton + 得意黑，OFL）。
+- 资产工具脚本：`tools/asset_pipeline/`（33 个 Weaver/TiMi/Blender 脚本，2026-10-09 收进仓库，说明见该目录 README；仓库外旧目录 `tools_re\` 只是历史副本）。
+- 逆向原始产物在仓库外 `D:\工作\InverseGame\WaWa\wanderburg_re\`。
+
+## 验证方式
+
+- 一键回归：`powershell -NoProfile -ExecutionPolicy Bypass -File tools\run_regression.ps1` → `artifacts/qa/regression_latest.txt`（19 项 headless 测试 + 真机入场检查 c13）。
+- 截图验收脚本：`game/tests/c1x_*_capture.gd`（需真 GPU，输出到 `artifacts/qa/`）。
+- 本机无 pwsh，Godot 用 `C:\Users\jasonlyan\AppData\Local\Microsoft\WinGet\Links\godot.exe` 直接调用。
 
 ## 已确认事实
 
+- 资产 = 磁盘上可复用的资源文件；运行时代码拼出的实体不算资产（2026-10-07 口径纠正）。
+- 可动资产一律「部件分开生成」再按枢轴组装（2026-10-08 用户指令）。
 - 主验收流程：装配 → 预览 → 确认 → 实战触发组合 → 升级/变形 → 存档恢复。
-- 图形漫画方向 C 已确认；用户提供的 A01/B01/C04 概念 PNG 是视觉真源，生产强调强轮廓、硬色块、夸张透视、非对称剪影和作者化笔触。
-- 首轮战斗目标是高速清怪、重击、物理连锁和击败 BOSS01；修复发生在 Boss 战后，不替代战斗胜利。
-- 首轮生产允许从概念 PNG 进入 3D candidate；真实游戏集成必须通过 Godot 实际镜头、碰撞、动作、LOD、UI 避让和缺陷复测。
 - 正式内容质量门：风格化、高精度、去 AI 感、多种多样；首发规划至少 100 个可区分 build。
-- A01/B01/C04/倒流河谷和 N01–N04/E01–E02/BOSS01 是首轮玩法样板目标，不代表正式资产或完整流派已通过。
-- 当前 `candidate` 切片包含作者化 GLB、Blender 源、候选表面图集、VFX 图集、渲染改进、阶段 HUD 和 `magnetic_whale` 机制签名。
-- 9 组 Godot 行为测试和真 GPU capture 通过，只证明流程/导入/事件可运行。
 
 ## 真实参考状态
 
@@ -37,14 +46,19 @@ Reclaimer 是 Godot 4.7.2 的单人幻想工程车 Roguelite。M0/M1 功能循�
 - 正确 AssetRipper fresh export：`tmp/assetripper-wanderburg-20260927/ExportedProject`。
 - fresh 统计：749 Prefab、5 场景、845 纹理、710 脚本；详情见质量基准。
 - Steam 页面已直读：[Wanderburg](https://store.steampowered.com/app/3624140/_Wanderburg/)。
+- 2026-10-07 深度逆向：Il2CppDumper + ilspycmd 完成 588 个 C# 反编译、20,441 条字符串、data.unity3d 全量资源统计；报告见 [docs/wanderburg-re-deep-dive.md](wanderburg-re-deep-dive.md)，原始 dump 在 `D:\工作\InverseGame\WaWa\wanderburg_re\`。
+- AI 资产生成：技能 `.agents/skills/ai-asset-pipeline/`（TIMIAI 生图 + Tripo/Meshy 3D + 像素帧），规划见 [docs/assets/ai-asset-generation-plan-v1.md](assets/ai-asset-generation-plan-v1.md)；API key 在 `D:\工作\生图API\apikey.txt`。
 - 外部资产只作研究证据，不复制进 `game/`；IL2CPP 方法体不作为原算法。
 
-## 当前阻塞
+## 当前阻塞 / 剩余
 
-- G1/G2：UV/贴图绑定、损坏/修复材质、LOD/碰撞、动作三拍、首轮三阶段成长、场景密度、UIUX、普通/精英预告、Boss 弱点和修复状态。
-- G2：连续喜剧动作、声音、低特效对照和外部试玩。
-- 百种构筑：只有机制签名样例，100 个 build 目录和证据矩阵尚未完成。
-- 发布：真实手柄、性能、release、Steam、Deck、完整战役和结算事务尚未验收。
+- 手感参数（顿帧、慢动作、Boss 出招间隔）与 40 技能数值未经人工试玩调校。
+- 原作 Luck 权重 / 掉落 / 重抽公式仍是占位（需装 Java 跑 Ghidra，RVA 已备）。
+- 音效为程序合成；真实采样未替换。
+- 长期档案银币无局外花费出口（缺局外菜单）。
+- 模型每件 20-33MB，未减面 / 无 LOD；B03/B04 腿部拆分精度不足；营地服务板未按 v3 重做。
+- 版本控制：C1-C17 全部改动（约 490 个新文件 + 约 30 个修改，新文件约 1.55GB，主要是 rigged 模型和抽取贴图）尚未提交，当前分支 `codex/governance-2026-09-24`，仓库未启用 Git LFS。
+- 发布：真实手柄、性能、release、Steam、Deck 尚未验收。
 
 ## 状态边界
 
