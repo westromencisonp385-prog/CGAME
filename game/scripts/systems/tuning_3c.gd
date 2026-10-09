@@ -31,8 +31,14 @@ static func data() -> Dictionary:
 static func reload() -> bool:
 	var merged := DEFAULTS.duplicate(true)
 	var ok := false
-	if FileAccess.file_exists(PATH):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
+	var path := PATH
+	# 打包版：exe 同目录放一份 3c_tuning.json 即可覆盖包内参数（F10 热重载）
+	if not OS.has_feature("editor"):
+		var external := OS.get_executable_path().get_base_dir().path_join("3c_tuning.json")
+		if FileAccess.file_exists(external):
+			path = external
+	if FileAccess.file_exists(path):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if parsed is Dictionary:
 			ok = true
 			for section in parsed:

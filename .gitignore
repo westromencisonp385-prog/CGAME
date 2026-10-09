@@ -13,3 +13,6 @@ tools/AssetRipper-source/
 # Asset pipeline run logs and extracted third-party docs
 tools/asset_pipeline/logs/
 tools/asset_pipeline/doc_extract/
+
+# Exported game builds (tools/build_windows.ps1)
+/build/
