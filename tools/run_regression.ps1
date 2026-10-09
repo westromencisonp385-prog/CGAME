@@ -24,4 +24,7 @@ foreach ($t in $markers.Keys) {
 $c13 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c13_ingame_check.gd" 2>&1 | Out-String)
 "--- c13 ingame ---" | Out-File $log -Append -Encoding utf8
 ($c13 -split "`n" | Where-Object { $_ -match "PASS|FAIL|SCRIPT ERROR|C13" } | Select-Object -First 20) | Out-File $log -Append -Encoding utf8
+$c18 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c18_whitebox_audit.gd" 2>&1 | Out-String)
+"--- c18 whitebox audit ---" | Out-File $log -Append -Encoding utf8
+($c18 -split "`n" | Where-Object { $_ -match "WHITEBOX|C18|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8

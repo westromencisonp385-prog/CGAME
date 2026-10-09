@@ -14,7 +14,7 @@ var _grounded := false
 var _homing := false
 var _speed := 0.0
 var collect_radius := 4.5
-var _mesh: MeshInstance3D
+var _mesh: Node3D
 
 static func burst(parent: Node, at: Vector3, count: int, value_each: int, loot_kind := "silver") -> Array:
 	var out := []
@@ -33,13 +33,19 @@ static func burst(parent: Node, at: Vector3, count: int, value_each: int, loot_k
 func _ready() -> void:
 	name = "Loot"
 	add_to_group("loot")
-	_mesh = MeshInstance3D.new()
+	var authored := WorldDressing.instance_meshes(self, "prop_repair_kit" if kind == "repair" else "prop_coin")
+	if authored != null:
+		authored.scale = Vector3.ONE * (0.75 if kind == "repair" else 0.85)
+		_mesh = authored
+		return
+	var mi := MeshInstance3D.new()
+	_mesh = mi
 	var m := StandardMaterial3D.new()
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	if kind == "repair":
 		var bm := BoxMesh.new()
 		bm.size = Vector3(0.36, 0.36, 0.36)
-		_mesh.mesh = bm
+		mi.mesh = bm
 		m.albedo_color = Color("#8FD694")
 	else:
 		var cm := CylinderMesh.new()
@@ -47,11 +53,11 @@ func _ready() -> void:
 		cm.bottom_radius = 0.22
 		cm.height = 0.07
 		cm.radial_segments = 10
-		_mesh.mesh = cm
-		_mesh.rotation_degrees.x = 90
+		mi.mesh = cm
+		mi.rotation_degrees.x = 90
 		m.albedo_color = Color("#E3A52B")
-	_mesh.material_override = m
-	add_child(_mesh)
+	mi.material_override = m
+	add_child(mi)
 
 func _physics_process(delta: float) -> void:
 	_age += delta

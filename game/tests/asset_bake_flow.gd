@@ -34,12 +34,15 @@ func _test_audio_assets() -> void:
 
 func _test_runtime_prefers_assets() -> void:
 	var turret := ProceduralVisuals.load_visual("summon_turret.tscn", func(): return Node3D.new())
-	var has_base := false
-	for child in turret.get_children():
-		if child.name == "SummonBase":
-			has_base = true
-	check(has_base, "炮塔实例应含 SummonBase（证明走资产而非兜底）")
-	check(turret.get_child_count() >= 3, "炮塔资产应含 base/barrel/label 三件")
+	if ProceduralRig.has_rig("summon_turret"):
+		check(turret.has_meta("authored_slot") and turret.get_child_count() >= 1, "有正式炮塔模型时应走正式模型")
+	else:
+		var has_base := false
+		for child in turret.get_children():
+			if child.name == "SummonBase":
+				has_base = true
+		check(has_base, "炮塔实例应含 SummonBase（证明走资产而非兜底）")
+		check(turret.get_child_count() >= 3, "炮塔资产应含 base/barrel/label 三件")
 	turret.free()
 	var gate := ProceduralVisuals.load_visual("biome_gate_desert.tscn", func(): return Node3D.new())
 	var has_frame := false

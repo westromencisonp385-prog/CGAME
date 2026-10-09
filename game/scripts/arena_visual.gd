@@ -23,7 +23,8 @@ var route_after: Node3D
 var camera: Camera3D
 var effects: Node3D
 var river_material: ShaderMaterial
-var shortcut_gate_mesh: MeshInstance3D
+var shortcut_gate_mesh: Node3D
+var terrain: MeshInstance3D
 var flow_time := 0.0
 var route_repaired := false
 var environment: Environment
@@ -94,13 +95,19 @@ func _build_camera() -> void:
 	camera.look_at(Vector3(0, 0, 0))
 
 func _build_ground() -> void:
-	# One quiet low-frequency plane keeps the action readable at a glance.
-	box(self, Vector3(36, 1, 32), Vector3(0, -0.55, 0), EARTH, true)
+	# 碰撞仍是原来的地面盒与四面边界墙；有正式地表时这些盒子只负责碰撞、不显示。
+	var authored := WorldDressing.has_terrain()
+	var ground := box(self, Vector3(36, 1, 32), Vector3(0, -0.55, 0), EARTH, true)
+	ground.visible = not authored
 	for at in [Vector3(-18, 0.8, 0), Vector3(18, 0.8, 0), Vector3(0, 0.8, -16), Vector3(0, 0.8, 16)]:
 		var size := Vector3(1, 2, 33) if absf(at.x) > 0 else Vector3(36, 2, 1)
-		box(self, size, at, NAVY, true)
-	# Large authored masses replace the old debug grid: two work lanes and soft
-	# vegetation patches, all visual-only.
+		var wall := box(self, size, at, NAVY, true)
+		wall.visible = not ProceduralRig.has_rig("prop_broken_wall")
+	if authored:
+		terrain = WorldDressing.build_terrain(self, Vector2(60, 52))
+		_build_border_dressing()
+		_build_scatter()
+		return
 	_disk(self, "CentralDustYard", Vector3(0, 0.035, 0.5), Vector3(11.5, 0.035, 15.8), Color("#bd9565"), 14)
 	_disk(self, "OliveBackPatch", Vector3(-7.0, 0.04, -4.5), Vector3(6.4, 0.035, 6.8), OLIVE, 9)
 	_disk(self, "OliveRepairPatch", Vector3(6.8, 0.045, -7.2), Vector3(5.2, 0.035, 4.5), Color("#788b67"), 10)
@@ -112,24 +119,108 @@ func _build_ground() -> void:
 		var strip := box(self, Vector3(2.3, 0.05, 0.12), Vector3(-8.6, 0.085, z), Color("#8e6d4f"))
 		strip.rotation_degrees.y = 8.0 if z < 0.0 else -7.0
 
+## 边界：栅栏围一圈，外侧树林 + 大石 + 灌木，挡住“世界尽头”
+func _build_border_dressing() -> void:
+	var border := Node3D.new()
+	border.name = "BorderDressing"
+	add_child(border)
+	if ProceduralRig.has_rig("prop_broken_wall"):
+		var seg := 4.0
+		var x := -16.0
+		var flip := false
+		while x <= 16.0:
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(x, 0, -16.4), 0.0 if flip else 180.0)
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(x, 0, 16.4), 180.0 if flip else 0.0)
+			x += seg
+			flip = not flip
+		var z := -14.0
+		flip = false
+		while z <= 14.0:
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(-18.4, 0, z), 90.0 if flip else -90.0)
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(18.4, 0, z), -90.0 if flip else 90.0)
+			z += seg
+			flip = not flip
+		for c in [Vector3(-18.4, 0, -16.4), Vector3(18.4, 0, -16.4), Vector3(-18.4, 0, 16.4), Vector3(18.4, 0, 16.4)]:
+			WorldDressing.prop(border, "prop_rock_large", c, c.x * 7.0, 1.1)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7301
+	var trees := []
+	var bushes := []
+	for i in 70:
+		var side := i % 4
+		var t := rng.randf_range(-1.0, 1.0)
+		var d := rng.randf_range(1.6, 6.5)
+		var p := Vector2(t * 22.0, -16.0 - d) if side == 0 else (Vector2(t * 22.0, 16.0 + d) if side == 1 else (Vector2(-18.0 - d, t * 19.0) if side == 2 else Vector2(18.0 + d, t * 19.0)))
+		if absf(p.x - 9.0) < 3.0 and absf(p.y) > 15.0:
+			continue  # 河道出入口留空
+		var s := rng.randf_range(0.8, 1.3)
+		var basis := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s)
+		var tf := Transform3D(basis, Vector3(p.x, 0, p.y))
+		if i % 3 == 2:
+			bushes.append(tf)
+		else:
+			trees.append(tf)
+	var round_trees := trees.filter(func(_t): return rng.randf() < 0.6)
+	var poplars := trees.filter(func(t): return not round_trees.has(t))
+	WorldDressing.scatter(border, "prop_tree_round", round_trees)
+	WorldDressing.scatter(border, "prop_tree_poplar", poplars)
+	WorldDressing.scatter(border, "prop_bush", bushes)
+	var rocks := WorldDressing.scatter_points(rng, 18, Rect2(-24, -22, 48, 44), Vector2(0.7, 1.4),
+		func(p: Vector2): return absf(p.x) < 18.6 and absf(p.y) < 16.6)
+	WorldDressing.scatter(border, "prop_rock_large", rocks)
+
+## 场内散布：草丛、小花、小石子，避开中央工地与河道，保证可读性
+func _build_scatter() -> void:
+	var scatter := Node3D.new()
+	scatter.name = "GroundScatter"
+	add_child(scatter)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 4417
+	var in_yard := func(p: Vector2) -> bool:
+		var d := (p - Vector2(0, 0.5)) / Vector2(8.6, 12.0)
+		return d.length_squared() < 1.0
+	var in_river := func(p: Vector2) -> bool: return absf(p.x - 9.0) < 5.6
+	var blocked := func(p: Vector2) -> bool: return bool(in_yard.call(p)) or bool(in_river.call(p))
+	var area := Rect2(-17.5, -15.5, 35, 31)
+	WorldDressing.scatter(scatter, "prop_grass_tuft", WorldDressing.scatter_points(rng, 150, area, Vector2(0.7, 1.25), blocked))
+	WorldDressing.scatter(scatter, "prop_flowers", WorldDressing.scatter_points(rng, 34, area, Vector2(0.7, 1.1), blocked))
+	WorldDressing.scatter(scatter, "prop_bush", WorldDressing.scatter_points(rng, 10, area, Vector2(0.6, 0.9), blocked))
+	# 工地里只撒少量碎石，表现“被挖过”的地面
+	WorldDressing.scatter(scatter, "prop_rock_cluster", WorldDressing.scatter_points(rng, 8, Rect2(-8, -11, 16, 23), Vector2(0.3, 0.5),
+		func(p: Vector2): return not bool(in_yard.call(p)) or bool(in_river.call(p))))
+	# 河岸芦苇（常驻，修复后再加一圈）
+	WorldDressing.scatter(scatter, "prop_reeds", WorldDressing.scatter_points(rng, 14, Rect2(2.8, -15, 12.4, 30), Vector2(0.7, 1.1),
+		func(p: Vector2): return absf(absf(p.x - 9.0) - 5.4) > 0.9))
+
 func _build_river_worksite() -> void:
 	# The dry channel is visible before repair; green_zone is the stateful overlay
 	# toggled by main.gd after the pump is repaired.
 	var dry := Node3D.new()
 	dry.name = "DryRiverAndBanks"
 	add_child(dry)
-	_disk(dry, "DryChannel", Vector3(9.0, 0.06, -2.2), Vector3(5.3, 0.045, 18.2), WATER_DULL, 14)
+	if terrain == null:
+		_disk(dry, "DryChannel", Vector3(9.0, 0.06, -2.2), Vector3(5.3, 0.045, 18.2), WATER_DULL, 14)
+	var bank_rocks := []
 	for z in [-10.0, -7.2, -4.3, -1.2, 2.0, 5.5, 8.2]:
-		_create_rock(dry, Vector3(6.4 + fmod(z * 2.1, 1.0) * 0.3, 0.18, z), 0.5, Color("#526f70"))
-		_create_rock(dry, Vector3(11.4 - fmod(z * 1.7, 1.0) * 0.35, 0.19, z + 0.9), 0.44, Color("#617876"))
+		var a := Vector3(6.4 + fmod(z * 2.1, 1.0) * 0.3, 0.0, z)
+		var b := Vector3(11.4 - fmod(z * 1.7, 1.0) * 0.35, 0.0, z + 0.9)
+		bank_rocks.append(Transform3D(Basis(Vector3.UP, z * 1.3).scaled(Vector3.ONE * 0.9), a))
+		bank_rocks.append(Transform3D(Basis(Vector3.UP, z * 2.1).scaled(Vector3.ONE * 0.75), b))
+	if not WorldDressing.scatter(dry, "prop_rock_cluster", bank_rocks):
+		for t in bank_rocks:
+			_create_rock(dry, (t as Transform3D).origin + Vector3(0, 0.18, 0), 0.5, Color("#526f70"))
 
 	green_zone = Node3D.new()
 	green_zone.name = "RepairedRiverAndGrowth"
 	add_child(green_zone)
+	var reed_tf := []
 	for index in range(18):
 		var x := 7.0 + fmod(float(index * 17), 5.4)
 		var z := -12.5 + fmod(float(index * 7), 16.0)
-		_create_reed_cluster(green_zone, Vector3(x, 0.08, z), index % 2 == 0)
+		reed_tf.append(Transform3D(Basis(Vector3.UP, float(index)).scaled(Vector3.ONE * (0.8 + 0.04 * (index % 5))), Vector3(x, 0.0, z)))
+	if not WorldDressing.scatter(green_zone, "prop_reeds", reed_tf):
+		for index in range(18):
+			_create_reed_cluster(green_zone, (reed_tf[index] as Transform3D).origin + Vector3(0, 0.08, 0), index % 2 == 0)
 	var flowing_water := _disk(green_zone, "FlowingWater", Vector3(9, 0.13, -2), Vector3(4.8, 0.045, 17.8), WATER_LIVE, 16)
 	river_material = ShaderMaterial.new()
 	river_material.shader = RIVER
@@ -144,30 +235,47 @@ func _build_route_landmarks() -> void:
 	route_before = Node3D.new()
 	route_before.name = "RouteBeforeRepair"
 	add_child(route_before)
-	_create_route_notice(route_before, Vector3(3.1, 0.0, -1.0), ALERT, "ROUTE CLOSED")
-	box(route_before, Vector3(3.4, 0.28, 1.35), Vector3(5.4, 0.25, -1.0), EARTH_DARK)
-	box(route_before, Vector3(3.4, 0.28, 1.35), Vector3(12.6, 0.25, -1.0), EARTH_DARK)
-	for at in [Vector3(4.1, 0.58, -1.0), Vector3(13.9, 0.58, -1.0)]:
-		box(route_before, Vector3(0.18, 0.8, 0.18), at, ALERT)
-	_pipe(route_before, Vector3(9.0, 0.26, 1.2), 7.0, Color("#a87856"))
-	_pipe(route_before, Vector3(9.0, 0.28, 2.0), 5.2, PIPE_METAL)
-	_create_route_notice(route_before, Vector3(14.0, 0.0, -1.0), ALERT, "DETOUR")
+	_notice(route_before, Vector3(3.1, 0.0, -1.0), ALERT, "ROUTE CLOSED", 15.0)
+	if not WorldDressing.prop(route_before, "prop_bridge_stub", Vector3(5.4, 0.0, -1.0), 90.0):
+		box(route_before, Vector3(3.4, 0.28, 1.35), Vector3(5.4, 0.25, -1.0), EARTH_DARK)
+	if not WorldDressing.prop(route_before, "prop_bridge_stub", Vector3(12.6, 0.0, -1.0), -90.0):
+		box(route_before, Vector3(3.4, 0.28, 1.35), Vector3(12.6, 0.25, -1.0), EARTH_DARK)
+	for at in [Vector3(4.1, 0.0, -1.0), Vector3(13.9, 0.0, -1.0)]:
+		if not WorldDressing.prop(route_before, "prop_lamp_post", at, 0.0, 0.7):
+			box(route_before, Vector3(0.18, 0.8, 0.18), at + Vector3(0, 0.58, 0), ALERT)
+	if not WorldDressing.prop(route_before, "prop_pipe", Vector3(9.0, 0.0, 1.4), 0.0, 1.1):
+		_pipe(route_before, Vector3(9.0, 0.26, 1.2), 7.0, Color("#a87856"))
+		_pipe(route_before, Vector3(9.0, 0.28, 2.0), 5.2, PIPE_METAL)
+	_notice(route_before, Vector3(14.0, 0.0, -1.0), ALERT, "DETOUR", -15.0)
 
 	route_after = Node3D.new()
 	route_after.name = "RouteAfterRepair"
 	add_child(route_after)
-	box(route_after, Vector3(10.8, 0.34, 1.7), Vector3(9.0, 0.34, -1.0), BONE)
-	box(route_after, Vector3(10.8, 0.12, 0.38), Vector3(9.0, 0.56, -1.62), REPAIR_GREEN)
-	box(route_after, Vector3(10.8, 0.12, 0.38), Vector3(9.0, 0.56, -0.38), REPAIR_GREEN)
-	for x in [4.1, 6.0, 8.0, 10.0, 12.0, 13.9]:
-		box(route_after, Vector3(0.16, 0.9, 0.16), Vector3(x, 0.76, -1.0), REPAIR_GREEN)
-	_create_route_notice(route_after, Vector3(3.1, 0.0, -1.0), REPAIR_GREEN, "SHORTCUT OPEN")
-	_create_route_notice(route_after, Vector3(14.0, 0.0, -1.0), REPAIR_GREEN, "PUMP PASSED")
+	if not WorldDressing.prop(route_after, "prop_bridge", Vector3(9.0, 0.0, -1.0), 0.0):
+		box(route_after, Vector3(10.8, 0.34, 1.7), Vector3(9.0, 0.34, -1.0), BONE)
+		box(route_after, Vector3(10.8, 0.12, 0.38), Vector3(9.0, 0.56, -1.62), REPAIR_GREEN)
+		box(route_after, Vector3(10.8, 0.12, 0.38), Vector3(9.0, 0.56, -0.38), REPAIR_GREEN)
+		for x in [4.1, 6.0, 8.0, 10.0, 12.0, 13.9]:
+			box(route_after, Vector3(0.16, 0.9, 0.16), Vector3(x, 0.76, -1.0), REPAIR_GREEN)
+	_notice(route_after, Vector3(3.1, 0.0, -1.0), REPAIR_GREEN, "SHORTCUT OPEN", 15.0)
+	_notice(route_after, Vector3(14.0, 0.0, -1.0), REPAIR_GREEN, "PUMP PASSED", -15.0)
 	route_after.scale = Vector3.ZERO
 
+func _notice(parent: Node3D, at: Vector3, color: Color, label: String, yaw: float) -> void:
+	if not WorldDressing.prop(parent, "prop_sign", at, yaw):
+		_create_route_notice(parent, at, color, label)
+
 func _build_shortcut_visual() -> void:
-	shortcut_gate_mesh = box(self, Vector3(10.8, 1.7, 0.7), Vector3(9.0, 0.85, -1.0), ALERT)
-	shortcut_gate_mesh.name = "ShortcutClosedVisual"
+	# 封路：三段红白栅栏横在河道上（正式资产）；缺失时回落红色长条
+	var gate := Node3D.new()
+	gate.name = "ShortcutClosedVisual"
+	add_child(gate)
+	var placed := false
+	for x in [4.5, 6.3, 8.1, 9.9, 11.7, 13.5]:
+		placed = WorldDressing.prop(gate, "prop_roadblock", Vector3(x, 0.0, -1.0), 0.0) != null or placed
+	if not placed:
+		box(gate, Vector3(10.8, 1.7, 0.7), Vector3(9.0, 0.85, -1.0), ALERT)
+	shortcut_gate_mesh = gate
 
 func _set_route_state(repaired: bool) -> void:
 	if route_before == null or route_after == null:
@@ -222,19 +330,29 @@ func _build_edge_landmarks() -> void:
 	add_child(landmarks)
 	# A crooked civic arch and two warning pennants establish foreground/background
 	# without turning the route into a collision maze.
-	_create_arch(landmarks, Vector3(-13.0, 0.0, -10.5))
-	_create_pennant(landmarks, Vector3(13.2, 0.0, 10.5), Color("#df604e"))
-	_create_pennant(landmarks, Vector3(-12.5, 0.0, 10.0), Color("#e9ad38"))
-	_create_tree_cluster(landmarks, Vector3(-12.6, 0.0, -3.0))
-	_create_tree_cluster(landmarks, Vector3(13.1, 0.0, 4.2))
-	_create_broken_wall(landmarks, Vector3(-10.8, 0.0, 11.0), -12.0)
-	_create_rock(landmarks, Vector3(-13.0, 0.25, 1.0), 1.1, Color("#5d706d"))
-	_create_rock(landmarks, Vector3(13.0, 0.23, -13.0), 0.9, Color("#6d7669"))
-	_create_repair_sign(landmarks, Vector3(5.6, 0.0, -7.0))
+	_landmark(landmarks, "prop_stone_arch", Vector3(-13.0, 0.0, -10.5), 10.0, func(): _create_arch(landmarks, Vector3(-13.0, 0.0, -10.5)))
+	_landmark(landmarks, "prop_pennant", Vector3(13.2, 0.0, 10.5), 0.0, func(): _create_pennant(landmarks, Vector3(13.2, 0.0, 10.5), Color("#df604e")))
+	_landmark(landmarks, "prop_pennant", Vector3(-12.5, 0.0, 10.0), 40.0, func(): _create_pennant(landmarks, Vector3(-12.5, 0.0, 10.0), Color("#e9ad38")))
+	_landmark(landmarks, "prop_tree_round", Vector3(-12.6, 0.0, -3.0), 30.0, func(): _create_tree_cluster(landmarks, Vector3(-12.6, 0.0, -3.0)))
+	_landmark(landmarks, "prop_tree_poplar", Vector3(-11.4, 0.0, -1.8), 0.0, func(): pass)
+	_landmark(landmarks, "prop_tree_round", Vector3(13.1, 0.0, 4.2), -20.0, func(): _create_tree_cluster(landmarks, Vector3(13.1, 0.0, 4.2)))
+	_landmark(landmarks, "prop_broken_wall", Vector3(-10.8, 0.0, 11.0), -12.0, func(): _create_broken_wall(landmarks, Vector3(-10.8, 0.0, 11.0), -12.0))
+	_landmark(landmarks, "prop_rock_large", Vector3(-13.0, 0.0, 1.0), 25.0, func(): _create_rock(landmarks, Vector3(-13.0, 0.25, 1.0), 1.1, Color("#5d706d")))
+	_landmark(landmarks, "prop_rock_large", Vector3(13.0, 0.0, -13.0), -60.0, func(): _create_rock(landmarks, Vector3(13.0, 0.23, -13.0), 0.9, Color("#6d7669")))
+	_landmark(landmarks, "prop_sign", Vector3(5.6, 0.0, -7.0), -10.0, func(): _create_repair_sign(landmarks, Vector3(5.6, 0.0, -7.0)))
+	_landmark(landmarks, "prop_lamp_post", Vector3(-3.6, 0.0, 9.2), 0.0, func(): pass)
+	_landmark(landmarks, "prop_lamp_post", Vector3(3.2, 0.0, -11.6), 0.0, func(): pass)
+	_landmark(landmarks, "prop_oil_drums", Vector3(-9.2, 0.0, 7.6), 35.0, func(): pass)
+	_landmark(landmarks, "prop_oil_drums", Vector3(2.4, 0.0, 10.8), -20.0, func(): pass)
+	_landmark(landmarks, "prop_cargo_crate", Vector3(-10.4, 0.0, 8.4), 12.0, func(): pass)
 	# C13：Weaver 正式景物（拆件版带转子动画；缺失则跳过，不影响原地标）
 	_place_formal_prop(landmarks, "wind_turbine", Vector3(-13.4, 0.0, -6.8), 20.0)
 	_place_formal_prop(landmarks, "mountain_air_pump", Vector3(13.4, 0.0, -8.6), -30.0)
 	_place_formal_prop(landmarks, "camp_board", Vector3(-9.6, 0.0, 12.6), 15.0)
+
+func _landmark(parent: Node3D, slot: String, at: Vector3, yaw: float, fallback: Callable) -> void:
+	if WorldDressing.prop(parent, slot, at, yaw) == null:
+		fallback.call()
 
 func _place_formal_prop(parent: Node3D, slot: String, at: Vector3, yaw_deg: float) -> void:
 	var holder := Node3D.new()
@@ -356,6 +474,7 @@ func apply_biome(biome_id: String) -> void:
 	if not BIOME_PALETTES.has(biome_id):
 		return
 	current_biome = biome_id
+	WorldDressing.apply_biome(terrain, biome_id)
 	var palette: Dictionary = BIOME_PALETTES[biome_id]
 	if environment != null:
 		var tween := create_tween()

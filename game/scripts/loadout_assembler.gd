@@ -253,12 +253,28 @@ func _apply_preview_visual() -> void:
 	ghost_material.albedo_color = Color(0.35, 0.8, 0.95, 0.24)
 	ghost_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	ghost_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	for part in [
+	var ghost_parts: Array = [
 		["Chassis", Vector3(2.6, 0.8, 2.2), Vector3.ZERO],
 		["Cabin", Vector3(1.0, 0.75, 0.95), Vector3(0, 0.72, 0.3)],
 		["TrackLeft", Vector3(0.4, 0.6, 2.7), Vector3(-1.3, -0.2, 0)],
 		["TrackRight", Vector3(0.4, 0.6, 2.7), Vector3(1.3, -0.2, 0)],
-	]:
+	]
+	var ghost_holder := Node3D.new()
+	ghost_holder.position.y = -0.55
+	ghost_holder.scale = Vector3.ONE * 1.55
+	ghost_body.add_child(ghost_holder)
+	var ghost_rig := ProceduralRig.attach(ghost_holder, "player_stage01_whale")
+	if ghost_rig != null:
+		ghost_rig.rotation_degrees.y = -90.0
+		ghost_rig.set_process(false)
+		for mesh in ghost_rig.find_children("*", "MeshInstance3D", true, false):
+			var gm := mesh as MeshInstance3D
+			for s in gm.mesh.get_surface_count():
+				gm.set_surface_override_material(s, ghost_material)
+		ghost_parts = []
+	else:
+		ghost_holder.queue_free()
+	for part in ghost_parts:
 		var mesh := BoxMesh.new()
 		mesh.size = part[1]
 		var instance := MeshInstance3D.new()

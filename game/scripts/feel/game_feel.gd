@@ -217,6 +217,7 @@ func impact_ring(at: Vector3, radius := 1.6, color := Color("#EFE3C8"), duration
 	if not enabled or world_parent == null or not is_instance_valid(world_parent):
 		return
 	var ring := MeshInstance3D.new()
+	ring.name = "VfxImpactRing"
 	var tm := TorusMesh.new()
 	tm.inner_radius = 0.82
 	tm.outer_radius = 1.0

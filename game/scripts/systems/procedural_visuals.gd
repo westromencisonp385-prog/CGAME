@@ -10,7 +10,20 @@ const PROPS_DIR := "res://assets/generated/props"
 const AUDIO_DIR := "res://assets/generated/audio"
 
 ## 优先加载烘焙资产；缺失时调用 fallback_builder 现场重建
+## 烘焙场景名 -> 部件化正式模型槽位（Weaver v3，优先级最高）
+const RIG_FOR_SCENE := {
+	"summon_turret.tscn": "summon_turret", "summon_emp.tscn": "summon_emp", "summon_camp.tscn": "summon_camp",
+	"biome_key_desert.tscn": "biome_key", "biome_key_swamp.tscn": "biome_key", "boss_crown.tscn": "boss_crown",
+}
+
 static func load_visual(scene_file: String, fallback_builder: Callable) -> Node3D:
+	var slot := str(RIG_FOR_SCENE.get(scene_file, ""))
+	if not slot.is_empty() and ProceduralRig.has_rig(slot):
+		var holder := Node3D.new()
+		holder.set_meta("authored_slot", slot)
+		if ProceduralRig.attach(holder, slot) != null:
+			return holder
+		holder.free()
 	var scene_path := "%s/%s" % [PROPS_DIR, scene_file]
 	if ResourceLoader.exists(scene_path):
 		var packed := load(scene_path) as PackedScene

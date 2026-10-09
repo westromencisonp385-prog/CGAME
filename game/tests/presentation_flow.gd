@@ -20,7 +20,9 @@ func _run() -> void:
 	var before: Dictionary = main.get_snapshot()
 	# G1 presentation contract: readable silhouette/scenery exists without becoming
 	# a second gameplay authority. These nodes are purely visual children.
-	check(main.player.visual_root != null and main.player.visual_root.has_node("ChassisSafetyPanel"), "Styled vehicle silhouette is present")
+	check(main.player.visual_root != null and (main.player.has_authored_body() or main.player.visual_root.has_node("ChassisSafetyPanel")), "Styled vehicle silhouette is present")
+	if ProceduralRig.has_rig("player_stage01_whale"):
+		check(main.player.has_authored_body() and not main.player.visual_root.has_node("ChassisSafetyPanel"), "Vehicle body is the authored whale model, not whitebox boxes")
 	check(main.world.get_node_or_null("DryRiverAndBanks") != null and main.world.get_node_or_null("EdgeLandmarks") != null, "River and landmark presentation layer is present")
 	var route_before: Node3D = main.world.get_node_or_null("RouteBeforeRepair")
 	var route_after: Node3D = main.world.get_node_or_null("RouteAfterRepair")

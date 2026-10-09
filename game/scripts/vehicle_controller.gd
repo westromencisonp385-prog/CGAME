@@ -37,6 +37,11 @@ var bucket_visual: Node3D
 var chassis_visual: Node3D
 var boom_visual: Node3D
 var cabin_visual: MeshInstance3D
+## 部件化车身（player_stage01_whale）；进化后换 evolved_rig
+var body_rig: ProceduralRig
+## Weaver 资产车头朝 -X，游戏前方是 -Z
+const MODEL_YAW_FIX := -90.0
+const BODY_SCALE := 1.55
 ## C13：进化形态（rank>=2 换二阶鲸正式模型）
 var evolved_rig: ProceduralRig
 var evolution_rank := 0
@@ -70,6 +75,7 @@ func apply_evolution(rank: int) -> bool:
 	if evolved_rig == null:
 		holder.queue_free()
 		return false
+	evolved_rig.rotation_degrees.y = MODEL_YAW_FIX
 	holder.position.y = -0.55
 	for child in visual_root.get_children():
 		if child != holder and child is MeshInstance3D:
@@ -163,10 +169,17 @@ func _physics_process(delta: float) -> void:
 	_update_aim_from_movement(move_dir)
 	if displacement > 0.01:
 		record_drive_displacement(displacement)
-		chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(velocity.x, velocity.z), delta * 8.0)
+		if body_rig != null:
+			chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(-velocity.x, -velocity.z), delta * 8.0)
+		else:
+			chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(velocity.x, velocity.z), delta * 8.0)
 		if evolved_rig != null:
 			var h := evolved_rig.get_parent() as Node3D
 			h.rotation.y = lerp_angle(h.rotation.y, atan2(-velocity.x, -velocity.z), delta * 8.0)
+	if body_rig != null and evolved_rig == null:
+		body_rig.set_speed(Vector2(velocity.x, velocity.z).length())
+		if tool_anim_time > 0.0 and body_rig._tool_t < 0.0:
+			body_rig.play_attack(0.35)
 	if evolved_rig != null:
 		evolved_rig.set_speed(Vector2(velocity.x, velocity.z).length())
 		if tool_anim_time > 0.0 and evolved_rig._tool_t < 0.0:
@@ -486,6 +499,14 @@ func _apply_raw_damage(mitigated: float, source_tag: String) -> void:
 		feedback.emit("工程车失效，按 F9 恢复快照")
 
 func on_module_visuals_changed() -> void:
+	if body_rig != null and assembler != null:
+		var jaw := body_rig.model.find_child("Jaw", true, false) as Node3D
+		if jaw != null:
+			var wide := assembler.has_module("wide_bucket")
+			var big := wide and assembler.stage >= 2
+			jaw.scale = Vector3.ONE * (1.32 if big else (1.15 if wide else 1.0))
+			body_rig.rest[jaw] = Transform3D(jaw.transform.basis, (body_rig.rest.get(jaw, jaw.transform) as Transform3D).origin)
+		return
 	if bucket_visual == null or assembler == null:
 		return
 	var wide := assembler.has_module("wide_bucket")
@@ -533,6 +554,24 @@ func _create_visuals() -> void:
 	visual_root = Node3D.new()
 	visual_root.name = "VehicleVisuals"
 	add_child(visual_root)
+	# 车身 = 部件化鲸口车（A01 v3），方块底盘只在资产缺失时兜底
+	var body_holder := Node3D.new()
+	body_holder.name = "WhaleBody"
+	visual_root.add_child(body_holder)
+	body_rig = ProceduralRig.attach(body_holder, "player_stage01_whale")
+	if body_rig != null:
+		body_holder.position.y = -0.55
+		body_holder.scale = Vector3.ONE * BODY_SCALE
+		body_rig.rotation_degrees.y = MODEL_YAW_FIX
+		chassis_visual = body_holder
+		return
+	body_holder.queue_free()
+	_create_whitebox_visuals()
+
+func has_authored_body() -> bool:
+	return body_rig != null
+
+func _create_whitebox_visuals() -> void:
 	chassis_visual = MeshInstance3D.new()
 	var chassis_mesh := BoxMesh.new()
 	chassis_mesh.size = Vector3(2.8, 0.72, 2.35)

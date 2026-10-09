@@ -23,6 +23,9 @@ static func create(definition: ModuleDefinition, stage: int, ghost: bool = false
 	return visual
 
 func _build(definition: ModuleDefinition, stage: int, ghost: bool) -> void:
+	_stage = stage
+	if ProceduralRig.has_rig("player_stage01_whale") and _build_authored(definition, ghost):
+		return
 	_set_vehicle_whitebox_visible(true)
 	var tint := definition.color
 	if ghost:
@@ -104,6 +107,63 @@ func _build(definition: ModuleDefinition, stage: int, ghost: bool) -> void:
 			var v2_gem := _add_box("ModuleCore", Vector3(0.4, 0.42, 0.4), Vector3(0, 0.4, 0), material)
 			v2_gem.rotation_degrees.y = 45.0
 			_add_box("ModuleTrim", Vector3(0.82, 0.07, 0.82), Vector3(0, 0.24, 0), highlight)
+
+## 旧 6 模块 -> 部件化模块模型（挖斗类由鲸口车身的 Jaw 表达，不另挂）
+var _stage := 1
+const LEGACY_SLOTS := {
+	"water_cannon": "module_rail_snail",
+	"electric_arc": "module_spider_crane",
+	"magnet": "module_scrap_crawler",
+	"inertia_flywheel": "module_folding_bastion",
+}
+const BODY_EXPRESSED := ["basic_bucket", "wide_bucket"]
+const MOUNT_SCALE := 0.5
+
+## 车身已是正式模型时的挂件构建；返回 true 表示已处理（含“由车身表达、无需挂件”）
+func _build_authored(definition: ModuleDefinition, ghost: bool) -> bool:
+	if definition.mount_kind in ["core", "drive"] or definition.id in BODY_EXPRESSED:
+		if ghost:
+			# 预览挖斗类时给鲸口一个半透明提示环，代替方块
+			_add_torus("JawPreviewRing", 1.1, 0.08, Vector3(0, 0.15, -1.2), _ghost_material(definition.color), Vector3(90, 0, 0))
+		elif definition.id == "wide_bucket" and _stage >= 2:
+			# 鲸口由车身 Jaw 表现（vehicle.on_module_visuals_changed 放大）；这里只留语义锚点
+			var anchor := Node3D.new()
+			anchor.name = "WhaleJawGLB_P05"
+			add_child(anchor)
+			for n in ["Jaw_Upper_Stage02", "Jaw_Lower_Stage02"]:
+				var a := Node3D.new()
+				a.name = n
+				anchor.add_child(a)
+			imported_whale = true
+		return true
+	var slot := str(LEGACY_SLOTS.get(definition.id, ""))
+	if slot.is_empty():
+		slot = FormalModelLibrary.module_slot(definition.id)
+	if slot.is_empty():
+		return false
+	var holder := Node3D.new()
+	holder.name = "Mount_" + slot
+	holder.scale = Vector3.ONE * MOUNT_SCALE
+	holder.position = Vector3(0, 0.3, 0.2)
+	add_child(holder)
+	var rig := ProceduralRig.attach(holder, slot)
+	if rig == null:
+		holder.queue_free()
+		return false
+	if ghost:
+		var mat := _ghost_material(definition.color)
+		for mesh in rig.find_children("*", "MeshInstance3D", true, false):
+			var gm := mesh as MeshInstance3D
+			for s in gm.mesh.get_surface_count():
+				gm.set_surface_override_material(s, mat)
+	return true
+
+func _ghost_material(tint: Color) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(tint.r, tint.g, tint.b, 0.42)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	return m
 
 func _add_box(node_name: String, size: Vector3, at: Vector3, material: Material) -> MeshInstance3D:
 	var instance := MeshInstance3D.new()

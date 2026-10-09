@@ -230,6 +230,13 @@ func _remember(node: Node3D, kind: String, duration: float) -> void:
 	live.append({"node": node, "kind": kind, "time": duration, "duration": duration})
 
 func _scrap_cube() -> Node3D:
+	var authored_parcel := Node3D.new()
+	var authored := WorldDressing.instance_meshes(authored_parcel, "prop_scrap_pile")
+	if authored != null:
+		authored.scale = Vector3.ONE * 0.5
+		authored.position.y = -0.3
+		return authored_parcel
+	authored_parcel.free()
 	# Original bounded geometry: a compressed scrap parcel with a stubborn flag.
 	# This has no collision, target identity, or damage callback.
 	var parcel := Node3D.new()

@@ -47,6 +47,19 @@ func _build_visual() -> void:
 		position.y = maxf(position.y, 0.75)
 		_build_collision()
 		return
+	var slot := {"soft": "prop_scrap_pile", "light": "prop_cargo_crate", "hard": "prop_barrier"}.get(target_kind, "") as String
+	if not slot.is_empty() and ProceduralRig.has_rig(slot):
+		var r := ProceduralRig.attach(self, slot)
+		if r != null:
+			r.name = "TargetVisual"
+			authored_visual = r
+			# 模型底面在原点；目标中心历来在 y=0.6，所以模型下移贴地
+			r.position.y = -0.6
+			r.rotation_degrees.y = float(hash(target_id) % 360)
+			position.y = maxf(position.y, 0.6)
+			if target_kind != "light":
+				_build_collision()
+			return
 	mesh_instance = MeshInstance3D.new()
 	var mesh: Mesh
 	if target_kind == "repair":

@@ -148,6 +148,7 @@ static func _fan_flash(main: Node, origin: Vector3, dir: Vector3, r: float, half
 		st.add_vertex(Vector3(sin(a0), 0, cos(a0)) * r)
 		st.add_vertex(Vector3(sin(a1), 0, cos(a1)) * r)
 	var mi := MeshInstance3D.new()
+	mi.name = "VfxBurst"
 	mi.mesh = st.commit()
 	var m := StandardMaterial3D.new()
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -166,6 +167,7 @@ static func _fan_flash(main: Node, origin: Vector3, dir: Vector3, r: float, half
 ## 直线光束（贯穿枪 / 狙击 / 冲撞路径）
 static func _beam(main: Node, origin: Vector3, dir: Vector3, length: float, width: float, tint: Color) -> void:
 	var mi := MeshInstance3D.new()
+	mi.name = "VfxBurst"
 	var bm := BoxMesh.new()
 	bm.size = Vector3(width, 0.18, length)
 	mi.mesh = bm
