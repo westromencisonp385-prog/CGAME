@@ -40,8 +40,19 @@ var cabin_visual: MeshInstance3D
 ## 部件化车身（player_stage01_whale）；进化后换 evolved_rig
 var body_rig: ProceduralRig
 ## Weaver 资产车头朝 -X，游戏前方是 -Z
-const MODEL_YAW_FIX := -90.0
+## 部件化车身朝向修正已统一到 ProceduralRig（manifest.forward）
 const BODY_SCALE := 1.55
+## 3C 驾驶状态
+var heading := Vector3(0, 0, -1)
+var _fwd_speed := 0.0
+var _yaw_rate := 0.0
+var _long_accel := 0.0
+var _pitch := 0.0
+var _roll := 0.0
+var _head_yaw := 0.0
+var _lunge := 0.0
+var _last_move_dir := Vector3.ZERO
+var aim_mode := "mouse"   # mouse / pad：最后使用的瞄准设备
 ## C13：进化形态（rank>=2 换二阶鲸正式模型）
 var evolved_rig: ProceduralRig
 var evolution_rank := 0
@@ -75,7 +86,6 @@ func apply_evolution(rank: int) -> bool:
 	if evolved_rig == null:
 		holder.queue_free()
 		return false
-	evolved_rig.rotation_degrees.y = MODEL_YAW_FIX
 	holder.position.y = -0.55
 	for child in visual_root.get_children():
 		if child != holder and child is MeshInstance3D:
@@ -87,10 +97,20 @@ func apply_evolution(rank: int) -> bool:
 	evolved_rig.play_attack(0.6)
 	return true
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and (event as InputEventMouseMotion).relative.length() > 2.0:
+		aim_mode = "mouse"
+	elif event is InputEventJoypadMotion and absf((event as InputEventJoypadMotion).axis_value) > 0.5 \
+			and (event as InputEventJoypadMotion).axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]:
+		# 拿起手柄开车：在推右摇杆前先咬向车头
+		if aim_mode == "mouse" and Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down", 0.25).length() < 0.1:
+			aim_mode = "pad"
+
 func _ready() -> void:
 	add_to_group("player_vehicle")
 	_create_collision()
 	_create_visuals()
+	_create_aim_reticle()
 	_last_position = global_position
 	status.applied.connect(func(k: String, _d: float): status_changed.emit(k, true))
 	status.expired.connect(func(k: String): status_changed.emit(k, false))
@@ -129,7 +149,7 @@ func _physics_process(delta: float) -> void:
 			GameFeel.instance.shake(0.2)
 	if boom_visual != null:
 		boom_visual.rotation.x = sin(tool_anim_time * 28.0) * 0.22 if tool_anim_time > 0.0 else move_toward(boom_visual.rotation.x, 0.0, delta * 4.0)
-	var movement := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var movement := Input.get_vector("move_left", "move_right", "move_up", "move_down", Tuning3C.get_f("drive", "stick_deadzone"))
 	var move_dir := Vector3(movement.x, 0.0, movement.y)
 	if status.has("fear"):
 		if _fear_dir.length() < 0.1 or randf() < delta * 2.0:
@@ -137,51 +157,36 @@ func _physics_process(delta: float) -> void:
 		move_dir = _fear_dir
 	if not status.can_move():
 		move_dir = Vector3.ZERO
+	_last_move_dir = move_dir
 	var stats := _stats()
 	max_speed = float(stats.get("speed", base_speed)) * status.speed_multiplier()
-	var accel := 18.0 if not status.has("nitro") else 40.0
-	velocity.x = move_toward(velocity.x, move_dir.x * max_speed, delta * accel)
-	velocity.z = move_toward(velocity.z, move_dir.z * max_speed, delta * accel)
-	if move_dir.length() < 0.1:
-		velocity.x = move_toward(velocity.x, 0.0, delta * 20.0)
-		velocity.z = move_toward(velocity.z, 0.0, delta * 20.0)
+	_drive(delta, move_dir)
 	# 击退叠加在驾驶速度上，快速衰减
 	if knock_velocity.length() > 0.01:
 		velocity.x += knock_velocity.x
 		velocity.z += knock_velocity.z
 		knock_velocity = knock_velocity.move_toward(Vector3.ZERO, delta * 60.0)
-	# 车身惯性倾斜：加速后仰、转向侧倾（只改视觉，不改碰撞）
 	if visual_root != null:
-		var planar_v := Vector2(velocity.x, velocity.z)
-		var target_lean := Vector2.ZERO
-		if planar_v.length() > 0.2:
-			target_lean = Vector2(-movement.y, movement.x) * 0.05
-		_lean = _lean.lerp(target_lean, minf(delta * 8.0, 1.0))
-		visual_root.rotation.x = _lean.x
-		visual_root.rotation.z = -_lean.y
 		if status.has("invincible") and not status.has("nitro"):
 			visual_root.visible = int(Time.get_ticks_msec() / 60) % 2 == 0
 		else:
 			visual_root.visible = true
 	var before := global_position
+	var pre_velocity := velocity
 	move_and_slide()
+	_wall_bounce(pre_velocity)
 	var displacement := global_position.distance_to(before)
 	_update_aim_from_movement(move_dir)
 	if displacement > 0.01:
 		record_drive_displacement(displacement)
-		if body_rig != null:
-			chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(-velocity.x, -velocity.z), delta * 8.0)
-		else:
-			chassis_visual.rotation.y = lerp_angle(chassis_visual.rotation.y, atan2(velocity.x, velocity.z), delta * 8.0)
-		if evolved_rig != null:
-			var h := evolved_rig.get_parent() as Node3D
-			h.rotation.y = lerp_angle(h.rotation.y, atan2(-velocity.x, -velocity.z), delta * 8.0)
+	_update_body_pose(delta)
+	_update_aim_reticle()
 	if body_rig != null and evolved_rig == null:
-		body_rig.set_speed(Vector2(velocity.x, velocity.z).length())
+		body_rig.set_speed(absf(_fwd_speed))
 		if tool_anim_time > 0.0 and body_rig._tool_t < 0.0:
 			body_rig.play_attack(0.35)
 	if evolved_rig != null:
-		evolved_rig.set_speed(Vector2(velocity.x, velocity.z).length())
+		evolved_rig.set_speed(absf(_fwd_speed))
 		if tool_anim_time > 0.0 and evolved_rig._tool_t < 0.0:
 			evolved_rig.play_attack(0.4)
 	if boom_visual != null:
@@ -204,13 +209,106 @@ func _physics_process(delta: float) -> void:
 	state_changed.emit()
 	_last_position = global_position
 
+## ---------------------------------------------------------------- 3C 驾驶（docs/design/3c-v1.md §3）
+## 坦克式朝向车：车头以转向速率追输入方向；速度沿车头，转弯保留前进份额；侧向速度按抓地衰减。
+func _drive(delta: float, move_dir: Vector3) -> void:
+	var d: Dictionary = Tuning3C.data()["drive"]
+	var input_mag := minf(move_dir.length(), 1.0)
+	var nitro := status.has("nitro")
+	var planar := Vector3(velocity.x, 0.0, velocity.z)
+	var fwd := planar.dot(heading)
+	var lateral := planar - heading * fwd
+	var prev_heading := heading
+	var target_speed := 0.0
+	if input_mag > 0.01:
+		var want := move_dir.normalized()
+		var ang := heading.signed_angle_to(want, Vector3.UP)
+		var abs_deg := absf(rad_to_deg(ang))
+		var speed_frac := clampf(absf(fwd) / maxf(max_speed, 0.1), 0.0, 1.0)
+		var rate := lerpf(float(d["turn_rate_still"]), float(d["turn_rate_full"]), speed_frac)
+		var share := lerpf(1.0, float(d["forward_share_min"]), clampf(abs_deg / 90.0, 0.0, 1.0))
+		if abs_deg > float(d["uturn_angle"]):
+			rate *= float(d["uturn_turn_mult"])
+			share = float(d["uturn_speed_share"])
+		var step := deg_to_rad(rate) * delta
+		heading = heading.rotated(Vector3.UP, clampf(ang, -step, step)).normalized()
+		target_speed = max_speed * share * input_mag
+	var accel := max_speed / maxf(float(d["accel_time"]), 0.05) * (2.2 if nitro else 1.0)
+	var brake := max_speed / maxf(float(d["brake_time"]), 0.05) * (0.45 if nitro else 1.0)
+	fwd = move_toward(fwd, target_speed, (accel if target_speed > fwd else brake) * delta)
+	lateral *= exp(-float(d["grip"]) * delta)
+	velocity.x = heading.x * fwd + lateral.x
+	velocity.z = heading.z * fwd + lateral.z
+	_yaw_rate = prev_heading.signed_angle_to(heading, Vector3.UP) / maxf(delta, 1e-4)
+	_long_accel = lerpf(_long_accel, (fwd - _fwd_speed) / maxf(delta, 1e-4), minf(delta * 12.0, 1.0))
+	_fwd_speed = fwd
+
+## 撞墙：move_and_slide 已去掉法向分量，这里按入射速度补一个反弹并轻震
+func _wall_bounce(pre_velocity: Vector3) -> void:
+	var d: Dictionary = Tuning3C.data()["drive"]
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		var body := c.get_collider() as Node
+		if body == null or not body is StaticBody3D:
+			continue
+		var n := c.get_normal()
+		n.y = 0.0
+		if n.length() < 0.5:
+			continue
+		n = n.normalized()
+		var into := -pre_velocity.dot(n)
+		if into < float(d["wall_bounce_min_speed"]):
+			continue
+		velocity += n * into * float(d["wall_bounce"])
+		_fwd_speed = Vector3(velocity.x, 0.0, velocity.z).dot(heading)
+		if GameFeel.instance != null:
+			GameFeel.instance.shake(clampf(into * 0.015, 0.04, 0.14))
+		break
+
+## 车身姿态：偏航 = 物理车头（+ 咬合甩头），俯仰 = 纵向加速度，侧倾 = 角速度 × 速度
+func _update_body_pose(delta: float) -> void:
+	var c: Dictionary = Tuning3C.data()["character"]
+	var k := 1.0 - exp(-float(c["lean_k"]) * delta)
+	var head_target := 0.0
+	var lunge_target := 0.0
+	if tool_anim_time > 0.0:
+		var rel := heading.signed_angle_to(aim_direction, Vector3.UP)
+		var lim := deg_to_rad(float(c["bite_head_turn_max_deg"]))
+		head_target = clampf(rel, -lim, lim)
+		lunge_target = float(c["bite_lunge"])
+	var sk := 1.0 - exp(-float(c["bite_spring_k"]) * delta)
+	_head_yaw = lerpf(_head_yaw, head_target, sk)
+	_lunge = lerpf(_lunge, lunge_target, sk)
+	var yaw := atan2(-heading.x, -heading.z) + _head_yaw
+	if chassis_visual != null:
+		chassis_visual.rotation.y = yaw
+		chassis_visual.position = Vector3(heading.x, 0.0, heading.z) * _lunge + Vector3(0, chassis_visual.position.y, 0)
+	if evolved_rig != null:
+		(evolved_rig.get_parent() as Node3D).rotation.y = yaw
+	var pmax := deg_to_rad(float(c["pitch_max_deg"]))
+	var rmax := deg_to_rad(float(c["roll_max_deg"]))
+	var pitch_t := clampf(_long_accel * float(c["pitch_per_accel"]) * 0.01745, -pmax, pmax)
+	var roll_t := clampf(-_yaw_rate * absf(_fwd_speed) * float(c["roll_per_yawrate"]) * 10.0 * 0.01745, -rmax, rmax)
+	_pitch = lerpf(_pitch, pitch_t, k)
+	_roll = lerpf(_roll, roll_t, k)
+	if visual_root != null:
+		var right := heading.cross(Vector3.UP).normalized()
+		visual_root.basis = Basis(right, _pitch) * Basis(heading, _roll)
+
+## 当前驾驶读数（调试 / 测试）
+func drive_state() -> Dictionary:
+	return {"heading": heading, "fwd_speed": _fwd_speed, "yaw_rate": _yaw_rate, "long_accel": _long_accel}
+
 func _update_aim_from_movement(move_dir: Vector3) -> void:
-	var aim_input := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+	var aim_input := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down", 0.25)
 	if aim_input.length() > 0.1:
+		aim_mode = "pad"
 		aim_direction = Vector3(aim_input.x, 0.0, aim_input.y).normalized()
 		return
-	elif move_dir.length() > 0.1:
-		aim_direction = move_dir.normalized()
+	if aim_mode == "pad":
+		# 摇杆模式松开右摇杆：挖斗咬向车头，符合“开车撞上去咬”的直觉
+		aim_direction = heading
+		return
 	if camera == null:
 		return
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -401,8 +499,11 @@ func try_dash() -> bool:
 	if not gameplay_enabled or dash_cooldown > 0.0 or not status.can_move():
 		return false
 	dash_cooldown = 1.8
-	var dash_power := 18.0 if assembler != null and assembler.has_module("inertia_flywheel") else 12.0
-	velocity += aim_direction * dash_power
+	var dash_power := Tuning3C.get_f("dash", "power_flywheel") if assembler != null and assembler.has_module("inertia_flywheel") else Tuning3C.get_f("dash", "power")
+	var dash_dir := _last_move_dir if _last_move_dir.length() > 0.2 else heading
+	heading = Vector3(dash_dir.x, 0.0, dash_dir.z).normalized()
+	_fwd_speed = maxf(_fwd_speed, 0.0) + dash_power
+	velocity = Vector3(heading.x * _fwd_speed, velocity.y, heading.z * _fwd_speed)
 	dash_pending = true
 	dash_remaining = 0.35
 	dash_hit_ids.clear()
@@ -434,6 +535,10 @@ func reset_vehicle(at: Vector3 = Vector3.ZERO) -> void:
 	packed_enemy_ids.clear()
 	velocity = Vector3.ZERO
 	aim_direction = Vector3(0, 0, -1)
+	heading = Vector3(0, 0, -1)
+	_fwd_speed = 0.0
+	_yaw_rate = 0.0
+	_long_accel = 0.0
 	invulnerable = false
 	gameplay_enabled = true
 	status.clear()
@@ -542,6 +647,67 @@ func _pull_nearby_targets(delta: float) -> void:
 		if global_position.distance_to(node.global_position) < 5.5 and node.pull_toward(global_position, delta * 0.7):
 			count += 1
 
+## ---------------------------------------------------------------- 瞄准指示（K5）
+var _reticle: MeshInstance3D
+var _bite_marker: MeshInstance3D
+var _reticle_point := Vector3.ZERO
+
+func _create_aim_reticle() -> void:
+	if not bool(Tuning3C.get_v("aim", "reticle")):
+		return
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color = Color(0.937, 0.890, 0.784, 0.85)
+	mat.no_depth_test = true
+	mat.render_priority = 2
+	_reticle = MeshInstance3D.new()
+	_reticle.name = "VfxAimReticle"
+	var ring := TorusMesh.new()
+	var r := Tuning3C.get_f("aim", "reticle_radius")
+	ring.inner_radius = r * 0.78
+	ring.outer_radius = r
+	ring.rings = 32
+	ring.ring_segments = 4
+	_reticle.mesh = ring
+	_reticle.material_override = mat
+	_reticle.scale = Vector3(1, 0.08, 1)
+	_reticle.top_level = true
+	_reticle.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(_reticle)
+	var mat2 := mat.duplicate() as StandardMaterial3D
+	mat2.albedo_color = Color(0.851, 0.255, 0.169, 0.9)
+	_bite_marker = MeshInstance3D.new()
+	_bite_marker.name = "VfxBiteMarker"
+	var prism := PrismMesh.new()
+	prism.size = Vector3(0.7, 0.55, 0.06)
+	_bite_marker.mesh = prism
+	_bite_marker.material_override = mat2
+	_bite_marker.top_level = true
+	_bite_marker.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(_bite_marker)
+
+func _update_aim_reticle() -> void:
+	if _reticle == null:
+		return
+	var reach := float(_stats().get("reach", 3.0))
+	var base := Vector3(global_position.x, 0.06, global_position.z)
+	var point := base + aim_direction * reach
+	if aim_mode == "mouse" and camera != null and DisplayServer.get_name() != "headless":
+		var mp := get_viewport().get_mouse_position()
+		var o := camera.project_ray_origin(mp)
+		var dir := camera.project_ray_normal(mp)
+		if absf(dir.y) > 0.001:
+			point = o + dir * ((0.06 - o.y) / dir.y)
+	_reticle_point = point
+	_reticle.global_position = point
+	_reticle.visible = health > 0.0
+	# 箭头：车前挖斗咬合距离处，指向瞄准方向；冷却中变淡
+	var tip := base + aim_direction * (reach + 0.2)
+	_bite_marker.global_transform = Transform3D(Basis.looking_at(aim_direction, Vector3.UP) * Basis(Vector3.RIGHT, -PI * 0.5), tip)
+	(_bite_marker.material_override as StandardMaterial3D).albedo_color.a = 0.35 if primary_cooldown > 0.0 else 0.9
+	_bite_marker.visible = health > 0.0
+
 func _create_collision() -> void:
 	var collider := CollisionShape3D.new()
 	var shape := BoxShape3D.new()
@@ -562,7 +728,6 @@ func _create_visuals() -> void:
 	if body_rig != null:
 		body_holder.position.y = -0.55
 		body_holder.scale = Vector3.ONE * BODY_SCALE
-		body_rig.rotation_degrees.y = MODEL_YAW_FIX
 		chassis_visual = body_holder
 		return
 	body_holder.queue_free()

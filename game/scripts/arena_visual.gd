@@ -104,7 +104,7 @@ func _build_ground() -> void:
 		var wall := box(self, size, at, NAVY, true)
 		wall.visible = not ProceduralRig.has_rig("prop_broken_wall")
 	if authored:
-		terrain = WorldDressing.build_terrain(self, Vector2(60, 52))
+		terrain = WorldDressing.build_terrain(self, Vector2(110, 96))
 		_build_border_dressing()
 		_build_scatter()
 		return

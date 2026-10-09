@@ -67,7 +67,7 @@ func refresh(delta: float) -> void:
 	var route_status := "捷径已通" if main.repair_done else "封锁 · 绕行"
 	var phase: String = str(main.get_contract_phase()) if main.has_method("get_contract_phase") else "复苏河岸"
 	mission_label.text = "%s\n回收 %d/3   威胁 %d/5\n水泵 %s\n路线 %s   %02d:%02d" % [phase, main.collected, main.defeated, "已启动" if main.repair_done else "待修复", route_status, int(main.elapsed) / 60, int(main.elapsed) % 60]
-	hint_label.text = "已暂停 · Esc 继续" if main.manual_pause else "WASD 驾驶 · 鼠标 瞄准 · 左键 作业 · 右键 投掷 · Shift 冲刺(无敌) · 1-4 技能 · 5-7 召唤 · F7 新模块 · F4 刷怪 · F8 Boss · G 群系"
+	hint_label.text = "已暂停 · Esc 继续" if main.manual_pause else "WASD 驾驶 · 鼠标 瞄准 · 左键 咬合 · 右键 投掷 · Shift 沿行驶方向冲刺(无敌) · 1-4 技能 · 5-7 召唤 · F7 新模块 · F4 刷怪 · F8 Boss · G 群系 · F10 重载手感参数"
 	loadout_label.text = "核心   %s\n挂点 A  %s\n挂点 B  %s\n动力   %s\n结构阶段  %d" % [_display(a.core_id), _display(a.active_ids[0]), _display(a.active_ids[1]), _display(a.drive_id), a.stage]
 	preview_label.text = a.get_preview_summary() if not a.preview_id.is_empty() else "选择一个模块查看幽灵预览。\n确认前不会改变实装、资源与冷却。"
 	confirm_button.disabled = a.preview_id.is_empty()

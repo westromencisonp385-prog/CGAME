@@ -1,0 +1,3696 @@
+{
+ "VMBaseStats": [
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 6.0,
+     "y": 20.0,
+     "z": 6.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 6.0,
+     "y": 10.0,
+     "z": 6.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 5.25,
+    "harvesterScale": {
+     "x": 12.0,
+     "y": 5.0,
+     "z": 10.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 6.0
+    },
+    "magnetScale": 15.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 15.0
+    },
+    "rigidBodyMass": 150,
+    "maxHP": 120.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 0,
+    "name": "Tank 0",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 150.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 15.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.02,
+    "breakingAdjustmentRate": 2.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.4
+     ],
+     [
+      0.127,
+      0.831
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      1.05
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 17.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      1.271
+     ],
+     [
+      0.275,
+      0.554
+     ],
+     [
+      0.581,
+      0.25
+     ],
+     [
+      1.0,
+      0.105
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.5,
+    "alignmentMultiplier": 30.0,
+    "progressiveMaxVelocityAdjustment": 1,
+    "progressiveMaxVelocityMultCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      10.0,
+      3.5
+     ]
+    ],
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 6.0,
+     "y": 20.0,
+     "z": 6.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 6.0,
+     "y": 10.0,
+     "z": 6.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 5.25,
+    "harvesterScale": {
+     "x": 12.0,
+     "y": 5.0,
+     "z": 10.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 6.0
+    },
+    "magnetScale": 15.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 15.0
+    },
+    "rigidBodyMass": 300,
+    "maxHP": 180.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 1,
+    "name": "Tank 1",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 150.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 16.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.02,
+    "breakingAdjustmentRate": 2.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.4
+     ],
+     [
+      0.127,
+      0.831
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      1.05
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 16.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      1.271
+     ],
+     [
+      0.275,
+      0.554
+     ],
+     [
+      0.581,
+      0.25
+     ],
+     [
+      1.0,
+      0.105
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.5,
+    "alignmentMultiplier": 30.0,
+    "progressiveMaxVelocityAdjustment": 1,
+    "progressiveMaxVelocityMultCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      10.0,
+      3.5
+     ]
+    ],
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 1,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 19.0,
+     "y": 35.0,
+     "z": 19.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 17.5,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 19.0,
+     "y": 20.0,
+     "z": 19.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 12.0,
+    "harvesterScale": {
+     "x": 23.0,
+     "y": 5.0,
+     "z": 23.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 10.0
+    },
+    "magnetScale": 12.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 12.0
+    },
+    "rigidBodyMass": 500,
+    "maxHP": 300.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 2,
+    "name": "Tank 2",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 150.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 17.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.02,
+    "breakingAdjustmentRate": 2.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.4
+     ],
+     [
+      0.127,
+      0.831
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      1.05
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 15.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      1.271
+     ],
+     [
+      0.275,
+      0.554
+     ],
+     [
+      0.581,
+      0.25
+     ],
+     [
+      1.0,
+      0.105
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.5,
+    "alignmentMultiplier": 30.0,
+    "progressiveMaxVelocityAdjustment": 1,
+    "progressiveMaxVelocityMultCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      10.0,
+      3.5
+     ]
+    ],
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 2,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 28.0,
+     "y": 50.0,
+     "z": 28.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 25.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 28.0,
+     "y": 50.0,
+     "z": 28.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 17.0,
+    "harvesterScale": {
+     "x": 35.0,
+     "y": 8.0,
+     "z": 20.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 15.0
+    },
+    "magnetScale": 20.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 20.0
+    },
+    "rigidBodyMass": 800,
+    "maxHP": 500.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 3,
+    "name": "Tank 3",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 150.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 18.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.02,
+    "breakingAdjustmentRate": 2.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.4
+     ],
+     [
+      0.127,
+      0.831
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      1.05
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 14.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      1.271
+     ],
+     [
+      0.275,
+      0.554
+     ],
+     [
+      0.581,
+      0.25
+     ],
+     [
+      1.0,
+      0.105
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.5,
+    "alignmentMultiplier": 30.0,
+    "progressiveMaxVelocityAdjustment": 1,
+    "progressiveMaxVelocityMultCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      10.0,
+      3.5
+     ]
+    ],
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 3,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 6.0,
+     "y": 20.0,
+     "z": 6.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 6.0,
+     "y": 10.0,
+     "z": 6.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 5.25,
+    "harvesterScale": {
+     "x": 12.0,
+     "y": 5.0,
+     "z": 10.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 6.0
+    },
+    "magnetScale": 15.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 15.0
+    },
+    "rigidBodyMass": 50,
+    "maxHP": 60.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 0,
+    "name": "Wanderturm",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 19.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      2.495
+     ],
+     [
+      0.374,
+      1.738
+     ],
+     [
+      0.608,
+      1.008
+     ],
+     [
+      0.819,
+      0.567
+     ],
+     [
+      0.998,
+      0.501
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      3.501
+     ],
+     [
+      0.316,
+      2.843
+     ],
+     [
+      0.484,
+      1.522
+     ],
+     [
+      0.626,
+      0.892
+     ],
+     [
+      0.853,
+      0.522
+     ],
+     [
+      0.998,
+      0.491
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 12.5,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 9.5,
+     "y": 13.0,
+     "z": 11.5
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 6.5,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 9.5,
+     "y": 5.0,
+     "z": 11.5
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 6.5,
+    "harvesterScale": {
+     "x": 12.0,
+     "y": 5.0,
+     "z": 12.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 6.0
+    },
+    "magnetScale": 10.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 10.0
+    },
+    "rigidBodyMass": 100,
+    "maxHP": 80.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 1,
+    "name": "Wanderturm",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 20.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.1,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      2.495
+     ],
+     [
+      0.374,
+      1.738
+     ],
+     [
+      0.608,
+      1.008
+     ],
+     [
+      0.819,
+      0.567
+     ],
+     [
+      0.998,
+      0.501
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      3.501
+     ],
+     [
+      0.316,
+      2.843
+     ],
+     [
+      0.484,
+      1.522
+     ],
+     [
+      0.626,
+      0.892
+     ],
+     [
+      0.853,
+      0.522
+     ],
+     [
+      0.998,
+      0.491
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 11.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 1,
+    "collectorRadius": 20.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 19.0,
+     "y": 35.0,
+     "z": 19.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 17.5,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 19.0,
+     "y": 20.0,
+     "z": 19.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 12.0,
+    "harvesterScale": {
+     "x": 23.0,
+     "y": 5.0,
+     "z": 23.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 10.0
+    },
+    "magnetScale": 12.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 12.0
+    },
+    "rigidBodyMass": 200,
+    "maxHP": 130.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 2,
+    "name": "Wanderturm",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 22.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.1,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      2.495
+     ],
+     [
+      0.374,
+      1.738
+     ],
+     [
+      0.608,
+      1.008
+     ],
+     [
+      0.819,
+      0.567
+     ],
+     [
+      0.998,
+      0.501
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      3.501
+     ],
+     [
+      0.316,
+      2.843
+     ],
+     [
+      0.484,
+      1.522
+     ],
+     [
+      0.626,
+      0.892
+     ],
+     [
+      0.853,
+      0.522
+     ],
+     [
+      0.998,
+      0.491
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 10.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 2,
+    "collectorRadius": 25.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 28.0,
+     "y": 50.0,
+     "z": 28.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 25.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 28.0,
+     "y": 50.0,
+     "z": 28.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 17.0,
+    "harvesterScale": {
+     "x": 35.0,
+     "y": 8.0,
+     "z": 20.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 15.0
+    },
+    "magnetScale": 20.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 20.0
+    },
+    "rigidBodyMass": 400,
+    "maxHP": 200.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 3,
+    "name": "Wanderturm",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 6.0,
+    "maxVelocity": 25.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.1,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      2.495
+     ],
+     [
+      0.374,
+      1.738
+     ],
+     [
+      0.608,
+      1.008
+     ],
+     [
+      0.819,
+      0.567
+     ],
+     [
+      0.998,
+      0.501
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.002,
+      3.501
+     ],
+     [
+      0.316,
+      2.843
+     ],
+     [
+      0.484,
+      1.522
+     ],
+     [
+      0.626,
+      0.892
+     ],
+     [
+      0.853,
+      0.522
+     ],
+     [
+      0.998,
+      0.491
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 9.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 3,
+    "collectorRadius": 30.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 9.5,
+     "y": 13.0,
+     "z": 11.5
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 6.5,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 9.5,
+     "y": 5.0,
+     "z": 11.5
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 0.0,
+    "harvesterScale": {
+     "x": 10.0,
+     "y": 5.0,
+     "z": 5.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 8.0
+    },
+    "magnetScale": 10.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 10.0
+    },
+    "rigidBodyMass": 100,
+    "maxHP": 150.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 0,
+    "name": "Spiderburg",
+    "description": "A Nimble Vehicle on legs that do damage when stomping on things.  Immune to terrain effects.",
+    "maxNitro": 15.0,
+    "nitroConsumptionRate": 1.0,
+    "nitroRegenRate": 1.0,
+    "maxVelocity": 12.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.1,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 0.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.008,
+      2.005
+     ],
+     [
+      0.998,
+      2.005
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 25.0,
+    "rotSpeedConstantantAdjustmentRate": 2.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.701
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "collectorRadius": 10.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 9.5,
+     "y": 13.0,
+     "z": 11.5
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 6.5,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 9.5,
+     "y": 5.0,
+     "z": 11.5
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 0.0,
+    "harvesterScale": {
+     "x": 10.0,
+     "y": 5.0,
+     "z": 5.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 8.0
+    },
+    "magnetScale": 10.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 10.0
+    },
+    "rigidBodyMass": 100,
+    "maxHP": 100.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 0,
+    "name": "Wanderturm",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 15.0,
+    "nitroConsumptionRate": 1.0,
+    "nitroRegenRate": 1.0,
+    "maxVelocity": 16.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.1,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 0.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.05
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 15.0,
+    "rotSpeedConstantantAdjustmentRate": 2.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.701
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "collectorRadius": 10.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 5.0,
+     "y": 13.0,
+     "z": 5.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 6.5,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 7.5,
+     "y": 5.0,
+     "z": 7.5
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 1.5
+    },
+    "navMeshObstacleRadius": 0.0,
+    "harvesterScale": {
+     "x": 7.5,
+     "y": 5.0,
+     "z": 5.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 5.0
+    },
+    "magnetScale": 10.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 10.0
+    },
+    "rigidBodyMass": 100,
+    "maxHP": 100.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 0,
+    "name": "",
+    "description": "",
+    "maxNitro": 10.0,
+    "nitroConsumptionRate": 2.0,
+    "nitroRegenRate": 1.0,
+    "maxVelocity": 15.0,
+    "maxVelocityReverse": 15.0,
+    "commandPosReachedThreshold": 0.05,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 0.0,
+    "breakingMultiplier": 0.4,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.05
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 10.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 15.0,
+    "rotSpeedConstantantAdjustmentRate": 2.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.701
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 20.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 20.0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "collectorRadius": 10.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 6.0,
+     "y": 20.0,
+     "z": 6.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 6.0,
+     "y": 10.0,
+     "z": 6.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 5.25,
+    "harvesterScale": {
+     "x": 12.0,
+     "y": 5.0,
+     "z": 10.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 6.0
+    },
+    "magnetScale": 15.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 15.0
+    },
+    "rigidBodyMass": 50,
+    "maxHP": 50.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 0,
+    "name": "Spider",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 5.5,
+    "maxVelocity": 19.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.501
+     ],
+     [
+      0.868,
+      1.428
+     ],
+     [
+      0.938,
+      0.446
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.004,
+      1.994
+     ],
+     [
+      0.904,
+      1.773
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 20.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 15.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 6.0,
+     "y": 20.0,
+     "z": 6.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 6.0,
+     "y": 10.0,
+     "z": 6.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 6.5,
+    "harvesterScale": {
+     "x": 12.0,
+     "y": 5.0,
+     "z": 12.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 6.0
+    },
+    "magnetScale": 15.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 15.0
+    },
+    "rigidBodyMass": 100,
+    "maxHP": 75.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 1,
+    "name": "Spider",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 5.5,
+    "maxVelocity": 21.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.501
+     ],
+     [
+      0.868,
+      1.428
+     ],
+     [
+      0.938,
+      0.446
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.004,
+      1.994
+     ],
+     [
+      0.904,
+      1.773
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 20.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 15.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 1,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 6.0,
+     "y": 20.0,
+     "z": 6.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 19.0,
+     "y": 20.0,
+     "z": 19.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 12.0,
+    "harvesterScale": {
+     "x": 23.0,
+     "y": 5.0,
+     "z": 23.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 10.0
+    },
+    "magnetScale": 12.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 15.0
+    },
+    "rigidBodyMass": 200,
+    "maxHP": 100.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 2,
+    "name": "Spider",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 5.5,
+    "maxVelocity": 24.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.501
+     ],
+     [
+      0.868,
+      1.428
+     ],
+     [
+      0.938,
+      0.446
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.004,
+      1.994
+     ],
+     [
+      0.904,
+      1.773
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 18.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 15.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 2,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  },
+  {
+   "gameobject": "",
+   "values": {
+    "colliderScale": {
+     "x": 28.0,
+     "y": 50.0,
+     "z": 28.0
+    },
+    "colliderPos": {
+     "x": 0.0,
+     "y": 25.0,
+     "z": 0.0
+    },
+    "navMeshObstacleScale": {
+     "x": 28.0,
+     "y": 50.0,
+     "z": 28.0
+    },
+    "navMeshObstaclePos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "navMeshObstacleRadius": 17.0,
+    "harvesterScale": {
+     "x": 35.0,
+     "y": 8.0,
+     "z": 20.0
+    },
+    "harvesterPos": {
+     "x": 0.0,
+     "y": 2.5,
+     "z": 15.0
+    },
+    "magnetScale": 20.0,
+    "magnetPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 20.0
+    },
+    "rigidBodyMass": 400,
+    "maxHP": 150.0,
+    "vehicleSize": 2.5,
+    "vehicleSizeRank": 3,
+    "name": "Spider",
+    "description": "Good all-rounder on wheels",
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroRegenRate": 5.5,
+    "maxVelocity": 27.0,
+    "maxVelocityReverse": 12.0,
+    "commandPosReachedThreshold": 0.2,
+    "forwardShareMultiplierMinimum": 0.75,
+    "slowDownMultiplier": 0.9,
+    "slowDownRotationMultiplier": 5.0,
+    "breakingMultiplier": 0.1,
+    "breakingAdjustmentRate": 1.0,
+    "forwardSpeedCurve": [
+     [
+      0.002,
+      1.501
+     ],
+     [
+      0.868,
+      1.428
+     ],
+     [
+      0.938,
+      0.446
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "forwardSpeedBoostingCurve": [
+     [
+      0.004,
+      1.994
+     ],
+     [
+      0.904,
+      1.773
+     ],
+     [
+      0.95,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "reverseSpeedLerpCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.75,
+      0.445
+     ],
+     [
+      0.998,
+      0.444
+     ]
+    ],
+    "mouseControlRotationAngleToleranceForward": 5.0,
+    "mouseControlRotationAngleToleranceBackward": 0.0,
+    "rotVelocityFlatMultiplier": 16.0,
+    "rotSpeedConstantantAdjustmentRate": 3.0,
+    "rotVelocityReverseFlatMultiplier": 5.0,
+    "rotSpeedOverLatSpeedMultiplier": [
+     [
+      0.001,
+      0.9
+     ],
+     [
+      0.1,
+      0.595
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "rotSpeedOverLatSpeedReverseMultiplier": [
+     [
+      0.002,
+      0.501
+     ],
+     [
+      0.256,
+      0.384
+     ],
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "alignmentIntensity": 1.0,
+    "alignmentMultiplier": 15.0,
+    "progressiveMaxVelocityAdjustment": 0,
+    "activeSlotsCapacity": 4,
+    "forwardGimbalMaxAngle": 10.0,
+    "sidewardGimbalMaxAngle": 5.0,
+    "canAbsorbVehiclesOfSizeRank": 3,
+    "collectorRadius": 15.0,
+    "rangeAddToEnemyAttack": 7.5,
+    "stepDamage": 5.0,
+    "stepDamageRadius": 2.5
+   }
+  }
+ ],
+ "DriveFeedback": [
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 2,
+    "wheelTurnSpeedMultiplier": 40.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": -0.35,
+    "tracksMinimumWheelSpeed": 0.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 0,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjDistMult": 0.01,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -500271926,
+      "Data2": 1168398747,
+      "Data3": -578570607,
+      "Data4": -884591578
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 2,
+    "wheelTurnSpeedMultiplier": 35.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": -0.35,
+    "tracksMinimumWheelSpeed": 0.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjDistMult": 0.01,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -500271926,
+      "Data2": 1168398747,
+      "Data3": -578570607,
+      "Data4": -884591578
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 2,
+    "wheelTurnSpeedMultiplier": 35.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": -0.35,
+    "tracksMinimumWheelSpeed": 0.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjDistMult": 0.01,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -500271926,
+      "Data2": 1168398747,
+      "Data3": -578570607,
+      "Data4": -884591578
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 2,
+    "wheelTurnSpeedMultiplier": 40.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": -0.35,
+    "tracksMinimumWheelSpeed": 0.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 0,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjDistMult": 0.01,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -500271926,
+      "Data2": 1168398747,
+      "Data3": -578570607,
+      "Data4": -884591578
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 35.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 2142279312,
+      "Data2": 1113500077,
+      "Data3": -786741612,
+      "Data4": -801942112
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 35.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 2142279312,
+      "Data2": 1113500077,
+      "Data3": -786741612,
+      "Data4": -801942112
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 35.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 2142279312,
+      "Data2": 1113500077,
+      "Data3": -786741612,
+      "Data4": -801942112
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 40.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 2142279312,
+      "Data2": 1113500077,
+      "Data3": -786741612,
+      "Data4": -801942112
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 1,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 1,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 40.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 2142279312,
+      "Data2": 1113500077,
+      "Data3": -786741612,
+      "Data4": -801942112
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 40.0,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 2142279312,
+      "Data2": 1113500077,
+      "Data3": -786741612,
+      "Data4": -801942112
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 0,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 0,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjDistMult": 0.01,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 0,
+      "Data2": 0,
+      "Data3": 0,
+      "Data4": 0
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 1,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -677572291,
+      "Data2": 1188492713,
+      "Data3": 1129551778,
+      "Data4": 1016926128
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 1,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -677572291,
+      "Data2": 1188492713,
+      "Data3": 1129551778,
+      "Data4": 1016926128
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 1,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -677572291,
+      "Data2": 1188492713,
+      "Data3": 1129551778,
+      "Data4": 1016926128
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  },
+  {
+   "gameobject": "Drive",
+   "values": {
+    "myDriveType": 1,
+    "wheelTurnSpeedMultiplier": 0.5,
+    "wheelSpinMinSpinSpeed": 3.0,
+    "noSteering": 0,
+    "trackSpeedMod": 1.0,
+    "tracksMinimumWheelSpeed": 1.0,
+    "hasTrailers": 0,
+    "hasEngineFeedback": 1,
+    "engineWheelTurnSpeedMultiplier": 1.0,
+    "exhaustAnimObjCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.501,
+      1.0
+     ],
+     [
+      1.001,
+      0.0
+     ],
+     [
+      1.502,
+      1.0
+     ],
+     [
+      2.003,
+      0.0
+     ]
+    ],
+    "exhaustAnimObjDistMult": 1.0,
+    "magnetEffectActiveDuration": 2.0,
+    "drivingSound": {
+     "Guid": {
+      "Data1": -677572291,
+      "Data2": 1188492713,
+      "Data3": 1129551778,
+      "Data4": 1016926128
+     }
+    },
+    "boostingSound": {
+     "Guid": {
+      "Data1": 1832639902,
+      "Data2": 1317206736,
+      "Data3": 1431188916,
+      "Data4": 1692451363
+     }
+    }
+   }
+  }
+ ],
+ "OverworldVehicleController": [
+  {
+   "gameobject": "Vehicle",
+   "values": {
+    "maxSpeed": 35.0,
+    "acceleration": 500.0,
+    "coastDeceleration": 100.0,
+    "brakeDeceleration": 100.0,
+    "turnSpeed": 1000.0,
+    "turnResponsiveness": 25.0,
+    "lateralGrip": 3.0,
+    "minimumTurnSpeedFactor": 0.3,
+    "controllerDeadzone": 0.12,
+    "controllerCruise": 1,
+    "groundY": 0.0,
+    "groundMask": {
+     "m_Bits": 64
+    },
+    "obstacleBounceMultiplier": 0.8,
+    "minimumObstacleBounceSpeed": 12.0,
+    "obstacleBounceDuration": 0.22,
+    "obstacleBounceDeceleration": 20.0,
+    "obstacleBounceCooldown": 0.08,
+    "drivingVFXSpeedThreshold": 2.0,
+    "boostSpeedMultiplier": 2.0,
+    "boostAccelerationMultiplier": 2.0,
+    "maxNitro": 10000000.0,
+    "nitroConsumptionRate": 0.0,
+    "nitroRegenRate": 10000.0,
+    "currentNitro": 0.0,
+    "turnLeanAngle": 15.0,
+    "accelerationLeanAngle": -10.0,
+    "boostLeanAngle": -5.0,
+    "bodyLeanSpeed": 8.0,
+    "bodyBobAmount": 0.025,
+    "bodyBobFrequency": 7.0,
+    "wheelRadius": 1.0,
+    "wheelSpinAxis": {
+     "x": 1.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "frontWheelSteerAngle": 25.0,
+    "wheelSteerSpeed": 10.0,
+    "skidSteerThreshold": 0.65,
+    "skidSpeedThreshold": 0.45,
+    "cameraOffset": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "captureCameraOffsetOnStart": 1,
+    "cameraFollowSpeed": 8.0,
+    "cameraVelocityLookAhead": 0.15,
+    "boostCameraSizeBonus": 3.0,
+    "cameraSizeFeedbackSpeed": 4.0,
+    "zoomedOrthoSize": 50.0,
+    "normalOrthoSize": 77.2,
+    "zoomDelay": 0.5,
+    "zoomDuration": 2.0,
+    "vehicleSpawnPositions": {
+     "_serializedList": [
+      {
+       "Key": "GRASSLAND 1"
+      },
+      {
+       "Key": "GRASSLAND 2"
+      },
+      {
+       "Key": "GRASSLAND 3"
+      },
+      {
+       "Key": "Desert 1"
+      },
+      {
+       "Key": "Desert 2"
+      },
+      {
+       "Key": "Desert 3"
+      },
+      {
+       "Key": "DarkForest 1"
+      },
+      {
+       "Key": "DarkForest 2"
+      },
+      {
+       "Key": "DarkForest 3"
+      }
+     ]
+    },
+    "currentSurfaceIndex": 0
+   }
+  }
+ ],
+ "VM": [
+  {
+   "gameobject": "Vehicle_Functional",
+   "values": {
+    "currentHP": 100.0,
+    "maxHP": 100.0,
+    "currentArmor": 0.0,
+    "currentShield": 0.0,
+    "vehicleSizeRank": 0,
+    "canAbsorbVehiclesOfSizeRank": 0,
+    "meleeAddedRange": 0.0,
+    "frontSlots": 0,
+    "sideSlots": 0,
+    "backSlots": 0,
+    "topSlots": 0,
+    "crewSlots": 0,
+    "captainSlots": 0,
+    "frontSlotsTaken": 0,
+    "sideSlotsTaken": 0,
+    "backSlotsTaken": 0,
+    "topSlotsTaken": 0,
+    "crewSlotsTaken": 0,
+    "captainSlotsTaken": 0,
+    "currentInputType": 1,
+    "controllerAutoBrakeAfterStickIdle": 0,
+    "commandedPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "maxVelocity": 0.0,
+    "maxVelocityReverse": 0.0,
+    "rotVelocityFlatMultiplier": 0.0,
+    "boosting": 0,
+    "rotationDirection": 0.0,
+    "holdingInPlace": 0,
+    "accelValueMutiplier": 100.0,
+    "overRotateLerpSpeed": 50.0,
+    "progressiveMaxV": 0,
+    "mapBoundsSafetyPadding": 5.0,
+    "mapBoundsRecoveryInset": 10.0,
+    "slowResistance": 0.0,
+    "stunResistance": 0.0,
+    "knockBackResistance": 0.0,
+    "cantBeCCd": 0,
+    "cantBurn": 0,
+    "cantBeKnockedUp": 0,
+    "cantBeStunned": 0,
+    "cantBeFeared": 0,
+    "cantBeSlowed": 0,
+    "burning": 0,
+    "isStunned": 0,
+    "isSlowed": 0,
+    "knockedUp": 0,
+    "isFeared": 0,
+    "groundCheckMask": {
+     "m_Bits": 80
+    },
+    "inWater": 0,
+    "inSlowTerrain": 0,
+    "suckedIn": 0,
+    "suckedInVector": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "maxNitro": 100.0,
+    "nitroConsumptionRate": 10.0,
+    "nitroOverheatTime": 3.0,
+    "nitroRegenRate": 5.0,
+    "nitroSpeedFactor": 2.0,
+    "currentNitro": 100.0,
+    "nitroRecoveryMode": 0,
+    "mouseHitLayerMask": {
+     "m_Bits": 64
+    },
+    "mousePosInWorld": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "coinCollectionBlocked": 0,
+    "coolDownFactor": 1.0,
+    "onNitroPress": {
+     "Guid": {
+      "Data1": -334411932,
+      "Data2": 1082603185,
+      "Data3": -1960705109,
+      "Data4": 2050706342
+     }
+    },
+    "outOfNitroSound": {
+     "Guid": {
+      "Data1": -803175490,
+      "Data2": 1187006430,
+      "Data3": 331811992,
+      "Data4": 280582525
+     }
+    },
+    "onNitroRefill": {
+     "Guid": {
+      "Data1": 355545184,
+      "Data2": 1340434795,
+      "Data3": 1358516622,
+      "Data4": 1131182585
+     }
+    },
+    "nitroRejectInput": {
+     "Guid": {
+      "Data1": 1443288811,
+      "Data2": 1231724379,
+      "Data3": 540000699,
+      "Data4": -1542807566
+     }
+    },
+    "forwardGimbalMaxAngle": 15.0,
+    "sidewardGimbalMaxAngle": 0.0,
+    "frontAngleLerpSpeed": 0.01,
+    "sideGimbalMultiplier": 20.0,
+    "staticSideMovementAnimCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      4.0,
+      0.0
+     ],
+     [
+      8.0,
+      0.0
+     ]
+    ],
+    "staticFrontMovementAnimCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      4.0,
+      0.0
+     ],
+     [
+      8.0,
+      0.0
+     ]
+    ],
+    "commandMarkerAnimationDuration": 0.5,
+    "commandMarkerAnimationCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.103,
+      1.505
+     ],
+     [
+      0.561,
+      1.898
+     ],
+     [
+      1.0,
+      -0.001
+     ]
+    ],
+    "takeDamageAnimaotionCurve": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.025,
+      0.926
+     ],
+     [
+      0.174,
+      0.995
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "wheelsInNeutralPos": 0,
+    "takeDamageFlashEnabled": 1,
+    "takeDamageFlashEmissionIntensityMult": 1.0,
+    "brightnessCurve": [
+     [
+      0.0,
+      0.5
+     ],
+     [
+      0.404,
+      1.0
+     ],
+     [
+      1.001,
+      0.5
+     ]
+    ],
+    "damageFlashDuration": 0.1,
+    "damageFlashFeedbackCooldown": 0.05,
+    "upgradeFlashDuration": 0.5,
+    "upgradeFlashDelay": 0.1,
+    "disableOriginalMeshesOnFlash": 1,
+    "indestructible": 0,
+    "noCooldowns": 0,
+    "unlimitedSprint": 0
+   }
+  }
+ ],
+ "CameraRig": [
+  {
+   "gameobject": "CAMERA_RIG ",
+   "values": {
+    "footageFilmingDisableMovement": 0,
+    "followLerpSpeed": 3.0,
+    "leadMultiplier": 1.0,
+    "leadVectorLerpSpeed": 2.0,
+    "rotationLerpSpeed": 1.0,
+    "tierCameraSizes": [
+     39,
+     45,
+     56,
+     72
+    ],
+    "zoomOutCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.201,
+      -0.339
+     ],
+     [
+      0.901,
+      1.028
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "zoomInCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "zoomOutCurve2": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "currentSize": 1,
+    "boostZoomAmount": -0.1,
+    "boostZoomSpeedFactor": 0.05,
+    "bossFightExtraZoom": 7.0,
+    "bossFightZoomSmoothTime": 1.0,
+    "boostZoomEnabled": 1,
+    "globalScreenShakeIntensity": 1.0,
+    "deactivateCameraShaking": 0,
+    "bossSpawnMoveDuration": 0.6,
+    "bossSpawnHoldDuration": 1.25,
+    "bossSpawnReturnDuration": 0.75,
+    "bossSpawnZoomMultiplier": 0.7,
+    "bossSpawnBehindBossDistance": -5.0,
+    "bossSpawnTravelLiftHeight": 6.0,
+    "bossSpawnMoveToBossCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "bossSpawnReturnMovementCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "bossSpawnCameraZoomCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "bossSpawnTravelLiftCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.45,
+      1.0
+     ],
+     [
+      1.0,
+      0.0
+     ]
+    ],
+    "bossSpawnArrivalWobble": 1,
+    "bossSpawnArrivalWobbleDuration": 0.35,
+    "bossSpawnArrivalWobbleStrength": 0.4,
+    "bossSpawnArrivalWobbleCycles": 2.25,
+    "bossSpawnArrivalZoomPunch": 0.04,
+    "bossSpawnArrivalWobbleDamping": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      1.0,
+      0.0
+     ]
+    ],
+    "triggerBossBodyShakeOnArrival": 1,
+    "bossBodyShakeStrengthMultiplier": 2.25,
+    "bossBodyShakeFrequencyMultiplier": 0.45,
+    "bossBodyShakeExtraDuration": 0.5,
+    "bossDefeatedCameraMovementCurve": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "recentBossDeathPos": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    }
+   }
+  }
+ ],
+ "Harvester": [
+  {
+   "gameobject": "Harvester",
+   "values": {}
+  }
+ ]
+}

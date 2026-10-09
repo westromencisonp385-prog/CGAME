@@ -80,6 +80,7 @@ var summons: Array = []
 var active_summon_slots: Array = [null, null, null]
 ## C17：手感层 / 长期档案 / 模块升级 / 选择队列 / 战斗统计
 var feel: GameFeel
+var cam_rig: CameraRig3C
 var profile := ProfileStore.new()
 var profile_enabled := false
 var module_levels: Dictionary = {}       # module_id -> {damage, cooldown, range, crit, echo, level}
@@ -119,6 +120,8 @@ func _ready() -> void:
 	feel = GameFeel.new()
 	add_child(feel)
 	feel.setup(world.camera, entities)
+	cam_rig = CameraRig3C.new()
+	cam_rig.setup(world.camera)
 	player.dodged.connect(_on_player_dodged)
 	profile_enabled = DisplayServer.get_name() != "headless"
 	if profile_enabled:
@@ -179,14 +182,10 @@ func _process(delta: float) -> void:
 		if EnemyDummy.status_applied_count > _last_status_count:
 			run_systems.report("status_applied", EnemyDummy.status_applied_count - _last_status_count)
 			_last_status_count = EnemyDummy.status_applied_count
-		# C17 相机：紧跟载具（0.8）+ 朝瞄准方向前瞻 1.6m；Boss 在场拉高 4m 看全招式
-		var look_ahead: Vector3 = player.aim_direction * 1.6
+		# 3C 相机（docs/design/3c-v1.md）：速度前瞻、分档缩放、Boss 缩放，与瞄准解耦
 		var boss_on: bool = boss != null and is_instance_valid(boss) and not boss.dead
-		var height := 26.0 if boss_on else 22.0
-		var focus := Vector3(player.position.x * 0.8, 0.0, player.position.z * 0.8) + Vector3(look_ahead.x, 0, look_ahead.z)
-		var desired := focus + Vector3(0, height, height * 0.66)
-		world.camera.position = world.camera.position.lerp(desired, minf(delta * 5.0, 1.0))
-		world.camera.look_at(world.camera.position + Vector3(0, -height, -height * 0.66) + Vector3(0, 0, -1.4))
+		if cam_rig != null:
+			cam_rig.update(delta, player.global_position, player.velocity, boss_on)
 	if ui != null:
 		ui.refresh(delta)
 
@@ -224,6 +223,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_6: _try_summon(1)
 			KEY_7: _try_summon(2)
 			KEY_G: _cycle_biome()
+			KEY_F10:
+				feedback("3C 参数已重载" if Tuning3C.reload() else "3C 参数文件读取失败，使用默认值")
+				get_viewport().set_input_as_handled()
 
 ## 子智能体 C2/C3/C4：Wanderburg 对齐系统束初始化
 func _init_wanderburg_systems() -> void:
@@ -258,6 +260,8 @@ func _init_wanderburg_systems() -> void:
 	vehicle_progression.size_rank_advanced.connect(func(rank: int):
 		feedback("吞噬进化 · 底盘规模 rank %d" % rank)
 		run_systems.report("absorbs", 1)
+		if cam_rig != null:
+			cam_rig.set_tier(rank)
 		if player != null and player.apply_evolution(rank):
 			feedback("进化完成 · 叠河鲸形态")
 		if feel != null:
@@ -660,7 +664,7 @@ func summon_boss() -> void:
 	var boss_id: String = ContentRoster.next_boss_id(run_systems.bosses_defeated)
 	var roster_entry: Dictionary = ContentRoster.BOSS_ROSTER[boss_id]
 	var boss_title: String = str(roster_entry["title"])
-	boss = BossEntity.new().configure_boss(boss_id, Vector3(0, 1.2, -16.0), roster_entry)
+	boss = BossEntity.new().configure_boss(boss_id, Vector3(0, 1.2, -11.0), roster_entry)
 	boss.summoner = func(arch: String, at: Vector3): spawn_archetype(arch, at)
 	entities.add_child(boss)
 	boss.player = player
@@ -684,6 +688,8 @@ func summon_boss() -> void:
 		open_selection_flow("artifact")
 		check_victory())
 	audio.play_event("boss_spawn")
+	if cam_rig != null:
+		cam_rig.start_boss_intro(boss.global_position if boss.is_inside_tree() else Vector3(0, 0, -16.0))
 	if ui != null:
 		ui.stamp_banner("title_boss")
 	feedback("%s 现身 · 河谷深处" % boss_title)

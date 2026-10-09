@@ -265,7 +265,6 @@ func _apply_preview_visual() -> void:
 	ghost_body.add_child(ghost_holder)
 	var ghost_rig := ProceduralRig.attach(ghost_holder, "player_stage01_whale")
 	if ghost_rig != null:
-		ghost_rig.rotation_degrees.y = -90.0
 		ghost_rig.set_process(false)
 		for mesh in ghost_rig.find_children("*", "MeshInstance3D", true, false):
 			var gm := mesh as MeshInstance3D

@@ -21,7 +21,8 @@
     ],
     "sec": 4.6,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "boss_01_kanoning": {
     "slot": "boss_01_kanoning",
@@ -40,7 +41,8 @@
     ],
     "sec": 4.6,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "-X"
   },
   "module_demolition_pigeon": {
     "slot": "module_demolition_pigeon",
@@ -59,7 +61,8 @@
     ],
     "sec": 3.7,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+X"
   },
   "wind_turbine": {
     "slot": "wind_turbine",
@@ -76,7 +79,8 @@
     ],
     "sec": 2.8,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_light_v2": {
     "slot": "enemy_light_v2",
@@ -98,7 +102,8 @@
     ],
     "sec": 4.6,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_ranged_v1": {
     "slot": "enemy_ranged_v1",
@@ -118,7 +123,8 @@
     ],
     "sec": 4.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_flyer_v1": {
     "slot": "enemy_flyer_v1",
@@ -136,7 +142,8 @@
     ],
     "sec": 4.5,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "boss_02": {
     "slot": "boss_02",
@@ -159,7 +166,8 @@
     ],
     "sec": 4.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "boss_03": {
     "slot": "boss_03",
@@ -177,7 +185,8 @@
     ],
     "sec": 4.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "player_stage02_whale": {
     "slot": "player_stage02_whale",
@@ -195,7 +204,8 @@
     ],
     "sec": 4.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_umbrella_mole": {
     "slot": "module_umbrella_mole",
@@ -212,7 +222,8 @@
     ],
     "sec": 3.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_rail_snail": {
     "slot": "module_rail_snail",
@@ -230,7 +241,8 @@
     ],
     "sec": 3.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_folding_bastion": {
     "slot": "module_folding_bastion",
@@ -248,7 +260,8 @@
     ],
     "sec": 3.4,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_scrap_crawler": {
     "slot": "module_scrap_crawler",
@@ -265,7 +278,8 @@
     ],
     "sec": 3.1,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_spider_crane": {
     "slot": "module_spider_crane",
@@ -282,7 +296,8 @@
     ],
     "sec": 4.4,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_road_croc": {
     "slot": "module_road_croc",
@@ -299,7 +314,8 @@
     ],
     "sec": 4.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "module_repair_ark": {
     "slot": "module_repair_ark",
@@ -316,7 +332,8 @@
     ],
     "sec": 4.2,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "-Z"
   },
   "biome_gate": {
     "slot": "biome_gate",
@@ -333,7 +350,8 @@
     ],
     "sec": 2.8,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "mountain_air_pump": {
     "slot": "mountain_air_pump",
@@ -350,7 +368,8 @@
     ],
     "sec": 3.0,
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "camp_board": {
     "slot": "camp_board",
@@ -379,7 +398,8 @@
       1.286
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "-X"
   },
   "enemy_crab_b01": {
     "rig": "walker",
@@ -400,7 +420,8 @@
       0.661
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "repair_pump_c04": {
     "rig": "world_spin",
@@ -415,7 +436,8 @@
       1.896
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_minion_flea": {
     "rig": "walker",
@@ -432,7 +454,8 @@
       0.803
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_minion_oildrum": {
     "rig": "walker",
@@ -450,7 +473,8 @@
       0.719
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_minion_bat": {
     "rig": "flyer",
@@ -466,7 +490,8 @@
       0.641
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_minion_hedgehog": {
     "rig": "walker",
@@ -484,7 +509,8 @@
       0.772
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_minion_mantis": {
     "rig": "walker",
@@ -504,7 +530,8 @@
       1.188
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_elite_rhino": {
     "rig": "walker",
@@ -523,7 +550,8 @@
       1.338
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "enemy_elite_eel": {
     "rig": "walker",
@@ -545,7 +573,8 @@
       1.069
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "boss_04_dredge_toad": {
     "rig": "walker",
@@ -565,7 +594,8 @@
       2.433
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "prop_tree_poplar": {
     "rig": "static",
@@ -910,7 +940,8 @@
       1.091
     ],
     "source": "weaver_segment_joint_v3",
-    "style": "reclaimer_v3"
+    "style": "reclaimer_v3",
+    "forward": "+Z"
   },
   "prop_oil_drums": {
     "rig": "static",

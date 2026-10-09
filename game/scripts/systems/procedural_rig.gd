@@ -13,6 +13,8 @@ extends Node3D
 signal step_taken(foot_position: Vector3)
 
 const MANIFEST_PATH := "res://assets/models/rigged/rig_manifest.json"
+## 模型正面轴 -> 绕 Y 旋转多少能对齐到 -Z
+const FORWARD_YAW := {"-Z": 0.0, "+Z": PI, "+X": PI * 0.5, "-X": -PI * 0.5}
 static var _manifest: Dictionary = {}
 
 var rig_type := "static"
@@ -80,7 +82,13 @@ static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 	rig.name = "ProceduralRig"
 	rig.rig_type = str(entry.get("rig", "static"))
 	rig.model = packed.instantiate() as Node3D
-	rig.add_child(rig.model)
+	# 资产正面轴不统一（Weaver 输出 +Z / -X 都有）：用独立的 Facing 节点对齐到游戏正面 -Z。
+	# 受击/死亡动画改的是 model.transform，不会冲掉这层修正；宿主只管 rig 本身的朝向。
+	var facing := Node3D.new()
+	facing.name = "Facing"
+	facing.rotation.y = FORWARD_YAW.get(str(entry.get("forward", "-Z")), 0.0)
+	rig.add_child(facing)
+	facing.add_child(rig.model)
 	parent.add_child(rig)
 	rig._index_parts()
 	RigStyle.apply(rig.model, rig._model_height)
@@ -284,7 +292,7 @@ func _animate_world_spin() -> void:
 	_spin_angle += get_process_delta_time() * 2.4 * _spin_amt
 	for ro in rotors:
 		var r: Transform3D = rest[ro]
-		var axis := Vector3.FORWARD if str(model.get_parent().name).contains("turbine") or rig_type == "world_spin" else Vector3.UP
+		var axis := Vector3.FORWARD if str(get_parent().name).contains("turbine") or rig_type == "world_spin" else Vector3.UP
 		ro.transform = Transform3D(r.basis.rotated(axis, _spin_angle), r.origin)
 
 func _animate_tops() -> void:
