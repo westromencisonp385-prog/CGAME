@@ -462,6 +462,7 @@ func _try_cast(slot: int) -> void:
 	var mods: Dictionary = module_levels.get(module_id, {})
 	var dmg := _scaled_ability_damage(float(cast.get("damage", 0.0))) * (1.0 + float(mods.get("damage", 0.0)))
 	var result := AbilityLibrary.cast(self, module_id, dmg, float(cast.get("range", 10.0)), mods)
+	_cast_presentation(module_id, str(entry["def"].module_name), str(result.get("shape", "")))
 	entry["cooldown"] = _scaled_cooldown(float(cast.get("cooldown_set", 0.0))) * clampf(1.0 - float(mods.get("cooldown", 0.0)), 0.25, 1.5)
 	run_systems.report("ability_cast", 1)
 	run_stats["casts"] = int(run_stats["casts"]) + 1
@@ -471,6 +472,24 @@ func _try_cast(slot: int) -> void:
 	var shape: String = result.get("shape", "")
 	if int(result.get("hits", 0)) == 0 and shape in ["chain", "snipe", "void_lance", "frost_cone", "flame_cone", "quake", "emp", "roar"]:
 		feedback("%s · 落空" % entry["def"].module_name)
+
+## 施法表现：脚下施法环 + 技能名 + 车身出力 + 对应挂件的动作（只表现）
+func _cast_presentation(module_id: String, title: String, shape: String) -> void:
+	if player == null:
+		return
+	SkillVfx.cast_flourish(player.global_position, shape, title)
+	var body: ProceduralRig = player.evolved_rig if player.evolved_rig != null else player.body_rig
+	if body != null:
+		body.play_attack(0.3, false)
+	var mount := player.find_child("Installed_" + module_id, true, false)
+	if mount != null:
+		for r in mount.find_children("ProceduralRig*", "", true, false):
+			if r is ProceduralRig:
+				(r as ProceduralRig).play_attack(0.36, true)
+		var tw := mount.create_tween()
+		var base: Vector3 = (mount as Node3D).scale
+		tw.tween_property(mount, "scale", base * 1.25, 0.06).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(mount, "scale", base, 0.18).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 
 ## C9：神器+船长伤害修饰（damage/ability_damage 两类 additive 求和后乘算）
 func _scaled_ability_damage(base: float) -> float:

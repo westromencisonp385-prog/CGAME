@@ -74,9 +74,15 @@ func _process(delta: float) -> void:
 		speed = float((get_meta("phase_speeds", [0.9, 1.35, 1.75]) as Array)[phase - 1])
 		if rig != null:
 			rig.set_phase_boost([1.0, 1.3, 1.7][phase - 1])
-			rig.play_attack(0.7)
+			rig.play_attack(0.7, true)
 		phase_changed.emit(phase)
 		_pattern_t = 1.2
+		if is_inside_tree():
+			SkillVfx.shock_wall(global_position, 8.0, VfxKit.RED, 0.55, 2.0)
+			SkillVfx.pillar(global_position, 2.6, 9.0, VfxKit.RED, 0.8)
+			SkillVfx.dust_ring(global_position, 5.0)
+			VfxKit.burst(global_position + Vector3(0, 2.0, 0), "embers", VfxKit.RED, 2.2, 2.5)
+			SkillVfx.callout(global_position + Vector3(0, 6.0, 0), PHASE_TITLES[clampi(phase - 1, 0, 2)], VfxKit.RED, 110)
 		if GameFeel.instance != null and is_inside_tree():
 			GameFeel.instance.shake(0.6)
 			GameFeel.instance.screen_flash(Color("#D9412B"), 0.35, 0.3)
@@ -84,6 +90,10 @@ func _process(delta: float) -> void:
 	# C17 专属招式循环
 	if vacuum_time > 0.0:
 		vacuum_time -= delta
+		_vac_fx -= delta
+		if _vac_fx <= 0.0:
+			_vac_fx = 0.4
+			SkillVfx.vortex(global_position, 7.0, VfxKit.VIOLET, 0.45)
 		if player != null and is_instance_valid(player) and player.has_method("apply_knock"):
 			var to := global_position - player.global_position
 			to.y = 0.0
@@ -104,6 +114,7 @@ func _process(delta: float) -> void:
 signal pattern_started(attack: String)
 var summoner: Callable = Callable()
 var vacuum_time := 0.0
+var _vac_fx := 0.0
 var last_attack := ""
 var _pattern_t := 2.0
 var _pattern_i := 0

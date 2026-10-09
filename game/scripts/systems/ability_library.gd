@@ -135,54 +135,15 @@ static func _proj(main: Node, from: Vector3, dir: Vector3, spd: float, dmg: floa
 	p.on_hit = func(e: EnemyDummy, _at: Vector3): _strike(e, dmg, src, from)
 	return p
 
-## 扇形闪光（火焰 / 冰锥 / 水浪）：一块扇形面片，0.25s 内展开并淡出
+## 扇形闪光（兜底形状）：扇面 + 粒子
 static func _fan_flash(main: Node, origin: Vector3, dir: Vector3, r: float, half_deg: float, tint: Color) -> void:
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var steps := 12
-	var base_ang := atan2(dir.x, dir.z)
-	for i in steps:
-		var a0 := base_ang + deg_to_rad(lerpf(-half_deg, half_deg, float(i) / steps))
-		var a1 := base_ang + deg_to_rad(lerpf(-half_deg, half_deg, float(i + 1) / steps))
-		st.add_vertex(Vector3.ZERO)
-		st.add_vertex(Vector3(sin(a0), 0, cos(a0)) * r)
-		st.add_vertex(Vector3(sin(a1), 0, cos(a1)) * r)
-	var mi := MeshInstance3D.new()
-	mi.name = "VfxBurst"
-	mi.mesh = st.commit()
-	var m := StandardMaterial3D.new()
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	m.cull_mode = BaseMaterial3D.CULL_DISABLED
-	m.albedo_color = Color(tint, 0.6)
-	mi.material_override = m
-	mi.position = Vector3(origin.x, 0.2, origin.z)
-	mi.scale = Vector3(0.2, 1, 0.2)
-	main.entities.add_child(mi)
-	var tw := mi.create_tween()
-	tw.tween_property(mi, "scale", Vector3.ONE, 0.12).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	tw.tween_property(m, "albedo_color:a", 0.0, 0.22)
-	tw.tween_callback(mi.queue_free)
+	SkillVfx._fan(origin, dir, r, half_deg, tint)
+	VfxKit.burst(Vector3(origin.x, 0.7, origin.z) + dir * 0.8, "sparks", tint, clampf(r / 4.0, 0.8, 2.0), 1.4, dir)
 
 ## 直线光束（贯穿枪 / 狙击 / 冲撞路径）
 static func _beam(main: Node, origin: Vector3, dir: Vector3, length: float, width: float, tint: Color) -> void:
-	var mi := MeshInstance3D.new()
-	mi.name = "VfxBurst"
-	var bm := BoxMesh.new()
-	bm.size = Vector3(width, 0.18, length)
-	mi.mesh = bm
-	var m := StandardMaterial3D.new()
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	m.albedo_color = Color(tint, 0.85)
-	mi.material_override = m
-	mi.position = Vector3(origin.x, 0.9, origin.z) + dir * length * 0.5
-	mi.rotation.y = atan2(dir.x, dir.z)
-	main.entities.add_child(mi)
-	var tw := mi.create_tween()
-	tw.tween_property(mi, "scale", Vector3(0.15, 1, 1), 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tw.parallel().tween_property(m, "albedo_color:a", 0.0, 0.22)
-	tw.tween_callback(mi.queue_free)
+	var a := Vector3(origin.x, 0.9, origin.z) + dir * 0.6
+	VfxKit.beam(a, a + dir * length, tint, clampf(width * 0.35, 0.12, 0.7), 0.26)
 
 static func _ring(at: Vector3, r: float, tint: Color, dur := 0.3) -> void:
 	if _feel() != null:
@@ -224,14 +185,15 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 			s.merge({"burn": true, "burn_dps": 5.0, "knock": 5.0})
 			var proj := Projectile.fire(main.entities, at, dir, 17.0, dmg, "player", C_FIRE)
 			proj.size = 0.45
+			proj.style = "fire"
 			proj.lifetime = maxf(r / 17.0, 0.3)
 			var boom := func(center: Vector3):
 				_circle(main, center, 2.4, dmg, s)
-				_ring(center, 2.6, C_FIRE, 0.32)
-				_fx(main, "dash_hit", center, center)
+				VfxKit.explosion(center, 2.4, C_FIRE)
 				_kick(0.28, 0.05)
 			proj.on_hit = func(_e: EnemyDummy, pos: Vector3): boom.call(pos)
 			proj.on_expire = boom
+			VfxKit.muzzle(at, dir, C_FIRE, 1.2)
 			_kick(0.06, 0.0, 2.0)
 			return 1
 		"frost_cone", "flame_cone", "tide_wave":
@@ -251,7 +213,7 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 				for e in _enemies(main):
 					if _flat(e.global_position - at).length() <= r and _flat(e.global_position - at).normalized().dot(dir) >= cos(deg_to_rad(half)):
 						e.apply_wet(4.0)
-			_fan_flash(main, at, dir, r, half, tint)
+			SkillVfx.cone_spray(at, dir, r, half, shape)
 			_kick(0.14, 0.03 if n > 0 else 0.0)
 			return n
 		"chain":
@@ -265,6 +227,7 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 			while cur != null and n2 < 5:
 				hit_ids[cur.get_instance_id()] = true
 				_fx(main, "arc_chain", from_pt, cur.global_position)
+				VfxKit.burst(cur.global_position + Vector3(0, 0.9, 0), "shock", C_SHOCK, 0.7, 0.8)
 				_strike(cur, d * (2.0 if cur.is_wet() else 1.0), s3, from_pt)
 				from_pt = cur.global_position
 				d *= 0.85
@@ -278,10 +241,13 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 			if shape == "pierce_bolt":
 				var bolt := _proj(main, at, dir, 26.0, dmg, C_BONE, s4, 0.26, r / 26.0)
 				bolt.pierce = 4
+				bolt.style = "bolt"
+				VfxKit.muzzle(at, dir, C_BONE, 0.8)
 				_kick(0.08, 0.0, 2.0)
 				return 1
 			var n4 := _line(main, at, dir, r, 1.6, dmg, s4)
 			_beam(main, at, dir, r, 1.2, C_VOID)
+			VfxKit.burst(at + Vector3(0, 0.9, 0) + dir, "shock", C_VOID, 1.0, 1.0, dir)
 			_kick(0.22, 0.06 if n4 > 0 else 0.0, 3.0)
 			return n4
 		"repair", "medic", "soup", "drone_heal":
@@ -302,6 +268,8 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 				if _feel() != null:
 					_feel().number(p.global_position, heal, "heal")
 			_ring(at, 3.0, C_HEAL, 0.4)
+			SkillVfx.pillar(at, 1.4, 4.0, C_HEAL, 0.6)
+			VfxKit.burst(at + Vector3(0, 0.6, 0), "heal", C_HEAL, 1.0, 1.6)
 			_fx(main, "repair", at, at)
 			return 0
 		"snipe":
@@ -313,6 +281,8 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 				return 0
 			var sd := _flat(best.global_position - at).normalized()
 			_beam(main, at, sd, _flat(best.global_position - at).length(), 0.22, C_BONE)
+			VfxKit.muzzle(at, sd, C_BONE, 1.3)
+			VfxKit.impact(best.global_position + Vector3(0, 0.9, 0), C_RED, 1.6)
 			var s5 := src.duplicate()
 			s5.merge({"crit": true, "knock": 8.0})
 			_strike(best, dmg, s5, at)
@@ -331,11 +301,14 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 			s6.merge({"knock": 8.0})
 			var i := 0
 			for spot in spots:
-				Telegraph.circle(main.entities, spot, 2.4, 0.5 + i * 0.12, func(center: Vector3):
+				var fuse := 0.5 + i * 0.12
+				SkillVfx.lob(at, spot, fuse, C_FIRE)
+				Telegraph.circle(main.entities, spot, 2.4, fuse, func(center: Vector3):
 					_circle(main, center, 2.4, dmg, s6)
-					_fx(main, "dash_hit", center, center)
+					VfxKit.explosion(center, 2.4, C_FIRE)
 					_kick(0.2, 0.03), Telegraph.PLAYER_COLOR)
 				i += 1
+			VfxKit.burst(at + Vector3(0, 1.2, 0), "smoke", Color(0.55, 0.52, 0.5, 0.6), 0.8, 1.0)
 			return spots.size()
 		"turret", "barracks":
 			main._try_summon(0 if shape == "turret" else 2, true)
@@ -343,6 +316,8 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 		"tesla":
 			AreaHazard.spawn(main.entities, "tesla", at + dir * 2.5, r, dmg, 10.0)
 			_ring(at + dir * 2.5, r, C_VOID, 0.4)
+			SkillVfx.pillar(at + dir * 2.5, 0.8, 5.0, C_SHOCK, 0.5)
+			VfxKit.lightning(at + Vector3(0, 1, 0), at + dir * 2.5 + Vector3(0, 1.6, 0), C_SHOCK)
 			return 0
 		"resupply", "overclock":
 			var slots: Array = main.vehicle_progression.active_slots
@@ -355,18 +330,23 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 				p.status.clear("overheat")
 				main.overclock_time = 5.0
 			_ring(at, 3.2, C_FIRE, 0.4)
+			SkillVfx.pillar(at, 1.6, 4.5, C_RED if shape == "overclock" else C_FIRE, 0.5)
+			VfxKit.burst(at + Vector3(0, 0.6, 0), "embers", C_FIRE, 1.2, 2.0)
 			_kick(0.1, 0.0, 5.0)
 			return 0
 		"barrage":
 			for k in 12:
 				var a := TAU * k / 12.0
 				_proj(main, at, Vector3(sin(a), 0, cos(a)), 15.0, dmg, C_BONE, src.duplicate(), 0.26, r / 15.0)
+			SkillVfx.shock_wall(at, 3.0, C_BONE, 0.3, 0.8)
+			VfxKit.burst(at + Vector3(0, 0.9, 0), "shock", C_BONE, 1.0, 1.4)
 			_kick(0.2, 0.0, 2.0)
 			return 12
 		"volley":
 			for k in 5:
 				var a2 := deg_to_rad(lerpf(-24.0, 24.0, k / 4.0))
-				_proj(main, at, dir.rotated(Vector3.UP, a2), 20.0, dmg, C_BONE, src.duplicate(), 0.2, r / 20.0)
+				_proj(main, at, dir.rotated(Vector3.UP, a2), 20.0, dmg, C_BONE, src.duplicate(), 0.2, r / 20.0).style = "bolt"
+			VfxKit.muzzle(at, dir, C_BONE, 1.0)
 			_kick(0.08)
 			return 5
 		"broadside":
@@ -375,28 +355,36 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 				for k in 3:
 					var spread := deg_to_rad(lerpf(-14.0, 14.0, k / 2.0))
 					_proj(main, at + right * side * 0.8, (right * side).rotated(Vector3.UP, spread), 16.0, dmg, C_BONE, src.duplicate(), 0.28, r / 16.0)
+				VfxKit.muzzle(at + right * side * 0.8, right * side, C_FIRE, 1.1)
 			_kick(0.2, 0.0, 2.0)
 			return 6
 		"cannon":
 			var s7 := src.duplicate()
 			s7.merge({"knock": 14.0})
 			var shell := _proj(main, at, dir, 24.0, dmg, C_RED, s7, 0.5, r / 24.0)
+			shell.style = "shell"
 			shell.on_hit = func(e: EnemyDummy, pos: Vector3):
 				_strike(e, dmg, s7, at)
 				_circle(main, pos, 1.6, dmg * 0.4, {"knock": 6.0})
+				VfxKit.explosion(pos, 1.8, C_RED)
 				_kick(0.32, 0.07)
+			shell.on_expire = func(pos: Vector3): VfxKit.explosion(pos, 1.2, C_RED, false)
+			VfxKit.muzzle(at, dir, C_FIRE, 1.8)
 			p.apply_knock(-dir * 6.0)  # 后坐力
 			_kick(0.18, 0.0, 3.0)
 			return 1
 		"harpoon":
 			var hook := _proj(main, at, dir, 22.0, dmg, C_BONE, {}, 0.3, r / 22.0)
+			hook.style = "bolt"
+			VfxKit.muzzle(at, dir, C_BONE, 0.9)
 			hook.on_hit = func(e: EnemyDummy, _pos: Vector3):
 				var s8 := src.duplicate()
 				s8.merge({"stun": 0.6, "knock": 0.0})
 				_strike(e, dmg, s8, at)
 				var to_me := _flat(p.global_position - e.global_position)
 				e.apply_knockback(to_me, minf(to_me.length() * 3.2, 22.0))
-				_fx(main, "arc_chain", p.global_position, e.global_position)
+				VfxKit.beam(p.global_position + Vector3(0, 0.9, 0), e.global_position + Vector3(0, 0.9, 0), C_BONE, 0.08, 0.4)
+				VfxKit.impact(e.global_position + Vector3(0, 0.9, 0), C_BONE, 1.2)
 				_kick(0.2, 0.05)
 			return 1
 		"ram", "dash":
@@ -407,7 +395,10 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 			var s9 := src.duplicate()
 			s9.merge({"knock": 14.0 if shape == "ram" else 8.0})
 			var n9 := _line(main, at, dir, dist, 2.6, dmg, s9)
-			_beam(main, at, dir, dist, 2.2, C_RED if shape == "ram" else C_FIRE)
+			var tint9 := C_RED if shape == "ram" else C_FIRE
+			SkillVfx.dash_trail(p, tint9, 0.4)
+			SkillVfx.speed_lines(at, dir, tint9)
+			SkillVfx.dust_ring(at, 2.0)
 			_kick(0.3 if shape == "ram" else 0.14, 0.06 if n9 > 0 else 0.0, 9.0)
 			return n9
 		"magnet_pull", "gravity_well":
@@ -419,11 +410,14 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 					e.apply_knockback(v, minf(v.length() * 3.5, 26.0))
 					n10 += 1
 			_ring(pt, r, C_VOID, 0.45)
+			SkillVfx.vortex(pt, r, C_VOID, 0.7 if shape == "magnet_pull" else 0.5)
 			if shape == "gravity_well":
 				var s10 := src.duplicate()
 				s10.merge({"stun": 0.6, "knock": 5.0})
 				Telegraph.circle(main.entities, pt, 2.8, 0.45, func(center: Vector3):
 					_circle(main, center, 2.8, dmg, s10)
+					VfxKit.explosion(center, 2.8, C_VOID, false)
+					SkillVfx.shock_wall(center, 3.2, C_VOID, 0.35)
 					_kick(0.35, 0.07), C_VOID)
 			else:
 				for e in _enemies(main):
@@ -455,11 +449,33 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 					ctw.tween_callback(func():
 						var c := _flat(main.player.global_position)
 						_circle(main, c, r, dmg, s11)
-						_ring(c, r, C_BONE, 0.2)
+						SkillVfx.vortex(c, r, C_BONE, 0.25)
+						var dp := VfxKit.burst(c + Vector3(0, 0.6, 0), "debris", VfxKit.INK, 1.0, 1.2)
+						if dp != null:
+							(dp.process_material as ParticleProcessMaterial).orbit_velocity_min = 1.2
+							(dp.process_material as ParticleProcessMaterial).orbit_velocity_max = 1.8
 						_kick(0.08))
 				return 4
 			var n11 := _circle(main, at, r, dmg, s11)
 			_ring(at, r, tint2, 0.4)
+			SkillVfx.shock_wall(at, r, tint2, 0.4)
+			match shape:
+				"quake":
+					SkillVfx.dust_ring(at, r)
+					VfxKit.decal(at, r * 0.6, "crack", Color(0.1, 0.09, 0.08, 0.8), 3.0)
+					VfxKit.burst(at + Vector3(0, 0.3, 0), "debris", VfxKit.INK, 1.6, 2.0)
+				"frost_nova":
+					VfxKit.burst(at + Vector3(0, 0.5, 0), "frost", C_FROST, 1.8, 2.5)
+					VfxKit.decal(at, r * 0.8, "splat", Color(C_FROST, 0.45), 2.5)
+				"emp":
+					VfxKit.burst(at + Vector3(0, 0.8, 0), "shock", C_SHOCK, 1.6, 2.0)
+					for k in 5:
+						var a := TAU * k / 5.0 + randf() * 0.5
+						VfxKit.lightning(at + Vector3(0, 1.0, 0), at + Vector3(cos(a), 0.2, sin(a)) * r, C_SHOCK)
+				"roar":
+					SkillVfx.shock_wall(at, r * 0.65, C_BONE, 0.3, 1.8)
+					VfxKit.burst(at + Vector3(0, 1.0, 0), "shock", C_RED, 1.6, 1.6)
+					SkillVfx.callout(at + Vector3(0, 3.6, 0), "吼!", C_RED, 96)
 			_ring(at, r * 0.55, Color(tint2, 0.7), 0.3)
 			_fx(main, "dash_hit", at, at)
 			_kick(0.4 if shape == "quake" else 0.22, 0.07 if n11 > 0 else 0.0)
@@ -467,31 +483,40 @@ static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Di
 		"shield":
 			p.status.apply("shield", 6.0, 45.0)
 			_ring(at, 2.4, C_FROST, 0.4)
+			SkillVfx.pillar(at, 1.8, 3.2, Color("#5FB7C9"), 0.45)
 			return 0
 		"mines":
 			for k in 3:
-				AreaHazard.spawn(main.entities, "mine", at - dir * (1.6 + k * 1.3) + Vector3(-dir.z, 0, dir.x) * (k - 1) * 0.9, 2.6, dmg, 14.0)
+				var mp := at - dir * (1.6 + k * 1.3) + Vector3(-dir.z, 0, dir.x) * (k - 1) * 0.9
+				AreaHazard.spawn(main.entities, "mine", mp, 2.6, dmg, 14.0)
+				VfxKit.burst(mp + Vector3(0, 0.2, 0), "dust", VfxKit.SAND, 0.5, 0.6)
 			return 3
 		"tar":
 			for k in 4:
 				AreaHazard.spawn(main.entities, "tar", at - dir * (1.4 + k * 1.6), 1.6, dmg, 7.0)
+			VfxKit.burst(at - dir * 1.4 + Vector3(0, 0.3, 0), "water", VfxKit.INK, 1.0, 1.4, -dir)
 			return 4
 		"firewall":
 			var right2 := Vector3(-dir.z, 0, dir.x)
 			for k in 5:
 				AreaHazard.spawn(main.entities, "fire", at + dir * r * 0.6 + right2 * (k - 2) * 1.5, 1.2, dmg, 4.0)
+			SkillVfx.cone_spray(at, dir, r * 0.6, 20.0, "flame_cone")
 			_kick(0.1)
 			return 5
 		"blink":
 			var dest := at + dir * r
 			_ring(at, 2.0, C_SHOCK, 0.3)
+			SkillVfx.afterimage(p.visual_root, C_SHOCK, 0.4)
+			SkillVfx.pillar(at, 1.2, 4.0, C_SHOCK, 0.35)
 			p.global_position = Vector3(dest.x, p.global_position.y, dest.z)
 			p.status.apply("invincible", 0.35)
 			var s12 := src.duplicate()
 			s12.merge({"stun": 0.6, "knock": 9.0, "number_kind": "shock"})
 			var n12 := _circle(main, dest, 3.0, dmg, s12)
 			_ring(dest, 3.2, C_SHOCK, 0.35)
-			_fx(main, "arc_chain", at, dest)
+			SkillVfx.pillar(dest, 1.4, 4.5, C_SHOCK, 0.45)
+			VfxKit.burst(dest + Vector3(0, 0.8, 0), "shock", C_SHOCK, 1.4, 1.6)
+			VfxKit.lightning(at + Vector3(0, 1, 0), dest + Vector3(0, 1, 0), C_SHOCK, 0.12)
 			_kick(0.22, 0.05, 8.0)
 			return n12
 	# 兜底：前方脉冲

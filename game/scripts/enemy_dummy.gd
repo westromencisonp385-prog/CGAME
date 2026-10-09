@@ -67,6 +67,19 @@ func _ready() -> void:
 		current_health = health
 	_home_position = position
 	_build_visual()
+	var h := rig._model_height if rig != null else 1.2
+	SkillVfx.attach_status_aura(self, status, h, maxf(h * 0.45, 0.5))
+	if is_inside_tree() and not (self is BossEntity):
+		call_deferred("_spawn_fx")
+
+func _spawn_fx() -> void:
+	if not is_inside_tree() or dead or packed or not visible:
+		return
+	var s := clampf(rig._model_height if rig != null else 1.0, 0.6, 2.0)
+	SkillVfx.dust_ring(global_position, 1.3 * s)
+	VfxKit.burst(global_position + Vector3(0, 0.3, 0), "debris", Color("#5a4a3a"), 0.6 * s, 0.8)
+	if tier == "elite":
+		SkillVfx.pillar(global_position, 1.4, 5.0, VfxKit.RED, 0.6)
 
 func _build_visual() -> void:
 	visual_root = Node3D.new()
@@ -193,12 +206,21 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 		"hopper":
 			if _dash_t > 0.0:
 				_dash_t -= delta
+				var u := 1.0 - clampf(_dash_t / 0.35, 0.0, 1.0)
+				if visual_root != null:
+					visual_root.position.y = sin(u * PI) * 1.1
+				if _dash_t <= 0.0:
+					if visual_root != null:
+						visual_root.position.y = 0.0
+					CombatVfx.puff(global_position, 0.6)
+					SkillVfx.dust_ring(global_position, 1.0)
 				return dir * speed * 2.6 * delta
 			if _beh_t > 1.6:
 				_beh_t = 0.0
 				_dash_t = 0.35
 				if rig != null:
 					rig.play_attack(0.3)
+				CombatVfx.puff(global_position, 0.45)
 			return dir * speed * 0.4 * delta if dist > 1.8 else Vector3.ZERO
 		"ranged":
 			if dist < 4.5:
@@ -215,6 +237,11 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 		"charger":
 			if _dash_t > 0.0:
 				_dash_t -= delta
+				_trail_t -= delta
+				if _trail_t <= 0.0:
+					_trail_t = 0.06
+					SkillVfx.afterimage(visual_root, VfxKit.RED, 0.2)
+					CombatVfx.puff(global_position, 0.7)
 				return _charge_dir * speed * 5.0 * delta
 			if _beh_t > 3.2 and dist < 9.0:
 				_beh_t = 0.0
@@ -222,6 +249,8 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 				if _charge_dir.length() < 0.01:
 					_charge_dir = dir
 				_dash_t = 0.55
+				SkillVfx.dust_ring(global_position, 2.0)
+				SkillVfx.speed_lines(global_position, _charge_dir, VfxKit.RED)
 				if rig != null:
 					rig.play_attack(0.8)
 				if GameFeel.instance != null:
@@ -296,6 +325,7 @@ var _windup := 0.0
 var _windup_total := 0.0
 var _burn_accum := 0.0
 var _charge_warned := false
+var _trail_t := 0.0
 var knock_resist := 0.0
 
 func _melee_damage() -> float:
@@ -398,6 +428,7 @@ func _release_attack(offset: Vector3) -> void:
 	if _is_ranged():
 		if is_inside_tree():
 			var proj := Projectile.fire(get_parent(), global_position, now_offset, 9.5, _melee_damage(), "enemy", Color("#1B1B1D") if archetype_id == "oildrum" else Color("#D9412B"))
+			VfxKit.muzzle(global_position, now_offset, Color("#3a3530") if archetype_id == "oildrum" else Color("#D9412B"), 0.9)
 			if archetype_id == "oildrum":
 				proj.status_kind = "slow"
 				proj.status_time = 1.6
@@ -405,11 +436,13 @@ func _release_attack(offset: Vector3) -> void:
 				proj.size = 0.38
 		return
 	if now_offset.length() > _attack_reach() + 0.5:
+		CombatVfx.puff(global_position + now_offset.normalized() * 1.2, 0.5)
 		return  # 玩家躲开了：前摇落空
 	var dmg := _melee_damage()
 	if behavior == "charger" and _dash_t > 0.0:
 		dmg *= 1.6
 	hit_player.emit(dmg)
+	CombatVfx.swipe(global_position, now_offset.normalized(), 2.0, 2 if kind == "heavy" or behavior == "charger" else 0)
 	if player.get("status") != null:
 		if archetype_id == "mantis":
 			player.status.apply("burning", 2.0, 3.0)
@@ -517,6 +550,11 @@ func take_damage(amount: float, kind_tag := "normal") -> void:
 		dead = true
 		if feel != null and is_inside_tree():
 			feel.on_enemy_killed(self, "boss" if self is BossEntity else tier)
+		if is_inside_tree():
+			var hs := clampf(rig._model_height if rig != null else 1.0, 0.6, 3.0)
+			SkillVfx.scrap_burst(global_position, hs)
+			if self is BossEntity or tier == "elite":
+				VfxKit.explosion(global_position, 2.0 * hs, VfxKit.RED)
 		if rig != null and is_inside_tree():
 			rig.play_death(0.9)
 			get_tree().create_timer(0.9).timeout.connect(func():

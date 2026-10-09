@@ -114,6 +114,9 @@ func _ready() -> void:
 	_last_position = global_position
 	status.applied.connect(func(k: String, _d: float): status_changed.emit(k, true))
 	status.expired.connect(func(k: String): status_changed.emit(k, false))
+	var aura := SkillVfx.attach_status_aura(self, status, 1.6, 1.5)
+	if aura != null:
+		aura.set("show_callouts", true)
 
 func setup(module_assembler: LoadoutAssembler, gameplay_camera: Camera3D) -> void:
 	assembler = module_assembler
@@ -591,6 +594,14 @@ func try_dash() -> bool:
 	if GameFeel.instance != null:
 		GameFeel.instance.fov_punch(7.0)
 		GameFeel.instance.shake(0.1)
+		GameFeel.instance.kick(heading, 0.2)
+	SkillVfx.dash_trail(self, Color("#EFE3C8"), 0.32)
+	SkillVfx.speed_lines(global_position, heading)
+	SkillVfx.dust_ring(global_position, 1.6)
+	var rig := evolved_rig if evolved_rig != null else body_rig
+	if rig != null:
+		rig.play_attack(0.25, false)
+	WanderburgAudio.hit("throw_launch", -11.0, 0.15)
 	feedback.emit("液压冲刺")
 	return true
 
@@ -651,6 +662,7 @@ func receive_damage(amount: float) -> void:
 	if invulnerable or health <= 0.0:
 		return
 	if status.has("invincible") and (dash_pending or status.has("nitro")):
+		SkillVfx.afterimage(visual_root, Color("#7FD3E0"), 0.4)
 		dodged.emit()
 		return
 	var mitigated := amount * (1.0 - clampf(_modifier("armor"), 0.0, 0.85))
@@ -660,8 +672,13 @@ func receive_damage(amount: float) -> void:
 		if shielded and GameFeel.instance != null:
 			GameFeel.instance.number(global_position, amount, "shield")
 			GameFeel.instance.impact_ring(global_position, 2.2, Color("#7FD3E0"), 0.22)
+			VfxKit.burst(global_position + Vector3(0, 1.0, 0), "frost", Color("#7FD3E0"), 1.0, 1.0)
 		return
 	_apply_raw_damage(mitigated, "hit")
+	var rig := evolved_rig if evolved_rig != null else body_rig
+	if rig != null:
+		rig.play_hit()
+	VfxKit.impact(global_position + Vector3(0, 1.0, 0), Color("#D9412B"), 1.3)
 	# 无敌帧：连续受击不会被瞬间秒掉，也给玩家脱身窗口
 	if health > 0.0:
 		status.apply("invincible", IFRAME_TIME)

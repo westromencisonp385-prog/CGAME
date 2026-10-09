@@ -118,10 +118,11 @@ func play(kind: String, from: Vector3, to: Vector3) -> void:
 			_burst(to, Color("#e5c788"), 10, 0.48)
 			_burst(to + Vector3(0.0, 0.15, 0.0), COMEDY_RED, 5, 0.7)
 	elif "arc" in kind or "electric" in kind:
-		_lightning(from + Vector3.UP, to + Vector3.UP)
+		VfxKit.lightning(from + Vector3.UP, to + Vector3.UP)
 		_burst(to, Color("#d7b7ff"), 9, 0.3)
 	elif "water" in kind:
-		_beam(from + Vector3.UP, to + Vector3.UP, Color("#79e6e7"), 0.07)
+		VfxKit.beam(from + Vector3.UP, to + Vector3.UP, Color("#79e6e7"), 0.18, 0.25)
+		VfxKit.burst(to + Vector3.UP * 0.6, "water", Color("#79e6e7"), 1.0, 1.2)
 		_burst(to, Color("#6ecfd3"), 12, 0.4)
 	elif kind == "repair":
 		# Pump feedback has a readable rise, cough, and flow cue. It does not
@@ -131,11 +132,18 @@ func play(kind: String, from: Vector3, to: Vector3) -> void:
 		_beam(to + Vector3.UP * 0.25, to + Vector3.UP * 1.8, REPAIR_TEAL, 0.11)
 		_burst(to + Vector3.UP * 0.75, Color("#aed975"), 12, 1.0)
 		_burst(to, Color("#c7a46b"), 5, 0.35)
+		SkillVfx.pillar(to, 2.0, 6.0, REPAIR_TEAL, 0.9)
+		VfxKit.burst(to + Vector3.UP * 0.8, "water", REPAIR_TEAL, 1.4, 2.0)
 	elif kind == "dash_hit":
 		_remember(_ring(to, 5.0, Color("#edbb61")), "ring", 0.5)
 		_burst(to, Color("#edca8a"), 12, 0.55)
+		VfxKit.impact(to + Vector3.UP * 0.8, ENGINE_YELLOW, 1.6)
+		SkillVfx.dust_ring(to, 2.0)
 	else:
 		_burst(to, Color("#c8b790"), 8, 0.65)
+		if kind == "throw":
+			SkillVfx.dust_ring(to, 2.2)
+			VfxKit.burst(to + Vector3.UP * 0.5, "debris", Color("#3a3530"), 1.0, 1.2)
 
 func _burst(at: Vector3, color: Color, amount: int, duration: float) -> void:
 	if live.size() >= MAX_BURSTS:

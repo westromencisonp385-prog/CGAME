@@ -100,4 +100,9 @@ func _collect(player: Node3D) -> void:
 		player.health = minf(float(player.health) + float(amount), float(player.max_health))
 	if GameFeel.instance != null:
 		GameFeel.instance.number(player.global_position + Vector3(0.6, 0.2, 0), amount, "heal" if kind == "repair" else "crit")
+	var c := VfxKit.HEAL if kind == "repair" else VfxKit.OCHRE
+	VfxKit.burst(global_position + Vector3(0, 0.5, 0), "stars", c, 0.6, 0.6)
+	if kind == "repair":
+		VfxKit.burst(player.global_position + Vector3(0, 0.8, 0), "heal", c, 0.8, 0.8)
+	WanderburgAudio.hit("silver_gain", -16.0, 0.12)
 	queue_free()

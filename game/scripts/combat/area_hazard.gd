@@ -67,6 +67,41 @@ func _ready() -> void:
 		_mat.albedo_color = Color(c, 0.42 if hz_kind != "tar" else 0.6)
 	_mesh.material_override = _mat
 	add_child(_mesh)
+	_mesh.name = "VfxHazardBody"
+	if VfxKit.parent() == null:
+		return
+	var fx: GPUParticles3D = null
+	match hz_kind:
+		"fire":
+			fx = VfxKit.emitter("embers", Color("#E3A52B"), clampf(radius, 0.8, 1.8), 2.2)
+			(fx.process_material as ParticleProcessMaterial).emission_sphere_radius = radius * 0.8
+			var smoke := VfxKit.emitter("smoke", Color(0.3, 0.27, 0.25, 0.55), clampf(radius * 0.6, 0.5, 1.2), 0.5)
+			smoke.position.y = 0.8
+			add_child(smoke)
+		"tar":
+			fx = VfxKit.emitter("dust", Color(0.12, 0.11, 0.1, 0.8), 0.35, 0.8)
+			(fx.process_material as ParticleProcessMaterial).emission_sphere_radius = radius * 0.7
+		"heal":
+			fx = VfxKit.emitter("heal", Color("#8FD694"), 0.8, 0.8)
+			(fx.process_material as ParticleProcessMaterial).emission_sphere_radius = radius * 0.8
+		"tesla":
+			fx = VfxKit.emitter("shock", Color("#C9B8F0"), 0.4, 0.6)
+			fx.position.y = 1.8
+	if fx != null:
+		fx.position.y = maxf(fx.position.y, 0.2)
+		add_child(fx)
+	if hz_kind == "mine":
+		_blink = MeshInstance3D.new()
+		_blink.name = "VfxMineLight"
+		var bm := SphereMesh.new()
+		bm.radius = 0.12
+		bm.height = 0.24
+		_blink.mesh = bm
+		_blink.material_override = VfxKit.flat_mat(Color("#FF5A3C"), true)
+		_blink.position.y = 0.28
+		add_child(_blink)
+
+var _blink: MeshInstance3D
 
 func _enemies_within(r: float) -> Array:
 	var out := []
@@ -93,6 +128,8 @@ func _process(delta: float) -> void:
 		"mine":
 			_armed = _age > 0.35
 			_mesh.position.y = 0.1 + absf(sin(_age * 6.0)) * 0.04
+			if _blink != null:
+				_blink.visible = fmod(_age, 0.08 if _fuse >= 0.0 else 0.8) < (0.04 if _fuse >= 0.0 else 0.12)
 			if _fuse >= 0.0:
 				_fuse -= delta
 				_mat.albedo_color = Color.WHITE if int(_fuse * 30.0) % 2 == 0 else COLORS["mine"]
@@ -118,7 +155,7 @@ func _process(delta: float) -> void:
 				for e in _enemies_within(radius):
 					e.status.apply("stun", 0.5)
 					e.take_damage(damage, "shock")
-					e.action_effect.emit("arc_chain", global_position, e.global_position)
+					VfxKit.lightning(global_position + Vector3(0, 1.8, 0), e.global_position + Vector3(0, 0.8, 0), COLORS["tesla"].lightened(0.4))
 				if GameFeel.instance != null:
 					GameFeel.instance.impact_ring(global_position, radius, COLORS["tesla"], 0.3)
 		"heal":
@@ -131,10 +168,7 @@ func _explode() -> void:
 		e.take_damage(damage)
 		e.apply_knockback(e.global_position - global_position, 10.0)
 	if GameFeel.instance != null:
-		GameFeel.instance.impact_ring(global_position, radius, COLORS["mine"], 0.35)
 		GameFeel.instance.shake(0.25)
 		GameFeel.instance.hitstop(0.05, 0.05)
-	for n in get_tree().get_nodes_in_group("effects_sink"):
-		n.present_effect("dash_hit", global_position, global_position)
-		break
+	VfxKit.explosion(global_position, radius, COLORS["mine"])
 	queue_free()

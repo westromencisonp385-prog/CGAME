@@ -68,7 +68,7 @@ static func run(boss: BossEntity, attack: String) -> void:
 	var ppos := _flat(p.global_position)
 	var mult: float = [1.0, 1.15, 1.35][clampi(boss.phase - 1, 0, 2)]
 	if boss.rig != null:
-		boss.rig.play_attack(0.8)
+		boss.rig.play_attack(0.8, attack in ["slam", "charge", "shockwave"])
 	match attack:
 		"slam":
 			Telegraph.circle(parent, ppos, 3.2, 0.95, func(c: Vector3):
@@ -77,14 +77,19 @@ static func run(boss: BossEntity, attack: String) -> void:
 				_hurt_if_inside(boss, c, 3.2, 14.0 * mult, 0.45, 8.0)
 				if feel != null:
 					feel.shake(0.55)
-					feel.impact_ring(c, 3.6, Color("#D9412B"), 0.4)
-				boss.action_effect.emit("dash_hit", c, c))
+				VfxKit.explosion(c, 3.2, VfxKit.RED, false)
+				VfxKit.decal(c, 2.6, "crack", Color(0.08, 0.07, 0.06, 0.85), 3.5)
+				SkillVfx.dust_ring(c, 3.6)
+				VfxKit.burst(c + Vector3(0, 0.3, 0), "debris", VfxKit.INK, 1.8, 2.0))
+			SkillVfx.lob(bpos, ppos, 0.95, VfxKit.RED, 0.6)
 		"barrage":
 			var count: int = [10, 14, 18][clampi(boss.phase - 1, 0, 2)]
 			for i in count:
 				var a: float = TAU * i / count
 				var pr := Projectile.fire(parent, bpos, Vector3(sin(a), 0, cos(a)), 7.5, 7.0 * mult, "enemy", Color("#D9412B"))
 				pr.lifetime = 3.2
+			SkillVfx.shock_wall(bpos, 3.5, VfxKit.RED, 0.3, 1.0)
+			VfxKit.burst(bpos + Vector3(0, 1.2, 0), "shock", VfxKit.RED, 1.6, 1.6)
 			if feel != null:
 				feel.shake(0.2)
 		"spin":
@@ -98,10 +103,12 @@ static func run(boss: BossEntity, attack: String) -> void:
 					for i in 8:
 						var a := TAU * i / 8.0 + wave * 0.26
 						var pr := Projectile.fire(parent, origin, Vector3(sin(a), 0, cos(a)), 8.0, 6.0 * mult, "enemy", Color("#8C7BA8"))
-						pr.lifetime = 3.0)
+						pr.lifetime = 3.0
+					VfxKit.burst(origin + Vector3(0, 1.2, 0), "shock", VfxKit.VIOLET, 1.2, 1.0))
 		"charge":
 			var dir := (ppos - bpos).normalized()
 			var length := clampf((ppos - bpos).length() + 4.0, 6.0, 16.0)
+			SkillVfx.dust_ring(bpos, 3.0)
 			Telegraph.line(parent, bpos, dir, length, 3.2, 0.9, func(_c: Vector3):
 				if not is_instance_valid(boss) or boss.dead:
 					return
@@ -109,6 +116,12 @@ static func run(boss: BossEntity, attack: String) -> void:
 				var end := start + dir * length
 				var tw := boss.create_tween()
 				tw.tween_property(boss, "global_position", Vector3(end.x, boss.global_position.y, end.z), 0.32).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+				SkillVfx.dash_trail(boss, VfxKit.RED, 0.34)
+				SkillVfx.speed_lines(start, dir, VfxKit.RED)
+				tw.tween_callback(func():
+					if is_instance_valid(boss):
+						SkillVfx.dust_ring(boss.global_position, 3.5)
+						VfxKit.burst(boss.global_position + Vector3(0, 0.5, 0) + dir * 2.0, "debris", VfxKit.INK, 1.6, 1.6, dir))
 				# 判定：玩家在冲撞路径带内
 				var pl := _player(boss)
 				if pl != null:
@@ -124,30 +137,40 @@ static func run(boss: BossEntity, attack: String) -> void:
 		"mortar_rain":
 			for i in 4:
 				var off := Vector3(randf_range(-3.5, 3.5), 0, randf_range(-3.5, 3.5)) if i > 0 else Vector3.ZERO
-				Telegraph.circle(parent, ppos + off, 2.3, 0.9 + i * 0.22, func(c: Vector3):
+				var fuse := 0.9 + i * 0.22
+				SkillVfx.lob(bpos, ppos + off, fuse, VfxKit.OCHRE, 0.45)
+				Telegraph.circle(parent, ppos + off, 2.3, fuse, func(c: Vector3):
 					if not is_instance_valid(boss) or boss.dead:
 						return
 					_hurt_if_inside(boss, c, 2.3, 10.0 * mult, 0.0, 6.0)
 					if feel != null:
 						feel.shake(0.25)
-						feel.impact_ring(c, 2.6, Color("#E3A52B"), 0.3)
-					boss.action_effect.emit("dash_hit", c, c), Color("#E3A52B"))
+					VfxKit.explosion(c, 2.3, VfxKit.OCHRE), Color("#E3A52B"))
+			VfxKit.burst(bpos + Vector3(0, 2.5, 0), "smoke", Color(0.4, 0.37, 0.35, 0.7), 1.4, 1.4)
 		"summon":
 			if boss.summoner.is_valid():
 				var ids := EnemyArchetypes.ids_of_tier("minion")
 				for i in 3:
 					var a := TAU * i / 3.0
-					boss.summoner.call(ids[randi() % ids.size()], bpos + Vector3(cos(a), 0, sin(a)) * 3.0)
+					var at := bpos + Vector3(cos(a), 0, sin(a)) * 3.0
+					SkillVfx.pillar(at, 1.0, 4.0, VfxKit.VIOLET, 0.55)
+					SkillVfx.vortex(at, 1.6, VfxKit.VIOLET, 0.45)
+					boss.summoner.call(ids[randi() % ids.size()], at)
 			if feel != null:
 				feel.impact_ring(bpos, 4.0, Color("#8C7BA8"), 0.45)
 		"shockwave":
+			VfxKit.burst(bpos + Vector3(0, 1.5, 0), "embers", VfxKit.RED, 1.8, 1.4)
 			Telegraph.circle(parent, bpos, 6.5, 1.1, func(c: Vector3):
 				if not is_instance_valid(boss) or boss.dead:
 					return
 				_hurt_if_inside(boss, c, 6.5, 12.0 * mult, 0.0, 12.0)
 				if feel != null:
 					feel.shake(0.7)
-					feel.impact_ring(c, 7.5, Color("#EFE3C8"), 0.5), Color("#D9412B"))
+					feel.impact_ring(c, 7.5, Color("#EFE3C8"), 0.5)
+				SkillVfx.shock_wall(c, 7.0, VfxKit.BONE, 0.5, 1.6)
+				SkillVfx.shock_wall(c, 5.0, VfxKit.RED, 0.4, 1.0)
+				SkillVfx.dust_ring(c, 6.5)
+				VfxKit.decal(c, 3.5, "crack", Color(0.08, 0.07, 0.06, 0.8), 3.0), Color("#D9412B"))
 		"vacuum":
 			boss.vacuum_time = 1.2
 			Telegraph.circle(parent, bpos, 3.4, 1.3, func(c: Vector3):
@@ -156,4 +179,7 @@ static func run(boss: BossEntity, attack: String) -> void:
 				_hurt_if_inside(boss, _flat(boss.global_position), 3.4, 18.0 * mult, 0.3, 6.0)
 				if feel != null:
 					feel.shake(0.5)
+				if boss.rig != null:
+					boss.rig.play_attack(0.4, true)
+				CombatVfx.swipe(_flat(boss.global_position), (_flat(p.global_position) - _flat(boss.global_position)).normalized(), 4.0, 2)
 				boss.action_effect.emit("whale_release", c, c), Color("#D9412B"))
