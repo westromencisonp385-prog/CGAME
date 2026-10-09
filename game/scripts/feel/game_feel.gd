@@ -30,6 +30,7 @@ var _slow_until := 0
 var _slow_scale := 1.0
 var _base_time_scale := 1.0
 var _fov_kick := 0.0
+var _kick := Vector2.ZERO
 var _numbers_alive := 0
 var _overlay_mat_cache: Dictionary = {}
 var stats := {"hitstops": 0, "shakes": 0, "numbers": 0, "flashes": 0, "slowmos": 0, "vignettes": 0}
@@ -117,6 +118,24 @@ func shake(trauma := 0.3) -> void:
 func fov_punch(amount := 6.0) -> void:
 	_fov_kick = maxf(_fov_kick, amount)
 
+## 方向冲击：镜头沿世界平面方向 dir 顶一下（米），弹簧回位。用于咬合 / 投掷 / 被撞
+func kick(dir: Vector3, amount := 0.25) -> void:
+	if not enabled:
+		return
+	var d := Vector3(dir.x, 0, dir.z)
+	if d.length() < 0.01:
+		return
+	d = d.normalized()
+	_kick += Vector2(d.x, -d.z * 0.72) * amount * _view_scale()
+	if _kick.length() > 1.2:
+		_kick = _kick.normalized() * 1.2
+
+## 正交镜头下以 19m 视高为基准；透视镜头保持旧手感
+func _view_scale() -> float:
+	if camera != null and is_instance_valid(camera) and camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		return camera.size / 19.0
+	return 1.0
+
 func _process(delta: float) -> void:
 	var real_dt := delta / maxf(Engine.time_scale, 0.001)
 	var now := Time.get_ticks_msec()
@@ -130,12 +149,15 @@ func _process(delta: float) -> void:
 	if camera == null or not is_instance_valid(camera):
 		return
 	_shake_t += real_dt
-	var amp := _trauma * _trauma
-	camera.h_offset = (sin(_shake_t * 47.0) + sin(_shake_t * 31.0 + 1.3) * 0.6) * amp * 0.55
-	camera.v_offset = (cos(_shake_t * 43.0) + sin(_shake_t * 29.0 + 2.1) * 0.6) * amp * 0.55
-	_trauma = maxf(0.0, _trauma - real_dt * 1.6)
+	# trauma^1.6：小震也看得见，大震不过分；正交 19m 视高时满震约 0.9m
+	var amp := pow(_trauma, 1.6) * 0.9 * _view_scale()
+	_kick = _kick.lerp(Vector2.ZERO, 1.0 - exp(-16.0 * real_dt))
+	camera.h_offset = (sin(_shake_t * 47.0) + sin(_shake_t * 31.0 + 1.3) * 0.6) * amp * 0.6 + _kick.x
+	camera.v_offset = (cos(_shake_t * 43.0) + sin(_shake_t * 29.0 + 2.1) * 0.6) * amp * 0.6 + _kick.y
+	_trauma = maxf(0.0, _trauma - real_dt * 2.2)
 	_fov_kick = move_toward(_fov_kick, 0.0, real_dt * 28.0)
-	camera.fov = base_fov + _fov_kick
+	if camera.projection != Camera3D.PROJECTION_ORTHOGONAL:
+		camera.fov = base_fov + _fov_kick
 
 # ------------------------------------------------------------ world feedback
 
@@ -251,8 +273,9 @@ func on_enemy_hit(target: Node3D, amount: float, kind := "normal", heavy := fals
 	var crit := kind == "crit"
 	if crit:
 		stats["crits"] = int(stats.get("crits", 0)) + 1
-	hitstop(0.075 if crit or heavy else 0.035, 0.03)
-	shake(0.22 if crit or heavy else 0.08)
+	hitstop(0.085 if crit or heavy else 0.045, 0.03)
+	shake(0.26 if crit or heavy else 0.12)
+	CombatVfx.spark(target.global_position, Color("#E3A52B") if crit else Color("#EFE3C8"), 1.3 if crit else 0.9)
 	if crit:
 		impact_ring(target.global_position, 1.8, Color("#E3A52B"))
 

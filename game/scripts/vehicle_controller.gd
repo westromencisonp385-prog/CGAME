@@ -181,6 +181,7 @@ func _physics_process(delta: float) -> void:
 		record_drive_displacement(displacement)
 	_update_body_pose(delta)
 	_update_aim_reticle()
+	_emit_drive_dust(delta)
 	if body_rig != null and evolved_rig == null:
 		body_rig.set_speed(absf(_fwd_speed))
 		if tool_anim_time > 0.0 and body_rig._tool_t < 0.0:
@@ -296,6 +297,22 @@ func _update_body_pose(delta: float) -> void:
 		visual_root.basis = Basis(right, _pitch) * Basis(heading, _roll)
 
 ## 当前驾驶读数（调试 / 测试）
+var _dust_t := 0.0
+func _emit_drive_dust(delta: float) -> void:
+	var spd := absf(_fwd_speed)
+	var turning := absf(_yaw_rate) > 2.0 and spd > 2.0
+	var braking := _long_accel < -18.0
+	if spd < 2.2 and not braking:
+		return
+	_dust_t -= delta * (2.0 if turning or braking else 1.0)
+	if _dust_t > 0.0:
+		return
+	_dust_t = 0.09
+	var right := heading.cross(Vector3.UP).normalized()
+	var rear := global_position - heading * 1.4
+	for s in [-1.0, 1.0]:
+		CombatVfx.puff(Vector3(rear.x, 0.0, rear.z) + right * s * 0.8, 0.5 if turning or braking else 0.38)
+
 func drive_state() -> Dictionary:
 	return {"heading": heading, "fwd_speed": _fwd_speed, "yaw_rate": _yaw_rate, "long_accel": _long_accel}
 
@@ -330,6 +347,10 @@ func perform_primary() -> Dictionary:
 	primary_cooldown = 0.32
 	tool_anim_time = 0.24
 	heat = minf(100.0, heat + 8.0)
+	var now_ms := Time.get_ticks_msec()
+	_combo_step = (_combo_step + 1) % 3 if now_ms < _combo_until else 0
+	_combo_until = now_ms + 620
+	var finisher := _combo_step == 2
 	var stats := _stats()
 	var reach := float(stats.get("reach", 3.0))
 	var radius := float(stats.get("radius", 1.35))
@@ -337,7 +358,7 @@ func perform_primary() -> Dictionary:
 	var crit := crit_rng.randf() < crit_chance + _modifier("luck") * 0.01
 	if crit:
 		power *= CRIT_MULT
-	var source := {"dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0, "crit": crit, "knock": 4.0}
+	var source := {"dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0, "crit": crit, "knock": 4.0 * (1.8 if finisher else 1.0)}
 	if bool(source.water):
 		action_effect.emit("water_beam", global_position, global_position + aim_direction * reach)
 	var hit_count := 0
@@ -374,8 +395,36 @@ func perform_primary() -> Dictionary:
 				node.take_damage(power * 0.55)
 				chain_hits += 1
 				action_effect.emit("arc_chain", source_enemy.global_position, node.global_position)
-	feedback.emit("挖斗命中 %d 个目标" % hit_count if hit_count > 0 else "挖斗落空")
-	return {"performed": true, "hits": hit_count, "chain_hits": chain_hits, "cargo": cargo, "packed": bool(pack_result.get("packed", false)), "packed_count": packed_enemy_ids.size()}
+	_bite_feedback(hit_count, finisher, reach, radius)
+	return {"performed": true, "hits": hit_count, "chain_hits": chain_hits, "cargo": cargo, "packed": bool(pack_result.get("packed", false)), "packed_count": packed_enemy_ids.size(), "combo_step": _combo_step}
+
+## 咬合的表现层：鲸口张合、扫弧、前扑、镜头顶、打击音。不改判定结果。
+var _combo_step := 0
+var _combo_until := 0
+var _deny_until := 0
+
+func _bite_feedback(hits: int, finisher: bool, reach: float, radius: float) -> void:
+	var rig := evolved_rig if evolved_rig != null else body_rig
+	if rig != null:
+		rig.play_attack(0.36 if finisher else 0.26, finisher)
+	var aim := Vector3(aim_direction.x, 0, aim_direction.z).normalized()
+	CombatVfx.swipe(global_position + aim * 0.5, aim, reach + radius * 0.5, _combo_step)
+	# 前扑：打中更狠，收尾最狠；会被刹车 / 抓地吃掉，只是一下顶出去的手感
+	var lunge := (3.2 if hits > 0 else 1.6) * (1.5 if finisher else 1.0)
+	velocity += aim * lunge
+	var feel := GameFeel.instance
+	if feel != null:
+		feel.kick(aim, (0.16 + 0.06 * mini(hits, 3)) * (1.6 if finisher else 1.0))
+		if finisher and hits > 0:
+			feel.hitstop(0.08, 0.02)
+			feel.shake(0.3)
+			feel.impact_ring(global_position + aim * reach, 2.4, Color("#D9412B"), 0.26)
+		elif hits == 0:
+			CombatVfx.dust(global_position + aim * reach, 0.9)
+	if hits > 0:
+		WanderburgAudio.hit("bite_heavy" if finisher else "bite_hit", -7.0 if finisher else -9.0)
+	else:
+		WanderburgAudio.hit("bite", -12.0, 0.12)
 
 func throw_cargo() -> Dictionary:
 	if not gameplay_enabled or throw_cooldown > 0.0:
@@ -383,6 +432,13 @@ func throw_cargo() -> Dictionary:
 	if not packed_enemy_ids.is_empty():
 		return _release_packed_enemy()
 	if cargo <= 0:
+		var now_ms := Time.get_ticks_msec()
+		if now_ms >= _deny_until:
+			_deny_until = now_ms + 450
+			feedback.emit("鲸口里没有废料 · 先咬碎废料堆")
+			WanderburgAudio.hit("deny", -10.0, 0.0)
+			if GameFeel.instance != null:
+				GameFeel.instance.flash(visual_root, Color("#D9412B"), 0.1)
 		return {"performed": false, "hit": false}
 	throw_cooldown = 0.45
 	cargo -= 1
@@ -397,12 +453,35 @@ func throw_cargo() -> Dictionary:
 		if planar.length() < best_distance and aim_direction.dot(planar.normalized()) > 0.55:
 			best = node
 			best_distance = planar.length()
+	var aim := Vector3(aim_direction.x, 0, aim_direction.z).normalized()
+	var origin := global_position
+	var land: Vector3 = (best as Node3D).global_position if best != null else origin + aim * 5.0
+	var fly := clampf(origin.distance_to(land) / 24.0, 0.15, 0.3)
+	# 出手：鲸口吐出、车身后坐、镜头往后顶
+	var rig := evolved_rig if evolved_rig != null else body_rig
+	if rig != null:
+		rig.play_attack(0.3, true)
+	velocity -= aim * 2.4
+	WanderburgAudio.hit("throw_launch", -10.0)
+	if GameFeel.instance != null:
+		GameFeel.instance.kick(-aim, 0.14)
+	var target := best
+	CombatVfx.projectile(origin + aim * 1.2, land, fly, func():
+		var at := land
+		if target != null and is_instance_valid(target) and not target.dead:
+			at = (target as Node3D).global_position
+			target.take_damage(damage)
+		action_effect.emit("throw", origin, at)
+		WanderburgAudio.hit("throw_hit", -6.0)
+		if GameFeel.instance != null:
+			GameFeel.instance.impact_ring(at, 2.6, Color("#E3A52B"), 0.3)
+			GameFeel.instance.shake(0.32 if target != null else 0.16)
+			GameFeel.instance.kick(aim, 0.22)
+			if target != null:
+				GameFeel.instance.hitstop(0.06, 0.03))
 	if best != null:
-		best.take_damage(damage)
-		action_effect.emit("throw", global_position, best.global_position)
 		feedback.emit("废料投掷命中")
 		return {"performed": true, "hit": true}
-	action_effect.emit("throw", global_position, global_position + aim_direction * 5.0)
 	feedback.emit("废料投掷")
 	return {"performed": true, "hit": false}
 
@@ -543,6 +622,8 @@ func reset_vehicle(at: Vector3 = Vector3.ZERO) -> void:
 	gameplay_enabled = true
 	status.clear()
 	knock_velocity = Vector3.ZERO
+	_combo_step = 0
+	_combo_until = 0
 	_burn_accum = 0.0
 
 func _resolve_dash_contacts(from: Vector3, to: Vector3) -> void:
@@ -609,8 +690,7 @@ func on_module_visuals_changed() -> void:
 		if jaw != null:
 			var wide := assembler.has_module("wide_bucket")
 			var big := wide and assembler.stage >= 2
-			jaw.scale = Vector3.ONE * (1.32 if big else (1.15 if wide else 1.0))
-			body_rig.rest[jaw] = Transform3D(jaw.transform.basis, (body_rig.rest.get(jaw, jaw.transform) as Transform3D).origin)
+			body_rig.set_part_scale(jaw, 1.32 if big else (1.15 if wide else 1.0))
 		return
 	if bucket_visual == null or assembler == null:
 		return
@@ -894,6 +974,8 @@ func restore_snapshot(data: Dictionary) -> bool:
 	gameplay_enabled = health > 0.0
 	status.clear()
 	knock_velocity = Vector3.ZERO
+	_combo_step = 0
+	_combo_until = 0
 	if data.has("crit_state") and str(data["crit_state"]).is_valid_int():
 		crit_rng.state = str(data["crit_state"]).to_int()
 	packed_enemy_ids.clear()

@@ -24,6 +24,13 @@ const EVENTS := {
 	"throw": {"freq": 420.0, "dur": 0.2, "mechanical": true},
 	"victory": {"freq": 740.0, "dur": 0.7, "mechanical": false},
 	"defeat": {"freq": 140.0, "dur": 0.7, "mechanical": false},
+	# 打击类：低频下扫 thump + 噪声爆点（noise = 噪声占比，drop = 频率下扫比例，负值为上扫）
+	"bite": {"freq": 120.0, "dur": 0.14, "mechanical": true, "noise": 0.75, "drop": 0.55},
+	"bite_hit": {"freq": 78.0, "dur": 0.24, "mechanical": true, "noise": 1.0, "drop": 0.6},
+	"bite_heavy": {"freq": 58.0, "dur": 0.36, "mechanical": true, "noise": 1.0, "drop": 0.65},
+	"throw_launch": {"freq": 210.0, "dur": 0.2, "mechanical": false, "noise": 0.55, "drop": -0.7},
+	"throw_hit": {"freq": 62.0, "dur": 0.34, "mechanical": true, "noise": 0.95, "drop": 0.5},
+	"deny": {"freq": 150.0, "dur": 0.1, "mechanical": true},
 }
 
 static func has_event(event_name: String) -> bool:
@@ -75,12 +82,28 @@ static func synth_stream(event_name: String) -> AudioStreamWAV:
 	var length := int(duration * result.mix_rate)
 	var data := PackedByteArray()
 	data.resize(length * 2)
+	var noise_amt := float(spec.get("noise", 0.0))
+	var drop := float(spec.get("drop", 0.0))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(event_name)
+	var phase := 0.0
+	var lp := 0.0
 	for index in range(length):
 		var time := float(index) / result.mix_rate
 		var envelope := pow(1.0 - float(index) / length, 2.0)
-		var wave := sin(TAU * frequency * time) * 0.6 + sin(TAU * frequency * 1.5 * time) * 0.25
-		if mechanical:
-			wave += sin(TAU * 1357.0 * time) * sin(TAU * 657.0 * time) * 0.3
+		var wave: float
+		if noise_amt > 0.0:
+			# 打击：频率随时间下扫的 thump（相位累加避免爆音）+ 快衰减的低通噪声
+			var f := frequency * (1.0 - drop * time / duration)
+			phase += TAU * maxf(f, 20.0) / result.mix_rate
+			lp = lerpf(lp, rng.randf_range(-1.0, 1.0), 0.35)
+			var punch := exp(-time * 38.0)
+			wave = sin(phase) * 0.85 * pow(1.0 - float(index) / length, 1.2) + lp * noise_amt * (punch * 1.4 + envelope * 0.25)
+			envelope = 1.0
+		else:
+			wave = sin(TAU * frequency * time) * 0.6 + sin(TAU * frequency * 1.5 * time) * 0.25
+			if mechanical:
+				wave += sin(TAU * 1357.0 * time) * sin(TAU * 657.0 * time) * 0.3
 		data.encode_s16(index * 2, int(clampf(wave * envelope, -1.0, 1.0) * 16000))
 	result.data = data
 	return result

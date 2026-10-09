@@ -1,23 +1,26 @@
 class_name ProceduralRig
 extends Node3D
 
-## C11 程序化动画运行时（规格对齐 Wanderburg 逆向结果，原作无骨骼动画片段，全部是程序驱动）：
-## - 腿：SpiderLegController —— legGroups 分组交替迈步、legResetDuration 迈步时长、
-##   legResetOverlapDuration 组间重叠、legResetYCurve 抬脚弧线、body 随步伐起伏、OnTakeStep 落地事件
-## - 履带/轮：DriveFeedback.AnimateTracks/AnimateWheels —— 按速度旋转，倒车反转，刹车时车身前倾
-## - 工具：CannonFeedback.MakeReadyAnim + AdditionalModuleAnimation.Fire* —— 蓄力后缩、击发前冲、弹性回位
-## - 翅膀/转子/环：TrackRotator（恒速旋转轴）+ GUIFloatingAnim 式浮动
-## - 受击：SimpleShaker 抖动 + 挤压回弹；死亡：DeathAnimationVehicle 位移曲线 + 旋转曲线
-## 只改表现，不改玩法：位置/碰撞/伤害仍由宿主（EnemyDummy/BossEntity/玩家）决定。
+## 程序化动画运行时（v2，2026-10-09）。对齐 Wanderburg 逆向结论：原作没有骨骼动画片段，全部程序驱动。
+## - 腿：SpiderLegController，两组对角交替；连续相位（摆动相抬脚前送，支撑相贴地后推），
+##   步频随速度 / 腿长变化，停下时振幅平滑归零；每次落脚发出 step_taken
+## - 履带：DriveFeedback，发动机震动 + 速度相关抖动
+## - 工具：CannonFeedback，按部件类型分别做“张口-咬合”“抬起-砸下”“后坐”三种曲线
+## - 翅膀 / 转子 / 环：拍翅、旋转、浮动
+## - 受击：SimpleShaker 抖动 + 挤压回弹；死亡：DeathAnimationVehicle 上弹侧翻 + 部件松脱
+## v2 修复：所有旋转轴改为按资产正面轴（manifest.forward）换算到部件父空间；过滤自动拆分误判成腿的整块底盘。
+## 只改表现，不改玩法：位置 / 碰撞 / 伤害仍由宿主决定。
 
 signal step_taken(foot_position: Vector3)
 
 const MANIFEST_PATH := "res://assets/models/rigged/rig_manifest.json"
 ## 模型正面轴 -> 绕 Y 旋转多少能对齐到 -Z
 const FORWARD_YAW := {"-Z": 0.0, "+Z": PI, "+X": PI * 0.5, "-X": -PI * 0.5}
+const FORWARD_VEC := {"-Z": Vector3(0, 0, -1), "+Z": Vector3(0, 0, 1), "+X": Vector3(1, 0, 0), "-X": Vector3(-1, 0, 0)}
 static var _manifest: Dictionary = {}
 
 var rig_type := "static"
+var forward_axis := "-Z"
 var model: Node3D
 var body: Node3D
 var legs: Array[Node3D] = []
@@ -28,36 +31,44 @@ var rotors: Array[Node3D] = []
 var rings: Array[Node3D] = []
 var shields: Array[Node3D] = []
 var tops: Array[Node3D] = []
-var rest: Dictionary = {}          # Node3D -> Transform3D
+var static_parts: Array[Node3D] = []   # 被过滤掉的“伪腿”（整块底盘），保持静止
+var rest: Dictionary = {}               # Node3D -> Transform3D（当前静止姿态，可被 set_part_scale 改）
+var base_rest: Dictionary = {}          # Node3D -> Transform3D（资产原始姿态）
+var _axes: Dictionary = {}              # Node3D -> {"right": Vector3, "fwd": Vector3, "up": Vector3}（父空间）
+var _side: Dictionary = {}              # Node3D -> -1 / +1（在模型右侧为 +1）
 
-# ---- SpiderLegController 参数 ----
-var leg_groups: Array = []         # Array[Array[Node3D]]
-var active_group := 0
-var step_timer := 0.0
-var leg_reset_duration := 0.22
-var leg_reset_overlap := 0.06
-var step_lift := 0.16              # legResetYCurve 峰值（以模型高度归一前的米数）
-var stride_angle := 0.42
+# 模型空间参考
+var fwd_m := Vector3(0, 0, -1)
+var right_m := Vector3(1, 0, 0)
+var _center_m := Vector3.ZERO
+var _size_m := Vector3.ONE
+var _model_height := 1.0
 
-# ---- 运动输入 ----
-var speed := 0.0                   # 平面速度 m/s（宿主每帧喂，或由位移自动估计）
+# 步态
+var leg_groups: Array = []              # Array[Array[Node3D]]
+var leg_len := 0.3
+var stride_angle := 0.5
+var step_lift := 0.1
+var _phase := 0.0
+var _amp := 0.0
+var speed := 0.0                        # 平面速度 m/s（宿主每帧喂，或由位移自动估计）
 var _last_pos := Vector3.ZERO
 var _auto_speed := true
 var _time := 0.0
-var _bob := 0.0
 
-# ---- 动作状态 ----
+# 动作
 var _tool_t := -1.0
 var _tool_dur := 0.42
+var _tool_heavy := false
 var _hit_t := -1.0
 var _death_t := -1.0
 var _death_dur := 0.9
 var _spawn_t := 0.0
 var _phase_boost := 1.0
-var _model_height := 1.0
 var spin_enabled := true
 var _spin_amt := 1.0
 var _spin_angle := 0.0
+var _drum_angle := 0.0
 
 static func load_manifest() -> Dictionary:
 	if _manifest.is_empty() and FileAccess.file_exists(MANIFEST_PATH):
@@ -68,7 +79,7 @@ static func load_manifest() -> Dictionary:
 
 static func has_rig(slot: String) -> bool:
 	var m := load_manifest()
-	return m.has(slot) and ResourceLoader.exists(str(m[slot]["file"]))
+	return m.has(slot) and ResourceLoader.exists(str(m[slot].get("file", "")))
 
 ## 创建并挂到 parent；无对应资产返回 null（宿主应回落旧视觉）
 static func attach(parent: Node3D, slot: String) -> ProceduralRig:
@@ -81,12 +92,12 @@ static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 	var rig := ProceduralRig.new()
 	rig.name = "ProceduralRig"
 	rig.rig_type = str(entry.get("rig", "static"))
+	rig.forward_axis = str(entry.get("forward", "-Z"))
 	rig.model = packed.instantiate() as Node3D
-	# 资产正面轴不统一（Weaver 输出 +Z / -X 都有）：用独立的 Facing 节点对齐到游戏正面 -Z。
-	# 受击/死亡动画改的是 model.transform，不会冲掉这层修正；宿主只管 rig 本身的朝向。
+	# 资产正面轴不统一：用独立的 Facing 节点对齐到游戏正面 -Z。受击/死亡动画改 model.transform，不会冲掉这层。
 	var facing := Node3D.new()
 	facing.name = "Facing"
-	facing.rotation.y = FORWARD_YAW.get(str(entry.get("forward", "-Z")), 0.0)
+	facing.rotation.y = FORWARD_YAW.get(rig.forward_axis, 0.0)
 	rig.add_child(facing)
 	facing.add_child(rig.model)
 	parent.add_child(rig)
@@ -94,15 +105,54 @@ static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 	RigStyle.apply(rig.model, rig._model_height)
 	return rig
 
+# ---------------------------------------------------------------- 索引
+
+## 节点到模型根的变换（不依赖是否在场景树里）
+func _to_model(n: Node3D) -> Transform3D:
+	var t := Transform3D.IDENTITY
+	var p: Node = n
+	while p != null and p != model and p is Node3D:
+		t = (p as Node3D).transform * t
+		p = p.get_parent()
+	return t
+
+func _mesh_aabb_m(n: Node3D) -> AABB:
+	var out := AABB()
+	var first := true
+	for mi in [n] + n.find_children("*", "MeshInstance3D", true, false):
+		if not mi is MeshInstance3D:
+			continue
+		var b: AABB = _to_model(mi) * (mi as MeshInstance3D).get_aabb()
+		out = b if first else out.merge(b)
+		first = false
+	return out
+
 func _index_parts() -> void:
+	fwd_m = FORWARD_VEC.get(forward_axis, Vector3(0, 0, -1))
+	right_m = fwd_m.cross(Vector3.UP).normalized()
 	body = model.find_child("Body", true, false) as Node3D
 	if body == null:
 		body = model
+	var whole := _mesh_aabb_m(model)
+	_center_m = whole.get_center()
+	_size_m = whole.size.max(Vector3.ONE * 0.05)
+	_model_height = maxf(whole.size.y, 0.3)
+	var width := absf(_size_m.dot(right_m.abs()))
+	var length := absf(_size_m.dot(fwd_m.abs()))
+	var leg_heights: Array[float] = []
 	for n in model.find_children("*", "Node3D", true, false):
 		var nd := n as Node3D
 		var nm := str(nd.name)
 		if nm.begins_with("Leg_"):
-			legs.append(nd)
+			var box := _mesh_aabb_m(nd)
+			var w := absf(box.size.dot(right_m.abs()))
+			var l := absf(box.size.dot(fwd_m.abs()))
+			# 自动拆分会把连成一片的底盘也标成“腿”：太宽 / 太长 / 太扁的不当腿用
+			if w > width * 0.45 or l > length * 0.6 or box.size.y < _model_height * 0.07:
+				static_parts.append(nd)
+			else:
+				legs.append(nd)
+				leg_heights.append(box.size.y)
 		elif nm.begins_with("Tread_"):
 			treads.append(nd)
 		elif nm.begins_with("Wing"):
@@ -117,33 +167,47 @@ func _index_parts() -> void:
 			tops.append(nd)
 		elif nm in ["Jaw", "Tool", "Barrel", "Boom", "Crane", "Head"] or nm.begins_with("Arm"):
 			tools.append(nd)
-	for nd in [body] + legs + treads + tools + wings + rotors + rings + shields + tops:
+	for nd in [body] + legs + treads + tools + wings + rotors + rings + shields + tops + static_parts:
 		rest[nd] = nd.transform
-	var aabb := AABB()
-	var first := true
-	for mi in model.find_children("*", "MeshInstance3D", true, false):
-		var m := mi as MeshInstance3D
-		var box: AABB = m.global_transform * m.get_aabb() if m.is_inside_tree() else m.transform * m.get_aabb()
-		aabb = box if first else aabb.merge(box)
-		first = false
-	_model_height = maxf(aabb.size.y, 0.3)
-	step_lift = clampf(_model_height * 0.18, 0.06, 0.35)
+		base_rest[nd] = nd.transform
+		# 父空间里的右 / 前 / 上轴
+		var parent_basis := Basis.IDENTITY
+		if nd != model and nd.get_parent() != model and nd.get_parent() is Node3D:
+			parent_basis = _to_model(nd.get_parent() as Node3D).basis
+		var inv := parent_basis.orthonormalized().inverse()
+		_axes[nd] = {"right": (inv * right_m).normalized(), "fwd": (inv * fwd_m).normalized(), "up": (inv * Vector3.UP).normalized()}
+		var o := _to_model(nd).origin
+		_side[nd] = 1.0 if (o - _center_m).dot(right_m) >= 0.0 else -1.0
+	if not leg_heights.is_empty():
+		var sum := 0.0
+		for h in leg_heights:
+			sum += h
+		leg_len = clampf(sum / leg_heights.size(), 0.08, 2.0)
+	step_lift = clampf(leg_len * 0.4, 0.03, 0.4)
 	_build_leg_groups()
 	_last_pos = global_position if is_inside_tree() else Vector3.ZERO
 	_spawn_t = 0.0
 
-## legsGroupsCount：按前后左右棋盘分两组（四足对角步态 / 多足三角步态近似）
+## 前后排序后按“排序序号 + 左右”棋盘分两组：四足 = 对角步态，六足 = 三角步态
 func _build_leg_groups() -> void:
 	leg_groups = [[], []]
-	var sorted := legs.duplicate()
-	sorted.sort_custom(func(a, b): return a.position.z < b.position.z)
-	for i in sorted.size():
-		var leg: Node3D = sorted[i]
-		var left := leg.position.x < 0.0
-		var g := (i + (1 if left else 0)) % 2
+	var sorted: Array = legs.duplicate()
+	sorted.sort_custom(func(a, b): return _to_model(a).origin.dot(fwd_m) > _to_model(b).origin.dot(fwd_m))
+	var count_side := {-1.0: 0, 1.0: 0}
+	for leg in sorted:
+		var s: float = _side[leg]
+		var g := (int(count_side[s]) + (1 if s > 0.0 else 0)) % 2
+		count_side[s] = int(count_side[s]) + 1
 		leg_groups[g].append(leg)
 	if leg_groups[1].is_empty() and leg_groups[0].size() > 1:
 		leg_groups[1].append(leg_groups[0].pop_back())
+
+## 外部改部件缩放（如宽斗放大鲸口）：基于原始姿态，不会把动画中的姿态写进静止姿态
+func set_part_scale(nd: Node3D, s: float) -> void:
+	if nd == null or not base_rest.has(nd):
+		return
+	var b: Transform3D = base_rest[nd]
+	rest[nd] = Transform3D(b.basis.scaled(Vector3.ONE * s), b.origin)
 
 # ---------------------------------------------------------------- 外部驱动接口
 
@@ -154,16 +218,15 @@ func set_speed(v: float) -> void:
 func set_phase_boost(v: float) -> void:
 	_phase_boost = v
 
-## CannonFeedback：蓄力→击发→回位
-func play_attack(duration := 0.42) -> void:
+## 攻击：heavy = 连击收尾的大动作
+func play_attack(duration := 0.42, heavy := false) -> void:
 	_tool_dur = duration
+	_tool_heavy = heavy
 	_tool_t = 0.0
 
-## SimpleShaker + 挤压回弹
 func play_hit() -> void:
 	_hit_t = 0.0
 
-## DeathAnimationVehicle：位移曲线 + 旋转曲线
 func play_death(duration := 0.9) -> void:
 	_death_dur = duration
 	_death_t = 0.0
@@ -201,9 +264,9 @@ func _process(delta: float) -> void:
 			_animate_world_spin()
 		"gate":
 			pass
-	_animate_tops()
-	_animate_tool()
-	_animate_hit()
+	_animate_tops(delta)
+	_animate_tool(delta)
+	_animate_hit(delta)
 	_animate_spawn()
 
 func _reset_pose() -> void:
@@ -211,81 +274,108 @@ func _reset_pose() -> void:
 		if is_instance_valid(nd):
 			nd.transform = rest[nd]
 
-# ---- SpiderLegController.Simulate ----
+## 绕部件自身枢轴、在父空间里按某轴旋转
+func _rot(nd: Node3D, axis_key: String, angle: float, offset := Vector3.ZERO, base: Variant = null) -> void:
+	var r: Transform3D = rest[nd] if base == null else base
+	var axis: Vector3 = _axes[nd][axis_key]
+	nd.transform = Transform3D(Basis(axis, angle) * r.basis, r.origin + offset)
+
+# ---- SpiderLegController.Simulate（连续相位版）----
 func _animate_legs(delta: float) -> void:
 	if legs.is_empty():
 		_idle_breath()
 		return
-	var moving := speed > 0.15
-	var cadence := clampf(speed / 2.2, 0.6, 2.2) * _phase_boost
-	var dur := leg_reset_duration / cadence
-	if moving:
-		step_timer += delta
-		if step_timer >= dur - leg_reset_overlap / cadence:
-			step_timer = 0.0
-			active_group = 1 - active_group
-			for leg in leg_groups[active_group]:
-				step_taken.emit(leg.global_position)
-	var t := clampf(step_timer / dur, 0.0, 1.0)
-	# legResetProgressCurve ≈ smoothstep；legResetYCurve ≈ sin(pi t)
-	var progress := t * t * (3.0 - 2.0 * t)
-	var lift := sin(PI * t)
-	var amp := clampf(speed / 2.0, 0.0, 1.0) if moving else 0.0
+	var target_amp := clampf(speed / maxf(leg_len * 5.0, 0.6), 0.0, 1.0)
+	_amp = lerpf(_amp, target_amp, minf(delta * 8.0, 1.0))
+	# 步频：一步走过约 1.6 倍腿长
+	var freq := clampf(speed / maxf(leg_len * 3.2, 0.25), 0.0, 4.5) * _phase_boost
+	if target_amp > 0.02 and freq < 1.2:
+		freq = 1.2
+	var prev := _phase
+	_phase = fmod(_phase + freq * delta, 1.0)
 	for g in 2:
-		var swinging := g == active_group
+		var ph := fmod(_phase + 0.5 * g, 1.0)
+		var prev_ph := fmod(prev + 0.5 * g, 1.0)
+		if prev_ph < 0.5 and ph >= 0.5 and _amp > 0.15:
+			for leg in leg_groups[g]:
+				var foot: Vector3 = leg.global_position if leg.is_inside_tree() else Vector3.ZERO
+				step_taken.emit(foot)
+				if _model_height >= 1.0 and leg.is_inside_tree():
+					CombatVfx.puff(Vector3(foot.x, 0.0, foot.z), clampf(_model_height * 0.18, 0.2, 0.7))
+			if _model_height >= 2.0 and GameFeel.instance != null and is_inside_tree():
+				GameFeel.instance.shake(0.05)
+		var theta: float
+		var lift := 0.0
+		if ph < 0.5:
+			var u := ph / 0.5
+			var s := u * u * (3.0 - 2.0 * u)
+			theta = lerpf(-1.0, 1.0, s)
+			lift = sin(PI * u)
+		else:
+			theta = lerpf(1.0, -1.0, (ph - 0.5) / 0.5)
 		for leg in leg_groups[g]:
-			var r: Transform3D = rest[leg]
-			var swing := (progress * 2.0 - 1.0) if swinging else (1.0 - progress * 2.0)
-			var basis := r.basis.rotated(Vector3.RIGHT, swing * stride_angle * amp)
-			var pos := r.origin + Vector3(0, (step_lift * lift * amp) if swinging else 0.0, 0)
-			leg.transform = Transform3D(basis, pos)
-	# body 随步伐上下起伏 + 左右轻摆（bodyLocalDefaultPos 偏移）
-	_bob = sin(PI * t) * 0.04 * amp
+			var up: Vector3 = _axes[leg]["up"]
+			_rot(leg, "right", theta * stride_angle * _amp, up * step_lift * lift * _amp)
+	# 身体：每步一次起伏（双频）、左右轻摆、移动时略前倾
+	var bob := (1.0 - cos(_phase * TAU * 2.0)) * 0.5 * _model_height * 0.03 * _amp
+	var sway := sin(_phase * TAU) * 0.05 * _amp
 	var br: Transform3D = rest[body]
-	var sway := (1.0 if active_group == 0 else -1.0) * 0.035 * amp
-	body.transform = Transform3D(br.basis.rotated(Vector3.FORWARD, sway), br.origin + Vector3(0, _bob, 0))
-	if not moving:
-		_idle_breath()
+	var ax: Dictionary = _axes[body]
+	var basis := Basis(ax["fwd"], sway) * Basis(ax["right"], -0.06 * _amp) * br.basis
+	var breath := 1.0 + sin(_time * 2.0) * 0.015 * (1.0 - _amp)
+	body.transform = Transform3D(basis.scaled(Vector3(1.0, breath, 1.0)), br.origin + (ax["up"] as Vector3) * bob)
+	if _amp < 0.3:
+		_idle_shields()
 
 # ---- DriveFeedback.AnimateTracks / AnimateEngine ----
-func _animate_treads(_delta: float) -> void:
+func _animate_treads(delta: float) -> void:
 	var moving := speed > 0.1
 	for tr in treads:
+		var up: Vector3 = _axes[tr]["up"]
+		var buzz := sin(_time * (30.0 + speed * 12.0)) * _model_height * (0.006 if moving else 0.002)
 		var r: Transform3D = rest[tr]
-		# 履带本体无独立轮，用高频小幅抖动 + 沿行进方向滚动感表现发动机震动
-		var buzz := sin(_time * (30.0 + speed * 12.0)) * (0.012 if moving else 0.004)
-		tr.transform = Transform3D(r.basis, r.origin + Vector3(0, buzz, 0))
+		tr.transform = Transform3D(r.basis, r.origin + up * buzz)
+	# 滚筒：按速度滚动
+	_drum_angle += speed * delta / maxf(_model_height * 0.25, 0.1)
+	for ro in rotors:
+		if str(ro.name).begins_with("Drum"):
+			_rot(ro, "right", -_drum_angle)
 	if rig_type == "tracked" or legs.is_empty():
 		var br: Transform3D = rest[body]
-		var engine := sin(_time * 22.0) * 0.006 + sin(_time * 3.1) * 0.01
-		var lean := -clampf(speed / 6.0, 0.0, 1.0) * 0.05
-		body.transform = Transform3D(br.basis.rotated(Vector3.RIGHT, lean), br.origin + Vector3(0, engine, 0))
+		var ax: Dictionary = _axes[body]
+		var engine := (sin(_time * 23.0) * 0.004 + sin(_time * 3.1) * 0.008) * _model_height
+		var engine_roll := sin(_time * 17.0) * 0.006 * (1.0 if moving else 0.5)
+		body.transform = Transform3D(Basis(ax["fwd"], engine_roll) * br.basis, br.origin + (ax["up"] as Vector3) * engine)
 
 func _animate_flyer() -> void:
-	var flap_speed := 14.0 if speed > 0.2 else 9.0
-	var flap := sin(_time * flap_speed) * 0.7
+	var moving := speed > 0.2
+	var flap_speed := 15.0 if moving else 10.0
+	var flap := sin(_time * flap_speed)
 	for w in wings:
-		var r: Transform3D = rest[w]
-		var side := -1.0 if w.position.x < 0.0 else 1.0
-		w.transform = Transform3D(r.basis.rotated(Vector3.FORWARD, flap * side), r.origin)
+		# 下拍快、上拍慢：给拍翅一点力量感
+		var a := (flap if flap > 0.0 else flap * 0.7) * 0.75
+		_rot(w, "fwd", a * float(_side[w]))
 	var br: Transform3D = rest[body]
-	var hover := 0.45 + sin(_time * 2.4) * 0.08
-	var bank := clampf(speed / 4.0, 0.0, 1.0) * 0.18
-	body.transform = Transform3D(br.basis.rotated(Vector3.RIGHT, -bank), br.origin + Vector3(0, hover - (cos(_time * flap_speed) * 0.03), 0))
-	for tr in treads:  # 停驻时的脚：飞行中收起
+	var ax: Dictionary = _axes[body]
+	var hover := _model_height * (0.4 + sin(_time * 2.4) * 0.06) - cos(_time * flap_speed) * _model_height * 0.025
+	var bank := clampf(speed / 4.0, 0.0, 1.0) * 0.2
+	body.transform = Transform3D(Basis(ax["right"], -bank) * br.basis, br.origin + (ax["up"] as Vector3) * hover)
+	for tr in treads:
 		var r2: Transform3D = rest[tr]
-		tr.transform = Transform3D(r2.basis.scaled(Vector3.ONE * 0.85), r2.origin + Vector3(0, 0.05, 0))
+		tr.transform = Transform3D(r2.basis.scaled(Vector3.ONE * 0.85), r2.origin)
 
 func _animate_orbit() -> void:
 	var br: Transform3D = rest[body]
-	body.transform = Transform3D(br.basis, br.origin + Vector3(0, 0.25 + sin(_time * 1.6) * 0.12, 0))
+	var ax: Dictionary = _axes[body]
+	body.transform = Transform3D(br.basis, br.origin + (ax["up"] as Vector3) * _model_height * (0.08 + sin(_time * 1.6) * 0.04))
 	for i in rings.size():
 		var ring := rings[i]
 		var r: Transform3D = rest[ring]
-		var side := -1.0 if ring.position.x < 0.0 else 1.0
+		var side: float = _side[ring]
 		var ang := _time * 1.8 * _phase_boost * side
-		var orbit := Vector3(cos(ang) * 0.12, sin(_time * 2.2 + i) * 0.15, sin(ang) * 0.12)
-		ring.transform = Transform3D(r.basis.rotated(Vector3.UP, ang).rotated(Vector3.RIGHT, sin(_time + i) * 0.3), r.origin + orbit)
+		var up: Vector3 = _axes[ring]["up"]
+		var orbit := (_axes[ring]["right"] as Vector3) * cos(ang) * 0.12 + up * sin(_time * 2.2 + i) * 0.15
+		ring.transform = Transform3D(Basis(up, ang) * Basis(_axes[ring]["right"], sin(_time + i) * 0.3) * r.basis, r.origin + orbit)
 
 func _animate_world_spin() -> void:
 	_spin_amt = move_toward(_spin_amt, 1.0 if spin_enabled else 0.0, get_process_delta_time() * 0.8)
@@ -295,69 +385,91 @@ func _animate_world_spin() -> void:
 		var axis := Vector3.FORWARD if str(get_parent().name).contains("turbine") or rig_type == "world_spin" else Vector3.UP
 		ro.transform = Transform3D(r.basis.rotated(axis, _spin_angle), r.origin)
 
-func _animate_tops() -> void:
+func _animate_tops(_delta: float) -> void:
 	for tp in tops:
 		var r: Transform3D = rest[tp]
 		var puff := 1.0 + maxf(0.0, sin(_time * 5.0)) * 0.05
 		tp.transform = Transform3D(r.basis.scaled(Vector3(1.0, puff, 1.0)), r.origin)
 	if rig_type == "turret":
 		for ro in rotors:
-			var r2: Transform3D = rest[ro]
-			ro.transform = Transform3D(r2.basis.rotated(Vector3.RIGHT, _time * 3.0), r2.origin)
+			if not str(ro.name).begins_with("Drum"):
+				_rot(ro, "fwd", _time * 3.0)
 		for sh in shields:
-			var r3: Transform3D = rest[sh]
-			var side := -1.0 if sh.position.x < 0.0 else 1.0
-			sh.transform = Transform3D(r3.basis.rotated(Vector3.FORWARD, side * (0.06 + sin(_time * 1.5) * 0.03)), r3.origin)
+			_rot(sh, "fwd", float(_side[sh]) * (0.06 + sin(_time * 1.5) * 0.03))
 
 func _idle_breath() -> void:
 	var br: Transform3D = rest[body]
 	var breath := 1.0 + sin(_time * 2.0) * 0.015
 	body.transform = Transform3D(br.basis.scaled(Vector3(1.0, breath, 1.0)), br.origin)
-	for sh in shields:
-		var r: Transform3D = rest[sh]
-		var side := -1.0 if sh.position.x < 0.0 else 1.0
-		sh.transform = Transform3D(r.basis.rotated(Vector3.FORWARD, side * sin(_time * 1.2) * 0.04), r.origin)
+	_idle_shields()
 
-# ---- CannonFeedback：makeReady 曲线 0-0.35 后缩蓄力，0.35-0.5 爆发前冲，0.5-1 过冲回弹 ----
-func _animate_tool() -> void:
-	if _tool_t < 0.0:
-		for tl in tools:  # 待机微动
-			var r: Transform3D = rest[tl]
-			tl.transform = Transform3D(r.basis.rotated(Vector3.RIGHT, sin(_time * 1.7) * 0.03), r.origin)
-		return
-	_tool_t += get_process_delta_time() / _tool_dur
-	var t := _tool_t
-	var k: float
+func _idle_shields() -> void:
+	for sh in shields:
+		_rot(sh, "fwd", float(_side[sh]) * sin(_time * 1.2) * 0.04)
+
+# ---- CannonFeedback：0-0.35 蓄力（反向）→ 0.35-0.5 爆发 → 0.5-1 阻尼回弹 ----
+static func attack_curve(t: float) -> float:
 	if t < 0.35:
-		k = -ease(t / 0.35, 0.5) * 0.6
-	elif t < 0.5:
-		k = lerpf(-0.6, 1.0, ease((t - 0.35) / 0.15, 2.0))
-	else:
-		var u := (t - 0.5) / 0.5
-		k = exp(-5.0 * u) * cos(u * 9.0)
+		var u := t / 0.35
+		return -(1.0 - (1.0 - u) * (1.0 - u))
+	if t < 0.5:
+		var u2 := (t - 0.35) / 0.15
+		return lerpf(-1.0, 1.0, u2 * u2)
+	var u3 := (t - 0.5) / 0.5
+	return exp(-5.0 * u3) * cos(u3 * 9.0)
+
+func _animate_tool(delta: float) -> void:
+	if _tool_t < 0.0:
+		for tl in tools:
+			_rot(tl, "right", sin(_time * 1.7 + float(_side[tl])) * 0.03)
+		return
+	_tool_t += delta / maxf(_tool_dur, 0.05)
+	var k := attack_curve(minf(_tool_t, 1.0))
+	var heavy := 1.4 if _tool_heavy else 1.0
+	var h := _model_height
 	for tl in tools:
-		var r: Transform3D = rest[tl]
 		var nm := str(tl.name)
-		var rot_axis := Vector3.RIGHT
-		var push := Vector3(0, 0, -0.12 * k)
-		if nm.begins_with("Arm"):
-			rot_axis = Vector3.RIGHT
-			push = Vector3.ZERO
-		tl.transform = Transform3D(r.basis.rotated(rot_axis, -k * 0.55), r.origin + push)
+		var fwd: Vector3 = _axes[tl]["fwd"]
+		if nm == "Jaw":
+			# 张大（绕右轴负转）→ 猛合并过冲咬紧
+			var a := (k * 0.6 if k < 0.0 else k * 0.5) * heavy
+			_rot(tl, "right", a, fwd * h * 0.05 * maxf(k, 0.0) * heavy)
+		elif nm.begins_with("Arm"):
+			# 后摆蓄力 → 前砸
+			var a2 := (k * 0.6 if k < 0.0 else k * 1.0) * heavy
+			_rot(tl, "right", a2)
+		elif nm == "Barrel":
+			# 抬起蓄力 → 后坐
+			_rot(tl, "right", -k * 0.22, -fwd * h * 0.1 * maxf(k, 0.0) * heavy)
+		else:
+			# Head / Tool / Boom / Crane：抬起 → 砸下前伸
+			var a3 := (-k * 0.4 if k < 0.0 else -k * 0.6) * heavy
+			_rot(tl, "right", a3, fwd * h * 0.08 * maxf(k, 0.0) * heavy)
+	# 身体跟着出力：蓄力后坐抬头、出手前扑并沿前向拉长（挤压-拉伸）
 	var br: Transform3D = body.transform
-	body.transform = Transform3D(br.basis, br.origin + Vector3(0, 0, 0.05 * maxf(k, 0.0)))
+	var ax: Dictionary = _axes[body]
+	var f: Vector3 = ax["fwd"]
+	var stretch := 1.0 + 0.14 * k * heavy
+	var squash := 1.0 - 0.07 * k * heavy
+	var s_basis := Basis(Vector3(1, 0, 0) + f * f.x * (stretch - 1.0), Vector3(0, 1, 0) * squash, Vector3(0, 0, 1) + f * f.z * (stretch - 1.0))
+	body.transform = Transform3D(Basis(ax["right"], -k * 0.08 * heavy) * s_basis * br.basis, br.origin + f * h * 0.09 * k * heavy)
 	if _tool_t >= 1.0:
 		_tool_t = -1.0
 
 # ---- SimpleShaker + squash ----
-func _animate_hit() -> void:
+func _animate_hit(delta: float) -> void:
 	if _hit_t < 0.0:
 		return
-	_hit_t += get_process_delta_time() / 0.28
-	var decay := 1.0 - _hit_t
-	var shake := Vector3(sin(_hit_t * 70.0), 0, cos(_hit_t * 55.0)) * 0.05 * decay
-	var squash := 1.0 - 0.14 * decay * absf(cos(_hit_t * 12.0))
-	model.transform = Transform3D(Basis().scaled(Vector3(1.0 + (1.0 - squash) * 0.6, squash, 1.0 + (1.0 - squash) * 0.6)), shake)
+	_hit_t += delta / 0.3
+	var decay := maxf(1.0 - _hit_t, 0.0)
+	var shake := (right_m * sin(_hit_t * 70.0) + fwd_m * cos(_hit_t * 55.0)) * 0.04 * decay * _model_height
+	var squash := 1.0 - 0.24 * decay * absf(cos(_hit_t * 12.0))
+	var wide := 1.0 + (1.0 - squash) * 0.6
+	# 后仰：快速向后倒 ~14° 再弹回（绕模型右轴）
+	var recoil := sin(minf(_hit_t * 3.0, 1.0) * PI) * deg_to_rad(14.0) * decay
+	var pivot := Vector3(0, 0, 0)
+	var b := Basis(right_m, recoil) * Basis().scaled(Vector3(wide, squash, wide))
+	model.transform = Transform3D(b, pivot - b * pivot + shake - fwd_m * _model_height * 0.06 * decay)
 	if _hit_t >= 1.0:
 		_hit_t = -1.0
 		model.transform = Transform3D.IDENTITY
@@ -369,12 +481,11 @@ func _animate_spawn() -> void:
 	var s := 1.0 + sin(t * PI * 2.5) * exp(-4.0 * t) * 0.25
 	model.scale = Vector3(1.0 / s, s, 1.0 / s) * clampf(t * 4.0, 0.0, 1.0)
 
-# ---- DeathAnimationVehicle：deathAnimCurve（上弹→落地回弹）+ deathAnimCurveRot（侧翻）----
+# ---- DeathAnimationVehicle：上弹 → 落地回弹 + 侧翻；部件松脱 ----
 func _animate_death(delta: float) -> void:
 	_death_t += delta / _death_dur
 	var t := minf(_death_t, 1.0)
 	var h := _model_height * 0.5
-	# 上弹 0-0.35，落地 0.35-0.6，小回弹 0.6-1
 	var y: float
 	if t < 0.35:
 		y = sin(t / 0.35 * PI * 0.5) * 0.5
@@ -384,14 +495,12 @@ func _animate_death(delta: float) -> void:
 		y = absf(sin((t - 0.6) / 0.4 * PI)) * 0.08 * (1.0 - t)
 	var roll := ease(minf(t / 0.6, 1.0), 0.6) * deg_to_rad(95.0)
 	var pivot := Vector3(0, h, 0)
-	var basis := Basis().rotated(Vector3.FORWARD, roll).scaled(Vector3.ONE * (1.0 - maxf(t - 0.7, 0.0) * 0.6))
-	# 绕身体中心旋转：T(pivot) * R * T(-pivot)，再叠加上弹位移
+	var basis := Basis(fwd_m, roll).scaled(Vector3.ONE * (1.0 - maxf(t - 0.7, 0.0) * 0.6))
 	model.transform = Transform3D(basis, pivot - basis * pivot + Vector3(0, y, 0))
-	# 部件松脱四散
+	var loose := maxf(t - 0.3, 0.0) / 0.7
 	for nd in legs + tools + wings + shields + rings:
 		var r: Transform3D = rest[nd]
-		var dir := (r.origin - (rest[body] as Transform3D).origin)
+		var dir := r.origin - (rest[body] as Transform3D).origin
 		dir.y = 0.0
 		dir = dir.normalized() if dir.length() > 0.01 else Vector3.RIGHT
-		var loose := maxf(t - 0.3, 0.0) / 0.7
-		nd.transform = Transform3D(r.basis.rotated(Vector3(dir.z, 0, -dir.x), loose * 1.6), r.origin + dir * loose * 0.6)
+		nd.transform = Transform3D(Basis(Vector3(dir.z, 0, -dir.x), loose * 1.6) * r.basis, r.origin + dir * loose * 0.6)
