@@ -27,4 +27,7 @@ $c13 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c13_in
 $c18 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c18_whitebox_audit.gd" 2>&1 | Out-String)
 "--- c18 whitebox audit ---" | Out-File $log -Append -Encoding utf8
 ($c18 -split "`n" | Where-Object { $_ -match "WHITEBOX|C18|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
+$c23 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c23_click_audit.gd" 2>&1 | Out-String)
+"--- c23 click audit ---" | Out-File $log -Append -Encoding utf8
+($c23 -split "`n" | Where-Object { $_ -match "^FAIL|C23|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8

@@ -65,19 +65,34 @@ func _ready() -> void:
 	_layout()
 	mouse_entered.connect(_on_enter)
 	mouse_exited.connect(_on_exit)
-	focus_entered.connect(_on_enter)
+	focus_entered.connect(_on_focus)
 	focus_exited.connect(_on_focus_lost)
 	button_down.connect(plate.press)
+	button_up.connect(_on_mouse_up)
 
 func _on_enter() -> void:
 	_set_hot(true)
 
+## 鼠标离开 = 取消高亮（不再因为残留焦点保持放大、盖住相邻按钮）
 func _on_exit() -> void:
-	if not has_focus():
-		_set_hot(false)
+	_set_hot(false)
+
+## 键盘 / 手柄导航带来的焦点才高亮；鼠标点击带来的焦点不高亮
+func _on_focus() -> void:
+	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		_set_hot(true)
+
+## 鼠标点完立刻交还焦点：战斗里空格 = 攻击键，残留焦点会让空格再次触发这个按钮
+func _on_mouse_up() -> void:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or get_viewport() == null:
+		return
+	if is_hovered() and has_focus():
+		release_focus.call_deferred()
+		_set_hot.call_deferred(true)
 
 func _on_focus_lost() -> void:
-	_set_hot(false)
+	if not is_hovered():
+		_set_hot(false)
 
 func _set_text_push(v: float) -> void:
 	label_offset = v

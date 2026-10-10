@@ -36,7 +36,7 @@ func setup(owner: Node) -> void:
 	_build_quests()
 	callout_holder = Control.new()
 	callout_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	callout_holder.position = Vector2(470, 118)
+	callout_holder.position = Vector2(480, 130)
 	add_child(callout_holder)
 
 func _build_boss_bar() -> void:
@@ -163,8 +163,10 @@ func refresh(delta: float) -> void:
 	if main == null:
 		return
 	_refresh_boss(delta)
-	_refresh_status()
-	_refresh_quests()
+	# C23 精简：状态在车身光环上显示、热量在左上条上显示、任务只在完成时喊话，HUD 不再常驻这三块
+	status_row.visible = false
+	heat_tag.visible = false
+	quest_box.visible = false
 	_refresh_skill_names()
 
 func _refresh_boss(delta: float) -> void:

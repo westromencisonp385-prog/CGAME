@@ -9,6 +9,7 @@ var toggle_button: Button
 var spawn_kind: OptionButton
 var spawn_count: SpinBox
 var first_button: Button
+var scroll: ScrollContainer
 
 func setup(controller: M0GMController) -> void:
 	gm = controller
@@ -20,10 +21,10 @@ func setup(controller: M0GMController) -> void:
 	_on_state_changed(gm.get_state())
 
 func _build() -> void:
-	position = Vector2(20, 150)
-	size = Vector2(380, 540)
+	position = Vector2(16, 16)
+	size = Vector2(400, 688)
 	theme = P5Theme.build()
-	add_theme_stylebox_override("panel", P5Theme.pad(30, 26, 30, 24))
+	add_theme_stylebox_override("panel", P5Theme.pad(24, 20, 24, 18))
 	var plate := P5Plate.new()
 	plate.face_color = P5Theme.INK
 	plate.accent_color = P5Theme.RED
@@ -35,9 +36,16 @@ func _build() -> void:
 	sort_children.connect(func():
 		plate.position = Vector2.ZERO
 		plate.size = size)
+	# C23：内容比屏幕高，放进滚动容器（滚轮 / 拖动滚动条），保证每个按钮都能点到
+	scroll = ScrollContainer.new()
+	scroll.name = "GMScroll"
+	scroll.custom_minimum_size = Vector2(350, 648)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 4)
-	add_child(box)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(box)
 	box.add_child(P5Theme.ransom_label("GM LAB", 22))
 	var title := Label.new()
 	title.text = "测试工作台 / F1"
@@ -176,6 +184,10 @@ func _add_button(parent: Control, title: String, callback: Callable) -> Button:
 	button.pressed.connect(callback)
 	button.custom_minimum_size = Vector2(0, 28)
 	button.add_theme_font_size_override("font_size", 13)
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.focus_entered.connect(func():
+		if scroll != null:
+			scroll.ensure_control_visible(button))
 	parent.add_child(button)
 	return button
 
