@@ -85,6 +85,12 @@ static func create_v2_definitions() -> Array:
 		modules.append(m)
 	return modules
 
+static func name_of(module_id: String) -> String:
+	for d in DEFS:
+		if d[0] == module_id:
+			return str(d[1])
+	return module_id
+
 static func group_of(module_id: String) -> String:
 	for d in DEFS:
 		if d[0] == module_id:

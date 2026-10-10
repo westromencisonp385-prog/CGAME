@@ -10,7 +10,7 @@ extends CanvasLayer
 ## 公开接口保持不变：setup / feedback / refresh / close_modals / show_garage / show_result /
 ## refresh_gm_panel / is_gameplay_blocking_control / stamp_banner / pulse_skill / deny_skill / boss_callout。
 
-const HELP_TEXT := "WASD 驾驶 · 攻击全自动（咬合 / 投掷 / 修理）\nQ  E  R  空格  主动技能    Shift 冲刺（无敌）\nZ  X  C  召唤    B 改装台    Esc 菜单\nF7 新模块 · F4 刷怪 · F8 Boss · F1 GM（测试用）"
+const HELP_TEXT := "WASD 驾驶 · 攻击全自动（咬合 / 投掷 / 修理）\nQ  E  R  空格  主动技能    Shift 冲刺（无敌）\nZ  X  C  召唤    B 改装台    Esc 菜单\n4 个阶段，每阶段撑到 Boss 出场并击败它\nF8 Boss 立即入场 · F3 跳过阶段 · F1 GM（测试用）"
 
 var main: Node
 var status_label: Label
@@ -95,6 +95,8 @@ func refresh(delta: float) -> void:
 		P5Theme.set_bar(heat_fill, float(p.heat) / 100.0)
 		heat_root.modulate.a = 1.0 if float(p.heat) < 75.0 else 0.55 + 0.45 * absf(sin(Time.get_ticks_msec() * 0.012))
 	mission_label.text = _objective()
+	_refresh_stage_bar()
+	_refresh_pointers()
 	_refresh_growth(delta)
 	# 操作提示：开局显示一段时间后淡出；暂停菜单里可随时再看
 	if main.outcome == "active" and not get_tree().paused:
@@ -113,14 +115,16 @@ func refresh(delta: float) -> void:
 	_last_health = p.health
 	_refresh_skills()
 	if main.outcome == "won":
-		result_title.text = "河岸已重获生机"
+		result_title.text = "四个阶段全部清场" if main.campaign_mode else "河岸已重获生机"
 	elif main.outcome == "failed":
-		result_title.text = "工程车失去动力"
+		result_title.text = ("倒在阶段 %d · %s" % [main.director.stage_index + 1, str(main.director.stage().get("name", ""))]) if main.campaign_mode and main.director != null else "工程车失去动力"
 	_update_control_visibility()
 	if combat_hud != null:
 		combat_hud.refresh(delta)
 
 func _objective() -> String:
+	if main.campaign_mode and main.director != null and main.director.running:
+		return main.director.hud_line()
 	var t := "%02d:%02d" % [int(main.elapsed) / 60, int(main.elapsed) % 60]
 	var goal := ""
 	if int(main.collected) < 3:
@@ -171,7 +175,7 @@ func _refresh_growth(delta: float) -> void:
 	var target: float = vp.growth_ratio()
 	_growth_shown = move_toward(_growth_shown, target, delta * 2.5) if target >= _growth_shown else target
 	P5Theme.set_bar(growth_fill, _growth_shown)
-	lv_label.text = "Lv.%d" % (rank + 1) if rank < VehicleProgression.MAX_RANK else "MAX"
+	lv_label.text = "Lv.%d" % int(vp.level)
 	_shown_rank = rank
 
 ## 能量球入账：条闪一下
@@ -255,7 +259,22 @@ func show_garage(open: bool) -> void:
 	if open and not module_buttons.is_empty():
 		module_buttons[0].grab_focus()
 
+var result_damage: Label
+
+func damage_report(limit := 5) -> String:
+	var rows := DamagePipeline.summary(func(k): return ContentV2Catalog.name_of(str(k)))
+	if rows.is_empty():
+		return ""
+	var lines := ["本局伤害来源"]
+	for i in mini(limit, rows.size()):
+		var r: Dictionary = rows[i]
+		var bar := "▮".repeat(clampi(int(round(float(r.share) * 20.0)), 1, 20))
+		lines.append("%d. %s  %d%%  %s" % [i + 1, str(r.label), int(round(float(r.share) * 100.0)), bar])
+	return "\n".join(lines)
+
 func show_result() -> void:
+	if result_damage != null:
+		result_damage.text = damage_report()
 	result_box.show()
 	_update_control_visibility()
 	result_box.find_child("Retry", true, false).grab_focus()
@@ -363,6 +382,22 @@ func _build_mission(ui: Control) -> void:
 	ui.add_child(pc)
 	mission_panel = pc
 	mission_label = _text(pc, "", 16, P5Theme.INK)
+	pc.resized.connect(func(): pc.position.x = 1122.0 - pc.size.x)
+	# C28 阶段进度条（照搬原作 TimerBarWithEvents：一条时间条 + 事件标记）
+	stage_bar = Control.new()
+	stage_bar.name = "StageBar"
+	stage_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage_bar.size = Vector2(STAGE_BAR_W, 14)
+	ui.add_child(stage_bar)
+	var sb: Array = P5Theme.bar(STAGE_BAR_W, 7.0, P5Theme.OCHRE)
+	stage_bar.add_child(sb[0])
+	stage_fill = sb[1]
+	stage_bar.visible = false
+	pointer_layer = Control.new()
+	pointer_layer.name = "OffscreenPointers"
+	pointer_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pointer_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	ui.add_child(pointer_layer)
 	menu_button = _button(ui, "菜单  Esc", func(): main.toggle_pause())
 	menu_button.name = "MenuButton"
 	menu_button.focus_mode = Control.FOCUS_NONE
@@ -520,6 +555,9 @@ func _build_result(ui: Control) -> void:
 	result_box.add_child(content)
 	result_title = _text(content, "", 26, P5Theme.OCHRE)
 	_text(content, "换一种装配，再试一次。", 16, P5Theme.BONE)
+	# B1：本局伤害来源（每张卡的占比，自动 + 主动合计）
+	result_damage = _text(content, "", 15, P5Theme.BONE)
+	result_damage.name = "ResultDamage"
 	var retry := _button(content, "重新出击 / 换构筑", func(): main.reset_contract())
 	retry.name = "Retry"
 	retry.custom_minimum_size = Vector2(300, 46)
@@ -559,6 +597,113 @@ func _intro_animation() -> void:
 		var c: Control = order[i][0]
 		if c != null and c.visible:
 			P5Motion.slam_in(c, order[i][1], i * 0.06, c.rotation_degrees)
+
+## C28 阶段开场大字
+func stage_banner(i: int, n: int, stage_name: String) -> void:
+	if banner == null or DisplayServer.get_name() == "headless":
+		return
+	banner.setup("阶段 %d/%d  %s" % [i, n, stage_name], P5Theme.OCHRE, P5Theme.INK, 84)
+	banner.set_meta("home", Vector2(150, 250))
+	banner.play(1.1)
+
+const STAGE_BAR_W := 300.0
+var stage_bar: Control
+var stage_fill: Control
+var pointer_layer: Control
+var _stage_marks: Array = []
+var _marks_for := -1
+var _pointers: Array = []
+
+func _refresh_stage_bar() -> void:
+	if stage_bar == null:
+		return
+	var d = main.director
+	var on: bool = main.campaign_mode and d != null and d.running and d.state == "playing"
+	stage_bar.visible = on and mission_panel.visible
+	if not stage_bar.visible:
+		return
+	stage_bar.position = Vector2(mission_panel.position.x + mission_panel.size.x - STAGE_BAR_W - 6.0, mission_panel.position.y + mission_panel.size.y + 6.0)
+	var total := maxf(float(d.stage().get("overtime_at", 240.0)), 1.0)
+	P5Theme.set_bar(stage_fill, clampf(d.t / total, 0.0, 1.0))
+	if _marks_for != d.stage_index:
+		_marks_for = d.stage_index
+		for m in _stage_marks:
+			m.queue_free()
+		_stage_marks.clear()
+		var marks := []
+		for st in d.swarm_times():
+			marks.append([st, P5Theme.RED, 8.0])
+		marks.append([float(d.stage().get("boss_at", 150.0)), P5Theme.INK, 12.0])
+		for m in marks:
+			var r := ColorRect.new()
+			r.color = m[1]
+			r.size = Vector2(4, float(m[2]) + 6.0)
+			r.position = Vector2(float(m[0]) / total * STAGE_BAR_W - 2.0, -float(m[2]) * 0.5)
+			r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			stage_bar.add_child(r)
+			_stage_marks.append(r)
+
+## 屏幕外指示：精英红、Boss 深红大、敌巢赭黄、宝箱 / 补给 金 / 绿
+func _refresh_pointers() -> void:
+	if pointer_layer == null or main.world == null or main.world.camera == null:
+		return
+	var targets: Array = []
+	var d = main.director
+	if main.campaign_mode and d != null and d.running:
+		for e in d.stage_enemies + d.nests:
+			if is_instance_valid(e) and not e.dead and e.tier in ["elite", "neutral", "structure"]:
+				targets.append(e)
+		if d.boss_alive():
+			targets.append(d.boss)
+	var cam: Camera3D = main.world.camera
+	var vp := Vector2(1280, 720)
+	var shown := 0
+	for e in targets:
+		if shown >= 10:
+			break
+		var p: Vector3 = (e as Node3D).global_position
+		if not cam.is_position_behind(p):
+			var sp := cam.unproject_position(p)
+			if sp.x > 20 and sp.x < vp.x - 20 and sp.y > 20 and sp.y < vp.y - 20:
+				continue
+		var center := vp * 0.5
+		var dir := (cam.unproject_position(p) - center)
+		if dir.length() < 1.0:
+			continue
+		dir = dir.normalized()
+		var top := 122.0
+		var bottom := 100.0
+		var side := 34.0
+		var c2 := Vector2(center.x, (top + vp.y - bottom) * 0.5)
+		var half := Vector2(center.x - side, (vp.y - bottom - top) * 0.5)
+		var k := minf(half.x / maxf(absf(dir.x), 0.001), half.y / maxf(absf(dir.y), 0.001))
+		var at := c2 + dir * k
+		var arrow: Polygon2D
+		if shown < _pointers.size():
+			arrow = _pointers[shown]
+		else:
+			arrow = Polygon2D.new()
+			arrow.polygon = PackedVector2Array([Vector2(14, 0), Vector2(-8, -10), Vector2(-3, 0), Vector2(-8, 10)])
+			pointer_layer.add_child(arrow)
+			_pointers.append(arrow)
+		var col := P5Theme.RED
+		var s := 1.0
+		if e is BossEntity:
+			col = Color("#9E1B12")
+			s = 1.6
+		elif e.tier == "structure":
+			col = P5Theme.OCHRE
+		elif e.tier == "neutral":
+			col = Color("#E9AD38") if e.archetype_id == "treasure" else Color("#8FD694")
+		arrow.color = col
+		arrow.position = at
+		arrow.rotation = dir.angle()
+		var pulse := 1.0 + 0.12 * sin(Time.get_ticks_msec() * 0.01)
+		arrow.scale = Vector2.ONE * s * pulse
+		arrow.visible = true
+		shown += 1
+	for i in range(shown, _pointers.size()):
+		_pointers[i].visible = false
 
 ## 全屏大字只留给真正的大事（Boss / 进化 / 胜负）；任务、连杀、精英改成小喊话，不再盖住画面
 func stamp_banner(id: String) -> void:

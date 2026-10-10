@@ -14,6 +14,13 @@ uniform vec4 meadow_a = vec4(-7.0, -4.5, 6.4, 6.8);  // xz 中心 + 半径
 uniform vec4 meadow_b = vec4(6.8, -7.2, 5.2, 4.5);
 uniform vec2 river_x = vec2(9.0, 5.3);  // 河道中心 x、半宽
 uniform float edge_grass = 13.5;       // |x| 超过这个开始变草地
+uniform float edge_grass_z = 12.0;     // |z| 超过这个开始变草地
+// C28 大地图：兴趣点空地（x, z, 半径）+ 土路（ax, az, bx, bz）
+uniform vec3 clearings[12];
+uniform int clearing_count = 0;
+uniform vec4 roads[12];
+uniform int road_count = 0;
+uniform float road_half_w = 1.9;
 uniform vec3 tint = vec3(1.0);
 
 varying vec3 world_pos;
@@ -52,7 +59,29 @@ void fragment() {
 	float grass_w = max(1.0 - smoothstep(0.7, 1.0, ellipse(p, meadow_a.xy, meadow_a.zw) + wobble),
 						1.0 - smoothstep(0.7, 1.0, ellipse(p, meadow_b.xy, meadow_b.zw) + wobble));
 	grass_w = max(grass_w, smoothstep(edge_grass - 1.5, edge_grass + 1.0, abs(p.x) + wobble * 3.0));
-	grass_w = max(grass_w, smoothstep(12.0, 14.5, abs(p.y) + wobble * 3.0));
+	grass_w = max(grass_w, smoothstep(edge_grass_z, edge_grass_z + 2.5, abs(p.y) + wobble * 3.0));
+	if (clearing_count > 0 || road_count > 0) {
+		// 大地图：工地以外默认草地，空地铺土、土路铺路面
+		float yard_d = ellipse(p, yard_center, yard_radius * 1.25) + wobble;
+		grass_w = max(grass_w, smoothstep(0.9, 1.4, yard_d));
+		float dirt_w = 0.0;
+		for (int i = 0; i < clearing_count; i++) {
+			vec3 c = clearings[i];
+			float d = length(p - c.xy) / c.z + wobble * 0.5;
+			dirt_w = max(dirt_w, 1.0 - smoothstep(0.75, 1.05, d));
+		}
+		float road_w = 0.0;
+		for (int i = 0; i < road_count; i++) {
+			vec4 r = roads[i];
+			vec2 a = r.xy;
+			vec2 ab = r.zw - r.xy;
+			float t = clamp(dot(p - a, ab) / max(dot(ab, ab), 0.001), 0.0, 1.0);
+			float d = length(p - (a + ab * t)) + wobble * 1.2;
+			road_w = max(road_w, 1.0 - smoothstep(road_half_w - 0.6, road_half_w + 0.4, d));
+		}
+		grass_w *= 1.0 - max(dirt_w, road_w);
+		path_w = max(path_w, road_w * 0.85);
+	}
 	float bed_w = 1.0 - smoothstep(river_x.y - 1.2, river_x.y + 0.4, abs(p.x - river_x.x) + wobble * 1.6);
 	vec3 col = sample_tex(tex_dirt, p);
 	col = mix(col, sample_tex(tex_path, p), path_w);

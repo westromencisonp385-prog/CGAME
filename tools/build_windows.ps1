@@ -7,4 +7,5 @@ $out = Join-Path $root "build\windows"
 New-Item -ItemType Directory -Force $out | Out-Null
 & $godot --headless --path (Join-Path $root "game") --export-debug "Windows Desktop" ((Join-Path $out "ExcavateTheWorld.exe") -replace '\\', '/')
 Copy-Item (Join-Path $root "game\config\3c_tuning.json") (Join-Path $out "3c_tuning.json") -Force
+Copy-Item (Join-Path $root "game\config\stages.json") (Join-Path $out "stages.json") -Force
 Get-ChildItem $out | Select-Object Name, Length

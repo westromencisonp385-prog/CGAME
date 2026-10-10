@@ -8,7 +8,7 @@ const PATH := "res://config/3c_tuning.json"
 const DEFAULTS := {
 	"camera": {"pitch_deg": 45.0, "distance": 60.0, "base_size": 19.0, "tier_scale": [1.0, 1.154, 1.436, 1.846],
 		"tier_zoom_time": 0.9, "follow_k": 3.0, "lead_mult": 0.55, "lead_k": 2.0, "lead_max": 4.5,
-		"arena_half": [18.0, 16.0], "edge_margin": 4.0, "boss_scale": 1.18, "boss_smooth_time": 1.0,
+		"arena_half": [52.0, 46.0], "edge_margin": 4.0, "boss_scale": 1.18, "boss_smooth_time": 1.0,
 		"zoom_punch_per_fov": 0.01, "boss_intro": true, "boss_intro_move": 0.6, "boss_intro_hold": 1.25,
 		"boss_intro_return": 0.75, "boss_intro_zoom": 0.7, "boss_intro_wobble": 0.35, "boss_intro_wobble_strength": 0.4},
 	"drive": {"accel_time": 0.3, "brake_time": 0.22, "turn_rate_still": 420.0, "turn_rate_full": 280.0,

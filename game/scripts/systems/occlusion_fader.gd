@@ -62,6 +62,15 @@ func _subjects() -> Array:
 			for e in lst:
 				if is_instance_valid(e) and not e.get("dead") and (e as Node3D).is_visible_in_tree():
 					out.append([(e as Node3D).global_position, 0.5])
+	var dr = main.get("director")
+	if dr != null and is_instance_valid(dr) and bool(dr.get("running")):
+		var n := 0
+		for e in dr.stage_enemies:
+			if n >= 40:
+				break
+			if is_instance_valid(e) and not e.dead and (e as Node3D).is_visible_in_tree() and str(e.tier) != "swarm":
+				out.append([(e as Node3D).global_position, 0.6])
+				n += 1
 	var b = main.get("boss")
 	if b != null and is_instance_valid(b) and not b.get("dead"):
 		out.append([(b as Node3D).global_position, 1.4])
@@ -110,7 +119,7 @@ func _evaluate() -> void:
 			if box.end.z <= pos.z + 0.2:
 				continue
 			var sp := cam.unproject_position(pos + Vector3(0, float(s[1]) * 0.5, 0))
-			if rect.has_point(sp):
+			if rect.abs().has_point(sp):
 				hide = true
 				break
 		e["want"] = FADED if hide else 0.0

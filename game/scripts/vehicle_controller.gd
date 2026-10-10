@@ -429,11 +429,11 @@ static func _planar(from: Vector3, to: Vector3) -> Vector3:
 	p.y = 0.0
 	return p
 
-func _valid_enemy(n: Node) -> bool:
-	return n is EnemyDummy and is_instance_valid(n) and not n.dead and not n.packed and (n as Node3D).is_visible_in_tree()
+func _valid_enemy(n: Variant) -> bool:
+	return is_instance_valid(n) and n is EnemyDummy and not n.dead and not n.packed and (n as Node3D).is_visible_in_tree()
 
-func _valid_scrap(n: Node) -> bool:
-	return n is EngineeringTarget and is_instance_valid(n) and not n.dead and not n.repaired_state and n.target_kind != "repair" and (n as Node3D).is_visible_in_tree()
+func _valid_scrap(n: Variant) -> bool:
+	return is_instance_valid(n) and n is EngineeringTarget and not n.dead and not n.repaired_state and n.target_kind != "repair" and (n as Node3D).is_visible_in_tree()
 
 func _pick_auto_target() -> Node3D:
 	var best: Node3D = null
@@ -446,6 +446,13 @@ func _pick_auto_target() -> Node3D:
 		if d > AUTO_ACQUIRE:
 			continue
 		var score := d * (0.75 if n == auto_target else 1.0) - heading.dot(p / maxf(d, 0.01)) * 0.8
+		# C28：Boss 优先（否则杂兵永远更近，Boss 吃不到伤害）；敌巢不还手，排在会动手的敌人后面；宝箱车会跑，优先追
+		if n is BossEntity:
+			score = score * 0.55 - 1.5
+		elif str(n.tier) == "structure":
+			score = score * 1.5 + 2.0
+		elif str(n.tier) == "neutral":
+			score *= 0.7
 		if score < best_score:
 			best_score = score
 			best = n
@@ -512,7 +519,7 @@ func _auto_fire_tick() -> void:
 			aim_direction = _planar(global_position, throw_to.global_position).normalized()
 			throw_cargo()
 			return
-	if auto_target == null or primary_cooldown > 0.0:
+	if auto_target == null or not is_instance_valid(auto_target) or primary_cooldown > 0.0:
 		return
 	var p := _planar(global_position, auto_target.global_position)
 	var d2 := p.length()
@@ -546,7 +553,7 @@ func perform_primary() -> Dictionary:
 	var crit := crit_rng.randf() < crit_chance + _modifier("luck") * 0.01
 	if crit:
 		power *= CRIT_MULT
-	var source := {"dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0, "crit": crit, "knock": 4.0 * (1.8 if finisher else 1.0)}
+	var source := {"source": "bite", "dash": false, "water": assembler != null and assembler.has_module("water_cannon"), "electric": assembler != null and assembler.has_module("electric_arc"), "wet_duration": 4.0, "crit": crit, "knock": 4.0 * (1.8 if finisher else 1.0)}
 	if bool(source.water):
 		action_effect.emit("water_beam", global_position, global_position + aim_direction * reach)
 	var hit_count := 0
@@ -580,7 +587,7 @@ func perform_primary() -> Dictionary:
 			for node in chain_targets:
 				if node is EnemyDummy and node.packed:
 					continue
-				node.take_damage(power * 0.55)
+				node.take_damage(power * 0.55, "shock", "bite")
 				chain_hits += 1
 				action_effect.emit("arc_chain", source_enemy.global_position, node.global_position)
 	_bite_feedback(hit_count, finisher, reach, radius)
@@ -666,7 +673,7 @@ func throw_cargo() -> Dictionary:
 		var at := land
 		if target != null and is_instance_valid(target) and not target.dead:
 			at = (target as Node3D).global_position
-			target.take_damage(damage)
+			target.take_damage(damage, "normal", "throw")
 		action_effect.emit("throw", origin, at)
 		WanderburgAudio.hit("throw_hit", -6.0)
 		if GameFeel.instance != null:
@@ -745,7 +752,7 @@ func _release_packed_enemy() -> Dictionary:
 	target.release_from_whale()
 	target.global_position = landing
 	var damage := 48.0 + (12.0 if assembler != null and assembler.has_module("wide_bucket") else 0.0)
-	target.take_damage(damage)
+	target.take_damage(damage, "normal", "throw")
 	var blast_hits := 0
 	var hit_ids: Dictionary = {}
 	for node in get_tree().get_nodes_in_group("enemies"):
@@ -755,7 +762,7 @@ func _release_packed_enemy() -> Dictionary:
 		if enemy == target or enemy.dead or enemy.packed or hit_ids.has(enemy.enemy_id):
 			continue
 		if enemy.global_position.distance_to(landing) <= 1.75:
-			enemy.take_damage(damage * 0.65)
+			enemy.take_damage(damage * 0.65, "normal", "throw")
 			hit_ids[enemy.enemy_id] = true
 			blast_hits += 1
 	action_effect.emit("whale_release", origin, landing)
@@ -848,7 +855,7 @@ func _resolve_dash_contacts(from: Vector3, to: Vector3) -> void:
 		if not node is EnemyDummy or node.dead:
 			continue
 		if node.global_position.distance_to(to) < 2.4 and not dash_hit_ids.has(node.enemy_id):
-			node.take_damage(20.0 * multiplier, "crit" if multiplier > 1.0 else "normal")
+			node.take_damage(20.0 * multiplier, "crit" if multiplier > 1.0 else "normal", "dash")
 			node.apply_knockback(node.global_position - to, 9.0 * multiplier)
 			dash_hit_ids.append(node.enemy_id)
 			if multiplier > 1.0:

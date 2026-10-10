@@ -19,6 +19,8 @@ var _armed := false
 var _fuse := -1.0
 var _mesh: MeshInstance3D
 var _mat: StandardMaterial3D
+## B1：地面区域在创建时记住伤害来源
+var source_id := "other"
 
 const COLORS := {"mine": Color("#D9412B"), "fire": Color("#E3A52B"), "tar": Color("#1B1B1D"), "tesla": Color("#8C7BA8"), "heal": Color("#8FD694")}
 
@@ -28,6 +30,7 @@ static func spawn(parent: Node, k: String, at: Vector3, r: float, dmg: float, li
 	h.radius = r
 	h.damage = dmg
 	h.duration = life
+	h.source_id = DamagePipeline.current()
 	h.position = Vector3(at.x, 0.06, at.z)
 	parent.add_child(h)
 	return h
@@ -143,8 +146,9 @@ func _process(delta: float) -> void:
 			if _pulse <= 0.0:
 				_pulse = 0.5
 				for e in _enemies_within(radius):
+					e._burn_source = source_id
 					e.status.apply("burning", 2.0, 5.0)
-					e.take_damage(damage * 0.5, "burn")
+					e.take_damage(damage * 0.5, "burn", source_id)
 		"tar":
 			for e in _enemies_within(radius):
 				e.status.apply("slow", 0.4, 0.7)
@@ -154,7 +158,7 @@ func _process(delta: float) -> void:
 				_pulse = 1.2
 				for e in _enemies_within(radius):
 					e.status.apply("stun", 0.5)
-					e.take_damage(damage, "shock")
+					e.take_damage(damage, "shock", source_id)
 					VfxKit.lightning(global_position + Vector3(0, 1.8, 0), e.global_position + Vector3(0, 0.8, 0), COLORS["tesla"].lightened(0.4))
 				if GameFeel.instance != null:
 					GameFeel.instance.impact_ring(global_position, radius, COLORS["tesla"], 0.3)
@@ -165,7 +169,7 @@ func _process(delta: float) -> void:
 
 func _explode() -> void:
 	for e in _enemies_within(radius):
-		e.take_damage(damage)
+		e.take_damage(damage, "normal", source_id)
 		e.apply_knockback(e.global_position - global_position, 10.0)
 	if GameFeel.instance != null:
 		GameFeel.instance.shake(0.25)

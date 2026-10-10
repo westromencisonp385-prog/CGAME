@@ -10,7 +10,7 @@
     "lead_mult": 0.55,
     "lead_k": 2.0,
     "lead_max": 4.5,
-    "arena_half": [18.0, 16.0],
+    "arena_half": [52.0, 46.0],
     "edge_margin": 4.0,
     "boss_scale": 1.18,
     "boss_smooth_time": 1.0,

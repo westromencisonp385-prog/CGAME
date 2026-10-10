@@ -94,8 +94,9 @@ func hitstop(duration := 0.05, scale := 0.04) -> void:
 	if not enabled or not time_effects:
 		return
 	var now := Time.get_ticks_msec()
-	if _stop_until <= now and _slow_until <= now:
-		_base_time_scale = Engine.time_scale
+	# C28 修复：到期但还没被 _process 恢复的效果也算“生效中”，否则会把 0.01 当成正常速度记下来，整局卡在慢动作
+	if _stop_until == 0 and _slow_until == 0:
+		_base_time_scale = maxf(Engine.time_scale, 0.25)
 	_stop_until = maxi(_stop_until, now + int(clampf(duration, 0.0, 0.16) * 1000.0))
 	Engine.time_scale = minf(Engine.time_scale, maxf(scale, 0.01))
 
@@ -104,8 +105,8 @@ func slowmo(scale := 0.3, duration := 0.45) -> void:
 	if not enabled or not time_effects:
 		return
 	var now := Time.get_ticks_msec()
-	if _stop_until <= now and _slow_until <= now:
-		_base_time_scale = Engine.time_scale
+	if _stop_until == 0 and _slow_until == 0:
+		_base_time_scale = maxf(Engine.time_scale, 0.25)
 	_slow_until = maxi(_slow_until, now + int(duration * 1000.0))
 	_slow_scale = scale
 	Engine.time_scale = minf(Engine.time_scale, scale)
@@ -281,6 +282,12 @@ func on_enemy_hit(target: Node3D, amount: float, kind := "normal", heavy := fals
 	var crit := kind == "crit"
 	if crit:
 		stats["crits"] = int(stats.get("crits", 0)) + 1
+	# C28 杂兵成群出现：每只都满额顿帧 / 震屏会让割草变卡顿，降一档
+	if str(target.get("tier")) == "swarm" and not crit:
+		hitstop(0.022, 0.08)
+		shake(0.05)
+		CombatVfx.spark(target.global_position, Color("#EFE3C8"), 0.6)
+		return
 	hitstop(0.085 if crit or heavy else 0.045, 0.03)
 	shake(0.26 if crit or heavy else 0.12)
 	CombatVfx.spark(target.global_position, Color("#E3A52B") if crit else Color("#EFE3C8"), 1.3 if crit else 0.9)
@@ -305,6 +312,12 @@ func on_enemy_killed(target: Node3D, tier := "minion") -> void:
 			slowmo(0.35, 0.5)
 			shake(0.55)
 			impact_ring(at, 4.5, Color("#D9412B"), 0.45)
+		"swarm":
+			impact_ring(at, 1.2, Color("#EFE3C8"), 0.22)
+		"structure":
+			hitstop(0.1, 0.02)
+			shake(0.7)
+			impact_ring(at, 6.0, Color("#D9412B"), 0.55)
 		_:
 			shake(0.14)
 			impact_ring(at, 2.2, Color("#EFE3C8"), 0.3)

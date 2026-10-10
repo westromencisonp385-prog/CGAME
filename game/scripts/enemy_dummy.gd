@@ -37,6 +37,16 @@ var _dash_t := 0.0
 var _charge_dir := Vector3.ZERO
 var _orbit_sign := 1.0
 signal elite_ability(enemy: EnemyDummy, center: Vector3, radius: float, damage: float)
+## C28 关卡：敌巢出兵请求 / 中立目标逃走
+signal nest_spawn_requested(nest: EnemyDummy)
+signal escaped(enemy: EnemyDummy)
+var lifetime := -1.0
+var nest_interval := 3.5
+var nest_range := 18.0
+var nest_children: Array = []
+var _nest_t := 0.0
+var _escaping := false
+var stage_dmg_mult := 1.0
 
 func configure_archetype(new_id: String, archetype: String, at: Vector3 = Vector3.ZERO) -> EnemyDummy:
 	var def: Dictionary = EnemyArchetypes.get_def(archetype)
@@ -47,8 +57,25 @@ func configure_archetype(new_id: String, archetype: String, at: Vector3 = Vector
 	tier = str(def["tier"])
 	behavior = str(def["behavior"])
 	contact_damage = float(def["damage"])
+	lifetime = float(def.get("lifetime", -1.0))
+	if behavior == "nest":
+		knock_resist = 1.0
 	_orbit_sign = -1.0 if (new_id.hash() & 1) == 1 else 1.0
 	_beh_t = float(new_id.hash() % 100) / 100.0
+	return self
+
+## C28 阶段倍率：血量 / 伤害（生成后、入树前调用）
+## B1 统一伤害管线：每次受伤减固定护甲值；受伤倍率给正面盾、破韧、减速增伤等用
+var armor := 0.0
+var damage_taken_mult := 1.0
+var _burn_source := "other"
+
+func apply_stage(hp_mult: float, dmg_mult: float) -> EnemyDummy:
+	health *= hp_mult
+	current_health = health
+	stage_dmg_mult = dmg_mult
+	if contact_damage > 0.0:
+		contact_damage *= dmg_mult
 	return self
 
 func configure(new_id: String, enemy_kind: String, hp: float, move_speed: float, at: Vector3 = Vector3.ZERO) -> EnemyDummy:
@@ -93,9 +120,18 @@ func _build_visual() -> void:
 		return
 	if not archetype_id.is_empty():
 		var def: Dictionary = EnemyArchetypes.get_def(archetype_id)
+		if def.has("prop"):
+			if _build_prop_visual(def):
+				return
 		rig = ProceduralRig.attach(visual_root, str(def.get("slot", "")))
 		if rig != null:
 			position.y = maxf(position.y, 0.0)
+			var s := float(def.get("scale", 1.0))
+			if absf(s - 1.0) > 0.01:
+				visual_root.scale = Vector3.ONE * s
+				rig._model_height *= s
+				if shadow != null:
+					shadow.scale *= s
 			if tier == "elite":
 				_add_elite_marks(str(def["name"]))
 			return
@@ -167,6 +203,49 @@ func _attach_formal_b01_visual() -> bool:
 func height_for_kind() -> float:
 	return 1.4 if kind != "heavy" else 1.9
 
+## C28 中立 / 敌巢：用正式景物模型（不是白模）。敌巢 = 石拱门 + 两面红旗 + 油桶堆
+func _build_prop_visual(def: Dictionary) -> bool:
+	var slot := str(def["prop"])
+	var body := WorldDressing.prop(visual_root, slot, Vector3.ZERO, 0.0, 1.0 if behavior != "nest" else 1.6)
+	if body == null:
+		return false
+	position.y = 0.0
+	if behavior == "nest":
+		WorldDressing.prop(visual_root, "prop_pennant", Vector3(-2.2, 0, 0.6), 0.0, 1.2)
+		WorldDressing.prop(visual_root, "prop_pennant", Vector3(2.2, 0, 0.6), 30.0, 1.2)
+		WorldDressing.prop(visual_root, "prop_oil_drums", Vector3(1.4, 0, -1.8), 40.0, 1.0)
+		WorldDressing.prop(visual_root, "prop_broken_wall", Vector3(-2.6, 0, -1.6), 70.0, 0.9)
+	_add_marks(str(def["name"]), Color(str(def.get("ring", "#D9412B"))), 2.2 if behavior == "nest" else 1.1)
+	return true
+
+func _add_marks(display: String, color: Color, h: float) -> void:
+	var tag := Label3D.new()
+	tag.name = "EliteNameplate"
+	tag.text = display
+	tag.font = P5Theme.title_font()
+	tag.font_size = 40
+	tag.outline_size = 14
+	tag.modulate = Color("#EFE3C8")
+	tag.outline_modulate = color
+	tag.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	tag.no_depth_test = true
+	tag.pixel_size = 0.006
+	tag.position = Vector3(0, h + 0.6, 0)
+	add_child(tag)
+	var ring := MeshInstance3D.new()
+	ring.name = "EliteRing"
+	var tm := TorusMesh.new()
+	tm.inner_radius = h * 0.75
+	tm.outer_radius = h * 0.84
+	ring.mesh = tm
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.albedo_color = color
+	ring.material_override = m
+	ring.position.y = 0.04
+	ring.scale = Vector3(1, 0.2, 1)
+	add_child(ring)
+
 ## 精英：头顶名牌（骨白字 + 红底，与 UI v2 一致）+ 旋转红色警示环
 func _add_elite_marks(display: String) -> void:
 	var h := rig._model_height if rig != null else 2.0
@@ -203,6 +282,22 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 	var dir := offset.normalized() if dist > 0.01 else Vector3.ZERO
 	_beh_t += delta
 	match behavior:
+		"flee":
+			# 中立：玩家 14m 内就跑（往远离玩家、偏向场地中心的方向），否则慢慢晃
+			if dist < 14.0:
+				var away := -dir
+				var to_center := -Vector3(global_position.x, 0, global_position.z) / maxf(ArenaLayout.HALF.x, 1.0)
+				var side := Vector3(-away.z, 0, away.x) * _orbit_sign * 0.35
+				return (away + to_center * 0.6 + side).normalized() * speed * delta
+			return Vector3(sin(_beh_t * 0.7), 0, cos(_beh_t * 0.5)) * speed * 0.2 * delta
+		"nest":
+			if dist <= nest_range:
+				_nest_t -= delta
+				if _nest_t <= 0.0:
+					_nest_t = nest_interval
+					nest_children = nest_children.filter(func(c): return is_instance_valid(c) and not c.dead)
+					nest_spawn_requested.emit(self)
+			return Vector3.ZERO
 		"hopper":
 			if _dash_t > 0.0:
 				_dash_t -= delta
@@ -350,12 +445,21 @@ func _process(delta: float) -> void:
 	if dead:
 		return
 	_wobble_time += delta
+	if lifetime > 0.0 and not _escaping:
+		lifetime -= delta
+		if lifetime <= 0.0:
+			_escape()
+			return
+	if not (self is BossEntity):
+		var clamped := ArenaLayout.clamp_inside(global_position, 0.8)
+		if clamped.x != global_position.x or clamped.z != global_position.z:
+			global_position = Vector3(clamped.x, global_position.y, clamped.z)
 	# 状态：灼烧掉血（累计到 1 点以上才结算，避免数字刷屏）
 	var burn := status.tick(delta)
 	if burn > 0.0:
 		_burn_accum += burn
 		if _burn_accum >= 3.0:
-			take_damage(_burn_accum, "burn")
+			take_damage(_burn_accum, "burn", _burn_source)
 			_burn_accum = 0.0
 			if dead:
 				return
@@ -363,9 +467,11 @@ func _process(delta: float) -> void:
 	if knock.length() > 0.01:
 		global_position += knock * delta
 		knock = knock.move_toward(Vector3.ZERO, delta * 22.0)
-	if visual_root != null and rig == null:
+	if visual_root != null and rig == null and behavior != "nest":
 		var wobble := sin(_wobble_time * (5.0 if kind != "heavy" else 2.2) + float(enemy_id.hash() % 13)) * (0.07 if kind != "heavy" else 0.025)
 		visual_root.rotation.z = wobble
+		if behavior == "flee":
+			visual_root.position.y = absf(sin(_wobble_time * 9.0)) * 0.18
 	if status.has("stun"):
 		if visual_root != null:
 			visual_root.rotation.z = sin(_wobble_time * 30.0) * 0.08
@@ -401,9 +507,23 @@ func _process(delta: float) -> void:
 		if wet_time <= 0.0 and material != null:
 			material.albedo_color = Color("#d5574e") if kind != "heavy" else Color("#8c4b59")
 
+## C28 中立目标限时：钻地逃走（不掉奖励）
+func _escape() -> void:
+	_escaping = true
+	dead = true
+	if is_inside_tree():
+		SkillVfx.dust_ring(global_position, 1.6)
+		VfxKit.burst(global_position + Vector3(0, 0.3, 0), "debris", Color("#5a4a3a"), 0.8, 0.8)
+		var tw := create_tween()
+		tw.tween_property(self, "scale", Vector3(1.2, 0.05, 1.2), 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tw.tween_callback(func(): visible = false)
+	else:
+		visible = false
+	escaped.emit(self)
+
 ## 攻击：近战 = 前摇（身体压低 + 赭黄闪）→ 仍在范围内才出伤；远程 = 前摇后发射可躲的弹道
 func _tick_attack(delta: float, offset: Vector3) -> void:
-	if behavior == "caster" or status.has("fear"):
+	if behavior == "caster" or behavior == "flee" or behavior == "nest" or status.has("fear"):
 		return
 	if _windup > 0.0:
 		_windup -= delta
@@ -473,7 +593,9 @@ func apply_knockback(dir: Vector3, strength: float) -> void:
 		rig.juice.snap_stretch(l, clampf(s * 0.025, 0.06, 0.35))
 
 func can_be_magnetized() -> bool:
-	return not dead and not packed and not pack_used and kind == "light"
+	if dead or packed or pack_used or kind != "light":
+		return false
+	return archetype_id.is_empty() or EnemyArchetypes.is_hostile(tier)
 
 func pack_into_whale() -> bool:
 	if not can_be_magnetized():
@@ -525,7 +647,7 @@ func try_engineering_hit(origin: Vector3, direction: Vector3, radius: float, rea
 		damage *= 1.8
 	_apply_source_status(source)
 	var crit := bool(source.get("crit", false))
-	take_damage(damage, "crit" if crit else str(source.get("number_kind", "normal")))
+	take_damage(damage, "crit" if crit else str(source.get("number_kind", "normal")), str(source.get("source", "")))
 	var kb := float(source.get("knock", 3.5))
 	if kb > 0.0:
 		apply_knockback(planar, kb * (1.6 if crit else 1.0))
@@ -537,6 +659,8 @@ static var status_applied_count := 0
 
 func _apply_source_status(source: Dictionary) -> void:
 	var n := 0
+	if bool(source.get("burn", false)):
+		_burn_source = str(source.get("source", DamagePipeline.current()))
 	if bool(source.get("burn", false)) and status.apply("burning", float(source.get("burn_time", 3.0)), float(source.get("burn_dps", 4.0))):
 		n += 1
 	if bool(source.get("chill", false)) and status.apply("slow", float(source.get("chill_time", 2.5)), 0.5):
@@ -548,11 +672,14 @@ func _apply_source_status(source: Dictionary) -> void:
 	status_applied_count += n
 
 ## kind：normal / crit / burn / frost / shock —— 只影响伤害数字的样式与顿帧力度
-func take_damage(amount: float, kind_tag := "normal") -> void:
+func take_damage(amount: float, kind_tag := "normal", source := "") -> void:
 	if dead or packed:
 		return
-	var dealt := maxf(0.0, amount)
+	var dealt := DamagePipeline.resolve(self, amount)
+	var src := source if not source.is_empty() else DamagePipeline.current()
+	var effective := minf(dealt, current_health)
 	current_health = maxf(0.0, current_health - dealt)
+	DamagePipeline.record(src, effective, current_health <= 0.0)
 	if rig != null:
 		var away := Vector3.ZERO
 		if player != null and is_instance_valid(player):
@@ -575,11 +702,18 @@ func take_damage(amount: float, kind_tag := "normal") -> void:
 				VfxKit.explosion(global_position, 2.0 * hs, VfxKit.RED)
 		if rig != null and is_inside_tree():
 			rig.play_death(0.9)
-			get_tree().create_timer(0.9).timeout.connect(func():
-				if is_instance_valid(self) and dead:
-					visible = false)
+			var tw := create_tween()
+			tw.tween_interval(0.9)
+			tw.tween_callback(func(): visible = false)
+			if enemy_id.begins_with("st_") and not (self is BossEntity):
+				tw.tween_interval(0.3)
+				tw.tween_callback(queue_free)
 		else:
 			visible = false
+			if enemy_id.begins_with("st_") and not (self is BossEntity) and is_inside_tree():
+				var tw2 := create_tween()
+				tw2.tween_interval(0.3)
+				tw2.tween_callback(queue_free)
 		defeated.emit(self)
 
 func pull_toward(point: Vector3, amount: float) -> bool:

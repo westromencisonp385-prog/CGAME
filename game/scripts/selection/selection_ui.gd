@@ -458,7 +458,8 @@ func _rarity_from_weight(weight: float) -> int:
 
 func _describe(option: Variant) -> Array:
 	if option is ModuleDefinitionV2:
-		return [option.module_name, option.module_description]
+		# B1：卡面写出这张卡装上后的自动攻击（槽位朝向 + 频率）
+		return [option.module_name, option.module_description, AutoWeapons.describe(option.module_id)]
 	if option is ArtifactDefinition:
 		return [option.display_name, option.description]
 	if option is CaptainDefinition:

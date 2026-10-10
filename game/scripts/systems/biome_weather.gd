@@ -11,6 +11,18 @@ var weather_root: Node3D
 func _ready() -> void:
 	_rebuild_particles()
 
+## C28 大地图：天气层跟着镜头中心走（原来固定在场地中央 34m 内）
+func _process(_delta: float) -> void:
+	var cam := get_viewport().get_camera_3d() if is_inside_tree() else null
+	if cam == null or weather_root == null:
+		return
+	var o := cam.global_position
+	var d := -cam.global_transform.basis.z
+	if absf(d.y) < 0.01:
+		return
+	var p := o + d * (-o.y / d.y)
+	weather_root.global_position = Vector3(p.x, 0.0, p.z)
+
 func apply_biome(new_id: String) -> void:
 	if not ["river", "desert", "swamp"].has(new_id):
 		return
@@ -42,7 +54,7 @@ func _build_sandstorm() -> void:
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		drift.material_override = mat
 		weather_root.add_child(drift)
-		var tween := create_tween()
+		var tween := drift.create_tween()
 		tween.set_loops()
 		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		tween.tween_property(drift, "position:x", 17.0, 2.6 + float(lane) * 0.7).from(-17.0)
@@ -66,7 +78,7 @@ func _build_bubbles() -> void:
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		bubble.material_override = mat
 		weather_root.add_child(bubble)
-		var rise := create_tween()
+		var rise := bubble.create_tween()
 		rise.set_loops()
 		rise.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		rise.tween_property(bubble, "position:y", 1.6, 1.8 + fmod(float(index) * 0.23, 1.4)).from(0.1)

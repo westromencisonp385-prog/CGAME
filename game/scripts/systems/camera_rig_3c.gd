@@ -160,7 +160,7 @@ func view_half_extents(s: float) -> Vector2:
 	return Vector2(s * aspect * 0.5, s * 0.5 / maxf(sin(pitch), 0.1))
 
 func _clamp_focus(p: Vector3, s: float) -> Vector3:
-	var arena: Array = Tuning3C.get_v("camera", "arena_half")
+	var arena: Array = [ArenaLayout.HALF.x, ArenaLayout.HALF.y]  # C28 场地尺寸唯一真源
 	var half := view_half_extents(s)
 	var m := t("edge_margin")
 	var mx := maxf(0.0, float(arena[0]) + m - half.x)

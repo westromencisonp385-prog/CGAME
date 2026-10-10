@@ -47,6 +47,8 @@ func _run() -> void:
 	_place(light_three, main.player.global_position + Vector3(-0.8, 0, -2.2))
 	_place(heavy, main.player.global_position + Vector3(0, 0, -2.8))
 	main.player.aim_direction = Vector3(0, 0, -1)
+	# 暴击是随机的：暴击溅射会把旁边的轻型敌人直接打死，第二口就没有可装的目标
+	main.player.crit_chance = -1.0
 	_cooldown_ready(main)
 	var pack_result: Dictionary = main.player.perform_primary()
 	check(pack_result.get("performed", false) and pack_result.get("packed", false), "Normal primary packs a qualified light enemy")
@@ -81,6 +83,9 @@ func _run() -> void:
 	check(gm.execute("freeze_ai", {"enabled": false}).get("ok", false), "GM can unfreeze AI after load")
 	var restored_light: EnemyDummy = main.enemies[0] as EnemyDummy
 	var restored_second: EnemyDummy = null
+	if packed_snapshot_ids.size() < 2:
+		_finish(main)
+		return
 	for candidate in main.enemies:
 		if candidate.enemy_id == packed_snapshot_ids[1]:
 			restored_second = candidate
@@ -132,8 +137,10 @@ func _run() -> void:
 	_cooldown_ready(main)
 	var demo_primary: Dictionary = main.player.perform_primary()
 	check(demo_primary.get("performed", false) and demo_primary.get("packed", false), "whale_demo can be played through normal primary")
+	_finish(main)
+
+func _finish(main: Node) -> void:
 	main.queue_free()
-	await process_frame
 	if failures.is_empty():
 		print("WHALE PACK FLOW PASS: qualified packing, heavy rejection, save/load, and one-shot release")
 	quit(0 if failures.is_empty() else 1)

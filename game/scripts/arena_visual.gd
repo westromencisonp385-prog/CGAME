@@ -73,18 +73,22 @@ func _build_camera() -> void:
 	camera.look_at(Vector3(0, 0, 0))
 
 func _build_ground() -> void:
-	# 碰撞仍是原来的地面盒与四面边界墙；有正式地表时这些盒子只负责碰撞、不显示。
+	# 碰撞仍是地面盒与四面边界墙；有正式地表时这些盒子只负责碰撞、不显示。C28 尺寸来自 ArenaLayout
 	var authored := WorldDressing.has_terrain()
-	var ground := box(self, Vector3(36, 1, 32), Vector3(0, -0.55, 0), EARTH, true)
+	var hx := ArenaLayout.HALF.x
+	var hz := ArenaLayout.HALF.y
+	var ground := box(self, Vector3(hx * 2.0, 1, hz * 2.0), Vector3(0, -0.55, 0), EARTH, true)
 	ground.visible = not authored
-	for at in [Vector3(-18, 0.8, 0), Vector3(18, 0.8, 0), Vector3(0, 0.8, -16), Vector3(0, 0.8, 16)]:
-		var size := Vector3(1, 2, 33) if absf(at.x) > 0 else Vector3(36, 2, 1)
+	for at in [Vector3(-hx, 0.8, 0), Vector3(hx, 0.8, 0), Vector3(0, 0.8, -hz), Vector3(0, 0.8, hz)]:
+		var size := Vector3(1, 2, hz * 2.0 + 1.0) if absf(at.x) > 0 else Vector3(hx * 2.0, 2, 1)
 		var wall := box(self, size, at, NAVY, true)
 		wall.visible = not ProceduralRig.has_rig("prop_broken_wall")
 	if authored:
-		terrain = WorldDressing.build_terrain(self, Vector2(110, 96))
+		terrain = WorldDressing.build_terrain(self, Vector2(hx * 2.0 + 30.0, hz * 2.0 + 30.0))
+		_apply_layout_to_terrain()
 		_build_border_dressing()
 		_build_scatter()
+		_build_poi_dressing()
 		return
 	_disk(self, "CentralDustYard", Vector3(0, 0.035, 0.5), Vector3(11.5, 0.035, 15.8), Color("#bd9565"), 14)
 	_disk(self, "OliveBackPatch", Vector3(-7.0, 0.04, -4.5), Vector3(6.4, 0.035, 6.8), OLIVE, 9)
@@ -97,46 +101,49 @@ func _build_ground() -> void:
 		var strip := box(self, Vector3(2.3, 0.05, 0.12), Vector3(-8.6, 0.085, z), Color("#8e6d4f"))
 		strip.rotation_degrees.y = 8.0 if z < 0.0 else -7.0
 
-## 边界：栅栏围一圈，外侧树林 + 大石 + 灌木，挡住“世界尽头”
+## 边界：断墙围一圈，外侧树林 + 大石 + 灌木，挡住“世界尽头”（C28 按 ArenaLayout 尺寸）
 func _build_border_dressing() -> void:
 	var border := Node3D.new()
 	border.name = "BorderDressing"
 	add_child(border)
+	var hx := ArenaLayout.HALF.x
+	var hz := ArenaLayout.HALF.y
+	var wz := hz + ArenaLayout.WALL_INSET
+	var wx := hx + ArenaLayout.WALL_INSET
 	if ProceduralRig.has_rig("prop_broken_wall"):
 		var seg := 4.0
-		var x := -16.0
+		var x := -hx + 2.0
 		var flip := false
-		while x <= 16.0:
-			WorldDressing.prop(border, "prop_broken_wall", Vector3(x, 0, -16.4), 0.0 if flip else 180.0)
-			WorldDressing.prop(border, "prop_broken_wall", Vector3(x, 0, 16.4), 180.0 if flip else 0.0)
+		while x <= hx - 2.0:
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(x, 0, -wz), 0.0 if flip else 180.0)
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(x, 0, wz), 180.0 if flip else 0.0)
 			x += seg
 			flip = not flip
-		var z := -14.0
+		var z := -hz + 2.0
 		flip = false
-		while z <= 14.0:
-			WorldDressing.prop(border, "prop_broken_wall", Vector3(-18.4, 0, z), 90.0 if flip else -90.0)
-			WorldDressing.prop(border, "prop_broken_wall", Vector3(18.4, 0, z), -90.0 if flip else 90.0)
+		while z <= hz - 2.0:
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(-wx, 0, z), 90.0 if flip else -90.0)
+			WorldDressing.prop(border, "prop_broken_wall", Vector3(wx, 0, z), -90.0 if flip else 90.0)
 			z += seg
 			flip = not flip
-		for c in [Vector3(-18.4, 0, -16.4), Vector3(18.4, 0, -16.4), Vector3(-18.4, 0, 16.4), Vector3(18.4, 0, 16.4)]:
+		for c in [Vector3(-wx, 0, -wz), Vector3(wx, 0, -wz), Vector3(-wx, 0, wz), Vector3(wx, 0, wz)]:
 			WorldDressing.prop(border, "prop_rock_large", c, c.x * 7.0, 1.1)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7301
 	var trees := []
 	var bushes := []
-	for i in 70:
+	for i in 260:
 		var side := i % 4
 		var t := rng.randf_range(-1.0, 1.0)
-		var d := rng.randf_range(1.6, 6.5)
-		var p := Vector2(t * 22.0, -16.0 - d) if side == 0 else (Vector2(t * 22.0, 16.0 + d) if side == 1 else (Vector2(-18.0 - d, t * 19.0) if side == 2 else Vector2(18.0 + d, t * 19.0)))
-		if absf(p.x - 9.0) < 3.0 and absf(p.y) > 15.0:
+		var d := rng.randf_range(1.6, 9.0)
+		var p := Vector2(t * (hx + 6.0), -hz - d) if side == 0 else (Vector2(t * (hx + 6.0), hz + d) if side == 1 else (Vector2(-hx - d, t * (hz + 3.0)) if side == 2 else Vector2(hx + d, t * (hz + 3.0))))
+		if absf(p.x - ArenaLayout.RIVER_X) < 3.0 and absf(p.y) > hz - 1.0:
 			continue  # 河道出入口留空
 		var s := rng.randf_range(0.8, 1.3)
 		var basis := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s)
 		var tf := Transform3D(basis, Vector3(p.x, 0, p.y))
-		# C26：正交 45° 下，物体会往画面上方（远处）盖住 高度×1 米的地面。
-		# 镜头一侧（南边 +Z）和左右两侧的南半段只放灌木（矮），高树留在北边与左右北半段——同原作“高物件不挡在玩家和镜头之间”
-		var near_cam := side == 1 or (side >= 2 and p.y > 4.0)
+		# C26：镜头一侧（南边 +Z）和左右两侧的南半段只放灌木（矮），高树留在北边与左右北半段
+		var near_cam := side == 1 or (side >= 2 and p.y > hz * 0.25)
 		if i % 3 == 2 or near_cam:
 			bushes.append(tf)
 		else:
@@ -146,32 +153,97 @@ func _build_border_dressing() -> void:
 	WorldDressing.scatter(border, "prop_tree_round", round_trees)
 	WorldDressing.scatter(border, "prop_tree_poplar", poplars)
 	WorldDressing.scatter(border, "prop_bush", bushes)
-	var rocks := WorldDressing.scatter_points(rng, 18, Rect2(-24, -22, 48, 44), Vector2(0.7, 1.4),
-		func(p: Vector2): return (absf(p.x) < 18.6 and absf(p.y) < 16.6) or p.y > 15.0)
+	var rocks := WorldDressing.scatter_points(rng, 60, Rect2(-hx - 8, -hz - 8, hx * 2 + 16, hz * 2 + 16), Vector2(0.7, 1.4),
+		func(p: Vector2): return (absf(p.x) < hx + 0.6 and absf(p.y) < hz + 0.6) or p.y > hz - 1.0)
 	WorldDressing.scatter(border, "prop_rock_large", rocks)
 
-## 场内散布：草丛、小花、小石子，避开中央工地与河道，保证可读性
+## 场内散布：草丛、小花、灌木，避开中央工地、河道、兴趣点空地和土路，保证可读性
 func _build_scatter() -> void:
 	var scatter := Node3D.new()
 	scatter.name = "GroundScatter"
 	add_child(scatter)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 4417
+	var hx := ArenaLayout.HALF.x
+	var hz := ArenaLayout.HALF.y
 	var in_yard := func(p: Vector2) -> bool:
 		var d := (p - Vector2(0, 0.5)) / Vector2(8.6, 12.0)
 		return d.length_squared() < 1.0
-	var in_river := func(p: Vector2) -> bool: return absf(p.x - 9.0) < 5.6
-	var blocked := func(p: Vector2) -> bool: return bool(in_yard.call(p)) or bool(in_river.call(p))
-	var area := Rect2(-17.5, -15.5, 35, 31)
-	WorldDressing.scatter(scatter, "prop_grass_tuft", WorldDressing.scatter_points(rng, 150, area, Vector2(0.7, 1.25), blocked))
-	WorldDressing.scatter(scatter, "prop_flowers", WorldDressing.scatter_points(rng, 34, area, Vector2(0.7, 1.1), blocked))
-	WorldDressing.scatter(scatter, "prop_bush", WorldDressing.scatter_points(rng, 10, area, Vector2(0.6, 0.9), blocked))
+	var in_river := func(p: Vector2) -> bool: return absf(p.x - ArenaLayout.RIVER_X) < 5.6
+	var blocked := func(p: Vector2) -> bool: return bool(in_yard.call(p)) or bool(in_river.call(p)) or ArenaLayout.near_poi(p, 0.5) or ArenaLayout.on_road(p, 1.6)
+	var area := Rect2(-hx + 0.5, -hz + 0.5, hx * 2.0 - 1.0, hz * 2.0 - 1.0)
+	WorldDressing.scatter(scatter, "prop_grass_tuft", WorldDressing.scatter_points(rng, 900, area, Vector2(0.7, 1.25), blocked))
+	WorldDressing.scatter(scatter, "prop_flowers", WorldDressing.scatter_points(rng, 200, area, Vector2(0.7, 1.1), blocked))
+	# 灌木只放场地北半（远离镜头一侧更高的东西不挡视线）
+	WorldDressing.scatter(scatter, "prop_bush", WorldDressing.scatter_points(rng, 70, area, Vector2(0.6, 0.9), func(p: Vector2): return bool(blocked.call(p))))
 	# 工地里只撒少量碎石，表现“被挖过”的地面
 	WorldDressing.scatter(scatter, "prop_rock_cluster", WorldDressing.scatter_points(rng, 8, Rect2(-8, -11, 16, 23), Vector2(0.3, 0.5),
 		func(p: Vector2): return not bool(in_yard.call(p)) or bool(in_river.call(p))))
-	# 河岸芦苇（常驻，修复后再加一圈）
-	WorldDressing.scatter(scatter, "prop_reeds", WorldDressing.scatter_points(rng, 14, Rect2(2.8, -15, 12.4, 30), Vector2(0.7, 1.1),
-		func(p: Vector2): return absf(absf(p.x - 9.0) - 5.4) > 0.9))
+	# 河岸芦苇沿整条河
+	WorldDressing.scatter(scatter, "prop_reeds", WorldDressing.scatter_points(rng, 46, Rect2(ArenaLayout.RIVER_X - 6.2, -hz + 1, 12.4, hz * 2.0 - 2.0), Vector2(0.7, 1.1),
+		func(p: Vector2): return absf(absf(p.x - ArenaLayout.RIVER_X) - 5.4) > 0.9))
+
+## C28 地表布局：兴趣点空地 + 土路写进地表 shader
+func _apply_layout_to_terrain() -> void:
+	if terrain == null:
+		return
+	var mat := terrain.material_override as ShaderMaterial
+	var cl := PackedVector3Array()
+	for c in ArenaLayout.clearings():
+		cl.append(Vector3((c[0] as Vector2).x, (c[0] as Vector2).y, float(c[1])))
+	var roads := PackedVector4Array()
+	for r in ArenaLayout.roads():
+		roads.append(Vector4((r[0] as Vector2).x, (r[0] as Vector2).y, (r[1] as Vector2).x, (r[1] as Vector2).y))
+	mat.set_shader_parameter("clearings", cl)
+	mat.set_shader_parameter("clearing_count", cl.size())
+	mat.set_shader_parameter("roads", roads)
+	mat.set_shader_parameter("road_count", roads.size())
+	mat.set_shader_parameter("edge_grass", 999.0)
+	mat.set_shader_parameter("edge_grass_z", 999.0)
+
+## C28 兴趣点装饰：废料场（碎石 + 货箱 + 告示牌）、Boss 场（巨石圈 + 红旗）、沿路灯杆
+func _build_poi_dressing() -> void:
+	var poi := Node3D.new()
+	poi.name = "PoiDressing"
+	add_child(poi)
+	var i := 0
+	for p in ArenaLayout.SCRAP_FIELDS:
+		var c := Vector3((p as Vector2).x, 0, (p as Vector2).y)
+		WorldDressing.prop(poi, "prop_sign", c + Vector3(-5.5, 0, 4.5), 15.0 + i * 20.0)
+		WorldDressing.prop(poi, "prop_cargo_crate", c + Vector3(5.0, 0, -4.0), 30.0 * i)
+		WorldDressing.prop(poi, "prop_oil_drums", c + Vector3(-4.6, 0, -4.8), 60.0 + 25.0 * i)
+		var rocks := []
+		for k in 6:
+			var a := TAU * float(k) / 6.0 + float(i)
+			rocks.append(Transform3D(Basis(Vector3.UP, a).scaled(Vector3.ONE * 0.8), c + Vector3(cos(a) * 6.2, 0, sin(a) * 6.2)))
+		WorldDressing.scatter(poi, "prop_rock_cluster", rocks)
+		i += 1
+	var b := Vector3(ArenaLayout.BOSS_ARENA.x, 0, ArenaLayout.BOSS_ARENA.y)
+	var ring := []
+	for k in 10:
+		var a := TAU * float(k) / 10.0
+		var at := b + Vector3(cos(a) * 11.0, 0, sin(a) * 11.0)
+		if at.z < b.z + 4.0:
+			ring.append(Transform3D(Basis(Vector3.UP, a * 2.3).scaled(Vector3.ONE * 0.9), at))
+	WorldDressing.scatter(poi, "prop_rock_large", ring)
+	WorldDressing.prop(poi, "prop_pennant", b + Vector3(-7.5, 0, -6.0), 20.0)
+	WorldDressing.prop(poi, "prop_pennant", b + Vector3(7.5, 0, -6.0), -20.0)
+	WorldDressing.prop(poi, "prop_stone_arch", b + Vector3(0, 0, -10.0), 0.0, 1.3)
+	# 沿路灯杆：每 14 米一根，路两侧交替
+	for r in ArenaLayout.roads():
+		var a2: Vector2 = r[0]
+		var b2: Vector2 = r[1]
+		var len := a2.distance_to(b2)
+		var dir := (b2 - a2) / maxf(len, 0.01)
+		var nrm := Vector2(-dir.y, dir.x)
+		var d := 14.0
+		var side := 1.0
+		while d < len - 7.0:
+			var q := a2 + dir * d + nrm * 2.6 * side
+			if not ArenaLayout.near_poi(q, 1.0) and absf(q.x - ArenaLayout.RIVER_X) > 6.0 and (q - Vector2(0, 0.5)).length() > 13.0:
+				WorldDressing.prop(poi, "prop_lamp_post", Vector3(q.x, 0, q.y), 0.0, 0.7)
+			d += 14.0
+			side = -side
 
 func _build_river_worksite() -> void:
 	# The dry channel is visible before repair; green_zone is the stateful overlay
@@ -182,9 +254,14 @@ func _build_river_worksite() -> void:
 	if terrain == null:
 		_disk(dry, "DryChannel", Vector3(9.0, 0.06, -2.2), Vector3(5.3, 0.045, 18.2), WATER_DULL, 14)
 	var bank_rocks := []
-	for z in [-10.0, -7.2, -4.3, -1.2, 2.0, 5.5, 8.2]:
-		var a := Vector3(6.4 + fmod(z * 2.1, 1.0) * 0.3, 0.0, z)
-		var b := Vector3(11.4 - fmod(z * 1.7, 1.0) * 0.35, 0.0, z + 0.9)
+	var zz := -ArenaLayout.HALF.y + 3.0
+	while zz < ArenaLayout.HALF.y - 3.0:
+		var z := zz
+		zz += 3.1
+		if absf(z + 1.0) < 2.5:
+			continue  # 桥位留空
+		var a := Vector3(6.4 + fmod(absf(z) * 2.1, 1.0) * 0.3, 0.0, z)
+		var b := Vector3(11.4 - fmod(absf(z) * 1.7, 1.0) * 0.35, 0.0, z + 0.9)
 		bank_rocks.append(Transform3D(Basis(Vector3.UP, z * 1.3).scaled(Vector3.ONE * 0.9), a))
 		bank_rocks.append(Transform3D(Basis(Vector3.UP, z * 2.1).scaled(Vector3.ONE * 0.75), b))
 	if not WorldDressing.scatter(dry, "prop_rock_cluster", bank_rocks):
@@ -202,7 +279,7 @@ func _build_river_worksite() -> void:
 	if not WorldDressing.scatter(green_zone, "prop_reeds", reed_tf):
 		for index in range(18):
 			_create_reed_cluster(green_zone, (reed_tf[index] as Transform3D).origin + Vector3(0, 0.08, 0), index % 2 == 0)
-	var flowing_water := _disk(green_zone, "FlowingWater", Vector3(9, 0.13, -2), Vector3(4.8, 0.045, 17.8), WATER_LIVE, 16)
+	var flowing_water := _disk(green_zone, "FlowingWater", Vector3(9, 0.13, 0), Vector3(4.8, 0.045, ArenaLayout.HALF.y + 1.0), WATER_LIVE, 24)
 	river_material = ShaderMaterial.new()
 	river_material.shader = RIVER
 	flowing_water.material_override = river_material

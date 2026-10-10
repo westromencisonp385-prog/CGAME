@@ -138,11 +138,11 @@ func _run() -> void:
 	check(uv.x > 0.3 and uv.x < 0.7 and uv.y > 0.3 and uv.y < 0.7, "行驶中玩家屏幕位置 (%.2f, %.2f) 在中央 40%%" % [uv.x, uv.y])
 	check(ahead > 0.0, "相机在行进方向超前 %.2fm" % ahead)
 	# 10. 场地角落：露出墙外 ≤ 4.5m
-	await _place(Vector3(16.5, 0.5, 14.5), Vector3.RIGHT)
+	await _place(Vector3(ArenaLayout.HALF.x - 1.5, 0.5, ArenaLayout.HALF.y - 1.5), Vector3.RIGHT)
 	await _phys(180)
 	var half: Vector2 = rig.view_half_extents(rig.size)
-	var over_x: float = rig.focus.x + half.x - 18.0
-	var over_z: float = rig.focus.z + half.y - 16.0
+	var over_x: float = rig.focus.x + half.x - ArenaLayout.HALF.x
+	var over_z: float = rig.focus.z + half.y - ArenaLayout.HALF.y
 	check(over_x <= 4.5 and over_z <= 4.5, "角落露出墙外 x=%.1fm z=%.1fm (≤4.5)" % [over_x, over_z])
 	# 11. 进化分档拉远
 	var base_size: float = rig.size

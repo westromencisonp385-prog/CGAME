@@ -1,0 +1,174 @@
+{
+  "_doc": "C28 关卡数值真源（docs/design/level-v1.md）。时间单位秒；曲线 [[阶段进度0~1, 值]]，进度 = 已用时间 / overtime_at。pattern：ahead 前进方向 / surround 包围 / random 随机方向 / double 两侧对冲 / all 四面 / groups 分组包围。导出版优先读 exe 旁边的同名文件。",
+  "global": {
+    "max_alive": 80,
+    "overtime_max_alive": 6,
+    "spawns_per_frame": 3,
+    "offscreen_margin": 4.0,
+    "boss_trickle_dip": 0.45,
+    "rarity_weights": {"common": 70, "uncommon": 25, "rare": 5},
+    "stage_break": 4.0,
+    "growth": {"swarm": 0.07, "minion": 0.4, "elite": 2.0, "nest": 3.0, "treasure": 3.0, "supply": 1.0, "boss": 4.0, "scrap": 0.4},
+    "silver": {"swarm": 0, "minion": 1, "elite": 5, "nest": 10, "treasure": 15, "supply": 2, "boss": 20}
+  },
+  "stages": [
+    {
+      "id": "s1", "name": "复苏河岸", "biome": "river",
+      "boss": "boss_kanoning", "boss_at": 150, "overtime_at": 240,
+      "mult": {"hp": 1.0, "hp_swarm": 1.0, "hp_boss": 4.5, "dmg": 1.0, "dmg_boss": 1.0, "count": 1.0},
+      "trickle": {
+        "interval": [[0.0, 6.5], [0.6, 5.0], [1.0, 4.5]],
+        "strength": [[0.0, 1.0], [0.62, 1.35], [1.0, 1.5]],
+        "pool": [
+          {"a": "swarm_flea", "n": [5, 8], "from": 0, "rarity": "common"},
+          {"a": "swarm_mantis", "n": [4, 7], "from": 20, "rarity": "common"},
+          {"a": "flea", "n": [1, 2], "from": 0, "rarity": "uncommon"},
+          {"a": "mantis", "n": [1, 2], "from": 45, "rarity": "common"},
+          {"a": "bat", "n": [2, 3], "from": 60, "rarity": "uncommon"},
+          {"a": "oildrum", "n": [1, 2], "from": 80, "rarity": "uncommon"},
+          {"a": "hedgehog", "n": [1, 1], "from": 110, "rarity": "rare"}
+        ]
+      },
+      "nests": {"spawn": ["swarm_flea", "swarm_mantis", "mantis"], "hp": 220, "interval": 3.5, "max_alive": 5, "range": 18},
+      "beats": [
+        {"t": 2, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 8, "type": "wave", "a": "swarm_flea", "n": 10, "pattern": "ahead"},
+        {"t": 18, "type": "wave", "a": "swarm_mantis", "n": 24, "pattern": "ahead", "call": "杂兵潮！"},
+        {"t": 30, "type": "wave", "a": "flea", "n": 3, "pattern": "surround"},
+        {"t": 40, "type": "wave", "a": "rhino", "n": 1, "pattern": "ahead"},
+        {"t": 55, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 70, "type": "neutral", "what": "treasure", "n": 1, "pattern": "ahead"},
+        {"t": 80, "type": "wave", "a": "bat", "n": 4, "pattern": "groups"},
+        {"t": 95, "type": "swarm", "warn": 4, "waves": [
+          {"a": "swarm_flea", "n": 26, "pattern": "double"},
+          {"a": "swarm_mantis", "n": 24, "pattern": "double"},
+          {"a": "eel", "n": 1, "pattern": "random"}
+        ]},
+        {"t": 125, "type": "neutral", "what": "supply", "n": 1, "pattern": "ahead"},
+        {"t": 135, "type": "wave", "a": "rhino", "n": 1, "pattern": "ahead"},
+        {"t": 137, "type": "wave", "a": "eel", "n": 1, "pattern": "surround"}
+      ],
+      "overtime": {"interval": [[0, 12.0], [90, 4.0]], "pool": [{"a": "enforcer", "n": [1, 1]}]}
+    },
+    {
+      "id": "s2", "name": "黄沙工地", "biome": "desert",
+      "boss": "boss_cannon_phase", "boss_at": 165, "overtime_at": 255,
+      "mult": {"hp": 1.8, "hp_swarm": 1.25, "hp_boss": 9.5, "dmg": 1.55, "dmg_boss": 1.15, "count": 1.2},
+      "trickle": {
+        "interval": [[0.0, 6.0], [0.6, 4.8], [1.0, 4.2]],
+        "strength": [[0.0, 1.05], [0.62, 1.4], [1.0, 1.6]],
+        "pool": [
+          {"a": "swarm_bat", "n": [6, 9], "from": 0, "rarity": "common"},
+          {"a": "swarm_flea", "n": [6, 9], "from": 0, "rarity": "common"},
+          {"a": "oildrum", "n": [2, 3], "from": 0, "rarity": "common"},
+          {"a": "hedgehog", "n": [1, 2], "from": 30, "rarity": "uncommon"},
+          {"a": "flea", "n": [2, 3], "from": 0, "rarity": "common"},
+          {"a": "mantis", "n": [2, 3], "from": 60, "rarity": "uncommon"},
+          {"a": "eel", "n": [1, 1], "from": 120, "rarity": "rare"}
+        ]
+      },
+      "nests": {"spawn": ["swarm_bat", "oildrum", "hedgehog"], "hp": 260, "interval": 3.2, "max_alive": 5, "range": 18},
+      "beats": [
+        {"t": 2, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 10, "type": "wave", "a": "swarm_bat", "n": 18, "pattern": "ahead"},
+        {"t": 25, "type": "wave", "a": "hedgehog", "n": 4, "pattern": "surround"},
+        {"t": 40, "type": "wave", "a": "eel", "n": 1, "pattern": "ahead"},
+        {"t": 55, "type": "wave", "a": "swarm_flea", "n": 30, "pattern": "double", "call": "杂兵潮！"},
+        {"t": 70, "type": "neutral", "what": "treasure", "n": 1, "pattern": "ahead"},
+        {"t": 85, "type": "wave", "a": "rhino", "n": 2, "pattern": "ahead"},
+        {"t": 100, "type": "swarm", "warn": 4, "waves": [
+          {"a": "swarm_bat", "n": 30, "pattern": "all"},
+          {"a": "swarm_flea", "n": 28, "pattern": "double"},
+          {"a": "rhino", "n": 1, "pattern": "random"}
+        ]},
+        {"t": 115, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 130, "type": "neutral", "what": "supply", "n": 1, "pattern": "ahead"},
+        {"t": 145, "type": "wave", "a": "eel", "n": 1, "pattern": "ahead"},
+        {"t": 146, "type": "wave", "a": "oildrum", "n": 4, "pattern": "groups"}
+      ],
+      "overtime": {"interval": [[0, 11.0], [90, 3.5]], "pool": [{"a": "enforcer", "n": [1, 1]}]}
+    },
+    {
+      "id": "s3", "name": "沉船沼泽", "biome": "swamp",
+      "boss": "boss_davinci", "boss_at": 175, "overtime_at": 265,
+"mult": {"hp": 3.2, "hp_swarm": 1.9, "hp_boss": 9.0, "dmg": 2.0, "dmg_boss": 1.2, "count": 1.35},
+      "trickle": {
+        "interval": [[0.0, 5.6], [0.6, 4.5], [1.0, 4.0]],
+        "strength": [[0.0, 1.1], [0.62, 1.45], [1.0, 1.7]],
+        "pool": [
+          {"a": "swarm_mantis", "n": [7, 10], "from": 0, "rarity": "common"},
+          {"a": "swarm_bat", "n": [6, 9], "from": 0, "rarity": "common"},
+          {"a": "mantis", "n": [2, 3], "from": 0, "rarity": "common"},
+          {"a": "oildrum", "n": [2, 3], "from": 20, "rarity": "uncommon"},
+          {"a": "hedgehog", "n": [2, 2], "from": 40, "rarity": "uncommon"},
+          {"a": "bat", "n": [2, 3], "from": 0, "rarity": "uncommon"},
+          {"a": "rhino", "n": [1, 1], "from": 90, "rarity": "rare"}
+        ]
+      },
+      "nests": {"spawn": ["swarm_mantis", "mantis", "bat"], "hp": 300, "interval": 3.0, "max_alive": 6, "range": 18},
+      "beats": [
+        {"t": 2, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 8, "type": "wave", "a": "swarm_mantis", "n": 30, "pattern": "ahead", "call": "杂兵潮！"},
+        {"t": 20, "type": "wave", "a": "eel", "n": 1, "pattern": "ahead"},
+        {"t": 35, "type": "wave", "a": "mantis", "n": 6, "pattern": "surround"},
+        {"t": 50, "type": "wave", "a": "swarm_bat", "n": 30, "pattern": "groups"},
+        {"t": 65, "type": "wave", "a": "rhino", "n": 2, "pattern": "double"},
+        {"t": 75, "type": "neutral", "what": "treasure", "n": 1, "pattern": "ahead"},
+        {"t": 95, "type": "swarm", "warn": 4, "waves": [
+          {"a": "swarm_mantis", "n": 36, "pattern": "surround"},
+          {"a": "swarm_flea", "n": 28, "pattern": "double"},
+          {"a": "eel", "n": 1, "pattern": "random"},
+          {"a": "rhino", "n": 1, "pattern": "random"}
+        ]},
+        {"t": 120, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 130, "type": "neutral", "what": "supply", "n": 1, "pattern": "ahead"},
+        {"t": 140, "type": "wave", "a": "eel", "n": 2, "pattern": "surround"},
+        {"t": 160, "type": "wave", "a": "hedgehog", "n": 5, "pattern": "ahead"}
+      ],
+      "overtime": {"interval": [[0, 10.0], [90, 3.2]], "pool": [{"a": "enforcer", "n": [1, 2]}]}
+    },
+    {
+      "id": "s4", "name": "决战河谷", "biome": "river",
+      "boss": "boss_dredge_toad", "boss_at": 180, "overtime_at": 270,
+"mult": {"hp": 4.4, "hp_swarm": 2.4, "hp_boss": 8.0, "dmg": 2.6, "dmg_boss": 1.4, "count": 1.5},
+      "trickle": {
+        "interval": [[0.0, 5.2], [0.6, 4.2], [1.0, 3.8]],
+        "strength": [[0.0, 1.15], [0.62, 1.5], [1.0, 1.8]],
+        "pool": [
+          {"a": "swarm_flea", "n": [7, 10], "from": 0, "rarity": "common"},
+          {"a": "swarm_mantis", "n": [7, 10], "from": 0, "rarity": "common"},
+          {"a": "swarm_bat", "n": [6, 9], "from": 0, "rarity": "common"},
+          {"a": "mantis", "n": [2, 3], "from": 0, "rarity": "common"},
+          {"a": "oildrum", "n": [2, 3], "from": 0, "rarity": "uncommon"},
+          {"a": "hedgehog", "n": [2, 3], "from": 30, "rarity": "uncommon"},
+          {"a": "rhino", "n": [1, 1], "from": 45, "rarity": "uncommon"},
+          {"a": "eel", "n": [1, 1], "from": 60, "rarity": "uncommon"}
+        ]
+      },
+      "nests": {"spawn": ["swarm_flea", "hedgehog", "oildrum"], "hp": 340, "interval": 2.8, "max_alive": 6, "range": 18},
+      "beats": [
+        {"t": 2, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 6, "type": "wave", "a": "swarm_flea", "n": 30, "pattern": "ahead", "call": "杂兵潮！"},
+        {"t": 15, "type": "wave", "a": "rhino", "n": 1, "pattern": "ahead"},
+        {"t": 25, "type": "wave", "a": "eel", "n": 1, "pattern": "ahead"},
+        {"t": 40, "type": "wave", "a": "swarm_bat", "n": 36, "pattern": "all"},
+        {"t": 60, "type": "wave", "a": "rhino", "n": 2, "pattern": "double"},
+        {"t": 75, "type": "neutral", "what": "treasure", "n": 1, "pattern": "ahead"},
+        {"t": 90, "type": "swarm", "warn": 4, "waves": [
+          {"a": "swarm_mantis", "n": 36, "pattern": "double"},
+          {"a": "swarm_bat", "n": 30, "pattern": "surround"},
+          {"a": "rhino", "n": 1, "pattern": "random"},
+          {"a": "eel", "n": 1, "pattern": "random"}
+        ]},
+        {"t": 115, "type": "neutral", "what": "scrap_field", "n": 6, "pattern": "ahead"},
+        {"t": 120, "type": "neutral", "what": "supply", "n": 1, "pattern": "ahead"},
+        {"t": 105, "type": "wave", "a": "eel", "n": 2, "pattern": "double"},
+        {"t": 130, "type": "wave", "a": "hedgehog", "n": 6, "pattern": "surround"},
+        {"t": 145, "type": "wave", "a": "rhino", "n": 3, "pattern": "ahead"},
+        {"t": 146, "type": "wave", "a": "eel", "n": 1, "pattern": "surround"},
+        {"t": 165, "type": "wave", "a": "swarm_flea", "n": 36, "pattern": "surround"}
+      ],
+      "overtime": {"interval": [[0, 9.0], [90, 3.0]], "pool": [{"a": "enforcer", "n": [1, 2]}]}
+    }
+  ]
+}

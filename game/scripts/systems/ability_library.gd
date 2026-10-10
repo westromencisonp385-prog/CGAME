@@ -67,7 +67,7 @@ static func _strike(e: EnemyDummy, dmg: float, src: Dictionary, from: Vector3) -
 		d *= 1.8
 	e._apply_source_status(src)
 	var tag := "crit" if bool(src.get("crit", false)) else str(src.get("number_kind", "normal"))
-	e.take_damage(d, tag)
+	e.take_damage(d, tag, str(src.get("source", "")))
 	var kb := float(src.get("knock", 3.0))
 	if kb != 0.0:
 		var dir := _flat(e.global_position - from)
@@ -164,15 +164,19 @@ static func _kick(trauma: float, stop := 0.0, fov := 0.0) -> void:
 static func cast(main: Node, module_id: String, damage: float, reach: float, mods: Dictionary = {}) -> Dictionary:
 	var shape := shape_of(module_id)
 	var r := reach * (1.0 + float(mods.get("range", 0.0)))
-	var src := {"crit": float(mods.get("crit", 0.0)) >= 1.0}
+	var src := {"crit": float(mods.get("crit", 0.0)) >= 1.0, "source": "cast:" + module_id}
+	DamagePipeline.push("cast:" + module_id)
 	var hits := _cast_shape(main, shape, damage * (1.8 if src["crit"] else 1.0), r, src)
+	DamagePipeline.pop()
 	var echo := float(mods.get("echo", 0.0))
 	if echo > 0.0 and main.is_inside_tree():
 		var etw := main.create_tween()
 		etw.tween_interval(0.4)
 		etw.tween_callback(func():
 			if main.outcome == "active":
-				_cast_shape(main, shape, damage * echo, r, src.duplicate()))
+				DamagePipeline.push("cast:" + module_id)
+				_cast_shape(main, shape, damage * echo, r, src.duplicate())
+				DamagePipeline.pop())
 	return {"hits": hits, "shape": shape}
 
 static func _cast_shape(main: Node, shape: String, dmg: float, r: float, src: Dictionary) -> int:

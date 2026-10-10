@@ -22,6 +22,8 @@ var on_expire: Callable
 var size := 0.32
 ## 外观：auto（按颜色推断）/ fire / frost / bolt / shell / oil / orb
 var style := "auto"
+## B1：我方弹道在创建时记住伤害来源（异步命中也能归账）
+var source_id := "other"
 var _trail_fx: GPUParticles3D
 var _age := 0.0
 var _hit_ids: Dictionary = {}
@@ -33,6 +35,7 @@ static func fire(parent: Node, from: Vector3, dir: Vector3, spd: float, dmg: flo
 	p.team = side
 	p.velocity = Vector3(dir.x, 0, dir.z).normalized() * spd
 	p.damage = dmg
+	p.source_id = DamagePipeline.current() if side == "player" else "enemy"
 	p.color = tint
 	p.position = Vector3(from.x, 0.9, from.z)
 	parent.add_child(p)
@@ -147,9 +150,9 @@ func _release_trail() -> void:
 	_trail_fx.global_transform = gt
 	_trail_fx.emitting = false
 	var fx := _trail_fx
-	get_tree().create_timer(fx.lifetime + 0.2).timeout.connect(func():
-		if is_instance_valid(fx):
-			fx.queue_free())
+	var tw := fx.create_tween()
+	tw.tween_interval(fx.lifetime + 0.2)
+	tw.tween_callback(fx.queue_free)
 	_trail_fx = null
 
 func _face() -> void:
@@ -190,7 +193,7 @@ func _physics_process(delta: float) -> void:
 				if on_hit.is_valid():
 					on_hit.call(e, global_position)
 				else:
-					e.take_damage(damage)
+					e.take_damage(damage, "normal", source_id)
 				if pierce <= 0:
 					_pop()
 					return

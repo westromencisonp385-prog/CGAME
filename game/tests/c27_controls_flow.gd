@@ -86,6 +86,7 @@ func _run() -> void:
 	p.status.apply("invincible", 600.0)
 	main.spawn_roster_wave(true)
 	await wait(0.4)
+	main.set_gm_ai_frozen(true)  # C28 敌人提速后，未冻结的敌人会走进测试区
 	scraps_far()
 	park_all_enemies_far()
 	p.global_position = Vector3(0, p.global_position.y, 4.0)

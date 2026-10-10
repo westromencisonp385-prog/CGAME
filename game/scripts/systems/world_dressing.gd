@@ -154,6 +154,9 @@ static func apply_world_height(fit: Node3D, slot: String) -> void:
 	var k := height_scale(slot, h)
 	fit.transform = Transform3D(fit.transform.basis.scaled(k), fit.transform.origin)
 
+## C28 会动的景物（旗子飘）才挂完整程序化 rig；其余静态景物用缓存好的风格化网格，启动快一个数量级
+const ANIMATED_PROPS := ["prop_pennant"]
+
 ## 单个道具（带风格层）。scale 为相对资产标准尺寸的倍率。
 static func prop(parent: Node3D, slot: String, at: Vector3, yaw_deg := 0.0, scale := 1.0) -> Node3D:
 	if not ProceduralRig.has_rig(slot):
@@ -168,6 +171,13 @@ static func prop(parent: Node3D, slot: String, at: Vector3, yaw_deg := 0.0, scal
 	fit.name = "Fit"
 	fit.transform = Transform3D(_fit_basis(slot), Vector3.ZERO)
 	holder.add_child(fit)
+	if not ANIMATED_PROPS.has(slot):
+		if instance_meshes(fit, slot) == null:
+			holder.queue_free()
+			return null
+		if WORLD_HEIGHT.has(slot):
+			fit.transform = Transform3D(fit.transform.basis.scaled(height_scale(slot)), fit.transform.origin)
+		return holder
 	var rig := ProceduralRig.attach(fit, slot)
 	if rig == null:
 		holder.queue_free()

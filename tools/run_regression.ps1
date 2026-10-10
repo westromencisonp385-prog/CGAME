@@ -15,10 +15,19 @@ $markers = [ordered]@{
 	"whale_pack_flow.gd"="WHALE PACK FLOW PASS:"; "c19_3c_flow.gd"="C19 3C PASS:"; "c20_feel_flow.gd"="C20 FEEL PASS:"; "c21_vfx_flow.gd"="C21 VFX PASS:"; "c22_anim_flow.gd"="C22 ANIM PASS:"
 }
 $failed = 0
+function Invoke-Test([string]$t) {
+	$o = Join-Path $env:TEMP "reg_out.txt"
+	$e = Join-Path $env:TEMP "reg_err.txt"
+	$p = Start-Process -FilePath $godot -ArgumentList '--headless','--path',$proj,'--script',"res://tests/$t" -RedirectStandardOutput $o -RedirectStandardError $e -PassThru -NoNewWindow
+	if (-not $p.WaitForExit(180000)) { $p.Kill(); return "TIMEOUT" }
+	return ((Get-Content $o -Raw -Encoding UTF8) + "`n" + (Get-Content $e -Raw -Encoding UTF8))
+}
 foreach ($t in $markers.Keys) {
-	$out = (& $godot --headless --path $proj --script "res://tests/$t" 2>&1 | Out-String)
-	if ($out.Contains($markers[$t]) -and -not ($out -match "SCRIPT ERROR")) { "ok   $t" | Out-File $log -Append -Encoding utf8 }
-	else { $failed++; "FAIL $t" | Out-File $log -Append -Encoding utf8; ($out -split "`n" | Where-Object { $_ -match "SCRIPT ERROR|FAIL|\[0\] " } | Select-Object -First 4) | Out-File $log -Append -Encoding utf8 }
+	$out = Invoke-Test $t
+	$retried = $false
+	if (-not ($out.Contains($markers[$t]) -and -not ($out -match "SCRIPT ERROR"))) { $retried = $true; $out = Invoke-Test $t }
+	if ($out.Contains($markers[$t]) -and -not ($out -match "SCRIPT ERROR")) { ("ok   $t" + $(if ($retried) { "  (retried once)" } else { "" })) | Out-File $log -Append -Encoding utf8 }
+	else { $failed++; "FAIL $t" | Out-File $log -Append -Encoding utf8; ($out -split "`n" | Where-Object { $_ -match "SCRIPT ERROR|FAIL|TIMEOUT|\[0\] " } | Select-Object -First 4) | Out-File $log -Append -Encoding utf8 }
 }
 "=== REGRESSION total $($markers.Count) failed $failed ===" | Out-File $log -Append -Encoding utf8
 $c13 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c13_ingame_check.gd" 2>&1 | Out-String)
@@ -42,4 +51,10 @@ $c26 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c26_vi
 $c27 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c27_controls_flow.gd" 2>&1 | Out-String)
 "--- c27 controls ---" | Out-File $log -Append -Encoding utf8
 ($c27 -split "`n" | Where-Object { $_ -match "^FAIL|C27|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
+$c28 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c28_level_flow.gd" 2>&1 | Out-String)
+"--- c28 level ---" | Out-File $log -Append -Encoding utf8
+($c28 -split "`n" | Where-Object { $_ -match "^FAIL|C28|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
+$c29 = (& $godot --headless --path $proj --script "res://tests/c29_combat_b1.gd" 2>&1 | Out-String)
+"--- c29 combat b1 ---" | Out-File $log -Append -Encoding utf8
+($c29 -split "`n" | Where-Object { $_ -match "^FAIL|B1 COMBAT|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8

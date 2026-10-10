@@ -64,28 +64,35 @@ func absorb(target_size_rank: int) -> Dictionary:
 	r["absorbed"] = true
 	return r
 
-## 进化能量（击杀 / 回收）。满了升 rank
+## 进化能量（击杀 / 回收）。满了升 rank；rank 满了继续升驾驶等级（C28：每次升级都给一次选择）
 signal growth_changed(points: float, needed: float)
+signal leveled_up(level: int)
+var level := 1
 func gain_growth(points: float) -> Dictionary:
+	if not is_finite(points) or points <= 0.0:
+		return {"rank": stats.vehicle_size_rank, "advanced": false, "points": growth_points, "level": level}
 	growth_points += points
 	var advanced := false
-	while growth_points >= growth_needed() and stats.vehicle_size_rank < MAX_RANK:
+	var guard := 0
+	while growth_points >= growth_needed() and guard < 50:
+		guard += 1
 		growth_points -= growth_needed()
-		stats.vehicle_size_rank += 1
-		stats.collector_radius += 0.4
-		stats.max_hp += 25.0
-		advanced = true
-		size_rank_advanced.emit(stats.vehicle_size_rank)
+		level += 1
+		if stats.vehicle_size_rank < MAX_RANK:
+			stats.vehicle_size_rank += 1
+			stats.collector_radius += 0.4
+			stats.max_hp += 25.0
+			advanced = true
+			size_rank_advanced.emit(stats.vehicle_size_rank)
+		leveled_up.emit(level)
 	growth_changed.emit(growth_points, growth_needed())
-	return {"rank": stats.vehicle_size_rank, "advanced": advanced, "points": growth_points}
+	return {"rank": stats.vehicle_size_rank, "advanced": advanced, "points": growth_points, "level": level}
 
 func growth_ratio() -> float:
-	if stats.vehicle_size_rank >= MAX_RANK:
-		return 1.0
 	return clampf(growth_points / maxf(growth_needed(), 0.01), 0.0, 1.0)
 
 func growth_needed() -> float:
-	return 3.0 + float(stats.vehicle_size_rank) * 2.0
+	return 4.0 + float(level - 1) * 3.0
 
 ## Tier 升级（对齐 nextUpgrade 链推进）
 func upgrade_tier() -> VehicleStats:
@@ -144,11 +151,12 @@ func get_snapshot() -> Dictionary:
 			slots.append({"id": entry["def"].module_id, "cooldown": entry["cooldown"], "charges": entry["charges"]})
 		else:
 			slots.append({})
-	return {"tier": stats.stats_name, "rank": stats.vehicle_size_rank, "growth": growth_points, "slots": slots}
+	return {"tier": stats.stats_name, "rank": stats.vehicle_size_rank, "growth": growth_points, "slots": slots, "level": level}
 
 func restore_snapshot(data: Dictionary) -> bool:
 	if not data is Dictionary or not data.get("rank") is int:
 		return false
 	stats.vehicle_size_rank = int(data["rank"])
 	growth_points = float(data.get("growth", 0.0))
+	level = maxi(int(data.get("level", stats.vehicle_size_rank + 1)), stats.vehicle_size_rank + 1)
 	return stats.vehicle_size_rank >= 0 and stats.vehicle_size_rank <= MAX_RANK

@@ -36,6 +36,10 @@ const EVENTS := {
 	"card_pick": {"freq": 260.0, "dur": 0.22, "mechanical": false, "noise": 0.55, "drop": -0.6},
 	"power_up": {"freq": 360.0, "dur": 0.45, "mechanical": false, "noise": 0.15, "drop": -1.0},
 	"level_up": {"freq": 120.0, "dur": 0.7, "mechanical": false, "noise": 0.6, "drop": -2.5},
+	# B1 模块自动攻击：短、轻，频繁播放也不吵
+	"auto_shot": {"freq": 340.0, "dur": 0.07, "mechanical": true, "noise": 0.7, "drop": 0.45},
+	"auto_boom": {"freq": 70.0, "dur": 0.2, "mechanical": true, "noise": 1.0, "drop": 0.55},
+	"auto_zap": {"freq": 760.0, "dur": 0.09, "mechanical": false, "noise": 0.45, "drop": -0.3},
 }
 
 static func has_event(event_name: String) -> bool:

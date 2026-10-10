@@ -23,7 +23,7 @@ func _run() -> void:
 	for id in EnemyArchetypes.ARCHETYPES:
 		var d: Dictionary = EnemyArchetypes.ARCHETYPES[id]
 		behaviors[d["behavior"]] = true
-		check(float(d["hp"]) > 0.0 and float(d["speed"]) > 0.0, id + " 数值合法")
+		check(float(d["hp"]) > 0.0 and (float(d["speed"]) > 0.0 or d["behavior"] == "nest"), id + " 数值合法")
 		if d["tier"] == "elite":
 			check(float(d["hp"]) >= 4.0 * 34.0, id + " 精英血量显著高于小怪")
 	check(behaviors.size() >= 6, "至少 6 种不同行为，实际 %d" % behaviors.size())

@@ -94,9 +94,15 @@ func queue_selection(kind: String, delay_sec: float) -> void:
 var overclock_time := 0.0
 var run_stats: Dictionary = {"kills": 0, "elites": 0, "bosses": 0, "casts": 0, "dodges": 0, "loot": 0, "silver_at_start": 0}
 var _kill_times: Array = []
+var _swarm_kill_acc := 0
+var _last_multikill := -99.0
 var _last_crits := 0
 var _last_status_count := 0
 var vehicle_choice_ranks := [2, 4]
+## C28 关卡模式：正式游戏（main 是当前场景 / 导出版）走 4 阶段关卡导演；测试实例化时保持旧合同，需显式 start_campaign()
+var campaign_mode := false
+var debug_hp_bonus := 0.0
+var director: StageDirector
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -150,6 +156,22 @@ func _ready() -> void:
 	gm.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(gm)
 	ui.setup(self)
+	director = StageDirector.new()
+	director.name = "StageDirector"
+	add_child(director)
+	director.setup(self)
+	director.campaign_won.connect(func():
+		feedback("四个阶段全部清场 · 河谷重获生机")
+		finish_contract("won"))
+	director.stage_started.connect(_on_stage_started)
+	player.damaged.connect(func(amount: float):
+		if director.running:
+			director.on_player_damaged(amount))
+	director.stage_cleared.connect(func(i: int):
+		feedback("阶段 %d 清场 · %s" % [i + 1, "下一阶段即将开始" if i + 1 < director.stages.size() else "最后一战胜利"])
+		if ui != null:
+			ui.stamp_banner("title_victory"))
+	campaign_mode = get_tree().current_scene == self
 	reset_contract()
 	gm.setup(self)
 	gm.state_changed.connect(_on_gm_state_changed)
@@ -185,7 +207,7 @@ func _process(delta: float) -> void:
 		player.max_speed = player.base_speed * speed_factor * (1.0 + clampf(run_systems.total_bonus("speed"), -0.5, 1.0))
 		if run_systems.total_bonus("regen") > 0.0 and player.health > 0.0:
 			player.health = minf(player.health + run_systems.total_bonus("regen") * delta, player.max_health)
-		var new_max := 100.0 + run_systems.total_bonus("max_hp") + _vehicle_hp_bonus()
+		var new_max := 100.0 + run_systems.total_bonus("max_hp") + _vehicle_hp_bonus() + debug_hp_bonus
 		if new_max != player.max_health:
 			var ratio := player.health / maxf(player.max_health, 1.0)
 			player.max_health = new_max
@@ -236,8 +258,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F6: reset_contract()
 			KEY_F7: open_selection_flow("new_module")
 			KEY_F4: spawn_roster_wave(true)
-			KEY_F8: summon_boss()
-			KEY_G: _cycle_biome()
+			KEY_F8:
+				if campaign_mode and director != null and director.running:
+					director.force_boss()
+				else:
+					summon_boss()
+			KEY_F3:
+				if campaign_mode and director != null:
+					director.skip_stage()
+					feedback("GM · 跳过本阶段")
+			KEY_G:
+				if not campaign_mode:
+					_cycle_biome()
 			KEY_F11:
 				var full := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED if full else DisplayServer.WINDOW_MODE_FULLSCREEN)
@@ -352,12 +384,26 @@ func _init_wanderburg_systems() -> void:
 	vehicle_progression.growth_changed.connect(func(_p: float, _n: float):
 		if ui != null:
 			ui.on_growth_changed())
+	vehicle_progression.leveled_up.connect(func(level: int):
+		if not campaign_mode:
+			return
+		var rank: int = vehicle_progression.stats.vehicle_size_rank
+		if level > rank + 1:
+			LevelUpFx.level_up(player, rank, false)
+			if ui != null:
+				ui.on_level_up(level - 1)
+			feedback("驾驶等级 Lv.%d" % level)
+		var kind := "new_module" if selection_engine.installed_modules.size() < 4 or level % 2 == 1 else "upgrade"
+		queue_selection(kind, 0.8))
 	# C7 群系系统初始化：纯逻辑层 + 天气粒子层
 	biome_system = BiomeSys.new()
 	biome_system.biome_changed.connect(_on_biome_changed)
 	biome_system.key_acquired.connect(func(key_id: String): feedback("钥匙神器到手 · %s 群系已永久解锁" % key_id))
 	biome_weather = BiomeWeatherScript.new()
 	world.add_child(biome_weather)
+	# B1 模块自动攻击（每个已装模块按槽位朝向自动开火）
+	auto_weapons = AutoWeapons.new(self)
+	add_child(auto_weapons)
 	# S3 桥接：v2 模块转旧定义，合并进装配器（可预览可安装）
 	for pool in selection_engine.new_module_pools:
 		for entry in pool.entries:
@@ -657,6 +703,7 @@ func _scaled_cooldown(base: float) -> float:
 
 func _apply_ability_hit(damage: float, reach: float, module_id: String) -> void:
 	var source := AbilityEffects.source_for(module_id)
+	source["source"] = "cast:" + module_id
 	var forward: Vector3 = player.aim_direction if player.aim_direction.length() > 0.01 else Vector3(0, 0, -1)
 	var hit_count := 0
 	for enemy in enemies:
@@ -698,7 +745,8 @@ func _cycle_biome() -> void:
 func _on_biome_changed(biome_id: String) -> void:
 	world.apply_biome(biome_id)
 	biome_weather.apply_biome(biome_id)
-	_rebuild_biome_world()
+	if not campaign_mode:
+		_rebuild_biome_world()
 	run_systems.report("biome_switch", 1)
 
 ## 群系世界物：每群系一组（门 + 钥匙），清除后按当前群系重建
@@ -815,6 +863,7 @@ func _on_summon_effect(kind: String, origin: Vector3, end: Vector3) -> void:
 			if target != null:
 				var dir := target.global_position - origin
 				var shot := Projectile.fire(entities, origin, dir, 22.0, 6.0, "player", Color("#EFE3C8"))
+				shot.source_id = "summon"
 				shot.size = 0.2
 				shot.lifetime = 1.0
 			return
@@ -827,9 +876,9 @@ func _on_summon_effect(kind: String, origin: Vector3, end: Vector3) -> void:
 func _summon_damage_pulse(origin: Vector3, damage: float, reach: float) -> void:
 	for enemy in enemies + gm_enemies:
 		if is_instance_valid(enemy) and not enemy.dead and enemy.global_position.distance_to(origin) <= reach:
-			enemy.take_damage(damage)
+			enemy.take_damage(damage, "normal", "summon")
 	if boss != null and is_instance_valid(boss) and not boss.dead and boss.global_position.distance_to(origin) <= reach:
-		boss.take_damage(damage)
+		boss.take_damage(damage, "normal", "summon")
 
 ## F8 召 Boss：三阶段鲸王，击败后任务结算
 func summon_boss() -> void:
@@ -838,14 +887,24 @@ func summon_boss() -> void:
 	if boss != null and is_instance_valid(boss) and not boss.dead:
 		feedback("Boss 已在场")
 		return
-	var boss_id: String = ContentRoster.next_boss_id(run_systems.bosses_defeated)
-	var roster_entry: Dictionary = ContentRoster.BOSS_ROSTER[boss_id]
+	summon_boss_at(ContentRoster.next_boss_id(run_systems.bosses_defeated), Vector3(0, 1.2, -11.0))
+
+func summon_boss_at(boss_id: String, at: Vector3, hp_mult := 1.0, dmg_mult := 1.0) -> BossEntity:
+	if outcome != "active":
+		return null
+	var roster_entry: Dictionary = ContentRoster.BOSS_ROSTER.get(boss_id, ContentRoster.BOSS_ROSTER[ContentRoster.next_boss_id(0)])
 	var boss_title: String = str(roster_entry["title"])
-	boss = BossEntity.new().configure_boss(boss_id, Vector3(0, 1.2, -11.0), roster_entry)
-	boss.summoner = func(arch: String, at: Vector3): spawn_archetype(arch, at)
+	boss = BossEntity.new().configure_boss(boss_id, at, roster_entry)
+	if hp_mult != 1.0 or dmg_mult != 1.0:
+		boss.apply_stage(hp_mult, dmg_mult)
+	boss.summoner = func(arch: String, p: Vector3):
+		if campaign_mode and director != null:
+			director.spawn(arch, p)
+		else:
+			spawn_archetype(arch, p)
 	entities.add_child(boss)
 	boss.player = player
-	boss.hit_player.connect(player.receive_damage)
+	boss.hit_player.connect(func(amount: float): _player_hit(amount * dmg_mult))
 	boss.action_effect.connect(world.present_effect)
 	boss.pattern_started.connect(func(attack: String):
 		if ui != null and ui.has_method("boss_callout"):
@@ -870,6 +929,12 @@ func summon_boss() -> void:
 	if ui != null:
 		ui.stamp_banner("title_boss")
 	feedback("%s 现身 · 河谷深处" % boss_title)
+	return boss
+
+func _player_hit(amount: float) -> void:
+	if player == null:
+		return
+	player.receive_damage(amount)
 
 func unlocked_module_ids() -> Array:
 	return selection_engine.installed_modules.map(func(m): return m.module_id)
@@ -889,8 +954,13 @@ func _clear_entities() -> void:
 	active_summon_slots = [null, null, null]
 	summon_cooldowns = [0.0, 0.0, 0.0]
 
+var auto_weapons: AutoWeapons
+
 func reset_contract() -> void:
 	_clear_entities()
+	DamagePipeline.reset()
+	if auto_weapons != null:
+		auto_weapons.reset()
 	if gm != null:
 		gm.reset_flags()
 	get_tree().paused = false
@@ -906,10 +976,21 @@ func reset_contract() -> void:
 	reward_retry_clock = 0.0
 	set_shortcut_open(false)
 	assembler.restore({"version": 1, "active_ids": ["", ""], "core_id": "basic_bucket", "drive_id": "", "stage": 1})
-	player.reset_vehicle(Vector3(0, 0.5, 7))
+	player.reset_vehicle(ArenaLayout.PLAYER_START)
 	if biome_system != null:
 		biome_system.current_id = "river"
 		_on_biome_changed("river")
+	if director != null:
+		director.stop()
+	if campaign_mode:
+		for item in TARGET_LAYOUT:
+			if str(item[1]) == "repair":
+				_spawn_target(item)
+		ui.close_modals()
+		ui.refresh_gm_panel()
+		director.start(0)
+		feedback("WASD 开车，攻击全自动 · 撑到 Boss 出场并击败它")
+		return
 	for item in TARGET_LAYOUT:
 		_spawn_target(item)
 	for item in ENEMY_LAYOUT:
@@ -917,6 +998,13 @@ func reset_contract() -> void:
 	ui.close_modals()
 	ui.refresh_gm_panel()
 	feedback("先回收废料。B / 手柄 Y 打开改装台，尝试不同组合。")
+
+## 测试 / GM：切到关卡模式并从第 index 阶段开始
+func start_campaign(index := 0, seed_value := 0) -> void:
+	campaign_mode = true
+	reset_contract()
+	if index != 0 or seed_value != 0:
+		director.start(index, seed_value)
 
 func _spawn_target(item: Array) -> EngineeringTarget:
 	var target := EngineeringTarget.new().configure(str(item[0]), str(item[1]), float(item[4]), Vector3(float(item[2]), 0.6, float(item[3])))
@@ -968,6 +1056,106 @@ func spawn_gm_enemy(kind: String, at: Vector3) -> EnemyDummy:
 		return spawn_archetype(kind, at, id)
 	return _spawn_enemy([id, kind, at.x, at.z], false)
 
+## C28 关卡导演生成的敌人：阶段倍率 + 按档位给奖励（配置 global.growth / silver）
+func spawn_stage_enemy(archetype: String, at: Vector3, hp_mult := 1.0, dmg_mult := 1.0) -> EnemyDummy:
+	var def: Dictionary = EnemyArchetypes.get_def(archetype)
+	if def.is_empty():
+		return null
+	var id := "st_%s_%05d" % [archetype, director.stats["spawned"] if director != null else 0]
+	var enemy := EnemyDummy.new().configure_archetype(id, archetype, Vector3(at.x, 0.7 if def.get("prop") == null else 0.0, at.z))
+	enemy.apply_stage(hp_mult, dmg_mult)
+	enemy.player = player
+	entities.add_child(enemy)
+	enemy.hit_player.connect(_player_hit)
+	enemy.action_effect.connect(world.present_effect)
+	enemy.elite_ability.connect(_on_elite_ability)
+	enemy.defeated.connect(_on_stage_enemy_defeated)
+	var tier := enemy.tier
+	if tier == "elite":
+		if ui != null:
+			ui.boss_callout("%s 出现！" % str(def.get("name", archetype)), Color("#D9412B"))
+		audio.play_event("boss_phase")
+	elif tier == "neutral":
+		if ui != null:
+			ui.boss_callout("%s 出现 · 快追！" % str(def.get("name", archetype)), Color("#E9AD38"))
+		enemy.escaped.connect(func(_e): feedback("%s 跑掉了" % str(def.get("name", archetype))))
+	return enemy
+
+func _on_stage_enemy_defeated(e: EnemyDummy) -> void:
+	var growth_tbl: Dictionary = director.g("growth", {}) if director != null else {}
+	var silver_tbl: Dictionary = director.g("silver", {}) if director != null else {}
+	var role := e.tier if e.tier != "neutral" else e.archetype_id
+	if e.tier == "structure":
+		role = "nest"
+	_register_kill(e, float(growth_tbl.get(role, GROWTH_PER_KILL.get(e.tier, 0.5))), false)
+	var silver := int(round(float(silver_tbl.get(role, 1)) * (1.0 + run_systems.total_bonus("silver_gain"))))
+	if silver > 0:
+		run_systems.earn_silver(silver, "enemy_" + e.tier)
+	var at := e.global_position
+	match role:
+		"swarm":
+			if randf() < 0.25:
+				_burst_loot(at, 1, 1, "silver")
+		"minion":
+			_burst_loot(at, 2, 1, "silver")
+			if randf() < 0.08:
+				_burst_loot(at, 1, 10, "repair")
+		"elite":
+			_burst_loot(at, 8, 3, "silver")
+			_burst_loot(at, 1, 10, "repair")
+			feedback("精英「%s」已败 · 能量 +%.0f" % [str(EnemyArchetypes.get_def(e.archetype_id).get("name", "")), float(growth_tbl.get("elite", 2.0))])
+		"nest":
+			_burst_loot(at, 12, 3, "silver")
+			_burst_loot(at, 2, 10, "repair")
+			run_systems.report("elite_defeated", 1)
+			feedback("敌巢摧毁 · 附近不再出兵")
+			if ui != null:
+				ui.boss_callout("敌巢摧毁！", Color("#E3A52B"))
+		"treasure":
+			_burst_loot(at, 15, 3, "silver")
+			_burst_loot(at, 1, 10, "repair")
+			feedback("宝箱车到手 · 银币大丰收")
+			if ui != null:
+				ui.boss_callout("宝箱到手！", Color("#E9AD38"))
+		"supply":
+			_burst_loot(at, 4, 10, "repair")
+			feedback("补给车 · 维修箱 ×4")
+
+func _burst_loot(at: Vector3, count: int, value: int, kind: String) -> void:
+	if not is_inside_tree() or count <= 0:
+		return
+	for p in LootPickup.burst(entities, at, count, value, kind):
+		p.collected.connect(_on_loot)
+
+func spawn_stage_scrap(kind: String, at: Vector3) -> EngineeringTarget:
+	var target := EngineeringTarget.new().configure("scrap_st_%d" % randi(), kind, 18.0 if kind == "soft" else 22.0, Vector3(at.x, 0.6, at.z))
+	entities.add_child(target)
+	target.action_effect.connect(world.present_effect)
+	return target
+
+func apply_stage_biome(biome_id: String) -> void:
+	if biome_system == null:
+		return
+	if biome_system.current_id != biome_id:
+		biome_system.current_id = biome_id
+		_on_biome_changed(biome_id)
+
+## 阶段清场：场上掉落物全部飞向玩家
+func vacuum_loot() -> void:
+	for p in get_tree().get_nodes_in_group("loot"):
+		if is_instance_valid(p):
+			p.set("collect_radius", 999.0)
+
+func _on_stage_started(i: int) -> void:
+	var s: Dictionary = director.stage()
+	if i > 0 and player != null:
+		player.health = minf(player.max_health, player.health + player.max_health * 0.3)
+		if feel != null:
+			feel.number(player.global_position, player.max_health * 0.3, "heal")
+	if ui != null and ui.has_method("stage_banner"):
+		ui.stage_banner(i + 1, director.stages.size(), str(s.get("name", "")))
+	feedback("阶段 %d · %s · Boss 将在 %d 秒后出现" % [i + 1, str(s.get("name", "")), int(s.get("boss_at", 150))])
+
 ## C16：按原型生成（小怪 / 精英）
 func spawn_archetype(archetype: String, at: Vector3, id := "") -> EnemyDummy:
 	if gm_enemies.size() >= 80:
@@ -1011,7 +1199,7 @@ func _on_elite_ability(enemy: EnemyDummy, center: Vector3, radius: float, damage
 
 ## 击杀登记：任务、连杀（2.5 秒内 5 杀 = 1 次「一网打尽」）、掉落
 ## C24 击杀给进化能量（对齐原作“吞噬成长”）：小怪 0.5、精英 2、Boss 4；能量球飞到车身才入账
-const GROWTH_PER_KILL := {"minion": 0.5, "light": 0.5, "heavy": 0.8, "ranged": 0.6, "elite": 2.0, "boss": 4.0}
+const GROWTH_PER_KILL := {"swarm": 0.12, "minion": 0.5, "light": 0.5, "heavy": 0.8, "ranged": 0.6, "elite": 2.0, "boss": 4.0, "structure": 3.0, "neutral": 2.0}
 
 func _grant_growth_from(at: Vector3, points: float) -> void:
 	if vehicle_progression == null or points <= 0.0 or player == null:
@@ -1023,17 +1211,23 @@ func _grant_growth_from(at: Vector3, points: float) -> void:
 			if vehicle_progression != null and outcome == "active":
 				vehicle_progression.gain_growth(each))
 
-func _register_kill(e: EnemyDummy) -> void:
+func _register_kill(e: EnemyDummy, growth := -1.0, default_loot := true) -> void:
 	run_systems.report("enemy_defeated", 1)
 	run_stats["kills"] = int(run_stats["kills"]) + 1
-	_grant_growth_from(e.global_position, GROWTH_PER_KILL.get(e.tier, 0.5))
+	_grant_growth_from(e.global_position, growth if growth >= 0.0 else GROWTH_PER_KILL.get(e.tier, 0.5))
 	if e.tier == "elite":
 		run_systems.report("elite_defeated", 1)
 		run_stats["elites"] = int(run_stats["elites"]) + 1
 	var now := elapsed
-	_kill_times.append(now)
+	if e.tier == "swarm":
+		_swarm_kill_acc += 1
+		if _swarm_kill_acc % 3 == 0:
+			_kill_times.append(now)
+	else:
+		_kill_times.append(now)
 	_kill_times = _kill_times.filter(func(t): return now - float(t) <= 2.5)
-	if _kill_times.size() >= 5:
+	if _kill_times.size() >= 5 and now - _last_multikill >= 6.0:
+		_last_multikill = now
 		_kill_times.clear()
 		run_systems.report("multikill", 1)
 		feedback("一网打尽！")
@@ -1041,7 +1235,8 @@ func _register_kill(e: EnemyDummy) -> void:
 			feel.slowmo(0.35, 0.35)
 		if ui != null:
 			ui.stamp_banner("title_multikill")
-	_drop_loot(e.global_position, e.tier)
+	if default_loot:
+		_drop_loot(e.global_position, e.tier)
 
 func _drop_loot(at: Vector3, tier: String) -> void:
 	if not is_inside_tree():
@@ -1101,7 +1296,10 @@ func clear_gm_and_formal_enemies() -> void:
 	gm_enemies.clear()
 
 func set_gm_ai_frozen(frozen: bool) -> void:
-	for enemy in enemies + gm_enemies:
+	var all: Array = enemies + gm_enemies
+	if director != null:
+		all += director.stage_enemies
+	for enemy in all:
 		if is_instance_valid(enemy):
 			enemy.process_mode = Node.PROCESS_MODE_DISABLED if frozen or enemy.packed else Node.PROCESS_MODE_PAUSABLE
 
@@ -1110,7 +1308,10 @@ func _harvested(amount: int) -> void:
 	if run_systems != null:
 		run_systems.report("harvested", amount)
 	if vehicle_progression != null and amount > 0:
-		vehicle_progression.absorb(0)
+		if campaign_mode:
+			vehicle_progression.gain_growth(float(director.g("growth", {}).get("scrap", 0.4)) * amount if director != null else 0.4)
+		else:
+			vehicle_progression.absorb(0)
 		if player != null:
 			LevelUpFx.growth_orb(player.global_position + player.aim_direction * 2.5, player)
 	if collected >= 4 and assembler.stage == 1:
@@ -1133,6 +1334,8 @@ func try_repair() -> bool:
 	return false
 
 func check_victory() -> void:
+	if campaign_mode:
+		return
 	if outcome == "active" and repair_done and defeated == ENEMY_LAYOUT.size():
 		finish_contract("won")
 
