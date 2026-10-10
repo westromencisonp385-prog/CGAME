@@ -54,7 +54,48 @@ void fragment() {
 
 static var _outline_shader: Shader
 static var _rim_shader: Shader
+static var _xray_shader: Shader
 static var _cache: Dictionary = {}
+
+## C26 剪影：只在“被别的东西挡住”的像素上画（读取不透明深度，比自己更靠近镜头超过 margin 才算挡）。
+## margin 0.45m：避免角色自身部件互相遮挡时（腿在身后）也冒剪影。
+const XRAY_SHADER := """
+shader_type spatial;
+render_mode unshaded, depth_test_disabled, depth_draw_never, cull_back, blend_mix, shadows_disabled, fog_disabled;
+uniform sampler2D depth_tex : hint_depth_texture, filter_nearest;
+uniform vec4 xray_color : source_color = vec4(1.0, 0.9, 0.7, 0.55);
+uniform float margin = 0.45;
+void fragment() {
+	float raw = texture(depth_tex, SCREEN_UV).r;
+	vec4 v = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, raw, 1.0);
+	float scene_z = v.z / v.w;
+	// 视空间 z 为负，越大越靠近镜头
+	if (scene_z < VERTEX.z + margin) {
+		discard;
+	}
+	float ndv = clamp(dot(normalize(NORMAL), VIEW), 0.0, 1.0);
+	ALBEDO = xray_color.rgb;
+	ALPHA = xray_color.a * mix(1.0, 0.55, ndv);
+}
+"""
+const XRAY := {
+	"hero": Color(1.0, 0.86, 0.55, 0.62),
+	"foe": Color(1.0, 0.36, 0.24, 0.55),
+}
+
+static func _xray_material(rim_class: String) -> ShaderMaterial:
+	var key := "x" + rim_class
+	if _cache.has(key):
+		return _cache[key]
+	if _xray_shader == null:
+		_xray_shader = Shader.new()
+		_xray_shader.code = XRAY_SHADER
+	var m := ShaderMaterial.new()
+	m.shader = _xray_shader
+	m.set_shader_parameter("xray_color", XRAY[rim_class])
+	m.render_priority = 2
+	_cache[key] = m
+	return m
 
 static func _outline_material(width: float) -> ShaderMaterial:
 	var key := "o%.4f" % snappedf(width, 0.0005)
@@ -86,7 +127,15 @@ static func _rim_material(rim_class: String, width: float) -> ShaderMaterial:
 	m.set_shader_parameter("power", float(spec["power"]))
 	m.set_shader_parameter("push", snappedf(width, 0.0005) * 0.08)
 	m.set_shader_parameter("key_dir", RenderProfile.key_dir())
-	m.next_pass = _outline_material(width)
+	var outline := _outline_material(width)
+	if XRAY.has(rim_class):
+		var okey := "ox%s%.4f" % [rim_class, snappedf(width, 0.0005)]
+		if not _cache.has(okey):
+			var o2 := outline.duplicate() as ShaderMaterial
+			o2.next_pass = _xray_material(rim_class)
+			_cache[okey] = o2
+		outline = _cache[okey]
+	m.next_pass = outline
 	m.render_priority = 1
 	_cache[key] = m
 	return m

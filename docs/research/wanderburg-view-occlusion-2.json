@@ -1,0 +1,4849 @@
+{
+ "cameras": [
+  {
+   "name": "Main Camera",
+   "ortho": false,
+   "size": 5.0,
+   "near": 0.30000001192092896,
+   "far": 1000.0,
+   "file": "level1",
+   "chain_child_to_root": [
+    {
+     "name": "Main Camera",
+     "local_pos": [
+      0.0,
+      1.0,
+      -10.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Main Camera",
+   "ortho": false,
+   "size": 5.0,
+   "near": 0.30000001192092896,
+   "far": 1000.0,
+   "file": "level2",
+   "chain_child_to_root": [
+    {
+     "name": "Main Camera",
+     "local_pos": [
+      0.0,
+      1.0,
+      -10.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "OverworldCam",
+   "ortho": true,
+   "size": 77.19999694824219,
+   "near": 100.0,
+   "far": 1000.0,
+   "file": "level3",
+   "chain_child_to_root": [
+    {
+     "name": "OverworldCam",
+     "local_pos": [
+      0.0,
+      247.3,
+      -260.43
+     ],
+     "local_rot_euler": [
+      45.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "OVERWORLD",
+     "local_pos": [
+      3921.482,
+      0.0,
+      2491.39
+     ],
+     "local_rot_euler": [
+      -0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "GUI Camera",
+   "ortho": true,
+   "size": 16.5,
+   "near": 0.30000001192092896,
+   "far": 1000.0,
+   "file": "level4",
+   "chain_child_to_root": [
+    {
+     "name": "GUI Camera",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Main Camera",
+     "local_pos": [
+      -0.0,
+      200.2,
+      -200.2
+     ],
+     "local_rot_euler": [
+      45.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "CAMERA_RIG ",
+     "local_pos": [
+      -18.75,
+      55.3,
+      -53.8
+     ],
+     "local_rot_euler": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ESSENTIALS (1)",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "ViewportCamera",
+   "ortho": true,
+   "size": 18.04337501525879,
+   "near": 0.0,
+   "far": 200.0,
+   "file": "level4",
+   "chain_child_to_root": [
+    {
+     "name": "ViewportCamera",
+     "local_pos": [
+      5.5,
+      34.4,
+      89.3
+     ],
+     "local_rot_euler": [
+      15.11,
+      -176.48,
+      -0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Turntable",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      176.5,
+      -0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Viewport 2",
+     "local_pos": [
+      -680.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Viewports",
+     "local_pos": [
+      0.0,
+      1000.0,
+      1000.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ESSENTIALS (1)",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Camera_Isolation",
+   "ortho": true,
+   "size": 42.0,
+   "near": 0.30000001192092896,
+   "far": 1000.0,
+   "file": "level4",
+   "chain_child_to_root": [
+    {
+     "name": "Camera_Isolation",
+     "local_pos": [
+      0.0,
+      65.3,
+      -60.9
+     ],
+     "local_rot_euler": [
+      45.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "CAMERA_RIG ",
+     "local_pos": [
+      -18.75,
+      55.3,
+      -53.8
+     ],
+     "local_rot_euler": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ESSENTIALS (1)",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "ViewportCamera",
+   "ortho": true,
+   "size": 12.597332954406738,
+   "near": 0.0,
+   "far": 200.0,
+   "file": "level4",
+   "chain_child_to_root": [
+    {
+     "name": "ViewportCamera",
+     "local_pos": [
+      5.5,
+      34.4,
+      89.3
+     ],
+     "local_rot_euler": [
+      21.03,
+      -176.48,
+      -0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Turntable",
+     "local_pos": [
+      -0.026,
+      6.575,
+      0.205
+     ],
+     "local_rot_euler": [
+      0.0,
+      54.68,
+      -0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Viewport 1",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Viewports",
+     "local_pos": [
+      0.0,
+      1000.0,
+      1000.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ESSENTIALS (1)",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Main Camera",
+   "ortho": true,
+   "size": 16.299999237060547,
+   "near": 100.0,
+   "far": 1000.0,
+   "file": "level4",
+   "chain_child_to_root": [
+    {
+     "name": "Main Camera",
+     "local_pos": [
+      -0.0,
+      200.2,
+      -200.2
+     ],
+     "local_rot_euler": [
+      45.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "CAMERA_RIG ",
+     "local_pos": [
+      -18.75,
+      55.3,
+      -53.8
+     ],
+     "local_rot_euler": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ESSENTIALS (1)",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "name": "ViewportCamera",
+   "ortho": true,
+   "size": 18.04337501525879,
+   "near": 0.0,
+   "far": 200.0,
+   "file": "level4",
+   "chain_child_to_root": [
+    {
+     "name": "ViewportCamera",
+     "local_pos": [
+      5.5,
+      34.4,
+      89.3
+     ],
+     "local_rot_euler": [
+      15.11,
+      -176.48,
+      -0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Turntable",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      176.5,
+      -0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Viewport 3",
+     "local_pos": [
+      -1229.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "Viewports",
+     "local_pos": [
+      0.0,
+      1000.0,
+      1000.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ESSENTIALS (1)",
+     "local_pos": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_rot_euler": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "local_scale": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   ]
+  }
+ ],
+ "outline": {
+  "modes": {},
+  "examples": []
+ },
+ "volumes": [],
+ "materials": {
+  "FlatKit/Stylized Surface": [
+   {
+    "name": "CASTLE_BLACK_01_nolight",
+    "keywords": [
+     "DR_ENABLE_LIGHTMAP_DIR",
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.001,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.54,
+     "_OverrideLightmapDir": 1.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.719,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.06,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 1.0,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.377,
+      0.377,
+      0.377,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.226,
+      0.226,
+      0.226,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "CASTLE_DETAILS_01_nolight",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.003,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.64,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.921,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.219,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 0.654,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.962,
+      0.884,
+      0.74,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.481,
+      0.325,
+      0.297,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "Castle_STONE_01_new",
+    "keywords": [
+     "DR_ENABLE_LIGHTMAP_DIR",
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 1951,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.327,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 14.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0005,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.54,
+     "_OverrideLightmapDir": 1.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.661,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.06,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 0.56,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.764,
+      0.616,
+      0.487,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.481,
+      0.398,
+      0.325,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "Castle_STONE_01_nolight",
+    "keywords": [
+     "DR_ENABLE_LIGHTMAP_DIR",
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 1951,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.327,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 14.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0005,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.54,
+     "_OverrideLightmapDir": 1.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.865,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.13,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 0.56,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.764,
+      0.616,
+      0.487,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.481,
+      0.398,
+      0.325,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "ENEMYS_AND_ANIMALS_01",
+    "keywords": [
+     "DR_CEL_EXTRA_ON",
+     "DR_ENABLE_LIGHTMAP_DIR",
+     "DR_OUTLINE_ON",
+     "_BASEMAP_PREMULTIPLY",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_BaseMapPremultiply": 1.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 1.0,
+     "_CelNumSteps": 2.0,
+     "_CelPrimaryMode": 0.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_FlatRimEdgeSmoothness": 0.5,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.5,
+     "_FlatSpecularEdgeSmoothness": 0.0,
+     "_FlatSpecularSize": 0.1,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_GradientAngle": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientSize": 10.0,
+     "_GradientSpace": 0.0,
+     "_LightContribution": 0.205,
+     "_LightFalloffSize": 0.0,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.26,
+     "_OverrideLightmapDir": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_RimEnabled": 0.0,
+     "_SelfShadingSize": 0.522,
+     "_SelfShadingSizeExtra": 0.483,
+     "_ShadowEdgeSize": 0.148,
+     "_ShadowEdgeSizeExtra": 0.031,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 1.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 1.0,
+     "_UnityShadowSharpness": 3.59,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_ColorDim": [
+      0.481,
+      0.481,
+      0.481,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.851
+     ],
+     "_ColorDimExtra": [
+      1.0,
+      0.619,
+      0.495,
+      1.0
+     ],
+     "_ColorDimSteps": [
+      0.802,
+      0.802,
+      0.802,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.85,
+      0.85,
+      0.85,
+      0.851
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.85,
+      0.85,
+      0.85,
+      0.851
+     ]
+    },
+    "textures": [
+     "_BaseMap"
+    ]
+   },
+   {
+    "name": "GREEN_PALM_01",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 2.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.5,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.003,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.03,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.01,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.615,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.082,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 0.0,
+     "_UnityShadowPower": 0.2,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.215,
+      0.358,
+      0.301,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.178,
+      0.311,
+      0.228,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.17,
+      0.283,
+      0.215,
+      0.0
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "RED_ROOF_01_nolight",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY"
+    ],
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.54,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.661,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.06,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 0.0,
+     "_UnityShadowPower": 0.2,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.943,
+      0.315,
+      0.236,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.698,
+      0.128,
+      0.128,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "TREE_01",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 2.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.5,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.003,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.06,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.01,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.615,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.082,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 0.0,
+     "_UnityShadowPower": 0.2,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.215,
+      0.358,
+      0.301,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.178,
+      0.311,
+      0.228,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.17,
+      0.283,
+      0.215,
+      0.0
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "WOOD_01_nolight",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "DR_OUTLINE_SMOOTH_NORMALS",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 4.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 0.902,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.01,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.89,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.479,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.35,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 0.63,
+     "_UnityShadowSharpness": 10.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 1.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.66,
+      0.384,
+      0.308,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.132,
+      0.132,
+      0.132,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.047,
+      0.018,
+      0.018,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.274,
+      0.274,
+      0.274,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "WOOD_ORANGE_01_nolight",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "DR_OUTLINE_SMOOTH_NORMALS",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 4.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.0,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.001,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.1,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.606,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.35,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 1.0,
+     "_UnityShadowSharpness": 10.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 1.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.726,
+      0.367,
+      0.243,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.047,
+      0.018,
+      0.018,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.274,
+      0.274,
+      0.274,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "OLD MAIN CASTLE COLOR 1",
+    "keywords": [
+     "DR_ENABLE_LIGHTMAP_DIR",
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.5,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.001,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.54,
+     "_OverrideLightmapDir": 1.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.661,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.06,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 1.0,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.232,
+      0.275,
+      0.33,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.163,
+      0.19,
+      0.226,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "02.2-BlueprintGrid-Mug-3 1 Tree 1",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "_CELPRIMARYMODE_SINGLE",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 2.0,
+     "_CelPrimaryMode": 1.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.5,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.003,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.05,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.01,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.615,
+     "_SelfShadingSizeExtra": 0.5,
+     "_ShadowEdgeSize": 0.082,
+     "_ShadowEdgeSizeExtra": 0.05,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 0.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 1.0,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      0.623,
+      0.623,
+      0.623,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.358,
+      0.311,
+      0.252,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.17,
+      0.283,
+      0.215,
+      0.0
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_CelStepTexture"
+    ]
+   },
+   {
+    "name": "Enemy Soldiers",
+    "keywords": [
+     "DR_CEL_EXTRA_ON",
+     "DR_ENABLE_LIGHTMAP_DIR",
+     "DR_OUTLINE_ON",
+     "_BASEMAP_PREMULTIPLY",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_BaseMapPremultiply": 1.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 1.0,
+     "_CelNumSteps": 2.0,
+     "_CelPrimaryMode": 0.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_FlatRimEdgeSmoothness": 0.5,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.5,
+     "_FlatSpecularEdgeSmoothness": 0.0,
+     "_FlatSpecularSize": 0.1,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_GradientAngle": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientSize": 10.0,
+     "_GradientSpace": 0.0,
+     "_LightContribution": 0.205,
+     "_LightFalloffSize": 0.0,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.0,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.26,
+     "_OverrideLightmapDir": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_RimEnabled": 0.0,
+     "_SelfShadingSize": 0.522,
+     "_SelfShadingSizeExtra": 0.483,
+     "_ShadowEdgeSize": 0.148,
+     "_ShadowEdgeSizeExtra": 0.031,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 1.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 1.0,
+     "_UnityShadowSharpness": 3.59,
+     "_VertexColorsEnabled": 0.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_ColorDim": [
+      0.481,
+      0.481,
+      0.481,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.851
+     ],
+     "_ColorDimExtra": [
+      1.0,
+      0.619,
+      0.495,
+      1.0
+     ],
+     "_ColorDimSteps": [
+      0.802,
+      0.802,
+      0.802,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.85,
+      0.85,
+      0.85,
+      0.851
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.85,
+      0.85,
+      0.85,
+      0.851
+     ]
+    },
+    "textures": [
+     "_BaseMap"
+    ]
+   },
+   {
+    "name": "NEW MAIN CASTLE COLOR reduced shadow UV",
+    "keywords": [
+     "DR_OUTLINE_ON",
+     "DR_VERTEX_COLORS_ON",
+     "_BASEMAP_PREMULTIPLY",
+     "_CELPRIMARYMODE_STEPS",
+     "_DETAILMAPBLENDINGMODE_MULTIPLY",
+     "_GRADIENTSPACE_WORLD",
+     "_OUTLINESPACE_SCREEN",
+     "_TEXTUREBLENDINGMODE_MULTIPLY",
+     "_UNITYSHADOWMODE_MULTIPLY",
+     "_UNITYSHADOW_OCCLUSION"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_BaseMapPremultiply": 1.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_CameraDistanceImpact": 0.0,
+     "_CelExtraEnabled": 0.0,
+     "_CelNumSteps": 3.0,
+     "_CelPrimaryMode": 2.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailMapBlendingMode": 0.0,
+     "_DetailMapImpact": 0.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_FlatRimAmount": 0.5,
+     "_FlatRimEdgeSmoothness": 0.1,
+     "_FlatRimEnabled": 1.0,
+     "_FlatRimLightAlign": 0.0,
+     "_FlatRimSize": 0.3,
+     "_FlatShadowsEnabled": 1.0,
+     "_FlatSmoothness": 0.362,
+     "_FlatSpecularEdgeSmoothness": 0.5,
+     "_FlatSpecularEnabled": 1.0,
+     "_FlatSpecularSize": 0.1,
+     "_FlatSpecularSmoothness": 0.5,
+     "_Flatness": 1.0,
+     "_FlatnessExtra": 0.462,
+     "_FlatnessSecondary": 1.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 1.0,
+     "_GradientAngle": 22.0,
+     "_GradientBottom": 0.0,
+     "_GradientCenterX": 0.0,
+     "_GradientCenterY": 0.0,
+     "_GradientEnabled": 0.0,
+     "_GradientEnd": 0.55,
+     "_GradientSize": 21.1,
+     "_GradientSpace": 0.0,
+     "_GradientStart": 1.17,
+     "_GradientTop": 10.0,
+     "_LightContribution": 0.116,
+     "_LightFalloffSize": 0.0001,
+     "_LightmapDirectionPitch": 0.0,
+     "_LightmapDirectionYaw": 0.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_OutlineDepthOffset": 0.003,
+     "_OutlineEnabled": 1.0,
+     "_OutlineScale": 1.0,
+     "_OutlineSpace": 0.0,
+     "_OutlineWidth": 0.54,
+     "_OverrideLightmapDir": 0.0,
+     "_OverrideShadows": 1.0,
+     "_OverrideShadowsEnabled": 1.0,
+     "_Parallax": 0.02,
+     "_RimEnabled": 0.0,
+     "_SecondaryColor": 1.0,
+     "_SecondaryColorEnabled": 1.0,
+     "_SelfShadingSize": 0.661,
+     "_SelfShadingSizeExtra": 0.9,
+     "_ShadowEdgeSize": 0.06,
+     "_ShadowEdgeSizeExtra": 0.113,
+     "_ShadowEdgeSmoothness": 0.01,
+     "_ShadowFalloff": 0.01,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularEnabled": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_TextureBlendingMode": 0.0,
+     "_TextureImpact": 1.0,
+     "_UVSec": 0.0,
+     "_UnityShadowMode": 1.0,
+     "_UnityShadowOcclusion": 1.0,
+     "_UnityShadowPower": 0.875,
+     "_UnityShadowSharpness": 1.0,
+     "_VertexColorsEnabled": 1.0,
+     "_VertexExtrusionSmoothNormals": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      0.662,
+      0.269,
+      1.0
+     ],
+     "_ColorCelShadow": [
+      0.386,
+      0.388,
+      0.962,
+      1.0
+     ],
+     "_ColorDim": [
+      0.09,
+      0.101,
+      0.123,
+      1.0
+     ],
+     "_ColorDimCurve": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimExtra": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "_ColorDimSteps": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorGradient": [
+      0.085,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_ColorSecondary": [
+      1.0,
+      0.559,
+      0.0,
+      1.0
+     ],
+     "_ColorShadow": [
+      0.5,
+      0.5,
+      0.5,
+      1.0
+     ],
+     "_ColorShadows": [
+      0.378,
+      0.46,
+      0.72,
+      1.0
+     ],
+     "_DetailMapColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      4.925,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FlatRimColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_FlatSpecularColor": [
+      0.524,
+      0.638,
+      1.0,
+      1.0
+     ],
+     "_LightmapDirection": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "_OutlineColor": [
+      0.198,
+      0.198,
+      0.198,
+      1.0
+     ],
+     "_UnityShadowColor": [
+      0.65,
+      0.65,
+      0.65,
+      1.0
+     ]
+    },
+    "textures": [
+     "_BaseMap",
+     "_CelStepTexture"
+    ]
+   }
+  ],
+  "Shader Graphs/GROUND SHADER GRAPH 9 fixxed shadows": [
+   {
+    "name": "GROUND_DarkGRASS_01_secondary_noemission test new shader Specular 3",
+    "keywords": [
+     "_SPECULAR_SETUP"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 0.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.148,
+      0.283,
+      0.292,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.105,
+      0.269,
+      0.283,
+      1.0
+     ],
+     "_Emission": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   },
+   {
+    "name": "GROUND_DarkGRASS_01_secondary_noemission test new shader Specular 4",
+    "keywords": [
+     "_SPECULAR_SETUP"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 0.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.148,
+      0.283,
+      0.292,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.105,
+      0.269,
+      0.283,
+      1.0
+     ],
+     "_Emission": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   },
+   {
+    "name": "GROUND_GRASS_01_noemission test new shader Specular",
+    "keywords": [
+     "_SPECULAR_SETUP"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 0.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.196,
+      0.387,
+      0.177,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.377,
+      0.453,
+      0.207,
+      1.0
+     ],
+     "_Emission": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   },
+   {
+    "name": "GROUND_DESERT_01 2",
+    "keywords": null,
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 1.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.613,
+      0.364,
+      0.286,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.585,
+      0.508,
+      0.339,
+      1.0
+     ],
+     "_Emission": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   },
+   {
+    "name": "GROUND_GRASS_01_noemission test new shader Specular NEW",
+    "keywords": [
+     "_SPECULAR_SETUP"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 0.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.188,
+      0.341,
+      0.035,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.384,
+      0.451,
+      0.0,
+      1.0
+     ],
+     "_Emission": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   },
+   {
+    "name": "GROUND_GRASS_01_secondary_noemission test new shader Specular 1",
+    "keywords": [
+     "_SPECULAR_SETUP"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 0.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.169,
+      0.368,
+      0.151,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.352,
+      0.425,
+      0.17,
+      1.0
+     ],
+     "_Emission": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   }
+  ],
+  "Shader Graphs/Fog_Orthographic transparent": [
+   {
+    "name": "Fog_Orthographic transparent 2",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_Distance": 500.0,
+     "_depth": 0.01
+    },
+    "colors": {
+     "_Color_Dark": [
+      0.538,
+      0.538,
+      0.538,
+      1.0
+     ],
+     "_Color_Light": [
+      0.66,
+      0.643,
+      0.632,
+      1.0
+     ],
+     "_FogColor": [
+      0.0,
+      0.471,
+      1.0,
+      0.639
+     ]
+    },
+    "textures": []
+   },
+   {
+    "name": "FOGTEST2",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0,
+     "_depth": 1.0
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color_Dark": [
+      0.0,
+      0.499,
+      0.575,
+      0.0
+     ],
+     "_Color_Light": [
+      0.267,
+      0.485,
+      0.509,
+      0.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_FogColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ]
+    },
+    "textures": []
+   },
+   {
+    "name": "Fog_Orthographic 3",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_depth": 0.11
+    },
+    "colors": {
+     "_Color_Dark": [
+      0.797,
+      0.942,
+      1.0,
+      1.0
+     ],
+     "_Color_Light": [
+      0.868,
+      0.868,
+      0.868,
+      1.0
+     ],
+     "_FogColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "textures": []
+   },
+   {
+    "name": "Fog_Orthographic 4",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_depth": 0.24
+    },
+    "colors": {
+     "_Color_Dark": [
+      0.476,
+      0.515,
+      0.528,
+      1.0
+     ],
+     "_Color_Light": [
+      0.528,
+      0.528,
+      0.528,
+      1.0
+     ],
+     "_FogColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "textures": []
+   }
+  ],
+  "Shader Graphs/DEFORMER gras": [
+   {
+    "name": "field deformer 7",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_Wind_Strength": 0.5,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0,
+     "_wind_Speed": 3.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.306,
+      0.396,
+      0.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_wind_direction": [
+      0.0,
+      0.2,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_Texture2D"
+    ]
+   },
+   {
+    "name": "field deformer 8",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_Wind_Strength": 0.5,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0,
+     "_wind_Speed": 3.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.0,
+      0.048,
+      0.217,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_wind_direction": [
+      0.0,
+      0.2,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_Texture2D"
+    ]
+   }
+  ],
+  "Shader Graphs/DEFORMER gras 2": [
+   {
+    "name": "gras deformer 2",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_Movement_Direction": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_SPEED": 1.0,
+     "_Scale": 0.0,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_Wind_Strength": 1.76,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0,
+     "_height": 0.0,
+     "_speed_gras": 0.0,
+     "_wind_Speed": 1.79
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Colo2": [
+      0.345,
+      0.345,
+      0.122,
+      1.0
+     ],
+     "_Color": [
+      0.376,
+      0.774,
+      0.759,
+      1.0
+     ],
+     "_Emission": [
+      0.574,
+      0.613,
+      0.402,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_Texture_TIling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ],
+     "_wind_direction": [
+      0.0,
+      0.2,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_Texture2D"
+    ]
+   }
+  ],
+  "Shader Graphs/DEFORMER tree": [
+   {
+    "name": "waterleave",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_Wind_Strength": 0.3,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0,
+     "_wind_Speed": 0.62
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.169,
+      0.376,
+      0.34,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_wind_direction": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": []
+   }
+  ],
+  "Shader Graphs/DEFORMER flowers": [
+   {
+    "name": "flowers",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_Blend": 0.0,
+     "_BumpScale": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.5,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_Surface": 0.0,
+     "_Wind_Strength": 0.4,
+     "_WorkflowMode": 1.0,
+     "_ZWrite": 1.0,
+     "_wind_Speed": 0.96
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.2,
+      0.2,
+      0.2,
+      1.0
+     ],
+     "_wind_direction": [
+      5.66,
+      16.19,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": []
+   }
+  ],
+  "Shader Graphs/GROUND SHADER GRAPH 9 fixxed shadows new details": [
+   {
+    "name": "GROUND SAND  TRIPLANAR tertiary ground fixed shadows",
+    "keywords": [
+     "_SPECULAR_SETUP"
+    ],
+    "queue": 2000,
+    "floats": {
+     "_AlphaClip": 0.0,
+     "_AlphaToMask": 0.0,
+     "_Blend": 0.0,
+     "_BlendModePreserveSpecular": 1.0,
+     "_BumpScale": 0.0,
+     "_CastShadows": 1.0,
+     "_ClearCoatMask": 0.0,
+     "_ClearCoatSmoothness": 0.0,
+     "_Cull": 2.0,
+     "_Cutoff": 0.5,
+     "_DetailAlbedoMapScale": 1.0,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_DstBlendAlpha": 0.0,
+     "_EnvironmentReflections": 1.0,
+     "_GlossMapScale": 0.0,
+     "_Glossiness": 0.0,
+     "_GlossyReflections": 0.0,
+     "_Metallic": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.005,
+     "_ReceiveShadows": 1.0,
+     "_Smoothness": 0.0,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_SrcBlendAlpha": 1.0,
+     "_Surface": 0.0,
+     "_TILE": 0.001,
+     "_WorkflowMode": 0.0,
+     "_ZTest": 4.0,
+     "_ZWrite": 1.0,
+     "_ZWriteControl": 0.0,
+     "_scale": 0.1
+    },
+    "colors": {
+     "_BaseColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_Color": [
+      0.34,
+      0.326,
+      0.284,
+      1.0
+     ],
+     "_Color_1": [
+      0.313,
+      0.698,
+      0.557,
+      1.0
+     ],
+     "_Color_2": [
+      0.349,
+      0.273,
+      0.189,
+      1.0
+     ],
+     "_Emission": [
+      0.349,
+      0.349,
+      0.349,
+      1.0
+     ],
+     "_EmissionColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_SpecColor": [
+      0.766,
+      0.83,
+      0.623,
+      1.0
+     ],
+     "_Texture_Tiling": [
+      0.015,
+      0.015,
+      0.0,
+      0.0
+     ]
+    },
+    "textures": [
+     "_SampleTexture2D_d6390316962c48bcad04ccf9122ee0df_Texture_1_Texture2D",
+     "_SampleTexture2D_fc8039d76c2f440b9997ec1dfb135c51_Texture_1_Texture2D"
+    ]
+   }
+  ],
+  "Hidden/Obstacle": [
+   {
+    "name": "_Obstacle",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_BumpScale": 1.0,
+     "_Cutoff": 0.5,
+     "_DetailNormalMapScale": 1.0,
+     "_DstBlend": 0.0,
+     "_GlossMapScale": 1.0,
+     "_Glossiness": 0.5,
+     "_GlossyReflections": 1.0,
+     "_Metallic": 0.0,
+     "_Mode": 0.0,
+     "_OcclusionStrength": 1.0,
+     "_Parallax": 0.02,
+     "_SmoothnessTextureChannel": 0.0,
+     "_SpecularHighlights": 1.0,
+     "_SrcBlend": 1.0,
+     "_UVSec": 0.0,
+     "_ZWrite": 1.0
+    },
+    "colors": {
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    },
+    "textures": []
+   }
+  ],
+  "Shader Graphs/Fog_Orthographic notransparent": [
+   {
+    "name": "Fog_Orthographic notransparent",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_depth": 0.015
+    },
+    "colors": {
+     "_Color_Dark": [
+      0.533,
+      0.765,
+      1.0,
+      1.0
+     ],
+     "_Color_Light": [
+      0.613,
+      0.613,
+      0.613,
+      1.0
+     ],
+     "_FogColor": [
+      0.0,
+      0.471,
+      1.0,
+      1.0
+     ]
+    },
+    "textures": []
+   },
+   {
+    "name": "Grassland Transparent3 1",
+    "keywords": null,
+    "queue": -1,
+    "floats": {
+     "_depth": 0.015
+    },
+    "colors": {
+     "_Color_Dark": [
+      0.584,
+      0.584,
+      0.584,
+      1.0
+     ],
+     "_Color_Light": [
+      0.585,
+      0.585,
+      0.585,
+      1.0
+     ],
+     "_FogColor": [
+      0.321,
+      0.153,
+      0.153,
+      0.369
+     ]
+    },
+    "textures": []
+   }
+  ]
+ },
+ "camera_rig": []
+}

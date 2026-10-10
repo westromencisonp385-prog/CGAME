@@ -134,7 +134,10 @@ func _build_border_dressing() -> void:
 		var s := rng.randf_range(0.8, 1.3)
 		var basis := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s)
 		var tf := Transform3D(basis, Vector3(p.x, 0, p.y))
-		if i % 3 == 2:
+		# C26：正交 45° 下，物体会往画面上方（远处）盖住 高度×1 米的地面。
+		# 镜头一侧（南边 +Z）和左右两侧的南半段只放灌木（矮），高树留在北边与左右北半段——同原作“高物件不挡在玩家和镜头之间”
+		var near_cam := side == 1 or (side >= 2 and p.y > 4.0)
+		if i % 3 == 2 or near_cam:
 			bushes.append(tf)
 		else:
 			trees.append(tf)
@@ -144,7 +147,7 @@ func _build_border_dressing() -> void:
 	WorldDressing.scatter(border, "prop_tree_poplar", poplars)
 	WorldDressing.scatter(border, "prop_bush", bushes)
 	var rocks := WorldDressing.scatter_points(rng, 18, Rect2(-24, -22, 48, 44), Vector2(0.7, 1.4),
-		func(p: Vector2): return absf(p.x) < 18.6 and absf(p.y) < 16.6)
+		func(p: Vector2): return (absf(p.x) < 18.6 and absf(p.y) < 16.6) or p.y > 15.0)
 	WorldDressing.scatter(border, "prop_rock_large", rocks)
 
 ## 场内散布：草丛、小花、小石子，避开中央工地与河道，保证可读性
@@ -338,8 +341,14 @@ func _place_formal_prop(parent: Node3D, slot: String, at: Vector3, yaw_deg: floa
 	holder.position = at
 	holder.rotation_degrees.y = yaw_deg
 	parent.add_child(holder)
-	if ProceduralRig.attach(holder, slot) == null and FormalModelLibrary.attach(holder, slot, "FormalProp") == null:
+	var fit := Node3D.new()
+	fit.name = "Fit"
+	fit.transform = Transform3D(WorldDressing._fit_basis(slot), Vector3.ZERO)
+	holder.add_child(fit)
+	if ProceduralRig.attach(fit, slot) == null and FormalModelLibrary.attach(holder, slot, "FormalProp") == null:
 		holder.queue_free()
+		return
+	WorldDressing.apply_world_height(fit, slot)
 
 func _create_arch(parent: Node3D, at: Vector3) -> void:
 	var group := Node3D.new()

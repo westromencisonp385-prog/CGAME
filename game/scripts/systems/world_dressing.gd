@@ -83,11 +83,76 @@ const PROP_FIT := {
 	"prop_broken_wall": {"yaw": 0.0, "scale": Vector3(1.0, 0.8, 1.0)},
 }
 
+## C26 世界尺度规则（对照 Wanderburg：正交 45° 俯视里，玩家载具 / 敌人是画面主体，
+## 树、墙、杆这类景物都比载具矮或相当；高物件只出现在远离镜头的一侧）。
+## 值 = 该资产在游戏里的目标高度（米）。玩家车约 1.2m 高，敌人 0.35~0.7m。
+const WORLD_HEIGHT := {
+	"prop_tree_round": 1.25, "prop_tree_poplar": 1.45, "prop_bush": 0.45,
+	"prop_broken_wall": 0.5, "prop_fence": 0.6, "prop_rock_large": 0.65, "prop_rock_cluster": 0.3,
+	"prop_lamp_post": 0.95, "prop_pennant": 0.9, "prop_sign": 0.6, "prop_stone_arch": 0.95,
+	"prop_reeds": 0.45, "prop_grass_tuft": 0.28, "prop_flowers": 0.22,
+	"prop_bridge_stub": 0.6, "prop_pipe": 0.5, "prop_roadblock": 0.55, "prop_barrier": 0.45,
+	"wind_turbine": 1.6, "mountain_air_pump": 1.0, "repair_pump_c04": 0.9, "camp_board": 0.85,
+}
+
+## 这些只压高度（占地要保持，否则边界 / 路障会出缝）；其余整体等比缩小，保持造型比例
+const SQUASH_ONLY := ["prop_broken_wall", "prop_fence", "prop_bridge_stub", "prop_pipe", "prop_roadblock", "prop_barrier"]
+
+static var _native_h: Dictionary = {}
+
+## 资产在游戏里的原生高度（米，已含 PROP_FIT）：取已缓存的可见网格包围盒
+static func native_height(slot: String) -> float:
+	if _native_h.has(slot):
+		return _native_h[slot]
+	var lo := INF
+	var hi := -INF
+	var fit := Transform3D(_fit_basis(slot), Vector3.ZERO)
+	for pair in _meshes(slot):
+		var b: AABB = fit * (pair[1] as Transform3D) * (pair[0] as Mesh).get_aabb()
+		lo = minf(lo, b.position.y)
+		hi = maxf(hi, b.end.y)
+	var h := hi - lo if hi > lo else 0.0
+	_native_h[slot] = h
+	return h
+
+## 世界高度规则的缩放倍率（<=1，只缩不放）
+static func height_fix(slot: String, measured := -1.0) -> float:
+	if not WORLD_HEIGHT.has(slot):
+		return 1.0
+	var native := measured if measured > 0.0 else native_height(slot)
+	if native <= 0.01:
+		return 1.0
+	return clampf(float(WORLD_HEIGHT[slot]) / native, 0.2, 1.0)
+
+static func height_scale(slot: String, measured := -1.0) -> Vector3:
+	var k := height_fix(slot, measured)
+	return Vector3(1.0, k, 1.0) if SQUASH_ONLY.has(slot) else Vector3.ONE * k
+
 static func _fit_basis(slot: String) -> Basis:
 	if not PROP_FIT.has(slot):
 		return Basis.IDENTITY
 	var f: Dictionary = PROP_FIT[slot]
 	return Basis(Vector3.UP, deg_to_rad(float(f.get("yaw", 0.0)))).scaled(f.get("scale", Vector3.ONE))
+
+## 把已挂好 rig 的 fit 节点按世界高度规则缩放（实测可见网格高度，最准）
+static func apply_world_height(fit: Node3D, slot: String) -> void:
+	if not WORLD_HEIGHT.has(slot) or not fit.is_inside_tree():
+		return
+	var lo := INF
+	var hi := -INF
+	for n in fit.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null or not mi.is_visible_in_tree():
+			continue
+		var b := mi.global_transform * mi.get_aabb()
+		lo = minf(lo, b.position.y)
+		hi = maxf(hi, b.end.y)
+	if hi <= lo:
+		return
+	var parent_sy := absf(fit.get_parent_node_3d().global_transform.basis.get_scale().y) if fit.get_parent_node_3d() else 1.0
+	var h := (hi - lo) / maxf(parent_sy, 0.001)
+	var k := height_scale(slot, h)
+	fit.transform = Transform3D(fit.transform.basis.scaled(k), fit.transform.origin)
 
 ## 单个道具（带风格层）。scale 为相对资产标准尺寸的倍率。
 static func prop(parent: Node3D, slot: String, at: Vector3, yaw_deg := 0.0, scale := 1.0) -> Node3D:
@@ -108,7 +173,18 @@ static func prop(parent: Node3D, slot: String, at: Vector3, yaw_deg := 0.0, scal
 		holder.queue_free()
 		return null
 	rig.set_meta("static_prop", true)
+	apply_world_height(fit, slot)
 	return holder
+
+static func _visible_in(n: Node, stop: Node) -> bool:
+	var p: Node = n
+	while p != null:
+		if p is Node3D and not (p as Node3D).visible:
+			return false
+		if p == stop:
+			break
+		p = p.get_parent()
+	return true
 
 ## 已风格化的网格清单（从资产实例上取一次，缓存）
 static func _meshes(slot: String) -> Array:
@@ -124,7 +200,8 @@ static func _meshes(slot: String) -> Array:
 			RigStyle.apply(model, float(dims[2]) if dims.size() > 2 else 1.0)
 			for node in model.find_children("*", "MeshInstance3D", true, false):
 				var mi := node as MeshInstance3D
-				if mi.mesh == null:
+				# 隐藏的网格（LOD / 碰撞代理 / 备用部件）不进散布，否则 MultiMesh 会把它们画出来
+				if mi.mesh == null or not _visible_in(mi, model):
 					continue
 				var mesh := mi.mesh.duplicate() as Mesh
 				if mesh is ArrayMesh:
@@ -138,6 +215,7 @@ static func _meshes(slot: String) -> Array:
 					if p is Node3D:
 						t = (p as Node3D).transform * t
 					p = p.get_parent()
+				t = model.transform * t
 				out.append([mesh, t])
 			model.free()
 	_mesh_cache[slot] = out
@@ -171,10 +249,11 @@ static func scatter(parent: Node3D, slot: String, transforms: Array) -> bool:
 		mm.transform_format = MultiMesh.TRANSFORM_3D
 		mm.mesh = pair[0]
 		mm.instance_count = transforms.size()
-		var local: Transform3D = Transform3D(_fit_basis(slot), Vector3.ZERO) * (pair[1] as Transform3D)
+		var local: Transform3D = Transform3D(_fit_basis(slot).scaled(height_scale(slot)), Vector3.ZERO) * (pair[1] as Transform3D)
 		for i in transforms.size():
 			mm.set_instance_transform(i, (transforms[i] as Transform3D) * local)
 		var mmi := MultiMeshInstance3D.new()
+		mmi.set_meta("slot", slot)
 		mmi.multimesh = mm
 		mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		group.add_child(mmi)

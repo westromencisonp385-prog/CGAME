@@ -81,6 +81,7 @@ var active_summon_slots: Array = [null, null, null]
 ## C17：手感层 / 长期档案 / 模块升级 / 选择队列 / 战斗统计
 var feel: GameFeel
 var cam_rig: CameraRig3C
+var occlusion: OcclusionFader
 var profile := ProfileStore.new()
 var profile_enabled := false
 var module_levels: Dictionary = {}       # module_id -> {damage, cooldown, range, crit, echo, level}
@@ -106,6 +107,10 @@ func _ready() -> void:
 	definitions = Catalog.create_definitions()
 	world = ArenaVisual.new()
 	add_child(world)
+	occlusion = OcclusionFader.new()
+	occlusion.name = "OcclusionFader"
+	add_child(occlusion)
+	occlusion.setup(self, world)
 	_build_shortcut_gate()
 	entities = Node3D.new()
 	entities.process_mode = Node.PROCESS_MODE_PAUSABLE

@@ -36,4 +36,7 @@ $c24 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c24_le
 $c25 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c25_render_capture.gd" -- tag=regression 2>&1 | Out-String)
 "--- c25 render ---" | Out-File $log -Append -Encoding utf8
 ($c25 -split "`n" | Where-Object { $_ -match "^FAIL|C25|SCRIPT ERROR|SHADER ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
+$c26 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c26_view_audit.gd" -- tag=regression 2>&1 | Out-String)
+"--- c26 view / occlusion ---" | Out-File $log -Append -Encoding utf8
+($c26 -split "`n" | Where-Object { $_ -match "^FAIL|C26|SCRIPT ERROR|SHADER ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8

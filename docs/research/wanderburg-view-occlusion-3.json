@@ -1,0 +1,5098 @@
+{
+ "outline": [
+  {
+   "where": "Campfire/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Fast Quiver/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Stiletto/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Hand Crank/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "RunningShoes/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Napalm/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Bumper/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Upgrade Dice/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Couldron/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Repair Wrench/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Shovel/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Electric Arrow/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Work Contract/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Four Leaf Clover/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Catalyst/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Quick Reload/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Reset Lever/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "PV_Train_Rank_[0]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "PV_Spider_Rank_[Experiment]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "PV_Spider_0/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Magma Core/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Cluster Core/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Souvenir/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Overtime Bonus/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Layout Group/Discord (1)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Start/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "WLNow/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Logotype/Image (2)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Discord/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Discord/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Discord (1)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Image (2)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Canvas old/Logotype/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Image (2)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Discord (1)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Logotype/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Logotype/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Start/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Layout Group/WLNow/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "WLNow/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Layout Group/Start/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Layout Group/Discord/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Buttons/PlayButton/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (7)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (11)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (9)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (3)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (6)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (2)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (4)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (11)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (11)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Buttons/PlayButton (2)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (8)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (5)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (6)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (1)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (7)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (10)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (2)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (9)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Buttons/PlayButton (8)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (5)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (8)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (5)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (4)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (6)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (9)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (3)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "BIomeUI/PlayButton/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Buttons/PlayButton (10)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (1)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (7)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Buttons/PlayButton (4)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Buttons/PlayButton (1)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "PlayButton (10)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton (3)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PlayButton/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Power Coupling/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Pillow Armor/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Permafrost/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Auxilliary Tank/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Big Auxilliary Tank/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Everwinter/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "8thGear/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "7thGear/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "TargetingScope/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Adamantium Armor/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Hardened Steel/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Top Module Booster/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Necronomicon/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Golden Dice/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Iron Bow Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Stunhammer/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Tinderbox/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Artifact Dice/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Front Module Booster/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Front Hourglass/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Five Leaf Clover/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "SlowTorch/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Side Module Booster/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Back Module Booster/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Top Hourglass/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Back Hourglass/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Sides Hourglass/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Knee Protector/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Fallback Artifact Silver/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Fallback Artifact luck/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Fallback Artifact max HP/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Golden Bullet Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Emergency Boost/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Coffee/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Strong Gem Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Powerful Gem (1) Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Professional Tools/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Golden Catalyst/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Recycling Bin/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Tax/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "MagnetDrops/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "SuperSizer/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "SingleUseGold/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "IronSword Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Sheperd's Staff/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Golden Bow Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Salvager/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Reset Button/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Iron Bullet Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Valkyrie Helmet/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Phoenix Feather/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "V8/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "V10/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Lead Core/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SpikeSphere(T0)/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Fast Forward/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "SingleUseHeal/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Last Amplifier/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Next Amplifier/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Triangulator/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Vampire Tooth/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Vampire Fangs/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "LuckPerLevel/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Frost Orb/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Golden Sword Variant/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Product Placement/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "Black Belt/Image",
+   "mode": 1042772556,
+   "color": [
+    0.12,
+    0.12,
+    0.92,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "ESSENTIALS (1)/MAIN_CANVAS/HUD_TOP/Image (1)",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    2.0
+   ],
+   "width": -2.0,
+   "enabled": 1
+  },
+  {
+   "where": "Go Button (1)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "LOADOUT/Image (2)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Layout Group/Go Button (1)/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "Go Button (1)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Image (2)/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Image (2)/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "MAIN_CANVAS/STATSCREEN/MaskViewport/Image",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 1
+  },
+  {
+   "where": "MAIN_CANVAS/ENDSCREEN/[Leaderboard Demo]/Refresh Button",
+   "mode": 1061158912,
+   "color": [
+    0.75,
+    0.75,
+    1.0,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "MAIN_CANVAS/ENDSCREEN/[Leaderboard Demo] Global/Refresh Button",
+   "mode": 1061158912,
+   "color": [
+    0.75,
+    0.75,
+    1.0,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "ESSENTIALS (1)/MAIN_CANVAS/LOADOUT/Image (1)",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    2.0
+   ],
+   "width": -2.0,
+   "enabled": 1
+  },
+  {
+   "where": "LOADOUT/SelectionInfo/Mask/Image",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 1
+  },
+  {
+   "where": "MAIN_CANVAS/ENDSCREEN/[Leaderboard Demo] Global/Documentation Button",
+   "mode": 1061158912,
+   "color": [
+    0.75,
+    0.75,
+    1.0,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "MAIN_CANVAS/ENDSCREEN/[Leaderboard Demo]/Documentation Button",
+   "mode": 1061158912,
+   "color": [
+    0.75,
+    0.75,
+    1.0,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "PV_Tower_0/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Image/Go Button/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Image/Go Button/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "LOADOUT/Randomize/ControllerSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "LOADOUT/Image/Go Button/mask",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.5,
+    1.5
+   ],
+   "width": -1.5,
+   "enabled": 0
+  },
+  {
+   "where": "LOADOUT/Randomize/KeyboardSign/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "MAIN_CANVAS/LOADOUT/ArtifactBG/ArtifactBG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    0.66,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 0
+  },
+  {
+   "where": "ESSENTIALS (1)/CommandMarker/Sphere",
+   "mode": "OutlineAndSilhouette",
+   "color": [
+    0.0,
+    0.95,
+    1.0,
+    1.0
+   ],
+   "width": 2.0,
+   "enabled": 0
+  },
+  {
+   "where": "ESSENTIALS (1)/MAIN_CANVAS/ArrowToNextBase",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    1.0
+   ],
+   "width": -1.0,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Church/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T2_(desert)_SaturnaRaketa/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T2_(grassland)_Bombardia/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_Treasure/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_Support(Health)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(grassland)_Fressburg/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_Support(Magnet)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T3_(grassland)_TheDarkTower/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MortarTowerOvertime 2/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_SupportWalker(Chest)/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerHammerChest/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerHammer/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_SupportWalker(Magnet)/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerDrill 1/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_SupportWalker(Health)/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerDrill/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SideShooter/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_ArcherSpawner (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(grassland)_TaurusDrillus_(big)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(grassland)_TaurusDrillus/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Kreuzer/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T3_(darkforest)_Kanoningen/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Enemy_SpawnerRound (2)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Enemy_Boss_T3_(grassland)_TheDarkTower_Grassland[3]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_BallistaTower/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Drill/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Ram/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Hopper/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(desert)_Rostenschild_Desert[2]/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T2_(grassland)_Bombardia_Grassland[3]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(darkforest)_Pulverturm Overtime/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(darkforest)_Pulverturm/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (3)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (16)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Church/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T3_(grassland)_TheDarkTower_Grassland[2]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerGiantCannon/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerGiantCannon 1/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_ArcherSpawner/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Structure_ArcherSpawner (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_WalkerRam/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)(Grassland)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Trader/UI_Elements/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T3_(desert)_TheAncient/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(desert)_KingKlopp/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)(Grassland)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Trader/UI_Elements/HP_Elements_medium_T2/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(grassland)_TaurusDrillus_Grassland[2]/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MortarTowerOvertime/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MetzelmanUltra/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MetzelmanULTRA2/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "HARBOUR_Grassland/Building_Trading/Skin_Trading",
+   "mode": "OutlineAll",
+   "color": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "width": 2.0,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Church/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Metzelman/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Ramme_[2]/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_City/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Big_Caravan/UI_Elements/HP_Elements_medium_T2/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SpikeSphere/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (2)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)(DARKFOREST) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (14)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (3)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SpikeSphere(Fast)/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SpikeSphere(Fast) 1/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (18)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T2_(grassland)_Bombardia_Grassland[2]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_GiantCastle/UI_Elements/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MortarTowerOvertime 2/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_GiantCastle/UI_Elements/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_ArcherSpawner (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(darkforest)_RamBoss_[3]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(darkforest)_Schnittburg [3]/UI_Elements (2)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (2)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound (2)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(desert)_KingKlopp_Desert[2]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_GiantCastle/UI_Elements/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_BigDoubleCannon/UI_Elements (1)/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T1_(grassland)_Fressburg_Grassland[3]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Maullwurfbohrer Strong/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Maullwurfbohrer/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MortarTower/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (3)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_CannonTower/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MonoWheelCannonTower/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_ArcherTower/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(grassland)_TaurusDrillus_Grassland[3]/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_DaVinci/UI_Elements/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T3_(darkforest)_Kanoningen_[3]/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_ArcherSpawner/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_ArcherSpawner (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (4)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (8)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (10)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "HARBOUR_Grassland/Building_Upgrade/Skin_Upgrade",
+   "mode": "OutlineAll",
+   "color": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "width": 2.0,
+   "enabled": 0
+  },
+  {
+   "where": "Enemy_Boss_T2_(darkforest)_BurgSchnappenstein/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)(Grassland)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Enemy_Boss_T1_(darkforest)_RamBoss/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (4)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Neutral_Vehicle_House/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_TankSchrot/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_TankSchrot  Overtime/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_TankFlamer/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_TankPusher/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (13)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (15)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(desert)_Rostenschild/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (3)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T2_(darkforest)_BurgSchnappenstein [3]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MetzelmanUltra/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MetzelmanULTRA4/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MetzelmanULTRA2/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MetzelmanULTRA3/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_MortarTowerOvertime/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_SpawnerRound/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)(Grassland)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Trader/UI_Elements/HP_Elements_medium_T2/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SelfExploder Overtime/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Metzelman/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SelfExploder_Horse Overtime/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SelfExploder/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_SelfExploder_Horse/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Big_Caravan/UI_Elements/HP_Elements_medium_T2/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Rocket(Big)/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Rocket(Big) 1/UI_Elements (1)/HP_Elements_mediumSmall_T1/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Axtman/UI_Elements_(XM) Variant/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(desert)_Rostenschild/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Enemy_Boss_T0_(darkforest)_Schnittburg/UI_Elements (1)/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (6)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (5)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)/UI_Elements_(XM)/HP_Elements_XM/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (9)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Big_Caravan/UI_Elements/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Vehicle_Drescher/UI_Elements/HP_Elements_large/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (11)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact)(DARKFOREST) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Passive_Mill/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_Mill (1)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (7)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Passive_SmallHouse_001 (12)/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  },
+  {
+   "where": "Agent_Enemy_Structure_Tower(Artifact) (1)/UI_Elements_(XM)/HP_Elements_XM/HPBar_Absorbable",
+   "mode": 1062655703,
+   "color": [
+    0.15,
+    0.2,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 0
+  },
+  {
+   "where": "Enemy_Boss_T2_(desert)_SaturnaRaketa_Desert[2]/UI_Elements/HP_Elements/HPBar_BG",
+   "mode": "OutlineAll",
+   "color": [
+    0.0,
+    0.0,
+    1.0,
+    0.1
+   ],
+   "width": -0.1,
+   "enabled": 1
+  }
+ ],
+ "outline_modes": {
+  "1042772556": 87,
+  "OutlineAll": 304,
+  "1061158912": 4,
+  "OutlineAndSilhouette": 1,
+  "1062655703": 23
+ },
+ "outlinable": [
+  {
+   "where": "Module2_SideBarracks/Skin",
+   "enabled": 0,
+   "raw_len": 184
+  },
+  {
+   "where": "Module2_BackBarracks/Skin",
+   "enabled": 0,
+   "raw_len": 184
+  },
+  {
+   "where": "Module2_FrontLaserMage/Skin (1)",
+   "enabled": 0,
+   "raw_len": 11832
+  },
+  {
+   "where": "Module2_TopElectricMage/Skin (1)",
+   "enabled": 0,
+   "raw_len": 4088
+  },
+  {
+   "where": "Module2_Top_CannonTower/Skin (Base)",
+   "enabled": 0,
+   "raw_len": 1464
+  },
+  {
+   "where": "Module2_FrontRamme/Skin",
+   "enabled": 0,
+   "raw_len": 696
+  },
+  {
+   "where": "Module2_FrontTeleporter/Skin",
+   "enabled": 0,
+   "raw_len": 6520
+  }
+ ],
+ "renderer_shadow_modes": {
+  "palm": {
+   "cast=1 recv=1": 1
+  },
+  "tree": {
+   "cast=1 recv=1": 1572,
+   "cast=0 recv=1": 2
+  },
+  "house": {
+   "cast=0 recv=1": 103,
+   "cast=3 recv=1": 116
+  },
+  "rock": {
+   "cast=1 recv=1": 25
+  },
+  "tower": {
+   "cast=1 recv=1": 8
+  },
+  "castle": {
+   "cast=1 recv=1": 11
+  }
+ }
+}

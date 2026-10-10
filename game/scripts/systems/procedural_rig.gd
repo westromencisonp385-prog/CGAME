@@ -100,6 +100,7 @@ static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 		return null
 	var rig := ProceduralRig.new()
 	rig.name = "ProceduralRig"
+	rig.set_meta("rig_slot", slot)
 	rig.rig_type = str(entry.get("rig", "static"))
 	rig.forward_axis = str(entry.get("forward", "-Z"))
 	rig.model = packed.instantiate() as Node3D

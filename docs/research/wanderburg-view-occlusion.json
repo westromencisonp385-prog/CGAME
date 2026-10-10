@@ -1,0 +1,3789 @@
+{
+ "cameras": [
+  {
+   "gameobject": "Main Camera",
+   "camera": {
+    "orthographic": false,
+    "orthographic size": 5.0,
+    "field of view": 60.0,
+    "near clip plane": 0.30000001192092896,
+    "far clip plane": 1000.0,
+    "m_Depth": -1.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 4294967295
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level1"
+  },
+  {
+   "gameobject": "Main Camera",
+   "camera": {
+    "orthographic": false,
+    "orthographic size": 5.0,
+    "field of view": 60.0,
+    "near clip plane": 0.30000001192092896,
+    "far clip plane": 1000.0,
+    "m_Depth": -1.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 4294967295
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level2"
+  },
+  {
+   "gameobject": "OverworldCam",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 77.19999694824219,
+    "field of view": 60.0,
+    "near clip plane": 100.0,
+    "far clip plane": 1000.0,
+    "m_Depth": -1.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": true,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 4294967295
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level3"
+  },
+  {
+   "gameobject": "GUI Camera",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 16.5,
+    "field of view": 60.000003814697266,
+    "near clip plane": 0.30000001192092896,
+    "far clip plane": 1000.0,
+    "m_Depth": 0.0,
+    "m_ClearFlags": 4,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 20.784610748291016,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 32
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level4"
+  },
+  {
+   "gameobject": "ViewportCamera",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 18.04337501525879,
+    "field of view": 60.0,
+    "near clip plane": 0.0,
+    "far clip plane": 200.0,
+    "m_Depth": 0.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 4194304
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level4"
+  },
+  {
+   "gameobject": "Camera_Isolation",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 42.0,
+    "field of view": 60.0,
+    "near clip plane": 0.30000001192092896,
+    "far clip plane": 1000.0,
+    "m_Depth": -1.0,
+    "m_ClearFlags": 1,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 57856
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level4"
+  },
+  {
+   "gameobject": "ViewportCamera",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 12.597332954406738,
+    "field of view": 60.0,
+    "near clip plane": 0.0,
+    "far clip plane": 200.0,
+    "m_Depth": 0.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 4194304
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level4"
+  },
+  {
+   "gameobject": "Main Camera",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 16.299999237060547,
+    "field of view": 60.0,
+    "near clip plane": 100.0,
+    "far clip plane": 1000.0,
+    "m_Depth": -1.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": true,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 3812622295
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level4"
+  },
+  {
+   "gameobject": "ViewportCamera",
+   "camera": {
+    "orthographic": true,
+    "orthographic size": 18.04337501525879,
+    "field of view": 60.0,
+    "near clip plane": 0.0,
+    "far clip plane": 200.0,
+    "m_Depth": 0.0,
+    "m_ClearFlags": 2,
+    "m_projectionMatrixMode": 1,
+    "m_FocalLength": 50.0,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_GateFitMode": 2,
+    "m_TargetEye": 3,
+    "m_AllowMSAA": true,
+    "m_ForceIntoRT": false,
+    "m_AllowDynamicResolution": false,
+    "culling_mask": 4194304
+   },
+   "hierarchy_child_to_root": [],
+   "file": "level4"
+  }
+ ],
+ "camera_rig": [],
+ "shaders": [
+  "AllIn1Vfx/AllIn1Vfx",
+  "AllIn1Vfx/AllIn1VfxBuiltIn",
+  "Custom/Outline Fill",
+  "Custom/Outline Mask",
+  "FlatKit/Stylized Surface",
+  "Hidden/BasicBlit",
+  "Hidden/BlitCopy",
+  "Hidden/BlitCopyDepth",
+  "Hidden/BlitCopyHDRTonemap",
+  "Hidden/BlitCopyWithDepth",
+  "Hidden/BlitToDepth",
+  "Hidden/BlitToDepth_MSAA",
+  "Hidden/Blur",
+  "Hidden/ChocDino/UIFX/Blend",
+  "Hidden/ChocDino/UIFX/Blend-Composite",
+  "Hidden/ChocDino/UIFX/Blend-Dissolve",
+  "Hidden/ChocDino/UIFX/Blend-Doom",
+  "Hidden/ChocDino/UIFX/Blend-DropShadow",
+  "Hidden/ChocDino/UIFX/Blend-Extrude",
+  "Hidden/ChocDino/UIFX/Blend-Fill-Color",
+  "Hidden/ChocDino/UIFX/Blend-Fill-Gradient",
+  "Hidden/ChocDino/UIFX/Blend-Fill-Texture",
+  "Hidden/ChocDino/UIFX/Blend-Frame",
+  "Hidden/ChocDino/UIFX/Blend-Glow",
+  "Hidden/ChocDino/UIFX/Blend-Gooey",
+  "Hidden/ChocDino/UIFX/Blend-LongShadow",
+  "Hidden/ChocDino/UIFX/Blend-Outline",
+  "Hidden/ChocDino/UIFX/Blend-Pixelate",
+  "Hidden/ChocDino/UIFX/Blend-UIToolkit",
+  "Hidden/ChocDino/UIFX/Blend-VideoPlayer",
+  "Hidden/ChocDino/UIFX/Blur-Directional",
+  "Hidden/ChocDino/UIFX/Blur-Zoom",
+  "Hidden/ChocDino/UIFX/BoxBlur-Reference",
+  "Hidden/ChocDino/UIFX/ColorAdjust",
+  "Hidden/ChocDino/UIFX/Composite",
+  "Hidden/ChocDino/UIFX/DistanceMap",
+  "Hidden/ChocDino/UIFX/ErodeDilate",
+  "Hidden/ChocDino/UIFX/Extrude",
+  "Hidden/ChocDino/UIFX/GaussianBlur-Reference",
+  "Hidden/ChocDino/UIFX/LongShadow",
+  "Hidden/ChocDino/UIFX/Resolve",
+  "Hidden/ChocDino/UIFX/TentBlur-Reference",
+  "Hidden/ClearStencil",
+  "Hidden/Compositing",
+  "Hidden/ConvertTexture",
+  "Hidden/Core/FallbackError",
+  "Hidden/CoreSRP/CoreCopy",
+  "Hidden/CubeBlend",
+  "Hidden/CubeBlur",
+  "Hidden/CubeCopy",
+  "Hidden/Dilate",
+  "Hidden/EPO/Fill/Basic/Color fill",
+  "Hidden/EPO/Fill/Basic/Dots",
+  "Hidden/EPO/Fill/Basic/Fresnel",
+  "Hidden/EPO/Fill/Basic/Interlaced",
+  "Hidden/EPO/Fill/Utils/Empty fill",
+  "Hidden/EPO/Fill/Utils/Fill mask",
+  "Hidden/Edge dilate",
+  "Hidden/EfficientBlur",
+  "Hidden/EfficientBlur_UniversalRP",
+  "Hidden/EightColor",
+  "Hidden/FillCrop",
+  "Hidden/FillCrop_UniversalRP",
+  "Hidden/FinalBlit",
+  "Hidden/FlatKit/CopyTexture",
+  "Hidden/FlatKit/FogFilter",
+  "Hidden/FlatKit/OutlineFilter",
+  "Hidden/Internal-CombineDepthNormals",
+  "Hidden/Internal-CubemapToEquirect",
+  "Hidden/Internal-DebugPattern",
+  "Hidden/Internal-DeferredReflections",
+  "Hidden/Internal-DeferredShading",
+  "Hidden/Internal-DepthNormalsTexture",
+  "Hidden/Internal-Flare",
+  "Hidden/Internal-GUIRoundedRect",
+  "Hidden/Internal-GUIRoundedRectWithColorPerBorder",
+  "Hidden/Internal-GUITexture",
+  "Hidden/Internal-GUITextureBlit",
+  "Hidden/Internal-GUITextureClip",
+  "Hidden/Internal-GUITextureClipText",
+  "Hidden/Internal-Halo",
+  "Hidden/Internal-MotionVectors",
+  "Hidden/Internal-ODSWorldTexture",
+  "Hidden/Internal-ScreenSpaceShadows",
+  "Hidden/Internal-StencilWrite",
+  "Hidden/Internal-UIRAtlasBlitCopy",
+  "Hidden/Internal-UIRDefault",
+  "Hidden/Internal-UIRDefaultWorld",
+  "Hidden/Light2D",
+  "Hidden/Obstacle",
+  "Hidden/Outline",
+  "Hidden/OutlineBufferEffect",
+  "Hidden/OutlineEffect",
+  "Hidden/Outlines",
+  "Hidden/Shader Graph/FallbackError",
+  "Hidden/Shadow2DShadowGeometry",
+  "Hidden/Shadow2DShadowSprite",
+  "Hidden/Shadow2DUnshadowGeometry",
+  "Hidden/Shadow2DUnshadowSprite",
+  "Hidden/ShadowProjected2D",
+  "Hidden/TerrainEngine/Details/UniversalPipeline/BillboardWavingDoublePass",
+  "Hidden/TerrainEngine/Details/UniversalPipeline/Vertexlit",
+  "Hidden/TerrainEngine/Details/UniversalPipeline/WavingDoublePass",
+  "Hidden/TextCore/Distance Field SSD",
+  "Hidden/TextMeshPro/Distance Field (SoftMaskable)",
+  "Hidden/UI/Default (SoftMaskable)",
+  "Hidden/UI/Default (UIEffect)",
+  "Hidden/UI/SoftMask",
+  "Hidden/UI/TerminalMaskingShape",
+  "Hidden/Universal Render Pipeline/Bloom",
+  "Hidden/Universal Render Pipeline/BokehDepthOfField",
+  "Hidden/Universal Render Pipeline/CameraMotionBlur",
+  "Hidden/Universal Render Pipeline/CameraMotionVectors",
+  "Hidden/Universal Render Pipeline/CopyDepth",
+  "Hidden/Universal Render Pipeline/DBufferClear",
+  "Hidden/Universal Render Pipeline/Debug/DebugReplacement",
+  "Hidden/Universal Render Pipeline/Edge Adaptive Spatial Upsampling",
+  "Hidden/Universal Render Pipeline/FallbackError",
+  "Hidden/Universal Render Pipeline/FinalPost",
+  "Hidden/Universal Render Pipeline/GaussianDepthOfField",
+  "Hidden/Universal Render Pipeline/LensFlareDataDriven",
+  "Hidden/Universal Render Pipeline/LensFlareScreenSpace",
+  "Hidden/Universal Render Pipeline/LutBuilderHdr",
+  "Hidden/Universal Render Pipeline/LutBuilderLdr",
+  "Hidden/Universal Render Pipeline/PaniniProjection",
+  "Hidden/Universal Render Pipeline/Sampling",
+  "Hidden/Universal Render Pipeline/Scaling Setup",
+  "Hidden/Universal Render Pipeline/StencilDeferred",
+  "Hidden/Universal Render Pipeline/Stop NaN",
+  "Hidden/Universal Render Pipeline/SubpixelMorphologicalAntialiasing",
+  "Hidden/Universal Render Pipeline/TemporalAA",
+  "Hidden/Universal Render Pipeline/UberPost",
+  "Hidden/Universal Render Pipeline/XR/XRMirrorView",
+  "Hidden/Universal Render Pipeline/XR/XRMotionVector",
+  "Hidden/Universal Render Pipeline/XR/XROcclusionMesh",
+  "Hidden/Universal/BlitHDROverlay",
+  "Hidden/Universal/CoreBlit",
+  "Hidden/Universal/CoreBlitColorAndDepth",
+  "Hidden/Universal/HDRDebugView",
+  "Hidden/VFX/Empty",
+  "Hidden/VFX/Fire test monk notime/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Fire test monk/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Fire test notime/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Fire test/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Flames_GroundArea/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Flames_GroundAreaFriedrich/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Flames_Ground_OneTime/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Flames_Ground_OneTime_Nitro/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/Flames_Groundline/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/ObjectDestroyed_smoke fast/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/PlayerVehicleDust/System/Output Particle|Shader Graph Mesh - Lit",
+  "Hidden/VFX/VFX_CannonImpact_001 1/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/VFX_CannonImpact_001/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VFX/VFX_FireTrailProjectiles/System/Output Particle|Shader Graph Mesh - Unlit",
+  "Hidden/VR/BlitFromTex2DToTexArraySlice",
+  "Hidden/VR/BlitTexArraySlice",
+  "Hidden/VideoComposite",
+  "Hidden/VideoDecode",
+  "Hidden/ViewSpaceNormals",
+  "Hidden/VoxelizeShader",
+  "Hidden/ZPrepass",
+  "Legacy Shaders/Diffuse",
+  "Legacy Shaders/Transparent/VertexLit",
+  "Legacy Shaders/VertexLit",
+  "Particles/Standard Unlit",
+  "Shader Graphs/AoE_Zone_Shader",
+  "Shader Graphs/BurnedGround_Stylized",
+  "Shader Graphs/CLOUD TEST 1",
+  "Shader Graphs/CLOUD TEST 4 STEPS",
+  "Shader Graphs/CLOUD TEST 4 STEPS NEW",
+  "Shader Graphs/CLOUD TEST Tornado 2",
+  "Shader Graphs/CLOUD TEST full volume",
+  "Shader Graphs/DEFORMER flowers",
+  "Shader Graphs/DEFORMER gras",
+  "Shader Graphs/DEFORMER gras 2",
+  "Shader Graphs/DEFORMER tree",
+  "Shader Graphs/Explosion_StartBoom",
+  "Shader Graphs/FireOutline",
+  "Shader Graphs/FireProjShader",
+  "Shader Graphs/FlamesGround_Stylized 1",
+  "Shader Graphs/Flames_Stylized",
+  "Shader Graphs/Flamethrower_Shader",
+  "Shader Graphs/Fog_Orthographic notransparent",
+  "Shader Graphs/Fog_Orthographic transparent",
+  "Shader Graphs/GROUND FIXED SHADOW",
+  "Shader Graphs/GROUND SHADER GRAPH 1",
+  "Shader Graphs/GROUND SHADER GRAPH 5",
+  "Shader Graphs/GROUND SHADER GRAPH 7",
+  "Shader Graphs/GROUND SHADER GRAPH 8",
+  "Shader Graphs/GROUND SHADER GRAPH 9 fixxed shadows",
+  "Shader Graphs/GROUND SHADER GRAPH 9 fixxed shadows new details",
+  "Shader Graphs/Shader_AOE",
+  "Shader Graphs/Shader_Ballista2_alternative",
+  "Shader Graphs/Shader_DriveTrail",
+  "Shader Graphs/Shader_FireDash",
+  "Shader Graphs/Shader_Flag",
+  "Shader Graphs/Shader_Flag 1",
+  "Shader Graphs/Shader_Flag Deco",
+  "Shader Graphs/Shader_Flames_FadedOut",
+  "Shader Graphs/Shader_ForcePushDome",
+  "Shader Graphs/Shader_GroundBlast",
+  "Shader Graphs/Shader_HealthBarSegmented",
+  "Shader Graphs/Shader_StylizedExplosion",
+  "Shader Graphs/Shader_Suction",
+  "Shader Graphs/Shader_TopLight",
+  "Shader Graphs/Shader_Tracks",
+  "Shader Graphs/SideCannonSleeve",
+  "Shader Graphs/SteamShader",
+  "Shader Graphs/StylizeExplo_URP",
+  "Shader Graphs/StylizedVignetteShader",
+  "Shader Graphs/Water Shader",
+  "Skybox/Procedural",
+  "Sprites/Default",
+  "Sprites/Mask",
+  "Standard",
+  "TextMeshPro/Distance Field",
+  "TextMeshPro/Distance Field (Surface)",
+  "TextMeshPro/Mobile/Distance Field",
+  "TextMeshPro/Mobile/Distance Field (Surface)",
+  "TextMeshPro/Mobile/Distance Field - 2 Pass",
+  "TextMeshPro/Mobile/Distance Field - Masking",
+  "TextMeshPro/Mobile/Distance Field Overlay",
+  "TextMeshPro/SRP/TMP_SDF-HDRP LIT",
+  "TextMeshPro/SRP/TMP_SDF-HDRP UNLIT",
+  "TextMeshPro/SRP/TMP_SDF-URP Lit",
+  "TextMeshPro/Sprite",
+  "UI/Default",
+  "UI/DefaultETC1",
+  "UI/TranslucentImage",
+  "Universal Render Pipeline/Lit",
+  "Universal Render Pipeline/Particles/Lit",
+  "Universal Render Pipeline/Particles/Simple Lit",
+  "Universal Render Pipeline/Particles/Unlit",
+  "Universal Render Pipeline/Unlit",
+  "Unlit/Texture",
+  "Vefects/SH_Vefects_URP_VFX_Character_Showoff",
+  "Vefects/SH_Vefects_URP_VFX_Concrete",
+  "Vefects/SH_Vefects_URP_VFX_Dirt_Debris",
+  "Vefects/SH_Vefects_URP_VFX_Distortion_Shockwave",
+  "Vefects/SH_Vefects_URP_VFX_EMP_Sphere",
+  "Vefects/SH_Vefects_URP_VFX_EMP_Sphere_Distortion",
+  "Vefects/SH_Vefects_URP_VFX_EMP_Sphere_Modulate",
+  "Vefects/SH_Vefects_URP_VFX_Emissive_Wicks",
+  "Vefects/SH_Vefects_URP_VFX_Energy_Disk",
+  "Vefects/SH_Vefects_URP_VFX_Energy_Waves",
+  "Vefects/SH_Vefects_URP_VFX_Fake_Decal",
+  "Vefects/SH_Vefects_URP_VFX_Flash",
+  "Vefects/SH_Vefects_URP_VFX_Lightning",
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_Alpha",
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_Emission_Dissolve",
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_Fire",
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_New",
+  "Vefects/SH_Vefects_URP_VFX_Sprite_Debris",
+  "Vefects/SH_Vefects_URP_VFX_Water_Ring",
+  "Vefects/SH_Vefects_URP_VFX_Water_Splash",
+  "nickeltin/SDF/UI",
+  "nickeltin/SDF/UIPure"
+ ],
+ "materials_by_shader": {
+  "Universal Render Pipeline/Lit": {
+   "count": 303,
+   "examples": [
+    {
+     "name": "Wood hell",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "_Stone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "gras3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "gras3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "wood",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Metal",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "FlatKit/Stylized Surface": {
+   "count": 217,
+   "examples": [
+    {
+     "name": "CASTLE_BLACK_01_nolight",
+     "keywords": [
+      "DR_ENABLE_LIGHTMAP_DIR",
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "CASTLE_DETAILS_01_nolight",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "Castle_STONE_01_new",
+     "keywords": [
+      "DR_ENABLE_LIGHTMAP_DIR",
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 1951,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "Castle_STONE_01_nolight",
+     "keywords": [
+      "DR_ENABLE_LIGHTMAP_DIR",
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 1951,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "ENEMYS_AND_ANIMALS_01",
+     "keywords": [
+      "DR_CEL_EXTRA_ON",
+      "DR_ENABLE_LIGHTMAP_DIR",
+      "DR_OUTLINE_ON",
+      "_BASEMAP_PREMULTIPLY",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GREEN_PALM_01",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "HOUSE_DESERT_01",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "HOUSE_ROOF_01 1",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "HOUSE_ROOF_01",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "HOUSE_STONE DARK_01",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "HOUSE_STONE_01",
+     "keywords": [
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY",
+      "_UNITYSHADOWMODE_MULTIPLY",
+      "_UNITYSHADOW_OCCLUSION"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "METAL_GOLD",
+     "keywords": [
+      "DR_CEL_EXTRA_ON",
+      "DR_OUTLINE_ON",
+      "_CELPRIMARYMODE_SINGLE",
+      "_DETAILMAPBLENDINGMODE_MULTIPLY",
+      "_GRADIENTSPACE_WORLD",
+      "_OUTLINESPACE_SCREEN",
+      "_TEXTUREBLENDINGMODE_MULTIPLY"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Distance Field": {
+   "count": 37,
+   "examples": [
+    {
+     "name": "Atkinson-Hyperlegible-Regular-102 Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansThai-VariableFont_wdth,wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansJP-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansJP-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansHebrew-VariableFont_wdth,wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansTC-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansTC-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansKR-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSans-Regular Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansSC-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "NotoSansSC-VariableFont_wght Atlas Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "AllIn1Vfx/AllIn1Vfx": {
+   "count": 35,
+   "examples": [
+    {
+     "name": "Mat_Slow",
+     "keywords": [
+      "COLORRAMPGRAD_ON",
+      "COLORRAMP_ON",
+      "GLOW_ON",
+      "MASK_ON",
+      "POSTERIZE_ON",
+      "ROUNDWAVEUV_ON",
+      "SHAPE2DISTORT_ON",
+      "SHAPE2_ON",
+      "TWISTUV_ON",
+      "WAVEUV_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_invincible_001",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "COLORRAMPGRAD_ON",
+      "COLORRAMP_ON",
+      "GLOW_ON",
+      "HSV_ON",
+      "POLARUV_ON",
+      "POSTERIZE_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "SHAPE1DISTORT_ON",
+      "SHAPE2_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Ma_Fire2_001_B 1",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "ALPHAFADE_ON",
+      "FADE_ON",
+      "GLOW_ON",
+      "HSV_ON",
+      "MASK_ON",
+      "PREMULTIPLYALPHA_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "SHAPE1DISTORT_ON",
+      "SHAPE2CONTRAST_ON",
+      "SHAPE2DISTORT_ON",
+      "SHAPE2_ON"
+     ],
+     "render_queue": 3000,
+     "tags": []
+    },
+    {
+     "name": "ProjHeadIce 1",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "GLOW_ON",
+      "PREMULTIPLYCOLOR_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Teleporter_Passive_Porjectile_Trail_Mat_001",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "ALPHAFADETRANSPARENCYTOO_ON",
+      "GLOW_ON",
+      "HSV_ON",
+      "SHAPE1MASK_ON",
+      "SHAPE2CONTRAST_ON",
+      "SHAPE2_ON",
+      "TRAILWIDTH_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Teleporter_Passive_Projectile_Spark_Mat_001",
+     "keywords": [
+      "GLOW_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "10_Base",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "ALPHACUTOFF_ON",
+      "COLORRAMPGRAD_ON",
+      "COLORRAMP_ON",
+      "HSV_ON",
+      "POLARUV_ON",
+      "POSTERIZE_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "SHAPE1DISTORT_ON",
+      "SHAPE2_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "10_Tornado_Core 1",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "COLORRAMPGRAD_ON",
+      "COLORRAMP_ON",
+      "GLOW_ON",
+      "MASK_ON",
+      "POSTERIZE_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "VERTOFFSET_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "10_Tornado_Core",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "COLORRAMPGRAD_ON",
+      "COLORRAMP_ON",
+      "GLOW_ON",
+      "MASK_ON",
+      "POSTERIZE_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "VERTOFFSET_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "10_Tornado_Ext 1",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "ALPHAFADETRANSPARENCYTOO_ON",
+      "COLORGRADING_ON",
+      "COLORRAMPGRAD_ON",
+      "GLOW_ON",
+      "MASK_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "SHAPE1DISTORT_ON",
+      "VERTOFFSET_ON"
+     ],
+     "render_queue": 3000,
+     "tags": []
+    },
+    {
+     "name": "11_Light_Sparks 1",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "GLOW_ON",
+      "HSV_ON",
+      "MASK_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1DISTORT_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "11_Light_Strike 1",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "DOODLE_ON",
+      "GLOW_ON",
+      "HSV_ON",
+      "MASK_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1DISTORT_ON",
+      "SHAPE2_ON",
+      "WAVEUV_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "": {
+   "count": 35,
+   "examples": [
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Font Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_Emission_Dissolve": {
+   "count": 25,
+   "examples": [
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Em_Ero_Artillery_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Large_Em_Ero_Artillery_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Thin_Em_Ero_Artillery_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Ground_Dust_Shockwave_Artillery_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Smoking_Debris_Trail_Artillery_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Em_Ero_Blackbody_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Thin_Em_Ero_Blackbody_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Ground_Dust_Shockwave_Blackbody_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Smoking_Debris_Trail_Blackbody_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Em_Ero_Gas_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Large_Em_Ero_Gas_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Loop_Thin_Em_Ero_Gas_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/AoE_Zone_Shader": {
+   "count": 14,
+   "examples": [
+    {
+     "name": "Mat_AoE_Zone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_FriendlyImpactZone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_FriendlyTurretZone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_FriendlyZone_Markings",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_FriendlyZone_Markings_002",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Zone_thin",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Electric_Passive",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_TeleporterBlast",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Incited",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_HitZone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Boss2_MoratImpactZone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Boss2_MoratImpactZone_OuterCircle",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Universal Render Pipeline/Unlit": {
+   "count": 12,
+   "examples": [
+    {
+     "name": "Mat_Placeholder_SimpleShadow",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Proj_Shadow",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_HP_Blast",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_HP_Blast_emission",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_HP_Pickup_Flare_simple_emission",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_HP_Pickup_littlePlus",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "UnlitTransparent",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_UI_BossCrown_Background",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "unlitBlack",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "unlitWhite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "New Material",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_ShrubberySimple",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    }
+   ]
+  },
+  "TextMeshPro/Sprite": {
+   "count": 12,
+   "examples": [
+    {
+     "name": "TestArrow Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Silver Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TMPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [
+      "UNITY_UI_CLIP_RECT"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "TextMeshPro/Sprite",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Mobile/Distance Field": {
+   "count": 12,
+   "examples": [
+    {
+     "name": "Anton SDF - Drop Shadow",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Anton SDF - Outline",
+     "keywords": [
+      "OUTLINE_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Bangers SDF - Drop Shadow",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Bangers SDF - Outline",
+     "keywords": [
+      "OUTLINE_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Roboto-Bold SDF - Drop Shadow",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "LiberationSans SDF - Drop Shadow",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "LiberationSans SDF - Outline",
+     "keywords": [
+      "OUTLINE_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Electronic Highway Sign SDF Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Anton SDF Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Roboto-Bold SDF Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "LiberationSans SDF Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "LiberationSans SDF Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND SHADER GRAPH 9 fixxed shadows": {
+   "count": 9,
+   "examples": [
+    {
+     "name": "GROUND_DarkGRASS_01_secondary_noemission test new shader Specular 3",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_DarkGRASS_01_secondary_noemission test new shader Specular 4",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_GRASS_01_noemission test new shader Specular",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_DESERT_01 2",
+     "keywords": [],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_GRASS_01_noemission test new shader Specular NEW",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_GRASS_01_secondary_noemission test new shader Specular 1",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_GRASS_01_secondary_noemission test new shader Specular 2",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_SPECULAR_RIVERBACKROUNDecular 1",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    },
+    {
+     "name": "GROUND_SWAMP_01_noemission test new shader Specular 1",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    }
+   ]
+  },
+  "Universal Render Pipeline/Particles/Unlit": {
+   "count": 7,
+   "examples": [
+    {
+     "name": "Mat_InstallModuleSparkles_001",
+     "keywords": [
+      "_EMISSION",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "SparkleParticleBig",
+     "keywords": [
+      "_EMISSION",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "SparkleParticleSmall",
+     "keywords": [
+      "_EMISSION",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "RAIN 1",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "RAIN 2",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "RAIN",
+     "keywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Artifact_Shiny",
+     "keywords": [
+      "_EMISSION",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    }
+   ]
+  },
+  "Universal Render Pipeline/Particles/Lit": {
+   "count": 7,
+   "examples": [
+    {
+     "name": "Mat_VFX_Blast",
+     "keywords": [
+      "_EMISSION",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_DashBlast",
+     "keywords": [
+      "_EMISSION",
+      "_RECEIVE_SHADOWS_OFF",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Blast 1",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Blast",
+     "keywords": [
+      "_EMISSION",
+      "_RECEIVE_SHADOWS_OFF",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_BlastNitro",
+     "keywords": [
+      "_EMISSION",
+      "_RECEIVE_SHADOWS_OFF",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Suction",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "New Material",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF",
+      "_SURFACE_TYPE_TRANSPARENT"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    }
+   ]
+  },
+  "Shader Graphs/StylizeExplo_URP": {
+   "count": 7,
+   "examples": [
+    {
+     "name": "Mat_Expl_Distor_001",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Expl_Distor_Slow",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_DestertDustCloud_Test 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_DestertDustCloud_Test 3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_DestertDustCloud_Test",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Expl_Distor_001 2",
+     "keywords": [],
+     "render_queue": 2999,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    },
+    {
+     "name": "Mat_Expl_Distor_001 3",
+     "keywords": [],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ]
+     ]
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Flames_FadedOut": {
+   "count": 7,
+   "examples": [
+    {
+     "name": "Mat_Burning",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Chimney",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Flameburst",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Nitro",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Ice_Burn",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Ice_Electric",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Burning_Big",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND SHADER GRAPH 1": {
+   "count": 7,
+   "examples": [
+    {
+     "name": "GROUND TRIPLANAR primary",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND SAND  TRIPLANAR tertiary ground",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND SAND  TRIPLANAR tertiary ground_noEmission",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR secundary NICE MAIN",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR tertiary ground 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR tertiary_MAIN",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR tertiary_MAIN_noEmission",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Flames_Stylized": {
+   "count": 6,
+   "examples": [
+    {
+     "name": "Mat_Flames_Intensity1 (upwards)",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Intensity1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Intensity3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Intensity4",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Wind_4",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Flames_Intensity2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "AllIn1Vfx/AllIn1VfxBuiltIn": {
+   "count": 5,
+   "examples": [
+    {
+     "name": "ImpactRingWhite",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "ALPHAFADETRANSPARENCYTOO_ON",
+      "ALPHAFADE_ON",
+      "GLOW_ON",
+      "SOFTPART_ON"
+     ],
+     "render_queue": 3000,
+     "tags": []
+    },
+    {
+     "name": "ImpactShapeBlue",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "GLOW_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1ROTATE_ON",
+      "SHAPE2ROTATE_ON",
+      "SHAPE2_ON",
+      "SOFTPART_ON"
+     ],
+     "render_queue": 3000,
+     "tags": []
+    },
+    {
+     "name": "ImpactRing",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "GLOW_ON",
+      "SHAPE1CONTRAST_ON",
+      "SOFTPART_ON"
+     ],
+     "render_queue": -1,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "ImpactShapeRed",
+     "keywords": [
+      "ADDITIVECONFIG_ON",
+      "GLOW_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SOFTPART_ON"
+     ],
+     "render_queue": 3000,
+     "tags": []
+    },
+    {
+     "name": "ImpactSmokeRed",
+     "keywords": [
+      "ALPHAFADEINPUTSTREAM_ON",
+      "FADE_ON",
+      "PREMULTIPLYCOLOR_ON",
+      "SHAPE1CONTRAST_ON",
+      "SHAPE1DISTORT_ON",
+      "SOFTPART_ON"
+     ],
+     "render_queue": 3000,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/CLOUD TEST 4 STEPS NEW": {
+   "count": 5,
+   "examples": [
+    {
+     "name": "CLOUD DESERT 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "CLOUD DESERT",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "CLOUD TEST 4 STEPS NEW 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "CLOUD TEST 4 STEPS NEW 3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "CLOUD TEST 4 STEPS Top",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_GroundBlast": {
+   "count": 4,
+   "examples": [
+    {
+     "name": "Mat_BlastZone",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_StartArrangementGround",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_BlastZone 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_StartArrangementGround 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Explosion_StartBoom": {
+   "count": 4,
+   "examples": [
+    {
+     "name": "Mat_VFX_NitroFireInitialBlast",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "New Material",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_TeleportFlash",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "New Material 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND SHADER GRAPH 5": {
+   "count": 4,
+   "examples": [
+    {
+     "name": "GROUND_DESERT_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR primary 2 FAVORITE 1",
+     "keywords": [],
+     "render_queue": 2450,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR primary 2 FAVORITE 11",
+     "keywords": [],
+     "render_queue": 2000,
+     "tags": []
+    },
+    {
+     "name": "GROUND TRIPLANAR primary 2 FAVORITE 5",
+     "keywords": [],
+     "render_queue": 2450,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Fog_Orthographic transparent": {
+   "count": 4,
+   "examples": [
+    {
+     "name": "Fog_Orthographic transparent 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "FOGTEST2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Fog_Orthographic 3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Fog_Orthographic 4",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_New": {
+   "count": 4,
+   "examples": [
+    {
+     "name": "M_VFX_Base_Block_Pyro_Thin_Incendiary_Dark",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Thin_Incendiary_Light",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Base_Block_Pyro_Thin_Electric",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Pyro_Thermite_Block_02",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Ballista2_alternative": {
+   "count": 3,
+   "examples": [
+    {
+     "name": "Mat_BallistaTrail 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_BallistaTrail 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_IceTrail",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "nickeltin/SDF/UI": {
+   "count": 3,
+   "examples": [
+    {
+     "name": "New SDF UI Material 5",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNITY_UI_ALPHACLIP"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "New SDF UI Material 98",
+     "keywords": [
+      "OUTLINE_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "New SDF UI Material",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNITY_UI_ALPHACLIP"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Flag": {
+   "count": 3,
+   "examples": [
+    {
+     "name": "Mat_EnemyFlag_001 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_EnemyFlag_001 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_EnemyFlag_001",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Skybox/Procedural": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Default-Skybox",
+     "keywords": [
+      "_SUNDISK_SIMPLE"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_Sky",
+     "keywords": [
+      "_SUNDISK_HIGH_QUALITY"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Standard": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Red",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Yellow",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/SteamShader": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Steam 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Steam",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_StylizedExplosion": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Mat_StylizedExplosion",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Stylized_Poison",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/BurnedGround_Stylized": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Mat_BurnedGround",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_BurnedGround_Active",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_FireDash": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Mat_Burning",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_MouthFire",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/FireProjShader": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Mat_Mine_Fire",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_Mine_Ice",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/CLOUD TEST 4 STEPS": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "CLOUDMAP Map",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "CLOUD STEPS 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "UI/TranslucentImage": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "TI_Demo_Fullscreen_Translucent Image_Steam",
+     "keywords": [
+      "_BACKGROUND_MODE_NORMAL"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Default-Translucent",
+     "keywords": [
+      "_BACKGROUND_MODE_COLORFUL"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/SRP/TMP_SDF-HDRP UNLIT": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Unity Atlas Material",
+     "keywords": [],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ],
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Roboto-Bold SDF - HDRP Unlit",
+     "keywords": [],
+     "render_queue": 2750,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ],
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    }
+   ]
+  },
+  "Shader Graphs/CLOUD TEST full volume": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "CLOUD TEST 6 favorit 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "CLOUD TEST Grey",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/DEFORMER gras": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "field deformer 7",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "field deformer 8",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Water Shader": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Water moving 11",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Water moving",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Flag 1": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Mat_PlayerFlag 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Mat_PlayerFlag 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/SRP/TMP_SDF-URP Lit": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Bangers SDF Logo - URP",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Roboto-Bold SDF - URP",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/SRP/TMP_SDF-HDRP LIT": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Unity SDF - HDRP LIT - Bloom",
+     "keywords": [],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ],
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    },
+    {
+     "name": "Unity SDF - HDRP LIT - Outline",
+     "keywords": [],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "MotionVector",
+       "User"
+      ],
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Water_Splash": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "M_VFX_Water_Spikes",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Water_Splash_Single",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Distortion_Shockwave": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "M_VFX_Distortion_Shockwave_01",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF"
+     ],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Distortion_Shockwave_02",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Flash": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "M_VFX_Flash_01_Bright",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "M_VFX_Flash_01_Bright_No_DF",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Fog_Orthographic notransparent": {
+   "count": 2,
+   "examples": [
+    {
+     "name": "Fog_Orthographic notransparent",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    },
+    {
+     "name": "Grassland Transparent3 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Sprites/Default": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Sprites-Default",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Particles/Standard Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Default-ParticleSystem",
+     "keywords": [
+      "_ALPHABLEND_ON"
+     ],
+     "render_queue": 3000,
+     "tags": [
+      [
+       "RenderType",
+       "Transparent"
+      ]
+     ]
+    }
+   ]
+  },
+  "Shader Graphs/Shader_AOE": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_AOE",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/SideCannonSleeve": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_BallistaGlow",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Suction": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Ma_CircularSuction",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_DriveTrail": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "VehicleTrailMat 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/FireOutline": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_FireOutline",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/FlamesGround_Stylized 1": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_FlamesGround_Stylized",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Flamethrower_Shader": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "MAT_Flames",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_ForcePushDome": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_ForcePushDome",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Tracks": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_Tracks_test",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/PlayerVehicleDust/System/Output Particle|Shader Graph Mesh - Lit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/PlayerVehicleDust/System/Output Particle|Shader Graph Mesh - Lit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Fire test monk/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Fire test monk/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/VFX_CannonImpact_001/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/VFX_CannonImpact_001/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Flames_GroundArea/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Flames_GroundArea/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Flames_Ground_OneTime/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Flames_Ground_OneTime/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Fire test monk notime/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Fire test monk notime/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Flames_Ground_OneTime_Nitro/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Flames_Ground_OneTime_Nitro/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/VFX_CannonImpact_001 1/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/VFX_CannonImpact_001 1/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Flames_GroundAreaFriedrich/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Flames_GroundAreaFriedrich/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Flames_Groundline/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Flames_Groundline/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND SHADER GRAPH 8": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "GROUND TRIPLANAR primary 2 FAVORITE 12",
+     "keywords": [],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    }
+   ]
+  },
+  "Hidden/VFX/Fire test notime/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Fire test notime/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_Flag Deco": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_EnemyFlag_001 6",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND FIXED SHADOW": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "testGround",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/CLOUD TEST 1": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "CLOUD TEST 3",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/CLOUD TEST Tornado 2": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "CLOUD TEST Tornado 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/DEFORMER gras 2": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "gras deformer 2",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/DEFORMER tree": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "waterleave",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/DEFORMER flowers": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "flowers",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND SHADER GRAPH 7": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "GROUND TRIPLANAR primary 1",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/GROUND SHADER GRAPH 9 fixxed shadows new details": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "GROUND SAND  TRIPLANAR tertiary ground fixed shadows",
+     "keywords": [
+      "_SPECULAR_SETUP"
+     ],
+     "render_queue": 2000,
+     "tags": [
+      [
+       "RenderType",
+       "Opaque"
+      ]
+     ]
+    }
+   ]
+  },
+  "Shader Graphs/Shader_TopLight": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_Boss_GlowyEyes",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Shader Graphs/Shader_HealthBarSegmented": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Mat_SegmentedHealthBar",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/BasicBlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_BasicBlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/Blur": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_Blur",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/ClearStencil": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_ClearStencil",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/Dilate": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_Dilate",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/Edge dilate": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_EdgeDilate",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/FinalBlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_FinalBlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/Obstacle": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_Obstacle",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/Outline": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_Outline",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/ZPrepass": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "_ZPrepass",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Custom/Outline Fill": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "OutlineFill",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Custom/Outline Mask": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "OutlineMask",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Mobile/Distance Field - 2 Pass": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Bangers SDF - Drop Shadow - 2 Pass",
+     "keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Distance Field (Surface)": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Bangers SDF Logo",
+     "keywords": [
+      "GLOW_ON"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Mobile/Distance Field Overlay": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "LiberationSans SDF - Overlay",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Mobile/Distance Field - Masking": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "LiberationSans SDF - Soft Mask",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "TextMeshPro/Mobile/Distance Field (Surface)": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Roboto-Bold SDF - Surface",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Character_Showoff": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Character_Showoff_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Concrete": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Concrete_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Dirt_Debris": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Dirt_Debris_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_Fire": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Base_Block_Fire_Large_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_EMP_Sphere": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_EMP_Sphere",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_EMP_Sphere_Distortion": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_EMP_Sphere_Distortion",
+     "keywords": [
+      "_RECEIVE_SHADOWS_OFF"
+     ],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_EMP_Sphere_Modulate": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_EMP_Sphere_Modulate",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Energy_Disk": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Energy_Disk",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Energy_Waves": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Energy_Waves",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Lightning": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Lightning_Strike",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Pyro_MV_Alpha": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Pyro_Thermite_Block",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Water_Ring": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Water_Ring_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Emissive_Wicks": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Embers_01_Bright",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Fake_Decal": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Scorch_Mark_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Vefects/SH_Vefects_URP_VFX_Sprite_Debris": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "M_VFX_Sprite_Debris_01",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/VFX_FireTrailProjectiles/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/VFX_FireTrailProjectiles/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/ObjectDestroyed_smoke fast/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/ObjectDestroyed_smoke fast/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  },
+  "Hidden/VFX/Fire test/System/Output Particle|Shader Graph Mesh - Unlit": {
+   "count": 1,
+   "examples": [
+    {
+     "name": "Hidden/VFX/Fire test/System/Output Particle|Shader Graph Mesh - Unlit",
+     "keywords": [],
+     "render_queue": -1,
+     "tags": []
+    }
+   ]
+  }
+ },
+ "hint_behaviours": {
+  "Outline": 419,
+  "OutlineFilter": 208,
+  "DirectionalLightFader": 13,
+  "UniversalAdditionalCameraData": 9,
+  "SpawnParticleAtCamera": 4,
+  "HideLeaderboardsOptionToggle": 3,
+  "ManualCameraUpdater": 3,
+  "SpawnLightAtCamera": 3,
+  "ObjectOutlineRendererFeature": 2,
+  "UniversalRendererData": 2,
+  "BlurFader": 2,
+  "Outliner": 2,
+  "URPOutlineFeature": 1,
+  "StylizedVignetteRendererFeature": 1,
+  "CameraShaker": 1,
+  "CameraRig": 1,
+  "FadeBehavior": 1,
+  "FadeAnimation": 1,
+  "CharHideAnimation": 1,
+  "FadeHideAnimation": 1,
+  "GrowHideAnimation": 1,
+  "MoveInHideAnimation": 1,
+  "PivotHideAnimation": 1,
+  "ShakeHideAnimation": 1,
+  "SpreadHideAnimation": 1,
+  "FadeShowAnimation": 1,
+  "TMPHideAnimationDatabase": 1,
+  "DepthOfField": 1
+ },
+ "renderer_assets": [
+  {
+   "class": "URPOutlineFeature",
+   "name": "EPO Feature",
+   "err": "Expected to read 48 bytes, but only read 44 bytes"
+  },
+  {
+   "class": "StylizedVignetteRendererFeature",
+   "name": "StylizedVignetteRendererFeature",
+   "err": "Expected to read 100 bytes, but only read 64 bytes"
+  },
+  {
+   "class": "ObjectOutlineRendererFeature",
+   "name": "Flat Kit Per Object Outline",
+   "err": "Expected to read 916 bytes, but only read 60 bytes"
+  },
+  {
+   "class": "Renderer2DData",
+   "name": "HP_Renderer",
+   "err": "Expected to read 336 bytes, but only read 44 bytes"
+  },
+  {
+   "class": "UniversalRenderPipelineAsset",
+   "name": "Friedrich New Universal Render Pipeline Asset",
+   "err": "Expected to read 504 bytes, but only read 80 bytes"
+  },
+  {
+   "class": "UniversalRendererData",
+   "name": "New Universal Render Pipeline Asset_Renderer",
+   "err": "Expected to read 388 bytes, but only read 76 bytes"
+  },
+  {
+   "class": "UniversalRenderPipelineAsset",
+   "name": "Steam Deck Render Pipeline Asset",
+   "err": "Expected to read 488 bytes, but only read 64 bytes"
+  },
+  {
+   "class": "UniversalRendererData",
+   "name": "Viewport Renderer",
+   "err": "Expected to read 284 bytes, but only read 52 bytes"
+  },
+  {
+   "class": "EightColorFeature",
+   "name": "EightColorFeature",
+   "err": "Expected to read 56 bytes, but only read 52 bytes"
+  },
+  {
+   "class": "ObjectOutlineRendererFeature",
+   "name": "Flat Kit Per Object Outline",
+   "err": "Expected to read 248 bytes, but only read 60 bytes"
+  }
+ ]
+}
