@@ -32,9 +32,9 @@ var light_warm: DirectionalLight3D
 var current_biome := "river"
 
 const BIOME_PALETTES := {
-	"river": {"bg": Color("#152c37"), "fog": Color("#53717a"), "fog_energy": 0.22, "ambient": Color("#9dc7d1"), "light": Color("#ffe4be")},
-	"desert": {"bg": Color("#8a6a35"), "fog": Color("#c9974e"), "fog_energy": 0.5, "ambient": Color("#e8c98a"), "light": Color("#ffd9a0")},
-	"swamp": {"bg": Color("#1c2a1d"), "fog": Color("#4f7050"), "fog_energy": 0.42, "ambient": Color("#a5c2a0"), "light": Color("#d9e8c8")},
+	"river": {"bg": Color("#152c37"), "fog": Color("#53717a"), "fog_energy": 0.22, "ambient": Color("#8399D4"), "light": Color("#FFE6C4")},
+	"desert": {"bg": Color("#8a6a35"), "fog": Color("#c9974e"), "fog_energy": 0.5, "ambient": Color("#A08CC8"), "light": Color("#ffd9a0")},
+	"swamp": {"bg": Color("#1c2a1d"), "fog": Color("#4f7050"), "fog_energy": 0.42, "ambient": Color("#7FA0B8"), "light": Color("#d9e8c8")},
 }
 
 func _ready() -> void:
@@ -50,36 +50,12 @@ func _ready() -> void:
 	add_child(effects)
 
 func _build_lighting() -> void:
-	var light := DirectionalLight3D.new()
-	light.name = "WarmWorklight"
-	light.rotation_degrees = Vector3(-55, -30, 0)
-	light.light_color = Color("#ffe4be")
-	light.light_energy = 1.45
-	light.shadow_enabled = true
-	add_child(light)
-	var fill := DirectionalLight3D.new()
-	fill.name = "CoolRimFill"
-	fill.rotation_degrees = Vector3(-35, 150, 0)
-	fill.light_color = Color("#9dc7d1")
-	fill.light_energy = 0.3
-	fill.shadow_enabled = false
-	add_child(fill)
+	var lights := RenderProfile.build_lights(self)
+	var light: DirectionalLight3D = lights[0]
 	var world := WorldEnvironment.new()
-	var environment := Environment.new()
-	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color("#152c37")
-	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	environment.ambient_light_color = Color("#9dc7d1")
-	environment.ambient_light_energy = 0.65
+	var environment := RenderProfile.build_environment(Color("#152c37"), BIOME_PALETTES["river"]["ambient"])
 	self.environment = environment
 	light_warm = light
-	# A restrained haze separates the warm worksite from the cool river without
-	# obscuring the route landmarks at the orthographic gameplay scale.
-	environment.fog_enabled = true
-	environment.fog_light_color = Color("#53717a")
-	environment.fog_light_energy = 0.22
-	environment.fog_density = 0.006
-	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	world.environment = environment
 	add_child(world)
 
@@ -88,6 +64,8 @@ func _build_camera() -> void:
 	camera.name = "WorksiteCamera"
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	camera.size = 23.0
+	camera.near = 1.0
+	camera.far = 220.0
 	# A 55-degree starting angle exposes the cab, tool head and bank shapes.
 	camera.position = Vector3(0, 25, 17)
 	camera.current = true

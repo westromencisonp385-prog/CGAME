@@ -1,17 +1,20 @@
 class_name RigStyle
 extends RefCounted
 
-## C15 3D 资产风格层：让 Weaver 资产在游戏镜头里与主视觉 / UI v2 一致。
-## 主视觉要求：哑光色块、三档明暗、一圈细墨线、无写实高光。
-## 做法（运行时，对 rig 的每个 MeshInstance3D）：
-##   1. 材质：保留 Weaver 贴图（albedo），去掉金属度/法线带来的写实高光，roughness=1，
-##      diffuse 用 TOON（三档明暗），specular 用 DISABLED；轻微提亮饱和度抵消俯视暗部。
-##   2. 描边：next_pass 挂反向外扩墨线 shader（颜色 #1B1B1D，宽度按模型尺寸自适应）。
+## C15/C25 3D 资产风格层：让 Weaver 资产在游戏镜头里与主视觉 / UI v2 一致。
+## 主视觉要求：哑光色块、硬边明暗、一圈细墨线、无写实高光；C25 加边缘光做轮廓分离。
+## 每个 MeshInstance3D 三个 pass：
+##   1. 主材质：保留 Weaver 贴图（albedo），去掉金属度/法线高光；diffuse TOON，
+##      粗糙度 0.32 → 明暗交界是一条清楚的硬边（之前 1.0 会把交界拉成大渐变，物体没体积）
+##   2. 边缘光 pass：加色叠加，按视线掠射角（fresnel）取轮廓，主光一侧更亮、朝下的面不亮；
+##      颜色按阵营：自己人暖骨白 / 敌人番茄红 / 场景冷色弱光（RenderProfile.RIM）
+##   3. 描边 pass：反向外扩墨线（颜色 #1B1B1D，宽度按模型尺寸自适应）
 
 const INK := Color("#1B1B1D")
+const TOON_ROUGHNESS := 0.32
 const OUTLINE_SHADER := """
 shader_type spatial;
-render_mode unshaded, cull_front, depth_draw_opaque;
+render_mode unshaded, cull_front, depth_draw_opaque, shadows_disabled, fog_disabled;
 uniform vec4 ink : source_color = vec4(0.106, 0.106, 0.114, 1.0);
 uniform float width = 0.018;
 void vertex() {
@@ -21,12 +24,40 @@ void fragment() {
 	ALBEDO = ink.rgb;
 }
 """
+const RIM_SHADER := """
+shader_type spatial;
+render_mode unshaded, blend_add, depth_draw_never, cull_back, shadows_disabled, fog_disabled;
+uniform vec4 rim_color : source_color = vec4(1.0, 0.9, 0.75, 1.0);
+uniform float strength = 0.8;
+uniform float power = 2.6;
+uniform float push = 0.002;
+uniform vec3 key_dir = vec3(0.3, 0.8, 0.5);
+uniform float edge0 = 0.30;
+uniform float edge1 = 0.46;
+varying vec3 n_world;
+void vertex() {
+	VERTEX += NORMAL * push;
+	n_world = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
+}
+void fragment() {
+	vec3 n = normalize(NORMAL);
+	float ndv = clamp(dot(n, VIEW), 0.0, 1.0);
+	// 俯视 45°：顶面 ndv≈0.7 不亮；侧面/轮廓 ndv 越小越亮。用硬边带（P5 式色块光，不是柔光）
+	float f = smoothstep(edge0, edge1, pow(1.0 - ndv, power * 0.4));
+	vec3 nw = normalize(n_world);
+	// 只在朝主光一侧亮 → 读起来是“逆光勾边”，同时标出光的方向
+	float lit = smoothstep(-0.1, 0.55, dot(nw, normalize(key_dir)));
+	float up = smoothstep(-0.35, 0.2, nw.y);
+	ALBEDO = rim_color.rgb * (f * strength * (0.2 + 0.8 * lit) * up);
+}
+"""
 
 static var _outline_shader: Shader
+static var _rim_shader: Shader
 static var _cache: Dictionary = {}
 
 static func _outline_material(width: float) -> ShaderMaterial:
-	var key := snappedf(width, 0.0005)
+	var key := "o%.4f" % snappedf(width, 0.0005)
 	if _cache.has(key):
 		return _cache[key]
 	if _outline_shader == null:
@@ -34,13 +65,35 @@ static func _outline_material(width: float) -> ShaderMaterial:
 		_outline_shader.code = OUTLINE_SHADER
 	var m := ShaderMaterial.new()
 	m.shader = _outline_shader
-	m.set_shader_parameter("width", key)
+	m.set_shader_parameter("width", snappedf(width, 0.0005))
 	m.set_shader_parameter("ink", INK)
 	_cache[key] = m
 	return m
 
-## 对 root 下全部网格应用风格；height = 模型高度（米，世界尺度），决定描边宽度
-static func apply(root: Node, height: float) -> int:
+## 边缘光 pass（next_pass 链到描边）
+static func _rim_material(rim_class: String, width: float) -> ShaderMaterial:
+	var key := "r%s%.4f" % [rim_class, snappedf(width, 0.0005)]
+	if _cache.has(key):
+		return _cache[key]
+	if _rim_shader == null:
+		_rim_shader = Shader.new()
+		_rim_shader.code = RIM_SHADER
+	var spec: Dictionary = RenderProfile.RIM.get(rim_class, RenderProfile.RIM["world"])
+	var m := ShaderMaterial.new()
+	m.shader = _rim_shader
+	m.set_shader_parameter("rim_color", spec["color"])
+	m.set_shader_parameter("strength", float(spec["strength"]))
+	m.set_shader_parameter("power", float(spec["power"]))
+	m.set_shader_parameter("push", snappedf(width, 0.0005) * 0.08)
+	m.set_shader_parameter("key_dir", RenderProfile.key_dir())
+	m.next_pass = _outline_material(width)
+	m.render_priority = 1
+	_cache[key] = m
+	return m
+
+## 对 root 下全部网格应用风格；height = 模型高度（米，世界尺度），决定描边宽度；
+## rim_class = hero / foe / world（见 RenderProfile.RIM）
+static func apply(root: Node, height: float, rim_class := "world") -> int:
 	var world_width := clampf(height * 0.028, 0.02, 0.09)
 	var n := 0
 	for node in root.find_children("*", "MeshInstance3D", true, false):
@@ -69,12 +122,13 @@ static func apply(root: Node, height: float) -> int:
 				mat.albedo_color = Color("#2F4B5C")
 			mat.metallic = 0.0
 			mat.metallic_texture = null
-			mat.roughness = 1.0
+			mat.roughness = TOON_ROUGHNESS
 			mat.roughness_texture = null
 			mat.normal_enabled = false
 			mat.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
 			mat.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
-			mat.next_pass = _outline_material(width)
+			mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+			mat.next_pass = _rim_material(rim_class, width)
 			mi.set_surface_override_material(s, mat)
 			n += 1
 	return n

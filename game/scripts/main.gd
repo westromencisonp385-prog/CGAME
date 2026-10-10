@@ -99,6 +99,9 @@ var vehicle_choice_ranks := [2, 4]
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# 导出版启动即最大化：4K 屏上 1280x720 小窗只占 1/9，细节全挤成一团（F11 切全屏）
+	if OS.has_feature("template") and DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 	InputSetup.configure()
 	definitions = Catalog.create_definitions()
 	world = ArenaVisual.new()
@@ -235,6 +238,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_6: _try_summon(1)
 			KEY_7: _try_summon(2)
 			KEY_G: _cycle_biome()
+			KEY_F11:
+				var full := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED if full else DisplayServer.WINDOW_MODE_FULLSCREEN)
+				get_viewport().set_input_as_handled()
 			KEY_F10:
 				feedback("3C 参数已重载" if Tuning3C.reload() else "3C 参数文件读取失败，使用默认值")
 				get_viewport().set_input_as_handled()

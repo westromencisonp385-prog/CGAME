@@ -33,4 +33,7 @@ $c23 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c23_cl
 $c24 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c24_levelup_flow.gd" 2>&1 | Out-String)
 "--- c24 level-up ---" | Out-File $log -Append -Encoding utf8
 ($c24 -split "`n" | Where-Object { $_ -match "^FAIL|C24|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
+$c25 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c25_render_capture.gd" -- tag=regression 2>&1 | Out-String)
+"--- c25 render ---" | Out-File $log -Append -Encoding utf8
+($c25 -split "`n" | Where-Object { $_ -match "^FAIL|C25|SCRIPT ERROR|SHADER ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8

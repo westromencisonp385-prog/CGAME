@@ -115,7 +115,7 @@ static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 	rig._index_parts()
 	rig.juice.height = rig._model_height
 	rig.juice.boost = clampf(1.5 / maxf(rig._model_height, 0.3), 1.0, 1.7)
-	RigStyle.apply(rig.model, rig._model_height)
+	RigStyle.apply(rig.model, rig._model_height, RenderProfile.rim_class_for(slot))
 	return rig
 
 # ---------------------------------------------------------------- 索引

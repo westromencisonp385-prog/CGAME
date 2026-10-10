@@ -14,7 +14,8 @@ const BIOME_LAYERS := {
 	"desert": ["sand", "sand", "path", "dirt"],
 	"swamp": ["mud", "mud", "grass", "riverbed"],
 }
-const BIOME_TINT := {"river": Color(1, 1, 1), "desert": Color(1.04, 0.98, 0.9), "swamp": Color(0.86, 0.95, 0.86)}
+## C25：地表比角色低一档明度（前景 / 背景分离，角色更“跳”）
+const BIOME_TINT := {"river": Color(0.86, 0.86, 0.88), "desert": Color(0.9, 0.85, 0.79), "swamp": Color(0.76, 0.83, 0.77)}
 
 static var _tex_cache: Dictionary = {}
 static var _mesh_cache: Dictionary = {}   # slot -> Array[[Mesh, Transform3D]]

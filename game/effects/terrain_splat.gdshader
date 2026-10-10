@@ -3,10 +3,10 @@ render_mode diffuse_toon, specular_disabled;
 
 // RECLAIMER 地表：四层贴图按世界坐标遮罩混合（草地 / 泥土 / 土路 / 河床）。
 // 遮罩来自关卡布局（中央工地椭圆、两块草甸、河道）+ 值噪声抖动边缘，不需要手绘 splat 图。
-uniform sampler2D tex_grass : source_color, filter_linear_mipmap, repeat_enable;
-uniform sampler2D tex_dirt : source_color, filter_linear_mipmap, repeat_enable;
-uniform sampler2D tex_path : source_color, filter_linear_mipmap, repeat_enable;
-uniform sampler2D tex_bed : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D tex_grass : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D tex_dirt : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D tex_path : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D tex_bed : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform float tile = 0.16;            // 每米多少个贴图周期
 uniform vec2 yard_center = vec2(0.0, 0.5);
 uniform vec2 yard_radius = vec2(9.5, 13.0);
@@ -33,7 +33,9 @@ vec3 sample_tex(sampler2D t, vec2 xz) {
 	mat2 r = mat2(vec2(0.8, -0.6), vec2(0.6, 0.8));
 	vec3 a = texture(t, uv).rgb;
 	vec3 b = texture(t, r * uv * 0.47 + 0.31).rgb;
-	return mix(a, b, 0.35);
+	// C25：不再两张图恒定 35% 叠加（像双重曝光，整片发糊）；按大块噪声二选一，只在交界处过渡
+	float w = smoothstep(0.38, 0.62, vnoise(xz * 0.17 + 3.1));
+	return mix(a, b, w);
 }
 
 float ellipse(vec2 p, vec2 c, vec2 r) { vec2 d = (p - c) / r; return dot(d, d); }
