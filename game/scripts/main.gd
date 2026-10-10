@@ -110,6 +110,7 @@ func _ready() -> void:
 	if OS.has_feature("template") and DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 	InputSetup.configure()
+	_prewarm_vfx.call_deferred()
 	definitions = Catalog.create_definitions()
 	world = ArenaVisual.new()
 	add_child(world)
@@ -955,6 +956,15 @@ func _clear_entities() -> void:
 	summon_cooldowns = [0.0, 0.0, 0.0]
 
 var auto_weapons: AutoWeapons
+
+## B1：开局把所有特效着色器预先编译一遍（藏在地面下），避免第一次开火 / 爆炸时卡顿
+func _prewarm_vfx() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if VfxKit.parent() != null and player != null:
+		VfxKit.prewarm(player.global_position)
 
 func reset_contract() -> void:
 	_clear_entities()

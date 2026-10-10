@@ -154,7 +154,7 @@ static func projectile(from: Vector3, to: Vector3, duration: float, on_land: Cal
 		return null
 	var node: Node3D
 	if ResourceLoader.exists(scene_path):
-		node = (load(scene_path) as PackedScene).instantiate() as Node3D
+		node = ProceduralRig.packed_for(scene_path).instantiate() as Node3D
 		node.scale = Vector3.ONE * 0.55
 	else:
 		var box := MeshInstance3D.new()

@@ -26,7 +26,7 @@ static func load_visual(scene_file: String, fallback_builder: Callable) -> Node3
 		holder.free()
 	var scene_path := "%s/%s" % [PROPS_DIR, scene_file]
 	if ResourceLoader.exists(scene_path):
-		var packed := load(scene_path) as PackedScene
+		var packed := ProceduralRig.packed_for(scene_path)
 		if packed != null:
 			var instanced := packed.instantiate() as Node3D
 			if instanced != null:

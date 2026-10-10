@@ -192,6 +192,27 @@ const PRESETS := {
 }
 
 ## 通用一次性粒子。dir 为主喷射方向（默认向上）；scale 同时放大速度和尺寸
+## B1 预热：开局时在地面下把每种粒子 / 爆炸 / 光束 / 电弧 / 枪口火各画一次，
+## 让着色器在开场演出期间编译完，避免第一次开火时卡一下（实测最长 800ms）
+static func prewarm(at: Vector3) -> void:
+	var p := Vector3(at.x, -2.5, at.z)
+	for preset in PRESETS:
+		burst(p, preset, BONE, 0.5, 0.3)
+	explosion(p, 1.0, OCHRE, true)
+	impact(p, RED, 0.5)
+	beam(p, p + Vector3(1, 0, 0), BONE, 0.1, 0.1)
+	lightning(p, p + Vector3(1, 0, 0))
+	muzzle(p, Vector3.FORWARD, OCHRE, 0.5)
+	for k in ["crack", "splat"]:
+		decal(p, 0.5, k, INK, 0.2)
+	SkillVfx.lob(p, p + Vector3(1, 0, 0), 0.2, OCHRE, 0.2)
+	SkillVfx.cone_spray(p, Vector3.FORWARD, 2.0, 25.0, "flame_cone")
+	SkillVfx.cone_spray(p, Vector3.FORWARD, 2.0, 25.0, "frost_cone")
+	SkillVfx.cone_spray(p, Vector3.FORWARD, 2.0, 25.0, "tide_wave")
+	SkillVfx.shock_wall(p, 1.0, RED, 0.2)
+	SkillVfx.pillar(p, 0.5, 1.0, OCHRE, 0.2)
+	SkillVfx.vortex(p, 1.0, BONE, 0.2)
+
 static func burst(at: Vector3, preset: String, color: Color, scale := 1.0, amount_mult := 1.0, dir := Vector3.UP, color_end := Color(0, 0, 0, 0)) -> GPUParticles3D:
 	var cfg: Array = PRESETS.get(preset, PRESETS["sparks"])
 	var p := GPUParticles3D.new()

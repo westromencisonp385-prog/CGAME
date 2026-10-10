@@ -84,6 +84,38 @@ func stop() -> void:
 	state = "idle"
 	_queue.clear()
 
+## B1 性能：模型首次加载约 0.8 秒/个。阶段开始时（换群系 + 阶段大字，本来就停一下）
+## 把本阶段会出现的敌人原型和 Boss 模型载入并常驻到下一阶段开始，战斗中第一次出现不会卡；
+## 只常驻当前阶段，避免全部模型常驻撑爆显存。
+func _retain_stage_models(s: Dictionary) -> int:
+	var slots := {}
+	_collect_slots(s, slots)
+	var boss_id := str(s.get("boss", ""))
+	if not boss_id.is_empty():
+		slots[FormalModelLibrary.boss_slot(boss_id)] = true
+	var m := ProceduralRig.load_manifest()
+	var files: Array = []
+	for slot in m:
+		# 掉落物第一次击杀就掉；玩家进化形态在升级演出中途才创建
+		if ProceduralRig._preload_rank(str(slot)) == 0:
+			slots[slot] = true
+	for slot in slots:
+		if m.has(slot):
+			files.append(str(m[slot].get("file", "")))
+	return ProceduralRig.retain_stage(files)
+
+func _collect_slots(v: Variant, out: Dictionary) -> void:
+	if v is Dictionary:
+		for k in v:
+			_collect_slots(v[k], out)
+	elif v is Array:
+		for x in v:
+			_collect_slots(x, out)
+	elif v is String:
+		var def := EnemyArchetypes.get_def(v)
+		if not def.is_empty() and def.has("slot"):
+			out[str(def.slot)] = true
+
 # ---------------------------------------------------------------- 阶段
 
 func _begin_stage(index: int) -> void:
@@ -104,6 +136,7 @@ func _begin_stage(index: int) -> void:
 	var s := stage()
 	if main.has_method("apply_stage_biome"):
 		main.apply_stage_biome(str(s.get("biome", "river")))
+	_retain_stage_models(s)
 	_spawn_nests()
 	_spawn_scrap_fields()
 	stage_started.emit(index)

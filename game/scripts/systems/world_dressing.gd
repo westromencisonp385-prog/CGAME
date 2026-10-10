@@ -203,7 +203,7 @@ static func _meshes(slot: String) -> Array:
 	var out: Array = []
 	if ProceduralRig.has_rig(slot):
 		var entry: Dictionary = ProceduralRig.load_manifest()[slot]
-		var packed := load(str(entry["file"])) as PackedScene
+		var packed := ProceduralRig.packed_for(str(entry["file"]))
 		if packed != null:
 			var model := packed.instantiate() as Node3D
 			var dims: Array = entry.get("dims", [1.0, 1.0, 1.0])

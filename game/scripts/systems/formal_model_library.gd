@@ -92,7 +92,7 @@ const SLOT_SCALES := {}
 static func attach(parent: Node3D, slot: String, model_name := "FormalModel") -> Node3D:
 	if parent == null or not has_model(slot):
 		return null
-	var packed := load(model_path(slot))
+	var packed := ProceduralRig.packed_for(model_path(slot))
 	if packed == null:
 		return null
 	var model := (packed as PackedScene).instantiate() as Node3D

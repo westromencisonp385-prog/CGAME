@@ -90,12 +90,41 @@ static func has_rig(slot: String) -> bool:
 	var m := load_manifest()
 	return m.has(slot) and ResourceLoader.exists(str(m[slot].get("file", "")))
 
+## B1 性能：每个模型文件同步加载约 0.8 秒，用完就被释放、下次又要重新读。
+## 正式关卡里，阶段开始时把本阶段会用到的模型（敌人、Boss、掉落物、玩家形态）载入并常驻到下一阶段，
+## 战斗中第一次出现不再卡；只常驻当前阶段——全部模型常驻会多占约 4GB 显存，4K 下帧率从 60 掉到 13（2026-10-11 实测）。
+## 注：试过 ResourceLoader 后台线程加载，主线程同时 load 共用子资源时会死锁（Godot 4.7），所以不用线程。
+## 当前阶段的敌人 / Boss 模型：阶段开始时整批替换（上一阶段的释放），显存占用有上限
+static var _stage_cache: Dictionary = {}
+
+static func retain_stage(files: Array) -> int:
+	var keep := {}
+	for f in files:
+		var fs := str(f)
+		if fs.is_empty() or not ResourceLoader.exists(fs):
+			continue
+		keep[fs] = _stage_cache[fs] if _stage_cache.has(fs) else load(fs)
+	_stage_cache = keep
+	return keep.size()
+
+static func packed_for(file: String) -> PackedScene:
+	if _stage_cache.has(file):
+		return _stage_cache[file]
+	return load(file) as PackedScene
+
+static func _preload_rank(slot: String) -> int:
+	# 掉落物第一次击杀就会用到；玩家进化形态在升级演出中途才加载，卡一下正好打断演出
+	for k in ["coin", "repair_kit", "scrap", "loot", "cargo", "player_stage"]:
+		if slot.contains(k):
+			return 0
+	return 2
+
 ## 创建并挂到 parent；无对应资产返回 null（宿主应回落旧视觉）
 static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 	if parent == null or not has_rig(slot):
 		return null
 	var entry: Dictionary = load_manifest()[slot]
-	var packed := load(str(entry["file"])) as PackedScene
+	var packed := packed_for(str(entry["file"]))
 	if packed == null:
 		return null
 	var rig := ProceduralRig.new()

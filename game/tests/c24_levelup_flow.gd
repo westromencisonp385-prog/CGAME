@@ -138,7 +138,10 @@ func _run() -> void:
 			break
 	check(landed_seen, "飞卡落地 → 车身 power_up（光柱 / 头顶字）")
 	await _shot("09_power_up")
-	await _real(0.6)
+	var outro_wait := 0.0
+	while main.selection_ui.outro_running() and outro_wait < 1.5:
+		await process_frame
+		outro_wait += root.get_process_delta_time()
 	check(not main.selection_ui.outro_running(), "飞卡演出结束后自动清理")
 
 	print("C24 LEVELUP %s: %d failed" % ["PASS" if failures.is_empty() else "FAIL", failures.size()])
