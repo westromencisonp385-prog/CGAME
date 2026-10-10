@@ -31,6 +31,11 @@ const EVENTS := {
 	"throw_launch": {"freq": 210.0, "dur": 0.2, "mechanical": false, "noise": 0.55, "drop": -0.7},
 	"throw_hit": {"freq": 62.0, "dur": 0.34, "mechanical": true, "noise": 0.95, "drop": 0.5},
 	"deny": {"freq": 150.0, "dur": 0.1, "mechanical": true},
+	# C24 升级：上扫（drop 为负）
+	"xp_tick": {"freq": 900.0, "dur": 0.07, "mechanical": false, "noise": 0.05, "drop": -0.6},
+	"card_pick": {"freq": 260.0, "dur": 0.22, "mechanical": false, "noise": 0.55, "drop": -0.6},
+	"power_up": {"freq": 360.0, "dur": 0.45, "mechanical": false, "noise": 0.15, "drop": -1.0},
+	"level_up": {"freq": 120.0, "dur": 0.7, "mechanical": false, "noise": 0.6, "drop": -2.5},
 }
 
 static func has_event(event_name: String) -> bool:

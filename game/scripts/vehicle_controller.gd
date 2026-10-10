@@ -113,6 +113,35 @@ func apply_evolution(rank: int) -> bool:
 		holder.queue_free()
 		return false
 	holder.position.y = -0.55
+	if DisplayServer.get_name() == "headless":
+		_finish_evolution_swap()
+		return true
+	# 演出：旧车身先被压扁蓄力（0.28s），在跳到最高点时闪白换形，新形态从小到大带过冲弹出
+	holder.scale = Vector3.ONE * 0.01
+	if body_rig != null and body_rig.juice != null:
+		body_rig.juice.snap_squash(0.5)
+		body_rig.juice.hold_sq = 0.45
+	var tw := create_tween()
+	tw.set_ignore_time_scale(true)
+	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tw.tween_interval(0.28)
+	tw.tween_callback(func():
+		_finish_evolution_swap()
+		if GameFeel.instance != null:
+			GameFeel.instance.flash(visual_root, Color.WHITE, 0.16)
+		VfxKit.burst(global_position + Vector3(0, 1.2, 0), "sparks", Color("#EFE3C8"), 1.6, 2.0))
+	tw.tween_property(holder, "scale", Vector3.ONE * 1.18, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(holder, "scale", Vector3.ONE, 0.22).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	return true
+
+func _finish_evolution_swap() -> void:
+	var holder: Node3D = evolved_rig.get_parent() as Node3D if evolved_rig != null else null
+	if holder == null:
+		return
+	if DisplayServer.get_name() == "headless":
+		holder.scale = Vector3.ONE
+	if body_rig != null and body_rig.juice != null:
+		body_rig.juice.hold_sq = 0.0
 	for child in visual_root.get_children():
 		if child != holder and child is MeshInstance3D:
 			(child as MeshInstance3D).visible = false
@@ -120,11 +149,6 @@ func apply_evolution(rank: int) -> bool:
 		chassis_visual.visible = false
 	if boom_visual != null:
 		boom_visual.visible = false
-	evolved_rig.play_attack(0.6, true, 0.4, 1.4)
-	if evolved_rig.juice != null:
-		evolved_rig.juice.snap_squash(0.45)
-		evolved_rig.juice.after(0.22, func(): evolved_rig.juice.kick_lift(3.0))
-	return true
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and (event as InputEventMouseMotion).relative.length() > 2.0:

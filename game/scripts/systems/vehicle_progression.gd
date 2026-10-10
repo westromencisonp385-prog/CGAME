@@ -60,7 +60,14 @@ func _init(initial_stats: VehicleStats = null) -> void:
 func absorb(target_size_rank: int) -> Dictionary:
 	if target_size_rank > stats.can_absorb_vehicles_of_size_rank:
 		return {"absorbed": false, "reason": "target_too_large"}
-	growth_points += 1.0 + float(target_size_rank)
+	var r := gain_growth(1.0 + float(target_size_rank))
+	r["absorbed"] = true
+	return r
+
+## 进化能量（击杀 / 回收）。满了升 rank
+signal growth_changed(points: float, needed: float)
+func gain_growth(points: float) -> Dictionary:
+	growth_points += points
 	var advanced := false
 	while growth_points >= growth_needed() and stats.vehicle_size_rank < MAX_RANK:
 		growth_points -= growth_needed()
@@ -69,7 +76,13 @@ func absorb(target_size_rank: int) -> Dictionary:
 		stats.max_hp += 25.0
 		advanced = true
 		size_rank_advanced.emit(stats.vehicle_size_rank)
-	return {"absorbed": true, "rank": stats.vehicle_size_rank, "advanced": advanced, "points": growth_points}
+	growth_changed.emit(growth_points, growth_needed())
+	return {"rank": stats.vehicle_size_rank, "advanced": advanced, "points": growth_points}
+
+func growth_ratio() -> float:
+	if stats.vehicle_size_rank >= MAX_RANK:
+		return 1.0
+	return clampf(growth_points / maxf(growth_needed(), 0.01), 0.0, 1.0)
 
 func growth_needed() -> float:
 	return 3.0 + float(stats.vehicle_size_rank) * 2.0

@@ -9,6 +9,11 @@ extends CanvasLayer
 
 signal option_chosen(kind: String, index: int)
 signal reroll_requested(kind: String)
+## 选中卡飞到目标后发出（headless 下立即发出）
+signal pick_landed(kind: String)
+## 返回飞卡目标屏幕坐标：func(kind: String) -> Vector2
+var target_provider: Callable
+var _outro_layer: CanvasLayer
 
 const RARITY_NAMES: Array[String] = ["普通", "罕见", "稀有", "史诗"]
 const KIND_TITLES := {
@@ -276,10 +281,141 @@ func _icon_of(option: Variant) -> String:
 
 func _choose(index: int) -> void:
 	var kind := current_kind
+	var headless := DisplayServer.get_name() == "headless"
+	if not headless and index >= 0 and index < _cards.size() and is_inside_tree():
+		_play_pick_outro(kind, index)
 	visible = false
 	current_options = []
 	current_kind = ""
 	option_chosen.emit(kind, index)
+	if headless or _outro_layer == null:
+		pick_landed.emit(kind)
+
+func outro_running() -> bool:
+	return _outro_layer != null and is_instance_valid(_outro_layer)
+
+## P5S 式“选定”：选中卡放大 + 闪白 + 盖章；其余卡往下掉并淡出；背景退场；
+## 选中卡停 0.2s 后缩小旋转着飞进目标（技能槽 / 车身），落地那一刻 pick_landed
+func _play_pick_outro(kind: String, index: int) -> void:
+	if outro_running():
+		_outro_layer.queue_free()
+	_outro_layer = CanvasLayer.new()
+	_outro_layer.name = "PickOutro"
+	_outro_layer.layer = 21
+	_outro_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	get_parent().add_child(_outro_layer)
+	var layer := _outro_layer
+	var o_root := Control.new()
+	o_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	o_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	o_root.theme = root.theme
+	layer.add_child(o_root)
+	var ghost_dim := ColorRect.new()
+	ghost_dim.color = dim.color
+	ghost_dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	ghost_dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	o_root.add_child(ghost_dim)
+	var cards := _cards.duplicate()
+	_cards.clear()
+	var chosen: Button = null
+	for i in cards.size():
+		var c: Button = cards[i]
+		c.pivot_offset = CARD_SIZE * 0.5
+		var xf := c.get_global_transform_with_canvas()
+		var piv := c.pivot_offset
+		var gp := xf.origin - piv + xf.basis_xform(piv)
+		var sc := c.scale
+		var rot := c.rotation
+		c.get_parent().remove_child(c)
+		o_root.add_child(c)
+		c.position = gp
+		c.scale = sc
+		c.rotation = rot
+		c.disabled = true
+		c.focus_mode = Control.FOCUS_NONE
+		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if i == index:
+			chosen = c
+		else:
+			var tw := c.create_tween().set_parallel(true)
+			tw.set_ignore_time_scale(true)
+			tw.tween_property(c, "position:y", c.position.y + 420.0, 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+			tw.tween_property(c, "rotation", c.rotation + deg_to_rad(-14.0 if i < index else 14.0), 0.32)
+			tw.tween_property(c, "modulate:a", 0.0, 0.3)
+	o_root.move_child(chosen, -1)
+	WanderburgAudio.hit("card_pick", -8.0, 0.0)
+	var flash := ColorRect.new()
+	flash.color = Color(1, 1, 1, 0.0)
+	flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	o_root.add_child(flash)
+	var stamp := P5Theme.ransom_label("GET!", 40, 0, P5Theme.RED)
+	stamp.position = chosen.position + Vector2(CARD_SIZE.x * 0.5 - 50, -36)
+	stamp.pivot_offset = Vector2(50, 24)
+	stamp.scale = Vector2.ONE * 2.2
+	stamp.modulate.a = 0.0
+	stamp.rotation = deg_to_rad(-10)
+	o_root.add_child(stamp)
+	chosen.pivot_offset = CARD_SIZE * 0.5
+	var body := chosen.get_node_or_null("Body") as P5Plate
+	var t := chosen.create_tween()
+	t.set_ignore_time_scale(true)
+	# 1) 选定：砸大 + 闪白 + 盖章
+	t.tween_property(chosen, "scale", Vector2.ONE * 1.22, 0.09).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.parallel().tween_property(chosen, "rotation", deg_to_rad(3.0), 0.09)
+	t.parallel().tween_property(flash, "color:a", 0.45, 0.05)
+	t.parallel().tween_property(stamp, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.parallel().tween_property(stamp, "modulate:a", 1.0, 0.06)
+	if body != null:
+		body.set_hover(true)
+	t.tween_property(flash, "color:a", 0.0, 0.16)
+	t.parallel().tween_property(chosen, "scale", Vector2.ONE * 1.12, 0.16)
+	t.parallel().tween_property(ghost_dim, "color:a", 0.0, 0.35)
+	# 2) 停顿（让玩家看清选了什么）
+	t.tween_interval(0.12)
+	# 3) 预备：往反方向一缩 → 飞向目标
+	t.tween_property(chosen, "scale", Vector2.ONE * 1.2, 0.07)
+	t.parallel().tween_property(stamp, "modulate:a", 0.0, 0.1)
+	t.tween_callback(func():
+		var target := Vector2(640, 420)
+		if target_provider.is_valid():
+			target = target_provider.call(kind)
+		var start := chosen.position + CARD_SIZE * 0.5
+		var fly := chosen.create_tween().set_parallel(true)
+		fly.set_ignore_time_scale(true)
+		fly.tween_method(func(u: float):
+			var k := u * u
+			var mid := start.lerp(target, 0.5) + Vector2(0, -160)
+			var p := start.lerp(mid, u).lerp(mid.lerp(target, u), u)
+			chosen.position = p - CARD_SIZE * 0.5
+			chosen.scale = Vector2.ONE * lerpf(1.2, 0.12, k)
+			chosen.rotation = lerpf(deg_to_rad(3.0), deg_to_rad(-200.0), k), 0.0, 1.0, 0.34)
+		fly.chain().tween_callback(func():
+			pick_landed.emit(kind)
+			_landing_burst(o_root, target)
+			var end := layer.create_tween()
+			end.set_ignore_time_scale(true)
+			end.tween_interval(0.35)
+			end.tween_callback(layer.queue_free)
+			chosen.visible = false))
+
+## 落点：一圈骨白斜线火花（2D）
+func _landing_burst(parent: Control, at: Vector2) -> void:
+	for i in 10:
+		var r := ColorRect.new()
+		r.color = P5Theme.BONE if i % 2 == 0 else P5Theme.OCHRE
+		r.size = Vector2(22, 5)
+		r.pivot_offset = Vector2(0, 2.5)
+		r.position = at
+		var a := TAU * float(i) / 10.0
+		r.rotation = a
+		r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		parent.add_child(r)
+		var tw := r.create_tween().set_parallel(true)
+		tw.set_ignore_time_scale(true)
+		tw.tween_property(r, "position", at + Vector2(cos(a), sin(a)) * 64.0, 0.26).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		tw.tween_property(r, "scale:x", 0.1, 0.26)
+		tw.tween_property(r, "modulate:a", 0.0, 0.26)
 
 func _rarity_of(option: Variant) -> int:
 	if option is ModuleDefinitionV2:

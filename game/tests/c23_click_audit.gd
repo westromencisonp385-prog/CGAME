@@ -68,6 +68,8 @@ func _click(at: Vector2) -> void:
 
 ## 进入某个界面状态
 func _enter(state: String) -> void:
+	main.pending_selections.clear()
+	main._deferred_selections.clear()
 	# 先回到干净战场
 	if main.selection_ui != null and main.selection_ui.visible:
 		main.selection_ui.visible = false

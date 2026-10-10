@@ -42,6 +42,7 @@ const NUMBER_COLORS := {
 }
 
 func setup(cam: Camera3D, parent3d: Node3D) -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	instance = self
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	camera = cam
@@ -139,6 +140,13 @@ func _view_scale() -> float:
 func _process(delta: float) -> void:
 	var real_dt := delta / maxf(Engine.time_scale, 0.001)
 	var now := Time.get_ticks_msec()
+	# 菜单 / 选卡 / GM 打开 = 暂停：立刻取消顿帧和慢动作，否则 UI 动效会被拖慢 5-25 倍
+	if get_tree().paused:
+		if _stop_until > 0 or _slow_until > 0:
+			_stop_until = 0
+			_slow_until = 0
+			Engine.time_scale = _base_time_scale
+		return
 	if _stop_until > 0 and now >= _stop_until:
 		_stop_until = 0
 		Engine.time_scale = _slow_scale if _slow_until > now else _base_time_scale

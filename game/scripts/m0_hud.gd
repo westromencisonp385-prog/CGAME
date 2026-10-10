@@ -44,6 +44,12 @@ var hp_fill: P5Plate
 var heat_root: Control
 var heat_fill: P5Plate
 var cargo_pips: Array[ColorRect] = []
+var lv_label: Label
+var growth_root: Control
+var growth_fill: P5Plate
+var _growth_shown := 0.0
+var _lv_hold := 0.0
+var _shown_rank := 1
 var result_stamp: P5Title
 var banner: P5Title
 var combat_hud: CombatHUD
@@ -89,6 +95,7 @@ func refresh(delta: float) -> void:
 		P5Theme.set_bar(heat_fill, float(p.heat) / 100.0)
 		heat_root.modulate.a = 1.0 if float(p.heat) < 75.0 else 0.55 + 0.45 * absf(sin(Time.get_ticks_msec() * 0.012))
 	mission_label.text = _objective()
+	_refresh_growth(delta)
 	# 操作提示：开局显示一段时间后淡出；暂停菜单里可随时再看
 	if main.outcome == "active" and not get_tree().paused:
 		hint_time = maxf(0.0, hint_time - delta)
@@ -146,6 +153,60 @@ func _refresh_skills() -> void:
 		if ready and not _last_ready[i] and DisplayServer.get_name() != "headless":
 			P5Motion.ready_pop(s)
 		_last_ready[i] = ready
+
+func _refresh_growth(delta: float) -> void:
+	var vp = main.vehicle_progression
+	if vp == null or growth_fill == null:
+		return
+	var rank: int = int(vp.stats.vehicle_size_rank)
+	if _lv_hold > 0.0:
+		# 升级瞬间：满格 + 闪烁，停一下再清零
+		_lv_hold -= delta
+		P5Theme.set_bar(growth_fill, 1.0)
+		growth_root.modulate = Color(1.6, 1.5, 1.2) if int(Time.get_ticks_msec() / 70) % 2 == 0 else Color.WHITE
+		if _lv_hold <= 0.0:
+			_growth_shown = 0.0
+			growth_root.modulate = Color.WHITE
+		return
+	var target: float = vp.growth_ratio()
+	_growth_shown = move_toward(_growth_shown, target, delta * 2.5) if target >= _growth_shown else target
+	P5Theme.set_bar(growth_fill, _growth_shown)
+	lv_label.text = "Lv.%d" % (rank + 1) if rank < VehicleProgression.MAX_RANK else "MAX"
+	_shown_rank = rank
+
+## 能量球入账：条闪一下
+func on_growth_changed() -> void:
+	if growth_root == null or DisplayServer.get_name() == "headless":
+		return
+	growth_root.modulate = Color(1.5, 1.4, 1.1)
+	var tw := growth_root.create_tween()
+	tw.set_ignore_time_scale(true)
+	tw.tween_property(growth_root, "modulate", Color.WHITE, 0.18)
+
+## 升级：条满格闪烁 0.55s，Lv 标签放大弹出并换数字
+func on_level_up(rank: int) -> void:
+	_lv_hold = 0.55
+	if lv_label == null:
+		return
+	lv_label.text = "Lv.%d" % (rank + 1)
+	if DisplayServer.get_name() == "headless":
+		return
+	P5Motion.punch(lv_label, 0.6)
+	P5Motion.shake(status_panel, 6.0, 0.2)
+
+## 选卡落地：对应技能槽弹出 + 闪光；否则状态牌弹一下
+func on_pick_applied(_kind: String, slot: int) -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	if slot >= 0 and slot < skill_slots.size() and skill_slots[slot].visible:
+		var s: SkillSlotButton = skill_slots[slot]
+		P5Motion.punch(s, 0.55)
+		s.modulate = Color(1.8, 1.7, 1.3)
+		var tw := s.create_tween()
+		tw.set_ignore_time_scale(true)
+		tw.tween_property(s, "modulate", Color.WHITE, 0.35)
+	elif status_panel != null:
+		P5Motion.punch(status_panel, 0.25)
 
 func pulse_skill(slot: int) -> void:
 	if slot >= 0 and slot < skill_slots.size() and DisplayServer.get_name() != "headless":
@@ -247,12 +308,23 @@ func _build_status(ui: Control) -> void:
 	ui.add_child(holder)
 	status_panel = holder
 	var plate := P5Plate.new()
-	plate.size = Vector2(290, 60)
+	plate.size = Vector2(290, 82)
 	plate.face_color = P5Theme.BLUE
 	plate.accent_color = P5Theme.RED
 	plate.skew = 0.10
 	plate.cut = 14.0
 	holder.add_child(plate)
+	# C24 进化能量：Lv 标签 + 赭黄条（击杀 / 回收的能量球飞进来时填充）
+	lv_label = _text(holder, "Lv.1", 18, P5Theme.OCHRE)
+	lv_label.add_theme_font_override("font", P5Theme.title_font())
+	lv_label.position = Vector2(18, 52)
+	lv_label.pivot_offset = Vector2(20, 12)
+	var gb: Array = P5Theme.bar(170.0, 9.0, P5Theme.OCHRE)
+	growth_root = gb[0]
+	growth_root.position = Vector2(108, 60)
+	holder.add_child(growth_root)
+	growth_fill = gb[1]
+	P5Theme.set_bar(growth_fill, 0.0)
 	var hp_ic := P5Theme.icon_rect("icon_health", 30)
 	hp_ic.position = Vector2(16, 14)
 	holder.add_child(hp_ic)
@@ -266,13 +338,13 @@ func _build_status(ui: Control) -> void:
 	for i in 8:
 		var pip := ColorRect.new()
 		pip.size = Vector2(16, 8)
-		pip.position = Vector2(110 + i * 20, 38)
+		pip.position = Vector2(110 + i * 20, 36)
 		pip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		holder.add_child(pip)
 		cargo_pips.append(pip)
 	heat_root = Control.new()
 	heat_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	heat_root.position = Vector2(108, 64)
+	heat_root.position = Vector2(108, 88)
 	holder.add_child(heat_root)
 	var hb: Array = P5Theme.bar(150.0, 10.0, P5Theme.VIOLET)
 	heat_root.add_child(hb[0])

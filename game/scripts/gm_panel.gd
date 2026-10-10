@@ -53,8 +53,11 @@ func _build() -> void:
 	title.add_theme_color_override("font_color", P5Theme.OCHRE)
 	box.add_child(title)
 	status_label = Label.new()
-	status_label.custom_minimum_size = Vector2(315, 80)
-	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status_label.custom_minimum_size = Vector2(330, 108)
+	status_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	status_label.clip_text = true
+	status_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	status_label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	status_label.add_theme_font_size_override("font_size", 13)
 	status_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(status_label)
@@ -184,6 +187,9 @@ func _add_button(parent: Control, title: String, callback: Callable) -> Button:
 	button.pressed.connect(callback)
 	button.custom_minimum_size = Vector2(0, 28)
 	button.add_theme_font_size_override("font_size", 13)
+	if parent is HBoxContainer:
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.clip_text = true
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	button.focus_entered.connect(func():
 		if scroll != null:

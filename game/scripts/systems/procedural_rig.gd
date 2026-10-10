@@ -311,7 +311,7 @@ func _process(delta: float) -> void:
 func _drive_juice(delta: float, dyaw: float, teleported: bool) -> void:
 	if juice == null:
 		return
-	var inv := global_basis.orthonormalized().inverse()
+	var inv := AnimJuice.yaw_inverse(global_basis)
 	var a_l := inv * _acc_w
 	a_l.y = 0.0
 	var v_l := inv * _vel_w

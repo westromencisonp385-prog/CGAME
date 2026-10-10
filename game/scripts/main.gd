@@ -85,6 +85,11 @@ var profile := ProfileStore.new()
 var profile_enabled := false
 var module_levels: Dictionary = {}       # module_id -> {damage, cooldown, range, crit, echo, level}
 var pending_selections: Array = []
+## 延时弹出的选择：[到期毫秒, kind]（让升级 / 击杀演出先播完）
+var _deferred_selections: Array = []
+
+func queue_selection(kind: String, delay_sec: float) -> void:
+	_deferred_selections.append([Time.get_ticks_msec() + int(delay_sec * 1000.0), kind])
 var overclock_time := 0.0
 var run_stats: Dictionary = {"kills": 0, "elites": 0, "bosses": 0, "casts": 0, "dodges": 0, "loot": 0, "silver_at_start": 0}
 var _kill_times: Array = []
@@ -143,6 +148,13 @@ func _ready() -> void:
 	ui.refresh_gm_panel()
 
 func _process(delta: float) -> void:
+	if not _deferred_selections.is_empty():
+		var now := Time.get_ticks_msec()
+		var due: Array = _deferred_selections.filter(func(d): return int(d[0]) <= now)
+		if not due.is_empty():
+			_deferred_selections = _deferred_selections.filter(func(d): return int(d[0]) > now)
+			for d in due:
+				open_selection_flow(str(d[1]))
 	if outcome == "active" and not get_tree().paused and simulation_enabled:
 		elapsed += delta
 	if outcome == "active" and not campaign_reward_pending.is_empty():
@@ -237,6 +249,11 @@ func _init_wanderburg_systems() -> void:
 	selection_ui = SelectionUI.new()
 	add_child(selection_ui)
 	selection_ui.option_chosen.connect(_on_selection_chosen)
+	selection_ui.target_provider = _pick_target
+	selection_ui.pick_landed.connect(_play_pick_fx)
+	selection_ui.visibility_changed.connect(func():
+		if player != null:
+			_sync_pause())
 	selection_ui.reroll_requested.connect(func(_kind: String):
 		selection_engine.reroll_count += 1
 		open_selection_flow(last_selection_kind(), true))
@@ -258,19 +275,22 @@ func _init_wanderburg_systems() -> void:
 	# C3 载具成长
 	vehicle_progression = VehicleProgression.new()
 	vehicle_progression.size_rank_advanced.connect(func(rank: int):
-		feedback("吞噬进化 · 底盘规模 rank %d" % rank)
 		run_systems.report("absorbs", 1)
 		if cam_rig != null:
 			cam_rig.set_tier(rank)
-		if player != null and player.apply_evolution(rank):
-			feedback("进化完成 · 叠河鲸形态")
-		if feel != null:
-			feel.slowmo(0.4, 0.4)
-			feel.screen_flash(Color("#E3A52B"), 0.4, 0.3)
+		var form_change: bool = player != null and player.evolved_rig == null and player.apply_evolution(rank)
+		feedback("进化完成 · 叠河鲸形态 · Lv.%d" % (rank + 1) if form_change else "升级 · 底盘 Lv.%d · 耐久与吸取范围提升" % (rank + 1))
+		LevelUpFx.level_up(player, rank, form_change)
 		if ui != null:
-			ui.stamp_banner("title_levelup")
+			ui.on_level_up(rank)
+			if form_change:
+				ui.stamp_banner("title_levelup")
 		if vehicle_choice_ranks.has(rank):
-			open_selection_flow("vehicle"))
+			# 等落地冲击演完再弹 2 选 1
+			queue_selection("vehicle", 0.75))
+	vehicle_progression.growth_changed.connect(func(_p: float, _n: float):
+		if ui != null:
+			ui.on_growth_changed())
 	# C7 群系系统初始化：纯逻辑层 + 天气粒子层
 	biome_system = BiomeSys.new()
 	biome_system.biome_changed.connect(_on_biome_changed)
@@ -304,6 +324,10 @@ func open_selection_flow(kind: String, is_reroll: bool = false) -> void:
 	if selection_ui.visible and not is_reroll:
 		pending_selections.append(kind)
 		return
+	# 菜单 / 改装台 / GM 打开时不盖上去：排队，关掉后再弹
+	if not is_reroll and (garage_open or manual_pause or (gm != null and gm.visible)):
+		pending_selections.append(kind)
+		return
 	_current_selection_kind = kind
 	var subtitle := ""
 	match kind:
@@ -333,6 +357,7 @@ func open_selection_flow(kind: String, is_reroll: bool = false) -> void:
 	if feel != null:
 		feel.slowmo(0.2, 0.25)
 	selection_ui.open_selection(kind, last_selection_options, subtitle)
+	_sync_pause()
 
 var _current_selection_kind := "new_module"
 
@@ -400,6 +425,7 @@ func _generate_captain_options() -> Array:
 func _on_selection_chosen(kind: String, index: int) -> void:
 	if index < 0 or index >= last_selection_options.size():
 		return
+	_sync_pause()
 	match kind:
 		"new_module":
 			var module: ModuleDefinitionV2 = last_selection_options[index]
@@ -426,6 +452,7 @@ func _on_selection_chosen(kind: String, index: int) -> void:
 			for k in up.stat_gains:
 				lv[k] = float(lv.get(k, 0.0)) + float(up.stat_gains[k])
 			module_levels[mod.module_id] = lv
+			_last_upgrade_id = mod.module_id
 			feedback("技能升级 · %s Lv.%d · %s" % [mod.module_name, int(lv["level"]), up.description])
 		"vehicle":
 			var opt: Dictionary = last_selection_options[index]
@@ -436,10 +463,69 @@ func _on_selection_chosen(kind: String, index: int) -> void:
 			run_systems.report("module_taken", 1)
 		"artifact", "artifact_rare":
 			run_systems.report("artifact_taken", 1)
-	if feel != null:
-		feel.shake(0.15)
+	_pending_pick_fx = [kind, _pick_callout(kind, index), _pick_slot(kind)]
+	if not selection_ui.outro_running():
+		_play_pick_fx(kind)
 	last_selection_options = []
 	_open_next_pending()
+
+## 选卡演出：飞卡落到目标（技能槽 / 车身）的那一刻，车身 power_up + 槽位弹一下
+var _pending_pick_fx: Array = []
+func _play_pick_fx(_kind: String) -> void:
+	if _pending_pick_fx.is_empty():
+		return
+	var fx := _pending_pick_fx
+	_pending_pick_fx = []
+	LevelUpFx.power_up(player, str(fx[1]), str(fx[0]))
+	if ui != null:
+		ui.on_pick_applied(str(fx[0]), int(fx[2]))
+
+## 飞卡目标（屏幕坐标）：新模块 / 技能升级 → 对应技能槽；其余 → 车身
+func _pick_target(kind: String) -> Vector2:
+	var slot := _pick_slot(kind)
+	if slot >= 0 and ui != null and slot < ui.skill_slots.size() and ui.skill_slots[slot].is_visible_in_tree():
+		var s: Control = ui.skill_slots[slot]
+		return s.get_global_transform_with_canvas() * (s.size * 0.5)
+	var cam := get_viewport().get_camera_3d()
+	if cam != null and player != null:
+		return cam.unproject_position(player.global_position + Vector3(0, 1.0, 0))
+	return Vector2(640, 400)
+
+## 头顶字：选了什么
+func _pick_callout(kind: String, index: int) -> String:
+	if index < 0 or index >= last_selection_options.size():
+		return ""
+	var o: Variant = last_selection_options[index]
+	match kind:
+		"new_module":
+			return "NEW! " + (o as ModuleDefinitionV2).module_name
+		"upgrade":
+			var m: ModuleDefinitionV2 = o["module"]
+			return "%s Lv.%d" % [m.module_name, int((module_levels.get(m.module_id, {}) as Dictionary).get("level", 1))]
+		"artifact", "artifact_rare":
+			return (o as ArtifactDefinition).display_name
+		"captain":
+			return "船长 " + (o as CaptainDefinition).display_name
+		"vehicle":
+			return (o["stats"] as VehicleStats).stats_name
+	return ""
+
+## 选的东西落在哪个技能槽（-1 = 不对应技能槽）
+func _pick_slot(kind: String) -> int:
+	if vehicle_progression == null or (kind != "new_module" and kind != "upgrade"):
+		return -1
+	var target_id := ""
+	if kind == "new_module" and not selection_engine.installed_modules.is_empty():
+		target_id = selection_engine.installed_modules[selection_engine.installed_modules.size() - 1].module_id
+	elif kind == "upgrade" and not _last_upgrade_id.is_empty():
+		target_id = _last_upgrade_id
+	for i in vehicle_progression.active_slots.size():
+		var e: Variant = vehicle_progression.active_slots[i]
+		if e is Dictionary and not (e as Dictionary).is_empty() and e["def"].module_id == target_id:
+			return i
+	return -1
+
+var _last_upgrade_id := ""
 
 ## 1-4 施放：找到第一个已安装的 v2 模块（按装配器实际安装状态），走成长系统冷却闸门
 func _try_cast(slot: int) -> void:
@@ -745,6 +831,8 @@ func reset_contract() -> void:
 	outcome = "active"
 	manual_pause = false
 	garage_open = false
+	pending_selections.clear()
+	_deferred_selections.clear()
 	elapsed = 0.0
 	collected = 0
 	defeated = 0
@@ -835,7 +923,7 @@ func spawn_archetype(archetype: String, at: Vector3, id := "") -> EnemyDummy:
 		if enemy.tier == "elite":
 			feedback("精英「%s」已败 · 银币 +%d · 升级选择就绪" % [def.get("name", archetype), int(5.0 * scale)])
 			audio.play_event("boss_phase")
-			open_selection_flow("upgrade")
+			queue_selection("upgrade", 0.6)
 		else:
 			feedback("%s 已解除" % def.get("name", archetype)))
 	if enemy.tier == "elite":
@@ -856,9 +944,23 @@ func _on_elite_ability(enemy: EnemyDummy, center: Vector3, radius: float, damage
 			player.status.apply("stun", 0.4)
 
 ## 击杀登记：任务、连杀（2.5 秒内 5 杀 = 1 次「一网打尽」）、掉落
+## C24 击杀给进化能量（对齐原作“吞噬成长”）：小怪 0.5、精英 2、Boss 4；能量球飞到车身才入账
+const GROWTH_PER_KILL := {"minion": 0.5, "light": 0.5, "heavy": 0.8, "ranged": 0.6, "elite": 2.0, "boss": 4.0}
+
+func _grant_growth_from(at: Vector3, points: float) -> void:
+	if vehicle_progression == null or points <= 0.0 or player == null:
+		return
+	var orbs := clampi(int(ceil(points * 2.0)), 1, 8)
+	var each := points / float(orbs)
+	for i in orbs:
+		LevelUpFx.growth_orb(at, player, func():
+			if vehicle_progression != null and outcome == "active":
+				vehicle_progression.gain_growth(each))
+
 func _register_kill(e: EnemyDummy) -> void:
 	run_systems.report("enemy_defeated", 1)
 	run_stats["kills"] = int(run_stats["kills"]) + 1
+	_grant_growth_from(e.global_position, GROWTH_PER_KILL.get(e.tier, 0.5))
 	if e.tier == "elite":
 		run_systems.report("elite_defeated", 1)
 		run_stats["elites"] = int(run_stats["elites"]) + 1
@@ -943,6 +1045,8 @@ func _harvested(amount: int) -> void:
 		run_systems.report("harvested", amount)
 	if vehicle_progression != null and amount > 0:
 		vehicle_progression.absorb(0)
+		if player != null:
+			LevelUpFx.growth_orb(player.global_position + player.aim_direction * 2.5, player)
 	if collected >= 4 and assembler.stage == 1:
 		assembler.set_stage(2)
 		feedback("结构进化 · 作业范围提升，重量降低移动速度")
@@ -1040,8 +1144,12 @@ func toggle_pause() -> void:
 	_sync_pause()
 
 func _sync_pause() -> void:
-	get_tree().paused = garage_open or manual_pause or outcome != "active" or (gm != null and gm.visible)
+	var picking: bool = selection_ui != null and selection_ui.visible
+	var modal: bool = garage_open or manual_pause or (gm != null and gm.visible)
+	get_tree().paused = modal or picking or outcome != "active"
 	player.gameplay_enabled = not get_tree().paused and simulation_enabled
+	if not modal and not picking and not pending_selections.is_empty():
+		_open_next_pending()
 
 func _on_gm_state_changed(_state: Dictionary) -> void:
 	if gm.visible and garage_open:

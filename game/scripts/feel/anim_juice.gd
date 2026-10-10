@@ -106,10 +106,20 @@ static func _lean_vec(top_dir: Vector3, angle: float) -> Vector3:
 	# 绕 a 旋转时顶部倒向 a×up；要倒向 d，取 a = up×d
 	return Vector3.UP.cross(d.normalized()) * angle
 
+## 只取朝向（绕 Y）的逆矩阵：父节点缩放为 0（出生 / 换形动画）时也不会奇异
+static func yaw_inverse(b: Basis) -> Basis:
+	var z := Vector3(b.z.x, 0.0, b.z.z)
+	if z.length() < 1e-5:
+		var x := Vector3(b.x.x, 0.0, b.x.z)
+		if x.length() < 1e-5:
+			return Basis.IDENTITY
+		return Basis(Vector3.UP, atan2(x.x, x.z) - PI * 0.5).inverse()
+	return Basis(Vector3.UP, atan2(z.x, z.z)).inverse()
+
 func world_to_local_dir(w: Vector3) -> Vector3:
 	if not is_inside_tree():
 		return w
-	var l := global_basis.orthonormalized().inverse() * Vector3(w.x, 0, w.z)
+	var l := yaw_inverse(global_basis) * Vector3(w.x, 0, w.z)
 	return Vector3(l.x, 0, l.z)
 
 # ------------------------------------------------------------ 组合动作（12 法则）
