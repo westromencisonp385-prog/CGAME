@@ -74,6 +74,32 @@ func apply_knock(v: Vector3) -> void:
 	if status.has("nitro") or status.has("invincible"):
 		return
 	knock_velocity += Vector3(v.x, 0, v.z)
+	var j := _juice()
+	if j != null and v.length() > 1.0:
+		var l := j.world_to_local_dir(v)
+		j.snap_lean(l, clampf(v.length() * 0.025, 0.08, 0.32))
+		j.snap_stretch(l, clampf(v.length() * 0.02, 0.05, 0.25))
+
+func _rig() -> ProceduralRig:
+	return evolved_rig if evolved_rig != null else body_rig
+
+func _juice() -> AnimJuice:
+	var r := _rig()
+	return r.juice if r != null else null
+
+## 按了但做不了（冷却 / 无货 / 过热 / 空槽）：摇头 + 拒绝音，0.35s 限频 —— 永远不让按键“没反应”
+var _deny_anim_until := 0
+func deny_feedback(text := "") -> void:
+	var now := Time.get_ticks_msec()
+	if now < _deny_anim_until:
+		return
+	_deny_anim_until = now + 350
+	var j := _juice()
+	if j != null:
+		j.deny()
+	WanderburgAudio.hit("deny", -14.0, 0.05)
+	if not text.is_empty():
+		feedback.emit(text)
 
 func apply_evolution(rank: int) -> bool:
 	evolution_rank = rank
@@ -94,7 +120,10 @@ func apply_evolution(rank: int) -> bool:
 		chassis_visual.visible = false
 	if boom_visual != null:
 		boom_visual.visible = false
-	evolved_rig.play_attack(0.6)
+	evolved_rig.play_attack(0.6, true, 0.4, 1.4)
+	if evolved_rig.juice != null:
+		evolved_rig.juice.snap_squash(0.45)
+		evolved_rig.juice.after(0.22, func(): evolved_rig.juice.kick_lift(3.0))
 	return true
 
 func _input(event: InputEvent) -> void:
@@ -161,6 +190,7 @@ func _physics_process(delta: float) -> void:
 	if not status.can_move():
 		move_dir = Vector3.ZERO
 	_last_move_dir = move_dir
+	_input_pose(move_dir)
 	var stats := _stats()
 	max_speed = float(stats.get("speed", base_speed)) * status.speed_multiplier()
 	_drive(delta, move_dir)
@@ -187,12 +217,8 @@ func _physics_process(delta: float) -> void:
 	_emit_drive_dust(delta)
 	if body_rig != null and evolved_rig == null:
 		body_rig.set_speed(absf(_fwd_speed))
-		if tool_anim_time > 0.0 and body_rig._tool_t < 0.0:
-			body_rig.play_attack(0.35)
 	if evolved_rig != null:
 		evolved_rig.set_speed(absf(_fwd_speed))
-		if tool_anim_time > 0.0 and evolved_rig._tool_t < 0.0:
-			evolved_rig.play_attack(0.4)
 	if boom_visual != null:
 		boom_visual.rotation.y = atan2(-aim_direction.x, -aim_direction.z)
 	if assembler != null and assembler.visual_root != null:
@@ -202,6 +228,12 @@ func _physics_process(delta: float) -> void:
 		_resolve_dash_contacts(before, global_position)
 		if dash_remaining <= 0.0:
 			dash_pending = false
+			var jd := _juice()
+			if jd != null:
+				var fd := jd.world_to_local_dir(heading)
+				jd.land(0.7)
+				jd.snap_lean(-fd, 0.16)
+				jd.snap_stretch(fd, -0.14)
 	if Input.is_action_pressed("primary"):
 		perform_primary()
 	if Input.is_action_just_pressed("throw_cargo"):
@@ -265,9 +297,39 @@ func _wall_bounce(pre_velocity: Vector3) -> void:
 			continue
 		velocity += n * into * float(d["wall_bounce"])
 		_fwd_speed = Vector3(velocity.x, 0.0, velocity.z).dot(heading)
+		var j := _juice()
+		if j != null:
+			var nl := j.world_to_local_dir(n)
+			j.snap_stretch(nl, -clampf(into * 0.035, 0.1, 0.32))
+			j.snap_lean(nl, clampf(into * 0.025, 0.06, 0.24))
 		if GameFeel.instance != null:
 			GameFeel.instance.shake(clampf(into * 0.015, 0.04, 0.14))
 		break
+
+## 驾驶输入的第 0 帧姿态（预备 → 惯性驱动接手）
+var _prev_move := Vector3.ZERO
+func _input_pose(move_dir: Vector3) -> void:
+	var j := _juice()
+	var mag := move_dir.length()
+	var prev_mag := _prev_move.length()
+	if j != null:
+		if mag > 0.3 and prev_mag < 0.3:
+			# 起步：压低、车头抬起，像蹬地
+			var l := j.world_to_local_dir(move_dir)
+			j.snap_squash(0.14)
+			j.snap_lean(-l, 0.14)
+			j.kick_push(l, 1.2)
+		elif mag < 0.3 and prev_mag >= 0.3 and absf(_fwd_speed) > 2.5:
+			# 松手刹车：前栽 + 沿前方拉长，然后弹回
+			var f := j.world_to_local_dir(heading)
+			j.snap_lean(f, 0.2)
+			j.snap_stretch(f, 0.16)
+		elif mag > 0.3 and prev_mag > 0.3 and move_dir.normalized().dot(_prev_move.normalized()) < -0.2:
+			# 反向急打：扭身
+			var turn := heading.signed_angle_to(move_dir, Vector3.UP)
+			j.snap_yaw(clampf(turn * 0.25, -0.35, 0.35))
+			j.snap_squash(0.1)
+	_prev_move = move_dir
 
 ## 车身姿态：偏航 = 物理车头（+ 咬合甩头），俯仰 = 纵向加速度，侧倾 = 角速度 × 速度
 func _update_body_pose(delta: float) -> void:
@@ -346,6 +408,8 @@ func perform_primary() -> Dictionary:
 	if not gameplay_enabled or health <= 0.0 or primary_cooldown > 0.0:
 		return {"performed": false, "hits": 0, "chain_hits": 0}
 	if not status.can_act():
+		if Input.is_action_just_pressed("primary"):
+			deny_feedback("过热中 · 挖斗停转" if status.has("overheat") else "")
 		return {"performed": false, "hits": 0, "chain_hits": 0, "reason": "status_blocked"}
 	primary_cooldown = 0.32
 	tool_anim_time = 0.24
@@ -407,10 +471,15 @@ var _combo_until := 0
 var _deny_until := 0
 
 func _bite_feedback(hits: int, finisher: bool, reach: float, radius: float) -> void:
-	var rig := evolved_rig if evolved_rig != null else body_rig
-	if rig != null:
-		rig.play_attack(0.36 if finisher else 0.26, finisher)
+	var rig := _rig()
 	var aim := Vector3(aim_direction.x, 0, aim_direction.z).normalized()
+	if rig != null:
+		# 预备只占 ~30ms：第 0 帧压低后缩、鲸口张开，紧接着前扑咬合
+		rig.play_attack(0.36 if finisher else 0.28, finisher, 0.1, 1.15 if hits > 0 else 0.9, aim)
+		if rig.juice != null:
+			rig.juice.snap_yaw([0.28, -0.28, 0.0][_combo_step])
+			if finisher:
+				rig.juice.kick_lift(2.6)
 	CombatVfx.swipe(global_position + aim * 0.5, aim, reach + radius * 0.5, _combo_step)
 	# 前扑：打中更狠，收尾最狠；会被刹车 / 抓地吃掉，只是一下顶出去的手感
 	var lunge := (3.2 if hits > 0 else 1.6) * (1.5 if finisher else 1.0)
@@ -442,6 +511,9 @@ func throw_cargo() -> Dictionary:
 			WanderburgAudio.hit("deny", -10.0, 0.0)
 			if GameFeel.instance != null:
 				GameFeel.instance.flash(visual_root, Color("#D9412B"), 0.1)
+			var jn := _juice()
+			if jn != null:
+				jn.deny()
 		return {"performed": false, "hit": false}
 	throw_cooldown = 0.45
 	cargo -= 1
@@ -461,9 +533,9 @@ func throw_cargo() -> Dictionary:
 	var land: Vector3 = (best as Node3D).global_position if best != null else origin + aim * 5.0
 	var fly := clampf(origin.distance_to(land) / 24.0, 0.15, 0.3)
 	# 出手：鲸口吐出、车身后坐、镜头往后顶
-	var rig := evolved_rig if evolved_rig != null else body_rig
+	var rig := _rig()
 	if rig != null:
-		rig.play_attack(0.3, true)
+		rig.play_attack(0.34, true, 0.2, 1.1, aim)
 	velocity -= aim * 2.4
 	WanderburgAudio.hit("throw_launch", -10.0)
 	if GameFeel.instance != null:
@@ -579,6 +651,8 @@ func rebind_packed_enemies() -> void:
 
 func try_dash() -> bool:
 	if not gameplay_enabled or dash_cooldown > 0.0 or not status.can_move():
+		if gameplay_enabled and health > 0.0:
+			deny_feedback("冲刺冷却 · %.1f 秒" % dash_cooldown if dash_cooldown > 0.0 else "")
 		return false
 	dash_cooldown = 1.8
 	var dash_power := Tuning3C.get_f("dash", "power_flywheel") if assembler != null and assembler.has_module("inertia_flywheel") else Tuning3C.get_f("dash", "power")
@@ -597,10 +671,18 @@ func try_dash() -> bool:
 		GameFeel.instance.kick(heading, 0.2)
 	SkillVfx.dash_trail(self, Color("#EFE3C8"), 0.32)
 	SkillVfx.speed_lines(global_position, heading)
-	SkillVfx.dust_ring(global_position, 1.6)
-	var rig := evolved_rig if evolved_rig != null else body_rig
-	if rig != null:
-		rig.play_attack(0.25, false)
+	SkillVfx.dust_ring(global_position, 0.9)
+	var rig := _rig()
+	if rig != null and rig.juice != null:
+		var j := rig.juice
+		var f := j.world_to_local_dir(heading)
+		j.snap_squash(0.24)
+		j.snap_lean(-f, 0.12)
+		j.after(0.04, func():
+			j.snap_squash(-0.2)
+			j.snap_stretch(f, 0.55)
+			j.snap_lean(f, 0.22)
+			j.kick_lift(1.2))
 	WanderburgAudio.hit("throw_launch", -11.0, 0.15)
 	feedback.emit("液压冲刺")
 	return true

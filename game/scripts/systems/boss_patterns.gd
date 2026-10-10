@@ -68,7 +68,12 @@ static func run(boss: BossEntity, attack: String) -> void:
 	var ppos := _flat(p.global_position)
 	var mult: float = [1.0, 1.15, 1.35][clampi(boss.phase - 1, 0, 2)]
 	if boss.rig != null:
-		boss.rig.play_attack(0.8, attack in ["slam", "charge", "shockwave"])
+		var tele := {"slam": 0.95, "charge": 0.9, "shockwave": 1.1, "vacuum": 1.3}
+		if tele.has(attack):
+			var tt: float = tele[attack]
+			boss.rig.play_attack(tt + 0.45, true, tt / (tt + 0.45), 1.4, ppos - bpos)
+		else:
+			boss.rig.play_attack(0.55, false, 0.22, 1.1, ppos - bpos)
 	match attack:
 		"slam":
 			Telegraph.circle(parent, ppos, 3.2, 0.95, func(c: Vector3):
@@ -180,6 +185,6 @@ static func run(boss: BossEntity, attack: String) -> void:
 				if feel != null:
 					feel.shake(0.5)
 				if boss.rig != null:
-					boss.rig.play_attack(0.4, true)
+					boss.rig.play_attack(0.4, true, 0.08, 1.4, _flat(p.global_position) - _flat(boss.global_position))
 				CombatVfx.swipe(_flat(boss.global_position), (_flat(p.global_position) - _flat(boss.global_position)).normalized(), 4.0, 2)
 				boss.action_effect.emit("whale_release", c, c), Color("#D9412B"))

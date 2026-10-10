@@ -212,6 +212,8 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 				if _dash_t <= 0.0:
 					if visual_root != null:
 						visual_root.position.y = 0.0
+					if rig != null and rig.juice != null:
+						rig.juice.land(1.2)
 					CombatVfx.puff(global_position, 0.6)
 					SkillVfx.dust_ring(global_position, 1.0)
 				return dir * speed * 2.6 * delta
@@ -219,7 +221,10 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 				_beh_t = 0.0
 				_dash_t = 0.35
 				if rig != null:
-					rig.play_attack(0.3)
+					rig.play_attack(0.3, false, 0.05)
+					if rig.juice != null:
+						rig.juice.takeoff(1.2)
+						rig.juice.snap_lean(rig.juice.world_to_local_dir(dir), 0.25)
 				CombatVfx.puff(global_position, 0.45)
 			return dir * speed * 0.4 * delta if dist > 1.8 else Vector3.ZERO
 		"ranged":
@@ -249,10 +254,12 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 				if _charge_dir.length() < 0.01:
 					_charge_dir = dir
 				_dash_t = 0.55
+				if rig != null and rig.juice != null:
+					rig.juice.release(1.5, rig.juice.world_to_local_dir(_charge_dir), true)
 				SkillVfx.dust_ring(global_position, 2.0)
 				SkillVfx.speed_lines(global_position, _charge_dir, VfxKit.RED)
 				if rig != null:
-					rig.play_attack(0.8)
+					rig.play_attack(0.6, true, 0.05)
 				if GameFeel.instance != null:
 					GameFeel.instance.shake(0.15)
 				return Vector3.ZERO
@@ -261,6 +268,8 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 				if not _charge_warned:
 					_charge_warned = true
 					_charge_dir = dir
+					if rig != null and rig.juice != null:
+						rig.juice.anticipate(1.4, 0.8, -rig.juice.world_to_local_dir(dir))
 					if is_inside_tree():
 						Telegraph.line(get_parent(), global_position, dir, speed * 5.0 * 0.55 + 1.5, 2.2, 0.8, func(_c: Vector3): pass)
 				return Vector3.ZERO
@@ -269,7 +278,7 @@ func _behave(delta: float, offset: Vector3) -> Vector3:
 			if _beh_t > 3.0:
 				_beh_t = 0.0
 				if rig != null:
-					rig.play_attack(0.7)
+					rig.play_attack(1.25, false, 0.72, 1.2, offset)
 				var target_at := global_position + offset
 				if is_inside_tree():
 					var me := self
@@ -398,11 +407,11 @@ func _tick_attack(delta: float, offset: Vector3) -> void:
 		return
 	if _windup > 0.0:
 		_windup -= delta
-		if visual_root != null:
+		if visual_root != null and rig == null:
 			var k := 1.0 - _windup / maxf(_windup_total, 0.01)
 			visual_root.scale = Vector3(1.0 + 0.12 * k, 1.0 - 0.14 * k, 1.0 + 0.12 * k)
 		if _windup <= 0.0:
-			if visual_root != null:
+			if visual_root != null and rig == null:
 				visual_root.scale = Vector3.ONE
 			_release_attack(offset)
 		return
@@ -416,7 +425,9 @@ func _tick_attack(delta: float, offset: Vector3) -> void:
 			_windup_total = 0.01  # 冲锋中直接撞
 		_windup = _windup_total
 		if rig != null:
-			rig.play_attack(0.45 if kind != "heavy" else 0.6)
+			# 预备（蹲低 + 后仰）持续整个前摇，出手瞬间正好是伤害结算帧
+			var dur := _windup_total + 0.32
+			rig.play_attack(dur, kind == "heavy", _windup_total / dur, 1.2 if kind == "heavy" else 1.0, offset)
 		if GameFeel.instance != null and visual_root != null and _windup_total > 0.05:
 			GameFeel.instance.flash(visual_root, Color("#E3A52B"), _windup_total)
 
@@ -456,6 +467,10 @@ func apply_knockback(dir: Vector3, strength: float) -> void:
 		return
 	var s := strength * (1.0 - knock_resist) * (0.5 if kind == "heavy" else 1.0)
 	knock += Vector3(dir.x, 0, dir.z).normalized() * s
+	if rig != null and rig.juice != null and s > 1.0:
+		var l := rig.juice.world_to_local_dir(dir)
+		rig.juice.snap_lean(l, clampf(s * 0.03, 0.08, 0.4))
+		rig.juice.snap_stretch(l, clampf(s * 0.025, 0.06, 0.35))
 
 func can_be_magnetized() -> bool:
 	return not dead and not packed and not pack_used and kind == "light"
@@ -539,7 +554,10 @@ func take_damage(amount: float, kind_tag := "normal") -> void:
 	var dealt := maxf(0.0, amount)
 	current_health = maxf(0.0, current_health - dealt)
 	if rig != null:
-		rig.play_hit()
+		var away := Vector3.ZERO
+		if player != null and is_instance_valid(player):
+			away = global_position - player.global_position
+		rig.play_hit(away, clampf(0.7 + dealt / maxf(health, 1.0) * 3.0, 0.7, 1.6) * (0.5 if self is BossEntity else 1.0))
 	var feel := GameFeel.instance
 	if feel != null and dealt > 0.0 and is_inside_tree():
 		if kind_tag == "burn":

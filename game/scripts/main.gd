@@ -451,11 +451,15 @@ func _try_cast(slot: int) -> void:
 	if not bool(cast["cast"]):
 		match str(cast.get("reason", "")):
 			"empty_slot":
-				return
+				player.deny_feedback("%d 号槽没有技能 · F7 选模块" % (slot + 1))
 			"cooling_down":
+				player.deny_feedback()
 				feedback("技能冷却中 · %.1f 秒" % float(cast.get("remaining", 0.0)))
 			"no_charges":
+				player.deny_feedback()
 				feedback("充能耗尽")
+		if ui != null and ui.has_method("deny_skill"):
+			ui.deny_skill(slot)
 		return
 	var entry: Dictionary = vehicle_progression.active_slots[slot]
 	var module_id := str(entry["def"].module_id)
@@ -480,7 +484,9 @@ func _cast_presentation(module_id: String, title: String, shape: String) -> void
 	SkillVfx.cast_flourish(player.global_position, shape, title)
 	var body: ProceduralRig = player.evolved_rig if player.evolved_rig != null else player.body_rig
 	if body != null:
-		body.play_attack(0.3, false)
+		body.play_attack(0.3, false, 0.12, 0.8, player.aim_direction)
+		if body.juice != null:
+			body.juice.cast_pop(1.0)
 	var mount := player.find_child("Installed_" + module_id, true, false)
 	if mount != null:
 		for r in mount.find_children("ProceduralRig*", "", true, false):

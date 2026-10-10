@@ -257,8 +257,10 @@ static func afterimage(source: Node3D, color: Color, life := 0.28) -> void:
 		return
 	VfxKit.stats["afterimages"] += 1
 	root.global_transform = Transform3D.IDENTITY
-	var m := VfxKit.flat_mat(Color(color, 0.42), true)
+	var m := VfxKit.flat_mat(Color(color, 0.3), false)
 	m.no_depth_test = false
+	m.render_priority = -2
+	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	var n := 0
 	for node in source.find_children("*", "MeshInstance3D", true, false):
 		var src := node as MeshInstance3D
@@ -282,14 +284,14 @@ static func dash_trail(host: Node3D, color: Color, duration := 0.35) -> void:
 	if host == null or not is_instance_valid(host) or not host.is_inside_tree() or VfxKit.parent() == null:
 		return
 	var src: Node3D = host.get("visual_root") if host.get("visual_root") != null else host
-	var n := int(duration / 0.045)
+	var n := int(duration / 0.05)
 	var tw := host.create_tween()
+	tw.tween_interval(0.05)
 	for i in n:
 		tw.tween_callback(func():
 			if is_instance_valid(src) and src.is_inside_tree():
-				afterimage(src, color, 0.22)
-				CombatVfx.puff(Vector3(src.global_position.x, 0.0, src.global_position.z), 0.5))
-		tw.tween_interval(0.045)
+				afterimage(src, color, 0.2))
+		tw.tween_interval(0.05)
 
 ## 速度线：车身两侧向后飞的细线
 static func speed_lines(at: Vector3, dir: Vector3, color := VfxKit.BONE) -> void:

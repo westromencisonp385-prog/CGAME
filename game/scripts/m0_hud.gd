@@ -102,6 +102,21 @@ func pulse_skill(slot: int) -> void:
 	if slot >= 0 and slot < skill_slots.size() and DisplayServer.get_name() != "headless":
 		P5Motion.punch(skill_slots[slot], 0.3)
 
+## 按了但放不出：槽位左右抖两下并闪红
+func deny_skill(slot: int) -> void:
+	if slot < 0 or slot >= skill_slots.size() or DisplayServer.get_name() == "headless":
+		return
+	var c: Control = skill_slots[slot]
+	if c == null or not is_instance_valid(c):
+		return
+	var x0 := c.position.x
+	var tw := c.create_tween()
+	tw.set_ignore_time_scale(true)
+	c.modulate = Color(1.0, 0.55, 0.5)
+	for off in [-7.0, 6.0, -4.0, 2.0, 0.0]:
+		tw.tween_property(c, "position:x", x0 + off, 0.035)
+	tw.parallel().tween_property(c, "modulate", Color.WHITE, 0.2)
+
 func boss_callout(text: String, face := P5Theme.RED) -> void:
 	if combat_hud != null:
 		combat_hud.callout(text, face)

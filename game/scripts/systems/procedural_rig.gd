@@ -69,6 +69,15 @@ var spin_enabled := true
 var _spin_amt := 1.0
 var _spin_angle := 0.0
 var _drum_angle := 0.0
+## C22 弹性层与驱动
+var juice: AnimJuice
+var _vel_w := Vector3.ZERO
+var _acc_w := Vector3.ZERO
+var _last_yaw := 0.0
+var _bump_t := 0.0
+var _tool_antic := 0.35
+## 驱动强度（玩家车可调高）
+var lean_gain := 1.0
 
 static func load_manifest() -> Dictionary:
 	if _manifest.is_empty() and FileAccess.file_exists(MANIFEST_PATH):
@@ -98,10 +107,14 @@ static func attach(parent: Node3D, slot: String) -> ProceduralRig:
 	var facing := Node3D.new()
 	facing.name = "Facing"
 	facing.rotation.y = FORWARD_YAW.get(rig.forward_axis, 0.0)
-	rig.add_child(facing)
+	rig.juice = AnimJuice.new()
+	rig.add_child(rig.juice)
+	rig.juice.add_child(facing)
 	facing.add_child(rig.model)
 	parent.add_child(rig)
 	rig._index_parts()
+	rig.juice.height = rig._model_height
+	rig.juice.boost = clampf(1.5 / maxf(rig._model_height, 0.3), 1.0, 1.7)
 	RigStyle.apply(rig.model, rig._model_height)
 	return rig
 
@@ -218,14 +231,25 @@ func set_speed(v: float) -> void:
 func set_phase_boost(v: float) -> void:
 	_phase_boost = v
 
-## 攻击：heavy = 连击收尾的大动作
-func play_attack(duration := 0.42, heavy := false) -> void:
+## 攻击：heavy = 连击收尾的大动作；antic = 预备占比（玩家 0.1 左右，第 0 帧就有姿态；敌人前摇对齐伤害结算）
+func play_attack(duration := 0.42, heavy := false, antic := 0.35, amount := 1.0, dir_world := Vector3.ZERO) -> void:
 	_tool_dur = duration
 	_tool_heavy = heavy
+	_tool_antic = clampf(antic, 0.05, 0.8)
 	_tool_t = 0.0
+	if juice != null:
+		var lead := _tool_antic * duration
+		var fwd := Vector3(0, 0, -1)
+		if dir_world.length() > 0.01:
+			fwd = juice.world_to_local_dir(dir_world).normalized()
+		juice.anticipate(amount, lead, -fwd)
+		juice.after(lead, func(): juice.release(amount, fwd, heavy))
 
-func play_hit() -> void:
+## 受击：push_dir_world = 受力方向（世界）；为零时原地扭一下
+func play_hit(push_dir_world := Vector3.ZERO, amount := 1.0) -> void:
 	_hit_t = 0.0
+	if juice != null:
+		juice.hit_from(juice.world_to_local_dir(push_dir_world) if push_dir_world.length() > 0.01 else Vector3.ZERO, amount)
 
 func play_death(duration := 0.9) -> void:
 	_death_dur = duration
@@ -240,11 +264,23 @@ func _process(delta: float) -> void:
 	if model == null:
 		return
 	_time += delta
-	if _auto_speed and is_inside_tree():
+	if is_inside_tree() and delta > 0.0:
 		var gp := global_position
 		var planar := Vector3(gp.x - _last_pos.x, 0, gp.z - _last_pos.z)
-		speed = lerpf(speed, planar.length() / maxf(delta, 1e-4), minf(delta * 10.0, 1.0))
+		var teleported := planar.length() > 3.0
+		if _auto_speed:
+			speed = lerpf(speed, 0.0 if teleported else planar.length() / maxf(delta, 1e-4), minf(delta * 10.0, 1.0))
+		var v := Vector3.ZERO if teleported else planar / maxf(delta, 1e-4)
+		var a := (v - _vel_w) / maxf(delta, 1e-4)
+		if a.length() > 80.0:
+			a = a.normalized() * 80.0
+		_acc_w = _acc_w.lerp(a, minf(delta * 14.0, 1.0))
+		_vel_w = v
 		_last_pos = gp
+		var yw := global_basis.get_euler().y
+		var dyaw := wrapf(yw - _last_yaw, -PI, PI)
+		_last_yaw = yw
+		_drive_juice(delta, dyaw, teleported)
 	if _death_t >= 0.0:
 		_animate_death(delta)
 		return
@@ -268,6 +304,46 @@ func _process(delta: float) -> void:
 	_animate_tool(delta)
 	_animate_hit(delta)
 	_animate_spawn()
+	_apply_follow_through()
+
+## 惯性驱动：加速时身体后仰、刹车前栽、转弯外倾（离心）；速度越快沿行进方向越拉长；
+## 转身时身体滞后再追上（overlapping）；履带车行驶中随机颠簸（secondary action）
+func _drive_juice(delta: float, dyaw: float, teleported: bool) -> void:
+	if juice == null:
+		return
+	var inv := global_basis.orthonormalized().inverse()
+	var a_l := inv * _acc_w
+	a_l.y = 0.0
+	var v_l := inv * _vel_w
+	v_l.y = 0.0
+	var amag := a_l.length()
+	# 顶部倒向加速度的反方向；20 m/s² ≈ 0.2 rad
+	juice.drive_tilt = AnimJuice._lean_vec(-a_l, clampf(amag * 0.01 * lean_gain, 0.0, 0.32)) if amag > 0.5 else Vector3.ZERO
+	var spd := v_l.length()
+	juice.drive_stretch = v_l / spd * clampf(spd / maxf(_model_height * 9.0, 4.0) * 0.14, 0.0, 0.12) if spd > 0.5 else Vector3.ZERO
+	if not teleported and absf(dyaw) > 0.0005:
+		juice.yaw.x.x -= clampf(dyaw, -0.3, 0.3) * 0.35
+	if (rig_type == "tracked" or legs.is_empty()) and rig_type in ["tracked", "walker", "turret"] and spd > 1.5:
+		_bump_t -= delta
+		if _bump_t <= 0.0:
+			_bump_t = randf_range(0.12, 0.28)
+			juice.kick_squash(randf_range(0.3, 0.7) * clampf(spd / 8.0, 0.3, 1.0))
+			juice.kick_lean(Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)), randf_range(0.15, 0.4))
+
+## 二级跟随：挂件 / 烟囱 / 盾 / 翅膀相对身体滞后甩动并过冲落定
+func _apply_follow_through() -> void:
+	if juice == null:
+		return
+	var ft := juice.follow_through()
+	if ft.length() < 0.0005:
+		return
+	var gain := 1.6
+	for nd in tools + tops + shields + wings + rings:
+		if not is_instance_valid(nd) or not _axes.has(nd):
+			continue
+		var ax: Dictionary = _axes[nd]
+		var b := Basis(ax["right"], ft.x * gain) * Basis(ax["fwd"], ft.z * gain) * Basis(ax["up"], ft.y * gain * 0.7)
+		nd.transform = Transform3D(b * nd.transform.basis, nd.transform.origin)
 
 func _reset_pose() -> void:
 	for nd in rest.keys():
@@ -297,6 +373,8 @@ func _animate_legs(delta: float) -> void:
 		var ph := fmod(_phase + 0.5 * g, 1.0)
 		var prev_ph := fmod(prev + 0.5 * g, 1.0)
 		if prev_ph < 0.5 and ph >= 0.5 and _amp > 0.15:
+			if juice != null:
+				juice.kick_squash(0.9 * _amp)
 			for leg in leg_groups[g]:
 				var foot: Vector3 = leg.global_position if leg.is_inside_tree() else Vector3.ZERO
 				step_taken.emit(foot)
@@ -322,7 +400,7 @@ func _animate_legs(delta: float) -> void:
 	var br: Transform3D = rest[body]
 	var ax: Dictionary = _axes[body]
 	var basis := Basis(ax["fwd"], sway) * Basis(ax["right"], -0.06 * _amp) * br.basis
-	var breath := 1.0 + sin(_time * 2.0) * 0.015 * (1.0 - _amp)
+	var breath := 1.0 + sin(_time * 2.0) * 0.035 * (1.0 - _amp)
 	body.transform = Transform3D(basis.scaled(Vector3(1.0, breath, 1.0)), br.origin + (ax["up"] as Vector3) * bob)
 	if _amp < 0.3:
 		_idle_shields()
@@ -388,7 +466,7 @@ func _animate_world_spin() -> void:
 func _animate_tops(_delta: float) -> void:
 	for tp in tops:
 		var r: Transform3D = rest[tp]
-		var puff := 1.0 + maxf(0.0, sin(_time * 5.0)) * 0.05
+		var puff := 1.0 + maxf(0.0, sin(_time * 5.0)) * 0.12
 		tp.transform = Transform3D(r.basis.scaled(Vector3(1.0, puff, 1.0)), r.origin)
 	if rig_type == "turret":
 		for ro in rotors:
@@ -399,7 +477,7 @@ func _animate_tops(_delta: float) -> void:
 
 func _idle_breath() -> void:
 	var br: Transform3D = rest[body]
-	var breath := 1.0 + sin(_time * 2.0) * 0.015
+	var breath := 1.0 + sin(_time * 2.0) * 0.035
 	body.transform = Transform3D(br.basis.scaled(Vector3(1.0, breath, 1.0)), br.origin)
 	_idle_shields()
 
@@ -407,15 +485,16 @@ func _idle_shields() -> void:
 	for sh in shields:
 		_rot(sh, "fwd", float(_side[sh]) * sin(_time * 1.2) * 0.04)
 
-# ---- CannonFeedback：0-0.35 蓄力（反向）→ 0.35-0.5 爆发 → 0.5-1 阻尼回弹 ----
-static func attack_curve(t: float) -> float:
-	if t < 0.35:
-		var u := t / 0.35
+# ---- CannonFeedback：0-a 蓄力（反向）→ a-(a+0.15) 爆发 → 余下阻尼回弹 ----
+static func attack_curve(t: float, a := 0.35) -> float:
+	a = clampf(a, 0.05, 0.8)
+	if t < a:
+		var u := t / a
 		return -(1.0 - (1.0 - u) * (1.0 - u))
-	if t < 0.5:
-		var u2 := (t - 0.35) / 0.15
+	if t < a + 0.15:
+		var u2 := (t - a) / 0.15
 		return lerpf(-1.0, 1.0, u2 * u2)
-	var u3 := (t - 0.5) / 0.5
+	var u3 := (t - a - 0.15) / maxf(1.0 - a - 0.15, 0.05)
 	return exp(-5.0 * u3) * cos(u3 * 9.0)
 
 func _animate_tool(delta: float) -> void:
@@ -424,8 +503,8 @@ func _animate_tool(delta: float) -> void:
 			_rot(tl, "right", sin(_time * 1.7 + float(_side[tl])) * 0.03)
 		return
 	_tool_t += delta / maxf(_tool_dur, 0.05)
-	var k := attack_curve(minf(_tool_t, 1.0))
-	var heavy := 1.4 if _tool_heavy else 1.0
+	var k := attack_curve(minf(_tool_t, 1.0), _tool_antic)
+	var heavy := 1.6 if _tool_heavy else 1.25
 	var h := _model_height
 	for tl in tools:
 		var nm := str(tl.name)

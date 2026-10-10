@@ -12,7 +12,7 @@ $markers = [ordered]@{
 	"enemy_roster_flow.gd"="PASS enemy_roster_flow:"; "gm_flow.gd"="GM FLOW PASS:"; "luck_flow.gd"="PASS luck_flow:"
 	"m0_smoke.gd"="M0 smoke:"; "min_slice_flow.gd"="PASS min_slice_flow:"; "presentation_flow.gd"="PRESENTATION FLOW PASS:"
 	"progression_flow.gd"="PASS progression_flow:"; "rig_ui_flow.gd"="PASS rig_ui_flow:"; "save_flow.gd"="SAVE FLOW PASS:"
-	"whale_pack_flow.gd"="WHALE PACK FLOW PASS:"; "c19_3c_flow.gd"="C19 3C PASS:"; "c20_feel_flow.gd"="C20 FEEL PASS:"; "c21_vfx_flow.gd"="C21 VFX PASS:"
+	"whale_pack_flow.gd"="WHALE PACK FLOW PASS:"; "c19_3c_flow.gd"="C19 3C PASS:"; "c20_feel_flow.gd"="C20 FEEL PASS:"; "c21_vfx_flow.gd"="C21 VFX PASS:"; "c22_anim_flow.gd"="C22 ANIM PASS:"
 }
 $failed = 0
 foreach ($t in $markers.Keys) {
