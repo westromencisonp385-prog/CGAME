@@ -1,0 +1,6 @@
+Sound effects in this folder are derived from Kenney audio packs
+(Impact Sounds, Interface Sounds, Sci-fi Sounds, RPG Audio, Digital Audio, Music Jingles)
+Created/distributed by Kenney (www.kenney.nl)
+License: Creative Commons Zero, CC0 1.0 — http://creativecommons.org/publicdomain/zero/1.0/
+Free to use in personal, educational and commercial projects. Credit is appreciated, not required.
+Processing: trimmed, faded, loudness-matched, re-encoded to Ogg Vorbis by tools/asset_pipeline/import_kenney_sfx.py

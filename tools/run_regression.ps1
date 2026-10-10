@@ -57,4 +57,7 @@ $c28 = (& $godot --path $proj --resolution 1280x720 --script "res://tests/c28_le
 $c29 = (& $godot --headless --path $proj --script "res://tests/c29_combat_b1.gd" 2>&1 | Out-String)
 "--- c29 combat b1 ---" | Out-File $log -Append -Encoding utf8
 ($c29 -split "`n" | Where-Object { $_ -match "^FAIL|B1 COMBAT|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
+$c30 = (& $godot --path $proj --resolution 640x360 --script "res://tests/c30_audio_flow.gd" 2>&1 | Out-String)
+"--- c30 audio ---" | Out-File $log -Append -Encoding utf8
+($c30 -split "`n" | Where-Object { $_ -match "^FAIL|C30 AUDIO|SCRIPT ERROR" } | Select-Object -First 40) | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8

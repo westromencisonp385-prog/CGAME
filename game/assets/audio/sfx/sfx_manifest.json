@@ -1,0 +1,166 @@
+{
+ "source": "Kenney (www.kenney.nl) audio packs, CC0 1.0",
+ "events": {
+  "bite": [
+   "res://assets/audio/sfx/bite_0.ogg",
+   "res://assets/audio/sfx/bite_1.ogg",
+   "res://assets/audio/sfx/bite_2.ogg",
+   "res://assets/audio/sfx/bite_3.ogg",
+   "res://assets/audio/sfx/bite_4.ogg"
+  ],
+  "bite_hit": [
+   "res://assets/audio/sfx/bite_hit_0.ogg",
+   "res://assets/audio/sfx/bite_hit_1.ogg",
+   "res://assets/audio/sfx/bite_hit_2.ogg",
+   "res://assets/audio/sfx/bite_hit_3.ogg",
+   "res://assets/audio/sfx/bite_hit_4.ogg"
+  ],
+  "bite_heavy": [
+   "res://assets/audio/sfx/bite_heavy_0.ogg",
+   "res://assets/audio/sfx/bite_heavy_1.ogg",
+   "res://assets/audio/sfx/bite_heavy_2.ogg",
+   "res://assets/audio/sfx/bite_heavy_3.ogg",
+   "res://assets/audio/sfx/bite_heavy_4.ogg"
+  ],
+  "throw_launch": [
+   "res://assets/audio/sfx/throw_launch_0.ogg",
+   "res://assets/audio/sfx/throw_launch_1.ogg"
+  ],
+  "throw_hit": [
+   "res://assets/audio/sfx/throw_hit_0.ogg",
+   "res://assets/audio/sfx/throw_hit_1.ogg",
+   "res://assets/audio/sfx/throw_hit_2.ogg",
+   "res://assets/audio/sfx/throw_hit_3.ogg",
+   "res://assets/audio/sfx/throw_hit_4.ogg"
+  ],
+  "throw": [
+   "res://assets/audio/sfx/throw_0.ogg",
+   "res://assets/audio/sfx/throw_1.ogg",
+   "res://assets/audio/sfx/throw_2.ogg",
+   "res://assets/audio/sfx/throw_3.ogg",
+   "res://assets/audio/sfx/throw_4.ogg"
+  ],
+  "pack": [
+   "res://assets/audio/sfx/pack_0.ogg",
+   "res://assets/audio/sfx/pack_1.ogg",
+   "res://assets/audio/sfx/pack_2.ogg",
+   "res://assets/audio/sfx/pack_3.ogg",
+   "res://assets/audio/sfx/pack_4.ogg"
+  ],
+  "absorb": [
+   "res://assets/audio/sfx/absorb_0.ogg",
+   "res://assets/audio/sfx/absorb_1.ogg",
+   "res://assets/audio/sfx/absorb_2.ogg",
+   "res://assets/audio/sfx/absorb_3.ogg",
+   "res://assets/audio/sfx/absorb_4.ogg"
+  ],
+  "repair": [
+   "res://assets/audio/sfx/repair_0.ogg",
+   "res://assets/audio/sfx/repair_1.ogg",
+   "res://assets/audio/sfx/repair_2.ogg",
+   "res://assets/audio/sfx/repair_3.ogg",
+   "res://assets/audio/sfx/repair_4.ogg"
+  ],
+  "auto_shot": [
+   "res://assets/audio/sfx/auto_shot_0.ogg",
+   "res://assets/audio/sfx/auto_shot_1.ogg",
+   "res://assets/audio/sfx/auto_shot_2.ogg",
+   "res://assets/audio/sfx/auto_shot_3.ogg",
+   "res://assets/audio/sfx/auto_shot_4.ogg"
+  ],
+  "auto_boom": [
+   "res://assets/audio/sfx/auto_boom_0.ogg",
+   "res://assets/audio/sfx/auto_boom_1.ogg"
+  ],
+  "auto_zap": [
+   "res://assets/audio/sfx/auto_zap_0.ogg",
+   "res://assets/audio/sfx/auto_zap_1.ogg"
+  ],
+  "ability_cast": [
+   "res://assets/audio/sfx/ability_cast_0.ogg",
+   "res://assets/audio/sfx/ability_cast_1.ogg",
+   "res://assets/audio/sfx/ability_cast_2.ogg",
+   "res://assets/audio/sfx/ability_cast_3.ogg",
+   "res://assets/audio/sfx/ability_cast_4.ogg"
+  ],
+  "boss_spawn": [
+   "res://assets/audio/sfx/boss_spawn_0.ogg"
+  ],
+  "boss_phase": [
+   "res://assets/audio/sfx/boss_phase_0.ogg",
+   "res://assets/audio/sfx/boss_phase_1.ogg"
+  ],
+  "boss_defeat": [
+   "res://assets/audio/sfx/boss_defeat_0.ogg"
+  ],
+  "xp_tick": [
+   "res://assets/audio/sfx/xp_tick_0.ogg",
+   "res://assets/audio/sfx/xp_tick_1.ogg",
+   "res://assets/audio/sfx/xp_tick_2.ogg",
+   "res://assets/audio/sfx/xp_tick_3.ogg"
+  ],
+  "silver_gain": [
+   "res://assets/audio/sfx/silver_gain_0.ogg",
+   "res://assets/audio/sfx/silver_gain_1.ogg",
+   "res://assets/audio/sfx/silver_gain_2.ogg",
+   "res://assets/audio/sfx/silver_gain_3.ogg"
+  ],
+  "power_up": [
+   "res://assets/audio/sfx/power_up_0.ogg",
+   "res://assets/audio/sfx/power_up_1.ogg",
+   "res://assets/audio/sfx/power_up_2.ogg"
+  ],
+  "level_up": [
+   "res://assets/audio/sfx/level_up_0.ogg"
+  ],
+  "tier_up": [
+   "res://assets/audio/sfx/tier_up_0.ogg"
+  ],
+  "quest_complete": [
+   "res://assets/audio/sfx/quest_complete_0.ogg",
+   "res://assets/audio/sfx/quest_complete_1.ogg"
+  ],
+  "victory": [
+   "res://assets/audio/sfx/victory_0.ogg"
+  ],
+  "defeat": [
+   "res://assets/audio/sfx/defeat_0.ogg"
+  ],
+  "module_install": [
+   "res://assets/audio/sfx/module_install_0.ogg",
+   "res://assets/audio/sfx/module_install_1.ogg",
+   "res://assets/audio/sfx/module_install_2.ogg"
+  ],
+  "card_pick": [
+   "res://assets/audio/sfx/card_pick_0.ogg",
+   "res://assets/audio/sfx/card_pick_1.ogg"
+  ],
+  "ui_open": [
+   "res://assets/audio/sfx/ui_open_0.ogg",
+   "res://assets/audio/sfx/ui_open_1.ogg"
+  ],
+  "ui_pick": [
+   "res://assets/audio/sfx/ui_pick_0.ogg",
+   "res://assets/audio/sfx/ui_pick_1.ogg",
+   "res://assets/audio/sfx/ui_pick_2.ogg"
+  ],
+  "reroll": [
+   "res://assets/audio/sfx/reroll_0.ogg",
+   "res://assets/audio/sfx/reroll_1.ogg"
+  ],
+  "change": [
+   "res://assets/audio/sfx/change_0.ogg",
+   "res://assets/audio/sfx/change_1.ogg"
+  ],
+  "deny": [
+   "res://assets/audio/sfx/deny_0.ogg",
+   "res://assets/audio/sfx/deny_1.ogg",
+   "res://assets/audio/sfx/deny_2.ogg"
+  ],
+  "work_loop": [
+   "res://assets/audio/sfx/work_loop_0.ogg",
+   "res://assets/audio/sfx/work_loop_1.ogg",
+   "res://assets/audio/sfx/work_loop_2.ogg"
+  ]
+ }
+}
