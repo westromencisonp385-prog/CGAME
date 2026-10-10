@@ -53,6 +53,7 @@ func _run() -> void:
 	gm.execute("invulnerable", {"enabled": true})
 	gm.execute("clear_enemies", {})
 	var p: Node = main.player
+	p.auto_combat = false  # C27：本测试逐项测动画反应，隔离自动战斗
 	p.global_position = Vector3(0, 0.5, 6)
 	p.velocity = Vector3.ZERO
 	var rig: ProceduralRig = p._rig()

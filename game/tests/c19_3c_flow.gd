@@ -50,6 +50,7 @@ func _run() -> void:
 		if body is StaticBody3D:
 			(body as StaticBody3D).collision_layer = 0
 	p = main_scene.player
+	p.auto_combat = false  # C27：本测试只测 3C，隔离自动战斗
 	var vmax: float = p.max_speed
 	print("max_speed %.2f" % vmax)
 

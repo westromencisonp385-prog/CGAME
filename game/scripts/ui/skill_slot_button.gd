@@ -42,7 +42,7 @@ func setup(index: int, icon_id: String, accent: Color) -> void:
 	cd_mask.size = Vector2(58, 0)
 	cd_mask.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(cd_mask)
-	key_tag = P5Theme.ransom_label(str(index + 1), 15, 0, P5Theme.INK)
+	key_tag = P5Theme.ransom_label(M0Input.SKILL_LABELS[index] if index < M0Input.SKILL_LABELS.size() else str(index + 1), 15, 0, P5Theme.INK)
 	key_tag.position = Vector2(-10, -12)
 	add_child(key_tag)
 	mouse_entered.connect(func(): _hot(true))

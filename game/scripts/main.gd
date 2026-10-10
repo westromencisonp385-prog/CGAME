@@ -208,6 +208,8 @@ func _process(delta: float) -> void:
 			cam_rig.update(delta, player.global_position, player.velocity, boss_on)
 	if ui != null:
 		ui.refresh(delta)
+	_auto_repair_tick()
+	_cursor_tick(delta)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -219,8 +221,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("garage") and outcome == "active":
 		toggle_garage()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("interact") and not get_tree().paused:
-		try_repair()
+	elif _combat_input_open() and _match_combat_action(event):
+		get_viewport().set_input_as_handled()
 	elif event is InputEventKey and event.pressed and not event.echo:
 		match event.physical_keycode:
 			KEY_F1:
@@ -235,13 +237,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F7: open_selection_flow("new_module")
 			KEY_F4: spawn_roster_wave(true)
 			KEY_F8: summon_boss()
-			KEY_1: _try_cast(0)
-			KEY_2: _try_cast(1)
-			KEY_3: _try_cast(2)
-			KEY_4: _try_cast(3)
-			KEY_5: _try_summon(0)
-			KEY_6: _try_summon(1)
-			KEY_7: _try_summon(2)
 			KEY_G: _cycle_biome()
 			KEY_F11:
 				var full := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
@@ -250,6 +245,60 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F10:
 				feedback("3C 参数已重载" if Tuning3C.reload() else "3C 参数文件读取失败，使用默认值")
 				get_viewport().set_input_as_handled()
+
+## C27：战斗中才响应技能键（暂停、改装台、选卡、结算时不放技能）
+func _combat_input_open() -> bool:
+	if outcome != "active" or garage_open or manual_pause or get_tree().paused:
+		return false
+	if selection_ui != null and selection_ui.visible:
+		return false
+	return true
+
+func _match_combat_action(event: InputEvent) -> bool:
+	if event is InputEventKey and (event as InputEventKey).echo:
+		return false
+	for i in 4:
+		if event.is_action_pressed("skill_%d" % (i + 1)):
+			_try_cast(i)
+			return true
+	for i in 3:
+		if event.is_action_pressed("summon_%d" % (i + 1)):
+			_try_summon(i)
+			return true
+	return false
+
+## C27 自动修理：带够废料开到水泵旁边就自动启动；不够时提示一次（3 秒节流）
+var _repair_hint_until := 0
+func _auto_repair_tick() -> void:
+	if not _combat_input_open() or repair_done or player == null or player.health <= 0.0:
+		return
+	for target in targets:
+		if is_instance_valid(target) and target.target_kind == "repair" and not target.repaired_state \
+				and player.global_position.distance_to(target.global_position) <= 3.5:
+			if collected >= 3:
+				try_repair()
+			elif Time.get_ticks_msec() >= _repair_hint_until:
+				_repair_hint_until = Time.get_ticks_msec() + 3000
+				feedback("水泵需要 3 单位废料（现在 %d）· 先去咬废料堆" % collected)
+			return
+
+## C27 不用鼠标：战斗中鼠标 2.5 秒不动就隐藏光标，一动就回来（按钮照样能点）
+var _mouse_idle := 0.0
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion or event is InputEventMouseButton:
+		_mouse_idle = 0.0
+		if Input.mouse_mode == Input.MOUSE_MODE_HIDDEN:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _cursor_tick(delta: float) -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	_mouse_idle += delta
+	var want_hidden := _mouse_idle > 2.5 and _combat_input_open()
+	if want_hidden and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	elif not want_hidden and Input.mouse_mode == Input.MOUSE_MODE_HIDDEN and not _combat_input_open():
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 ## 子智能体 C2/C3/C4：Wanderburg 对齐系统束初始化
 func _init_wanderburg_systems() -> void:
@@ -443,7 +492,7 @@ func _on_selection_chosen(kind: String, index: int) -> void:
 			var module: ModuleDefinitionV2 = last_selection_options[index]
 			selection_engine.commit(kind, module)
 			_sync_equipped_abilities()
-			feedback("新模块入列 · %s（已进改装台，1-4 施放，B 键预览安装）" % module.module_name)
+			feedback("新模块入列 · %s（已进改装台，Q/E/R/空格 施放，B 键预览安装）" % module.module_name)
 		"artifact":
 			var artifact: ArtifactDefinition = last_selection_options[index]
 			run_systems.equip_artifact(artifact)
@@ -540,7 +589,10 @@ func _pick_slot(kind: String) -> int:
 var _last_upgrade_id := ""
 
 ## 1-4 施放：找到第一个已安装的 v2 模块（按装配器实际安装状态），走成长系统冷却闸门
+var cast_requests := 0
+var summon_requests := 0
 func _try_cast(slot: int) -> void:
+	cast_requests += 1
 	if outcome != "active" or garage_open or manual_pause or gm.visible:
 		return
 	if vehicle_progression == null:
@@ -724,6 +776,8 @@ const SUMMON_COOLDOWNS := [9.0, 14.0, 16.0]
 var summon_cooldowns := [0.0, 0.0, 0.0]
 
 func _try_summon(slot: int, from_ability := false) -> void:
+	if not from_ability:
+		summon_requests += 1
 	if outcome != "active" or garage_open or manual_pause or gm.visible:
 		return
 	if slot < 0 or slot >= SUMMON_KIND_BY_SLOT.size():
@@ -1075,7 +1129,7 @@ func try_repair() -> bool:
 				return false
 			target.interact_repair()
 			return true
-	feedback("靠近青色水泵，按 R / 手柄 A 启动")
+	feedback("开到青色水泵旁边会自动修理")
 	return false
 
 func check_victory() -> void:
@@ -1093,7 +1147,7 @@ func get_contract_phase() -> String:
 		if player != null and player.packed_enemy_ids.is_empty():
 			return "鲸口打包 · 吸入轻型敌机再投送"
 		return "鲸口投送 · 释放压缩敌机制造空档"
-	return "接近水泵 · 按 R / A 修复"
+	return "开到水泵旁 · 自动修复"
 
 func resolve_training_enemies() -> void:
 	defeated = ENEMY_LAYOUT.size()

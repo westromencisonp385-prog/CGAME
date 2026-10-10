@@ -98,6 +98,7 @@ func _build_ui() -> void:
 	root.add_child(cards_root)
 	reroll_button = P5Button.new()
 	reroll_button.text = "重掷  R"
+	reroll_button.focus_mode = Control.FOCUS_NONE
 	reroll_button.icon = P5Theme.tex("icon_reroll")
 	reroll_button.expand_icon = true
 	reroll_button.add_theme_constant_override("icon_max_width", 26)
@@ -121,6 +122,26 @@ func open_selection(kind: String, options: Array, subtitle := "") -> void:
 		return
 	await get_tree().process_frame
 	_play_open(banner)
+	# C27 不用鼠标：卡片入场后把焦点给第一张（A/D 切换、空格 / 回车确认）
+	await get_tree().create_timer(0.3, true, false, true).timeout
+	if visible and not _cards.is_empty() and is_instance_valid(_cards[0]):
+		_cards[0].grab_focus()
+
+## C27 键盘 / 手柄选卡：1 2 3 直接选、R 重掷；左右切换和确认交给焦点系统（WASD 已加进 ui_*）
+func _input(event: InputEvent) -> void:
+	if not visible or outro_running() or not (event is InputEventKey) or not event.pressed or (event as InputEventKey).echo:
+		return
+	var code := (event as InputEventKey).physical_keycode
+	var idx := [KEY_1, KEY_2, KEY_3, KEY_4].find(code)
+	if idx >= 0 and idx < _cards.size():
+		get_viewport().set_input_as_handled()
+		_choose(idx)
+	elif code == KEY_R and reroll_button.visible and not reroll_button.disabled:
+		get_viewport().set_input_as_handled()
+		reroll_requested.emit(current_kind)
+	elif _cards.size() > 0 and get_viewport().gui_get_focus_owner() == null and (event.is_action("ui_left") or event.is_action("ui_right") or event.is_action("ui_accept")):
+		get_viewport().set_input_as_handled()
+		_cards[0].grab_focus()
 
 func _play_open(banner: Control) -> void:
 	dim.modulate.a = 0.0

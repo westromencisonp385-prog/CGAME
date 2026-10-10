@@ -52,7 +52,7 @@ var _roll := 0.0
 var _head_yaw := 0.0
 var _lunge := 0.0
 var _last_move_dir := Vector3.ZERO
-var aim_mode := "mouse"   # mouse / pad：最后使用的瞄准设备
+var aim_mode := "auto"   # auto：自动锁定（C27 默认）/ pad：右摇杆手动覆盖
 ## C13：进化形态（rank>=2 换二阶鲸正式模型）
 var evolved_rig: ProceduralRig
 var evolution_rank := 0
@@ -151,13 +151,9 @@ func _finish_evolution_swap() -> void:
 		boom_visual.visible = false
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and (event as InputEventMouseMotion).relative.length() > 2.0:
-		aim_mode = "mouse"
-	elif event is InputEventJoypadMotion and absf((event as InputEventJoypadMotion).axis_value) > 0.5 \
-			and (event as InputEventJoypadMotion).axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]:
-		# 拿起手柄开车：在推右摇杆前先咬向车头
-		if aim_mode == "mouse" and Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down", 0.25).length() < 0.1:
-			aim_mode = "pad"
+	if event is InputEventJoypadMotion and absf((event as InputEventJoypadMotion).axis_value) > 0.5 \
+			and (event as InputEventJoypadMotion).axis in [JOY_AXIS_RIGHT_X, JOY_AXIS_RIGHT_Y]:
+		aim_mode = "pad"
 
 func _ready() -> void:
 	add_to_group("player_vehicle")
@@ -262,6 +258,8 @@ func _physics_process(delta: float) -> void:
 		perform_primary()
 	if Input.is_action_just_pressed("throw_cargo"):
 		throw_cargo()
+	if auto_combat:
+		_auto_fire_tick()
 	if Input.is_action_just_pressed("dash"):
 		try_dash()
 	if assembler != null and assembler.has_tag("magnet"):
@@ -405,28 +403,127 @@ func _emit_drive_dust(delta: float) -> void:
 func drive_state() -> Dictionary:
 	return {"heading": heading, "fwd_speed": _fwd_speed, "yaw_rate": _yaw_rate, "long_accel": _long_accel}
 
-func _update_aim_from_movement(move_dir: Vector3) -> void:
+## ---------------------------------------------------------------- C27 自动战斗
+## 对照 Wanderburg：所有模块自动攻击（AttackModuleV2 Rotate 模式：炮塔按转速转向最近目标，
+## 对准到容差内才开火），玩家只管开车 + 4 个主动技能 + 加速。我们的挖斗同理：
+##   锁定 —— 13m 内最近的敌人（当前目标有粘性、车头前方略优先）；没有敌人时锁 5m 内的废料堆 / 路障
+##   转向 —— 挖斗以 AUTO_TURN_DEG 度/秒转向目标（不是瞬间对准，看得出“在瞄”）
+##   开火 —— 目标进咬合距离且对准到 AUTO_FIRE_TOL_DEG 以内，每 AUTO_INTERVAL 秒咬一口（三段连击照旧）
+##   投掷 —— 鲸口装满废料或打包了敌人时，自动扔向 3.5~10m 的敌人
+## 技能也朝锁定方向放。右摇杆推动时手动覆盖，松开 0.6 秒后回到自动。
+var auto_combat := true
+var auto_target: Node3D = null
+var _retarget_clock := 0.0
+var _manual_aim_until := 0
+var _auto_firing := false
+const AUTO_ACQUIRE := 13.0
+const AUTO_SCRAP_RANGE := 5.0
+const AUTO_TURN_DEG := 540.0
+const AUTO_FIRE_TOL_DEG := 26.0
+const AUTO_INTERVAL := 0.42
+const AUTO_THROW_MIN := 3.5
+const AUTO_THROW_MAX := 10.0
+
+static func _planar(from: Vector3, to: Vector3) -> Vector3:
+	var p := to - from
+	p.y = 0.0
+	return p
+
+func _valid_enemy(n: Node) -> bool:
+	return n is EnemyDummy and is_instance_valid(n) and not n.dead and not n.packed and (n as Node3D).is_visible_in_tree()
+
+func _valid_scrap(n: Node) -> bool:
+	return n is EngineeringTarget and is_instance_valid(n) and not n.dead and not n.repaired_state and n.target_kind != "repair" and (n as Node3D).is_visible_in_tree()
+
+func _pick_auto_target() -> Node3D:
+	var best: Node3D = null
+	var best_score := INF
+	for n in get_tree().get_nodes_in_group("enemies"):
+		if not _valid_enemy(n):
+			continue
+		var p := _planar(global_position, (n as Node3D).global_position)
+		var d := p.length()
+		if d > AUTO_ACQUIRE:
+			continue
+		var score := d * (0.75 if n == auto_target else 1.0) - heading.dot(p / maxf(d, 0.01)) * 0.8
+		if score < best_score:
+			best_score = score
+			best = n
+	if best != null:
+		return best
+	for n in get_tree().get_nodes_in_group("engineering_targets"):
+		if not _valid_scrap(n):
+			continue
+		var d := _planar(global_position, (n as Node3D).global_position).length()
+		if d <= AUTO_SCRAP_RANGE and d < best_score:
+			best_score = d
+			best = n
+	return best
+
+func _update_aim_from_movement(_move_dir: Vector3) -> void:
+	var dt := get_physics_process_delta_time()
 	var aim_input := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down", 0.25)
 	if aim_input.length() > 0.1:
 		aim_mode = "pad"
+		_manual_aim_until = Time.get_ticks_msec() + 600
 		aim_direction = Vector3(aim_input.x, 0.0, aim_input.y).normalized()
 		return
-	if aim_mode == "pad":
-		# 摇杆模式松开右摇杆：挖斗咬向车头，符合“开车撞上去咬”的直觉
-		aim_direction = heading
+	if aim_mode == "pad" and Time.get_ticks_msec() < _manual_aim_until:
 		return
-	if camera == null:
+	aim_mode = "auto"
+	if not auto_combat:
 		return
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	_retarget_clock -= dt
+	if auto_target != null and not (_valid_enemy(auto_target) or _valid_scrap(auto_target)):
+		auto_target = null
+		_retarget_clock = 0.0
+	if _retarget_clock <= 0.0:
+		_retarget_clock = 0.1
+		auto_target = _pick_auto_target()
+	var want := heading
+	if auto_target != null:
+		var p := _planar(global_position, auto_target.global_position)
+		if p.length() > 0.05:
+			want = p.normalized()
+	var ang := aim_direction.signed_angle_to(want, Vector3.UP)
+	var step := deg_to_rad(AUTO_TURN_DEG) * dt
+	aim_direction = aim_direction.rotated(Vector3.UP, clampf(ang, -step, step)).normalized()
+	aim_direction.y = 0.0
+
+func _auto_fire_tick() -> void:
+	if not gameplay_enabled or health <= 0.0 or not status.can_act():
 		return
-	var ray_origin := camera.project_ray_origin(get_viewport().get_mouse_position())
-	var ray_direction := camera.project_ray_normal(get_viewport().get_mouse_position())
-	if absf(ray_direction.y) > 0.001:
-		var distance := (global_position.y - ray_origin.y) / ray_direction.y
-		var planar: Vector3 = ray_origin + ray_direction * distance - global_position
-		planar.y = 0.0
-		if planar.length() > 0.2:
-			aim_direction = planar.normalized()
+	var stats := _stats()
+	var reach := float(stats.get("reach", 3.0))
+	var radius := float(stats.get("radius", 1.35))
+	# 投掷：满货 / 有打包敌人时，扔向中距离的敌人
+	var cap := int(stats.get("cargo_capacity", max_cargo))
+	if throw_cooldown <= 0.0 and (cargo >= cap or not packed_enemy_ids.is_empty()):
+		var throw_to: Node3D = null
+		var best := INF
+		for n in get_tree().get_nodes_in_group("enemies"):
+			if not _valid_enemy(n):
+				continue
+			var d := _planar(global_position, (n as Node3D).global_position).length()
+			if d >= AUTO_THROW_MIN and d <= AUTO_THROW_MAX and d < best:
+				best = d
+				throw_to = n
+		if throw_to != null:
+			aim_direction = _planar(global_position, throw_to.global_position).normalized()
+			throw_cargo()
+			return
+	if auto_target == null or primary_cooldown > 0.0:
+		return
+	var p := _planar(global_position, auto_target.global_position)
+	var d2 := p.length()
+	if d2 > reach + radius * 0.9 or d2 < 0.05:
+		return
+	if rad_to_deg(absf(aim_direction.angle_to(p / d2))) > AUTO_FIRE_TOL_DEG:
+		return
+	_auto_firing = true
+	perform_primary()
+	_auto_firing = false
+	primary_cooldown = maxf(primary_cooldown, AUTO_INTERVAL)
 
 func perform_primary() -> Dictionary:
 	if not gameplay_enabled or health <= 0.0 or primary_cooldown > 0.0:
@@ -437,7 +534,7 @@ func perform_primary() -> Dictionary:
 		return {"performed": false, "hits": 0, "chain_hits": 0, "reason": "status_blocked"}
 	primary_cooldown = 0.32
 	tool_anim_time = 0.24
-	heat = minf(100.0, heat + 8.0)
+	heat = minf(100.0, heat + (3.5 if _auto_firing else 8.0))
 	var now_ms := Time.get_ticks_msec()
 	_combo_step = (_combo_step + 1) % 3 if now_ms < _combo_until else 0
 	_combo_until = now_ms + 620
@@ -896,15 +993,18 @@ func _update_aim_reticle() -> void:
 	var reach := float(_stats().get("reach", 3.0))
 	var base := Vector3(global_position.x, 0.06, global_position.z)
 	var point := base + aim_direction * reach
-	if aim_mode == "mouse" and camera != null and DisplayServer.get_name() != "headless":
-		var mp := get_viewport().get_mouse_position()
-		var o := camera.project_ray_origin(mp)
-		var dir := camera.project_ray_normal(mp)
-		if absf(dir.y) > 0.001:
-			point = o + dir * ((0.06 - o.y) / dir.y)
+	var locked := auto_target != null and is_instance_valid(auto_target) and aim_mode == "auto"
+	if locked:
+		point = Vector3(auto_target.global_position.x, 0.06, auto_target.global_position.z)
+		var foe := auto_target is EnemyDummy
+		var mat := _reticle.material_override as StandardMaterial3D
+		mat.albedo_color = Color(0.851, 0.255, 0.169, 0.9) if foe else Color(0.937, 0.890, 0.784, 0.7)
+		var big := 1.9 if foe and str(auto_target.get("tier")) == "boss" else (1.35 if foe and str(auto_target.get("tier")) == "elite" else 1.0)
+		var pulse := 1.0 + 0.08 * sin(Time.get_ticks_msec() * 0.012)
+		_reticle.scale = Vector3(big * pulse, 0.08, big * pulse)
 	_reticle_point = point
 	_reticle.global_position = point
-	_reticle.visible = health > 0.0
+	_reticle.visible = health > 0.0 and locked
 	# 箭头：车前挖斗咬合距离处，指向瞄准方向；冷却中变淡
 	var tip := base + aim_direction * (reach + 0.2)
 	_bite_marker.global_transform = Transform3D(Basis.looking_at(aim_direction, Vector3.UP) * Basis(Vector3.RIGHT, -PI * 0.5), tip)

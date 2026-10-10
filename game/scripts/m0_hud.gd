@@ -10,7 +10,7 @@ extends CanvasLayer
 ## 公开接口保持不变：setup / feedback / refresh / close_modals / show_garage / show_result /
 ## refresh_gm_panel / is_gameplay_blocking_control / stamp_banner / pulse_skill / deny_skill / boss_callout。
 
-const HELP_TEXT := "WASD 驾驶    鼠标 瞄准\n左键 咬合（连按三段）    右键 投掷货物\nShift 冲刺（无敌）    R 修理水泵\n1-4 技能（也可点技能槽）    5-7 召唤\nB 改装台    Esc 菜单\nF7 新模块 · F4 刷怪 · F8 Boss · F1 GM（测试用）"
+const HELP_TEXT := "WASD 驾驶 · 攻击全自动（咬合 / 投掷 / 修理）\nQ  E  R  空格  主动技能    Shift 冲刺（无敌）\nZ  X  C  召唤    B 改装台    Esc 菜单\nF7 新模块 · F4 刷怪 · F8 Boss · F1 GM（测试用）"
 
 var main: Node
 var status_label: Label
@@ -128,7 +128,7 @@ func _objective() -> String:
 	elif int(main.defeated) < 5:
 		goal = "清除威胁  %d/5" % int(main.defeated)
 	elif not bool(main.repair_done):
-		goal = "去水泵旁按 R 修理"
+		goal = "开到水泵旁自动修理"
 	else:
 		goal = "河岸已恢复 · 继续探索"
 	return "%s    %s" % [goal, t]
@@ -592,6 +592,15 @@ func _selection_open() -> bool:
 	var s = main.get("selection_ui")
 	return s != null and is_instance_valid(s) and s.visible
 
+func _focus_first_button(container: Control) -> void:
+	if container == null or not container.visible:
+		return
+	for n in container.find_children("*", "BaseButton", true, false):
+		var b := n as BaseButton
+		if b.is_visible_in_tree() and not b.disabled and b.focus_mode != Control.FOCUS_NONE:
+			b.grab_focus()
+			return
+
 ## 同一时间只有一层可交互：弹窗打开时，下面的 HUD 按钮隐藏（不会出现“看得见点不了”）
 func _update_control_visibility() -> void:
 	if main == null or menu_button == null:
@@ -603,6 +612,12 @@ func _update_control_visibility() -> void:
 		P5Motion.panel_flip_in(pause_menu)
 	if paused_menu != _pause_shown:
 		pause_help.visible = false
+		if paused_menu:
+			_focus_first_button.call_deferred(pause_menu)
+		else:
+			var f := pause_menu.get_viewport().gui_get_focus_owner() if pause_menu.is_inside_tree() else null
+			if f != null and pause_menu.is_ancestor_of(f):
+				f.release_focus()
 	_pause_shown = paused_menu
 	pause_menu.visible = paused_menu
 	menu_button.visible = not modal and not paused_menu
